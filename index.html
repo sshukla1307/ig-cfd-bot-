@@ -217,7 +217,7 @@
   'use strict';
 
   const DATA_BASE = 'data/dashboard';
-  const REFRESH_MS = 5 * 60 * 1000; // matches the 5-minute live tick cadence
+  const REFRESH_MS = 3 * 60 * 1000; // matches the ~3-minute live tick cadence
 
   const themeToggle = document.getElementById('themeToggle');
   function applyStoredTheme() {
@@ -474,7 +474,7 @@
 
       const footer = document.getElementById('footer');
       footer.textContent = lastUpdated
-        ? `Data as of ${fmtTime(lastUpdated.timestamp)} · refreshes automatically every 5 minutes`
+        ? `Data as of ${fmtTime(lastUpdated.timestamp)} · refreshes automatically every ~3 minutes`
         : 'Waiting for the first live tick to publish data.';
     } catch (err) {
       console.error('Dashboard load failed:', err);

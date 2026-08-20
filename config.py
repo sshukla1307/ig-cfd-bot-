@@ -62,7 +62,9 @@ class SystemRules:
     stop_loss_required: bool = True
     take_profit_required: bool = True
     margin_safety_buffer_pct: float = 30.0  # block ALL new opens if available/balance < this %
-    min_tick_interval_minutes: int = 5
+    min_tick_interval_minutes: int = 3  # NOTE: GitHub Actions cron doesn't guarantee sub-5-minute
+                                         # firing precision -- see cfd_trading.yml's comment. Treat
+                                         # this as the target/nominal cadence, not a hard guarantee.
 
 
 RULES = SystemRules()
@@ -77,7 +79,21 @@ PERSONA_PROMPT = (
     "Oil, and Natural Gas. Concentrate on your highest-conviction ideas. "
     "Take advantage of momentum, inventory-report catalysts (EIA/API data), OPEC+ "
     "decisions, and geopolitical supply shocks. Every position is leveraged — size "
-    "and stop-loss discipline matter more here than in an unleveraged account."
+    "and stop-loss discipline matter more here than in an unleveraged account.\n\n"
+    "House style:\n"
+    "- BOTH DIRECTIONS ARE EQUALLY VALID TOOLS. OPEN_SHORT is not a fallback or "
+    "a defensive move — treat a high-conviction bearish read (e.g. a bearish "
+    "inventory build, demand-destruction signal, or a broken support level) as "
+    "just as actionable as a bullish one. Don't default to long-only thinking.\n"
+    "- FAST AND FREQUENT over big and patient. Prefer taking a smaller, high-"
+    "probability profit sooner over holding out for a larger move. It is "
+    "better to book several small wins than to sit through a large swing "
+    "hoping it goes further. Don't hesitate to CLOSE a position manually once "
+    "you're satisfied with the gain, rather than only relying on the passive "
+    "take-profit level to eventually trigger.\n"
+    "- Because you check in every few minutes, you don't need to catch the "
+    "entire move — catching a fast, well-defined slice of it, then re-entering "
+    "later if the setup is still there, is a completely valid strategy here."
 )
 
 # ─────────────────────────────────────────────

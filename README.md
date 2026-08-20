@@ -1,6 +1,8 @@
 # Live CFD Trading Bot — IG Account
 
-An autonomous GPT-4o agent (Aggressive persona) trading leveraged CFDs on a real IG account, focused exclusively on 3 instruments: **Brent Crude Oil, WTI Crude Oil, and Natural Gas**. Checks in roughly every 5 minutes whenever at least one of those markets is open. No paper simulation — every trade executes with real, leveraged capital, subject to a hard-coded rules firewall and two independent kill switches.
+An autonomous GPT-4o agent (Aggressive persona) trading leveraged CFDs on a real IG account, focused exclusively on 3 instruments: **Brent Crude Oil, WTI Crude Oil, and Natural Gas**. Checks in roughly every 3 minutes whenever at least one of those markets is open. No paper simulation — every trade executes with real, leveraged capital, subject to a hard-coded rules firewall and two independent kill switches.
+
+**Trading style**: both directions are treated as equally valid — the agent is explicitly told OPEN_SHORT is not a fallback, just as actionable as OPEN_LONG on a high-conviction bearish read. The house style favors fast, frequent, smaller profit-taking over holding out for a large swing — the agent is encouraged to proactively CLOSE a position once satisfied with a gain rather than only waiting on the passive take-profit level.
 
 **Palladium was deliberately dropped from the universe**: this IG account has no rolling/perpetual Palladium CFD, only dated futures-tracking contracts (e.g. Sep-26, Dec-26), and this bot has no expiry-rollover logic. Trading a dated contract unattended risks holding a position into expiry with nothing to catch it. Revisit if rollover support gets built, or if a rolling contract becomes available.
 
@@ -18,11 +20,11 @@ Confirmed working (2026-08-20, against IG demo account `SNDPM`):
 
 ## How it works
 
-Every 5 minutes (Sun–Fri, `.github/workflows/cfd_trading.yml`) runs `python -m cfd_runner`, which:
+Every ~3 minutes (Sun–Fri, `.github/workflows/cfd_trading.yml` — nominal target; GitHub Actions cron doesn't guarantee sub-5-minute precision) runs `python -m cfd_runner`, which:
 
 1. Connects to IG, fetches account state and the bot's 3 tracked positions.
 2. Checks each instrument's **live market status** directly from IG (not a hardcoded calendar) — commodity CFDs follow underlying futures session hours plus daily maintenance windows and weekend closures, unlike 24/5 forex. Any instrument not `TRADEABLE` right now is skipped.
-3. Blocks **all** new position opens account-wide if available margin has fallen below the safety buffer (default 30% of balance).
+3. Blocks **all** new position opens account-wide if available margin has fallen below the safety buffer (default 30% of balance) — tracked as a *running* total across every trade processed in the same tick, not just a single stale pre-tick snapshot, so several individually-fine-looking opens in one tick can't collectively breach it.
 4. Lets the agent decide (or hold) per instrument, using technicals (yfinance continuous futures), commodity-specific news (Brave), and macro context (FRED dollar index/VIX/10Y yield).
 5. Validates and executes any accepted trade immediately, then re-exports the dashboard.
 
@@ -34,7 +36,7 @@ Every 5 minutes (Sun–Fri, `.github/workflows/cfd_trading.yml`) runs `python -m
 - **Hard leverage cap**: 5x notional exposure per unit of margin allocated — enforced independent of whatever leverage IG's own margin factor for the instrument would otherwise permit.
 - **Absolute notional safety ceiling**: no single position's notional exposure exceeds a fixed dollar ceiling, regardless of the leverage math above — a backstop in case that formula is ever wrong.
 - **Mandatory stop-loss AND take-profit** on every opening trade.
-- **Margin safety buffer**: new opens blocked account-wide if available margin drops below 30% of balance.
+- **Margin safety buffer**: new opens blocked account-wide if available margin drops below 30% of balance — checked both against current state AND against what each specific trade's own margin requirement would leave behind, tracked across every trade in a tick, not just a single stale snapshot.
 - **Max 3 concurrent positions** — one per instrument, matching the 3-instrument universe.
 - **Universe**: exactly 3 instruments (Brent Crude, WTI Crude, Natural Gas). Nothing else is tradable, by design — no watchlist scanning.
 
@@ -68,7 +70,7 @@ python meta_strategy.py
 
 ## Dashboard
 
-`index.html` reads `data/dashboard/*.json` and auto-refreshes every 5 minutes. If hosted via GitHub Pages, the same caveat as any public trading bot applies: Pages on the free plan requires a public repo, and a public repo means the full trade/equity history is visible to anyone via the committed JSON/JSONL files, not just the dashboard view of them.
+`index.html` reads `data/dashboard/*.json` and auto-refreshes every ~3 minutes. If hosted via GitHub Pages, the same caveat as any public trading bot applies: Pages on the free plan requires a public repo, and a public repo means the full trade/equity history is visible to anyone via the committed JSON/JSONL files, not just the dashboard view of them.
 
 ## License
 MIT

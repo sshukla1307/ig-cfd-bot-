@@ -12,11 +12,17 @@ name: LIVE CFD Trading Loop (Real Capital)
 
 on:
   schedule:
-    # Every 5 minutes, Sunday through Friday (skips Saturday, when every
+    # Every 3 minutes, Sunday through Friday (skips Saturday, when every
     # commodity market covered here is universally closed). The precise
     # per-instrument gating happens in Python via IG's own live market-status
     # field, not this cron window -- this is deliberately a superset.
-    - cron: '*/5 * * * 0-5'
+    #
+    # NOTE: GitHub's own docs say scheduled workflows "can be delayed during
+    # periods of high load" and don't guarantee precise timing -- this is
+    # widely reported to be more noticeable below ~5-minute intervals. Treat
+    # 3 minutes as the target cadence, not a hard real-time guarantee; actual
+    # tick spacing may occasionally drift wider under load.
+    - cron: '*/3 * * * 0-5'
   workflow_dispatch:
     inputs:
       confirm:

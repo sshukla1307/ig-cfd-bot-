@@ -1,7 +1,7 @@
 """
 IG CFD Trading Bot — Meta Strategy (Day 0)
 
-Run once to define the agent's investment playbook for its 4-instrument
+Run once to define the agent's investment playbook for its 3-instrument
 universe. Injected into the prompt at every live check-in afterward.
 """
 

@@ -1,7 +1,8 @@
 """
 IG CFD Trading Bot — Tick Runner
 
-Invoked roughly every 5 minutes by GitHub Actions. Each tick:
+Invoked roughly every 3 minutes by GitHub Actions (a nominal target -- GitHub
+doesn't guarantee sub-5-minute cron precision; see cfd_trading.yml). Each tick:
   1. Kill-switch check.
   2. Connect to IG, fetch account state + our 4 tracked positions.
   3. Margin safety check: block ALL new opens account-wide if available
@@ -92,7 +93,22 @@ def _compute_position_size(equity: float, allocation_pct: float, snapshot: dict,
     }, None
 
 
-def _validate_trade(trade: dict, account: dict, positions: dict, rules) -> tuple:
+def _margin_headroom_ok(available: float, balance: float, rules) -> bool:
+    return available >= balance * (rules.margin_safety_buffer_pct / 100)
+
+
+def _validate_trade(trade: dict, account: dict, positions: dict, rules,
+                     running_available: float = None) -> tuple:
+    """running_available: the margin-safety check's source of truth for
+    'available margin right now'. Pass this explicitly (rather than reading
+    account['available'] directly) so the caller can track it as a running
+    total across MULTIPLE trades processed in the same tick -- otherwise every
+    proposed open in a tick gets checked against the same stale pre-tick
+    snapshot, and several individually-fine-looking opens could collectively
+    breach the safety buffer. Defaults to account['available'] if omitted."""
+    if running_available is None:
+        running_available = account["available"]
+
     action = trade.get("action", "").upper()
     instrument = trade.get("instrument", "").upper()
 
@@ -120,9 +136,9 @@ def _validate_trade(trade: dict, account: dict, positions: dict, rules) -> tuple
             return False, "stop_loss_pct is mandatory"
         if not trade.get("take_profit_pct"):
             return False, "take_profit_pct is mandatory"
-        if account["available"] < account["balance"] * (rules.margin_safety_buffer_pct / 100):
+        if not _margin_headroom_ok(running_available, account["balance"], rules):
             return False, (
-                f"Margin safety buffer breached: available ${account['available']:.2f} is below "
+                f"Margin safety buffer breached: available ${running_available:.2f} is below "
                 f"{rules.margin_safety_buffer_pct}% of balance ${account['balance']:.2f} -- "
                 f"all new opens blocked account-wide until margin recovers"
             )
@@ -210,11 +226,17 @@ def run_cfd_tick():
     if not trades:
         logger.info("[IG-CFD] Agent proposed no trades this tick (HOLD).")
     else:
+        # Tracks margin consumption across MULTIPLE trades within this single
+        # tick, so the safety buffer reflects reality even if the agent opens
+        # several positions at once (more likely now that both directions are
+        # actively encouraged) -- see _validate_trade's docstring.
+        running_available = account["available"]
+
         for trade in trades:
             instrument = trade.get("instrument", "").upper()
             action = trade.get("action", "").upper()
 
-            ok, reason = _validate_trade(trade, account, positions, RULES)
+            ok, reason = _validate_trade(trade, account, positions, RULES, running_available=running_available)
             if not ok:
                 _log_order_event({"action": action, "instrument": instrument, "status": "REJECTED", "reason": reason})
                 continue
@@ -235,6 +257,25 @@ def run_cfd_tick():
                     _log_order_event({"action": action, "instrument": instrument, "status": "REJECTED", "reason": err})
                     continue
 
+                # Precise post-trade check: does THIS trade's specific margin
+                # requirement, on top of whatever's already been committed
+                # this tick, still leave enough headroom? (The check inside
+                # _validate_trade above only caught the case where we were
+                # ALREADY below buffer before this trade -- this catches the
+                # case where this trade would be what tips us under it.)
+                projected_available = running_available - sizing["margin_allocated"]
+                if not _margin_headroom_ok(projected_available, account["balance"], RULES):
+                    _log_order_event({
+                        "action": action, "instrument": instrument, "status": "REJECTED",
+                        "reason": (
+                            f"This trade's margin (${sizing['margin_allocated']:.2f}) would leave available "
+                            f"at ${projected_available:.2f}, below the {RULES.margin_safety_buffer_pct}% safety "
+                            f"buffer of balance ${account['balance']:.2f} -- rejected to avoid risking a "
+                            f"forced closure on this or other open positions"
+                        ),
+                    })
+                    continue
+
                 direction = "BUY" if action == "OPEN_LONG" else "SELL"
                 price = sizing["price"]
                 stop_distance = round(price * (trade["stop_loss_pct"] / 100), 4)
@@ -252,6 +293,8 @@ def run_cfd_tick():
                     "stop_distance": stop_distance, "limit_distance": limit_distance,
                     "reason": trade.get("reason", ""), **result,
                 })
+                if result["status"] == "submitted":
+                    running_available -= sizing["margin_allocated"]
 
             else:  # CLOSE
                 pos = positions[instrument]
