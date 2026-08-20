@@ -97,6 +97,70 @@ def _margin_headroom_ok(available: float, balance: float, rules) -> bool:
     return available >= balance * (rules.margin_safety_buffer_pct / 100)
 
 
+def _check_stop_breach_backstop(broker, positions: dict) -> list:
+    """Every open position always has a stop attached at open time (mandatory
+    per _validate_trade) -- but that stop is a REGULAR (non-guaranteed) IG
+    stop, which can suffer slippage in a fast move or price gap, filling worse
+    than the stop level rather than exactly at it. Rather than passively trust
+    that IG's system-side stop has already handled it by the time we look,
+    this runs FIRST each tick and actively checks: has the current live price
+    already moved past this position's own recorded stop level? If so, close
+    it immediately at market rather than waiting -- don't let a loss run
+    further just because we're taking IG's word for it between our ~3-minute
+    check-ins. Also force-closes anything that is somehow missing a stop_level
+    entirely (should never happen given it's mandatory at open, but a naked
+    position is exactly the scenario this exists to prevent). Returns the list
+    of instrument keys that were force-closed, so the caller can drop them from
+    its in-memory positions dict and refresh account state before continuing."""
+    closed_keys = []
+    for instrument, pos in list(positions.items()):
+        is_long = pos["direction"] == "BUY"
+        stop_level = pos.get("stop_level")
+
+        if stop_level is None:
+            logger.error(f"[IG-CFD] {instrument} has NO stop_level recorded -- closing immediately as a safety fallback.")
+            result = broker.close_position(
+                deal_id=pos["deal_id"], direction=pos["direction"], epic=pos["epic"], size=pos["size"],
+            )
+            _log_order_event({
+                "action": "STOP_BREACH_BACKSTOP", "instrument": instrument, "deal_id": pos["deal_id"],
+                "reason": "No stop_level recorded on this position -- force-closed as a safety fallback.",
+                **result,
+            })
+            if result.get("status") == "submitted":
+                closed_keys.append(instrument)
+            continue
+
+        # Closing a LONG means selling at the bid; closing a SHORT means
+        # buying at the offer -- use whichever price actually determines what
+        # we'd realize right now, same convention as the dashboard's P&L math.
+        current_price = pos.get("current_bid") if is_long else pos.get("current_offer")
+        if current_price is None:
+            continue  # no live price available this tick -- nothing to check against
+
+        breached = (current_price <= stop_level) if is_long else (current_price >= stop_level)
+        if not breached:
+            continue
+
+        logger.warning(
+            f"[IG-CFD] {instrument} stop breached: current price {current_price} vs stop {stop_level} "
+            f"({'LONG' if is_long else 'SHORT'}) -- closing immediately rather than waiting."
+        )
+        result = broker.close_position(
+            deal_id=pos["deal_id"], direction=pos["direction"], epic=pos["epic"], size=pos["size"],
+        )
+        _log_order_event({
+            "action": "STOP_BREACH_BACKSTOP", "instrument": instrument, "deal_id": pos["deal_id"],
+            "current_price": current_price, "stop_level": stop_level,
+            "reason": f"Live price breached stop level (current={current_price}, stop={stop_level}) -- closed immediately.",
+            **result,
+        })
+        if result.get("status") == "submitted":
+            closed_keys.append(instrument)
+
+    return closed_keys
+
+
 def _validate_trade(trade: dict, account: dict, positions: dict, rules,
                      running_available: float = None) -> tuple:
     """running_available: the margin-safety check's source of truth for
@@ -189,6 +253,19 @@ def run_cfd_tick():
         return
 
     positions = broker.get_positions(epic_to_key)
+
+    # Rule: don't wait for a loss to deepen. Runs before the agent's turn so it
+    # always sees already-resolved, accurate position state -- same timing
+    # pattern as the Alpaca bot's profit-lock backstop.
+    closed_keys = _check_stop_breach_backstop(broker, positions)
+    if closed_keys:
+        for key in closed_keys:
+            positions.pop(key, None)
+        account = broker.get_account_state()  # margin/balance changed by the closes above
+        logger.warning(
+            f"[IG-CFD] Refreshed account after stop-breach backstop closes ({closed_keys}): "
+            f"balance={account['balance']:.2f} available={account['available']:.2f}"
+        )
 
     # Per-instrument market status, read fresh every tick -- this is what
     # actually gates trading hours instead of a hardcoded calendar.

@@ -23,15 +23,17 @@ Confirmed working (2026-08-20, against IG demo account `SNDPM`):
 Every ~3 minutes (Sun–Fri, `.github/workflows/cfd_trading.yml` — nominal target; GitHub Actions cron doesn't guarantee sub-5-minute precision) runs `python -m cfd_runner`, which:
 
 1. Connects to IG, fetches account state and the bot's 3 tracked positions.
-2. Checks each instrument's **live market status** directly from IG (not a hardcoded calendar) — commodity CFDs follow underlying futures session hours plus daily maintenance windows and weekend closures, unlike 24/5 forex. Any instrument not `TRADEABLE` right now is skipped.
-3. Blocks **all** new position opens account-wide if available margin has fallen below the safety buffer (default 30% of balance) — tracked as a *running* total across every trade processed in the same tick, not just a single stale pre-tick snapshot, so several individually-fine-looking opens in one tick can't collectively breach it.
-4. Lets the agent decide (or hold) per instrument, using technicals (yfinance continuous futures), commodity-specific news (Brave), and macro context (FRED dollar index/VIX/10Y yield).
-5. Validates and executes any accepted trade immediately, then re-exports the dashboard.
+2. **Stop-breach backstop, runs before anything else**: for every open position, compares the CURRENT live price against that position's own recorded stop level (not IG's system-side stop, which is non-guaranteed and can slip in a fast move or gap). If price has already moved past the stop — or a stop is somehow missing entirely — force-closes it at market immediately, rather than waiting out the ~3-minute gap until the next check-in on the assumption IG's stop already fired.
+3. Checks each instrument's **live market status** directly from IG (not a hardcoded calendar) — commodity CFDs follow underlying futures session hours plus daily maintenance windows and weekend closures, unlike 24/5 forex. Any instrument not `TRADEABLE` right now is skipped.
+4. Blocks **all** new position opens account-wide if available margin has fallen below the safety buffer (default 30% of balance) — tracked as a *running* total across every trade processed in the same tick, not just a single stale pre-tick snapshot, so several individually-fine-looking opens in one tick can't collectively breach it. Also checked precisely per-trade: if that specific trade's own margin requirement would tip the running total under the buffer, it's rejected even if the tick started out healthy.
+5. Lets the agent decide (or hold) per instrument, using technicals (yfinance continuous futures), commodity-specific news (Brave), and macro context (FRED dollar index/VIX/10Y yield).
+6. Validates and executes any accepted trade immediately, then re-exports the dashboard.
 
 ## "Code is Law" — the rules firewall
 
 `cfd_runner.py` enforces these regardless of what the agent wants:
 
+- **Stop-breach backstop**: every tick, before the agent gets a turn, live price is checked against each open position's own stop level — if breached (or missing), force-closed immediately rather than trusting IG's non-guaranteed system stop to have already handled it.
 - **Sizing**: 5–25% of account equity allocated as margin per position.
 - **Hard leverage cap**: 5x notional exposure per unit of margin allocated — enforced independent of whatever leverage IG's own margin factor for the instrument would otherwise permit.
 - **Absolute notional safety ceiling**: no single position's notional exposure exceeds a fixed dollar ceiling, regardless of the leverage math above — a backstop in case that formula is ever wrong.
