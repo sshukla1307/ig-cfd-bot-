@@ -18,19 +18,19 @@ Two independent switches must BOTH be explicitly true for any order to fire:
   IG_LIVE_TRADING_ENABLED=true   (master kill switch)
   IG_LIVE=true                   (live vs demo IG environment; defaults to demo)
 
-*** UNVERIFIED AGAINST A REAL IG ACCOUNT ***
-This entire file has been written against the `trading_ig` library's actual
-source code (method signatures, DataFrame column names) and IG's publicly
-documented endpoint shapes -- NOT against a live test. In particular:
-  - The margin/leverage sizing math in _compute_position_size uses IG's
-    marginFactor + lotSize fields, which is the officially documented
-    mechanism, but has never been checked against a real fill. Before
-    IG_LIVE_TRADING_ENABLED is ever set to "true", run this against the demo
-    environment and manually confirm that an opened position's actual margin
-    used (via get_account_state's "deposit") is in the ballpark you expect
-    for a given allocation_pct -- do not trust the formula blindly.
-  - The four instrument epics in config.py are empty placeholders. Nothing
-    will trade at all until you resolve and fill them in.
+*** MARGIN SIZING MATH STILL UNVERIFIED AGAINST A REAL FILL ***
+Session/login and epic resolution ARE confirmed working (2026-08-20, demo
+account SNDPM) -- see config.py for the resolved epics. Trades exactly 3
+instruments: Brent Crude Oil, WTI Crude Oil, Natural Gas. Palladium is
+deliberately excluded (no rolling contract available -- see config.py).
+
+The margin/leverage sizing math in _compute_position_size uses IG's
+marginFactor + lotSize fields, which is the officially documented mechanism,
+but has never been checked against a real fill. Before IG_LIVE_TRADING_ENABLED
+is ever set to "true", run this against the demo environment (once it has a
+non-zero virtual balance) and manually confirm that an opened position's
+actual margin used (via get_account_state's "deposit") is in the ballpark you
+expect for a given allocation_pct -- do not trust the formula blindly.
 """
 
 import json

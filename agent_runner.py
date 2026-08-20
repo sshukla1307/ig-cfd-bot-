@@ -13,7 +13,11 @@ from api_adapters import OpenAIClient
 
 logger = logging.getLogger(__name__)
 
-INSTRUMENT_KEYS = list(INSTRUMENTS.keys())
+
+# Only instruments with a resolved epic are offered to the agent at all --
+# e.g. Palladium is excluded (see config.py) rather than being proposable
+# and always rejected, which would just waste tool-call budget each tick.
+INSTRUMENT_KEYS = [key for key, inst in INSTRUMENTS.items() if inst.epic]
 
 TOOLS = [
     {
@@ -99,7 +103,7 @@ def build_system_prompt(playbook: str) -> str:
     prompt = f"YOU ARE A LIVE IG CFD TRADING AGENT.\n\n"
     prompt += "=== SYSTEM RULES (enforced by code, not by you) ===\n"
     prompt += f"- Position sizing: {RULES.min_allocation_pct}-{RULES.max_allocation_pct}% of account equity (as margin) per position\n"
-    prompt += f"- Max {RULES.max_positions} concurrent positions (one per instrument, 4 instruments total)\n"
+    prompt += f"- Max {RULES.max_positions} concurrent positions (one per instrument, {RULES.max_positions} instruments total)\n"
     prompt += f"- Hard leverage cap: {RULES.max_leverage_multiple}x notional exposure per unit of margin allocated, regardless of what IG's own margin factor for the instrument would otherwise permit\n"
     prompt += "- Every OPEN_LONG/OPEN_SHORT MUST include both stop_loss_pct and take_profit_pct -- both mandatory, no exceptions\n"
     prompt += f"- If available margin drops below {RULES.margin_safety_buffer_pct}% of account balance, ALL new opens are blocked account-wide until it recovers\n\n"
@@ -114,7 +118,7 @@ def build_system_prompt(playbook: str) -> str:
     prompt += "=== LIVE CHECK-IN ===\n"
     prompt += (
         "This is a LIVE check-in against a REAL IG CFD account, repeating roughly every "
-        f"{RULES.min_tick_interval_minutes} minutes while at least one of your 4 instruments' "
+        f"{RULES.min_tick_interval_minutes} minutes while at least one of your {len(INSTRUMENT_KEYS)} instruments' "
         "markets is open. Any trade you propose fills IMMEDIATELY at the live market price -- "
         "there is no paper simulation and no human reviewing your orders before they execute. "
         "CFDs are leveraged: a losing move against you compounds faster than in an unleveraged "

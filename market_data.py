@@ -1,9 +1,10 @@
 """
 IG CFD Trading Bot — Market Data
 
-Deliberately narrow: this bot trades exactly 4 instruments, not a scanned
-universe, so there's no need for the broad watchlist-scanning engine the
-Alpaca project used. Just deep, focused context on these four:
+Deliberately narrow: this bot trades exactly 3 instruments (Brent, WTI,
+Natural Gas -- Palladium excluded, see config.py), not a scanned universe, so
+there's no need for the broad watchlist-scanning engine the Alpaca project
+used. Just deep, focused context on these three:
   - Technicals via yfinance continuous futures tickers (independent of IG's
     epics -- used only for RSI/SMA/price-history context, never execution).
   - Commodity-specific news/catalysts via Brave Search (inventory reports,

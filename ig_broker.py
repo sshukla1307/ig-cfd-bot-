@@ -4,8 +4,9 @@ IG CFD Trading Bot — Broker Adapter
 Thin wrapper around the `trading_ig` community Python library (IG has no
 official first-party SDK). Method names/return shapes below were verified
 directly against the installed trading_ig package's source (rest.py), not
-assumed from memory — but the *epics* for our four instruments still need
-manual resolution (see config.py) before this can place a single real trade.
+assumed from memory. Session/login and epic resolution are confirmed
+working against a real IG demo account -- see config.py for the resolved
+epics (3 instruments; Palladium excluded, no rolling contract available).
 
 Safety notes:
   - Defaults to acc_type="demo" unless explicitly told otherwise.
