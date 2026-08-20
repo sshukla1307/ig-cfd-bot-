@@ -1,0 +1,80 @@
+name: LIVE CFD Trading Loop (Real Capital)
+
+# This workflow places REAL, LEVERAGED CFD orders against a REAL IG account.
+# Kept isolated: own file, own concurrency group, own secrets.
+#
+# Two independent switches inside the job (not just this file existing) must
+# both be true for an order to ever be submitted:
+#   - IG_LIVE_TRADING_ENABLED=true  (master kill switch, set below)
+#   - IG_LIVE=true                  (live vs demo IG environment, set below)
+# To pause trading without deleting anything: disable this workflow from the
+# repo's Actions tab, or flip IG_LIVE_TRADING_ENABLED to "false" below.
+
+on:
+  schedule:
+    # Every 5 minutes, Sunday through Friday (skips Saturday, when every
+    # commodity market covered here is universally closed). The precise
+    # per-instrument gating happens in Python via IG's own live market-status
+    # field, not this cron window -- this is deliberately a superset.
+    - cron: '*/5 * * * 0-5'
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'Type exactly: I UNDERSTAND REAL MONEY IS AT RISK'
+        required: true
+
+concurrency:
+  group: live-cfd-trading-loop
+  cancel-in-progress: false
+
+jobs:
+  tick:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    permissions:
+      contents: write
+
+    steps:
+      - name: Require explicit confirmation on manual runs
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          if [ "${{ github.event.inputs.confirm }}" != "I UNDERSTAND REAL MONEY IS AT RISK" ]; then
+            echo "Confirmation text did not match exactly. Aborting."
+            exit 1
+          fi
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Live CFD Tick
+        env:
+          IG_LIVE_TRADING_ENABLED: "true"
+          IG_LIVE: "true"
+          IG_USERNAME: ${{ secrets.IG_USERNAME }}
+          IG_PASSWORD: ${{ secrets.IG_PASSWORD }}
+          IG_API_KEY: ${{ secrets.IG_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          BRAVE_API_KEY: ${{ secrets.BRAVE_API_KEY }}
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+          PYTHONPATH: ${{ github.workspace }}
+        run: python -m cfd_runner
+
+      - name: Commit & Push Audit Log
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Live CFD tick: ${{ github.event.schedule || 'Manual Run' }}"
+          file_pattern: 'data'
+          branch: main

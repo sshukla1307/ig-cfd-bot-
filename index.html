@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Live CFD Trading Bot — IG Account</title>
+<style>
+  :root {
+    color-scheme: light;
+    --surface-0:      #ffffff;
+    --surface-1:      #fcfcfb;
+    --surface-2:      #f4f3f1;
+    --border:         #e4e2dd;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #86847e;
+    --series-1:       #2a78d6;
+    --series-1-wash:  rgba(42, 120, 214, 0.10);
+    --good:           #0ca30c;
+    --warning:        #fab219;
+    --serious:        #ec835a;
+    --critical:       #d03b3b;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) {
+      color-scheme: dark;
+      --surface-0:      #121211;
+      --surface-1:      #1a1a19;
+      --surface-2:      #232322;
+      --border:         #34332f;
+      --text-primary:   #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted:     #8b8a82;
+      --series-1:       #3987e5;
+      --series-1-wash:  rgba(57, 135, 229, 0.14);
+      --good:           #0ca30c;
+      --warning:        #fab219;
+      --serious:        #ec835a;
+      --critical:       #e66767;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --surface-0:      #121211;
+    --surface-1:      #1a1a19;
+    --surface-2:      #232322;
+    --border:         #34332f;
+    --text-primary:   #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted:     #8b8a82;
+    --series-1:       #3987e5;
+    --series-1-wash:  rgba(57, 135, 229, 0.14);
+    --good:           #0ca30c;
+    --warning:        #fab219;
+    --serious:        #ec835a;
+    --critical:       #e66767;
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--surface-0);
+    color: var(--text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    overflow-x: hidden;
+  }
+
+  .page { max-width: 1040px; margin: 0 auto; padding: 24px 20px 64px; }
+
+  header {
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 12px; margin-bottom: 28px;
+  }
+  .title-block h1 { font-size: 20px; margin: 0 0 4px; font-weight: 600; }
+  .status-line { font-size: 13px; color: var(--text-secondary); display: flex; align-items: center; gap: 6px; }
+  .market-indicator { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+  .market-indicator.open { background: var(--good); }
+  .market-indicator.closed { background: var(--text-muted); }
+  .status-separator { color: var(--border); margin: 0 2px; }
+
+  .theme-toggle {
+    border: 1px solid var(--border); background: var(--surface-1); color: var(--text-secondary);
+    border-radius: 8px; padding: 6px 12px; font-size: 13px; cursor: pointer;
+  }
+  .theme-toggle:hover { color: var(--text-primary); }
+
+  .stat-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 28px; }
+  .stat-tile { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; }
+  .stat-label { font-size: 12px; color: var(--text-secondary); margin-bottom: 6px; }
+  .stat-value { font-size: 26px; font-weight: 600; font-variant-numeric: proportional-nums; }
+  .stat-value.hero { font-size: 34px; }
+  .stat-delta { font-size: 13px; margin-top: 4px; font-variant-numeric: tabular-nums; }
+  .stat-delta.up { color: var(--good); }
+  .stat-delta.down { color: var(--critical); }
+
+  .card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+  .card h2 { font-size: 15px; font-weight: 600; margin: 0 0 14px; }
+  .card .empty { color: var(--text-muted); font-size: 13px; padding: 12px 0; }
+  .card .subtext { color: var(--text-muted); font-size: 12px; margin-top: -8px; margin-bottom: 14px; }
+
+  .chart-wrap { position: relative; width: 100%; }
+  #equityChart { width: 100%; height: 260px; display: block; overflow: visible; }
+  .chart-gridline { stroke: var(--border); stroke-width: 1; }
+  .chart-line { fill: none; stroke: var(--series-1); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+  .chart-area { fill: var(--series-1-wash); }
+  .chart-axis-label { fill: var(--text-muted); font-size: 11px; font-family: inherit; }
+  .chart-end-label { fill: var(--text-primary); font-size: 12px; font-weight: 600; font-family: inherit; }
+  .crosshair-line { stroke: var(--text-muted); stroke-width: 1; stroke-dasharray: 2,2; }
+  .crosshair-dot { fill: var(--series-1); stroke: var(--surface-1); stroke-width: 2; }
+  .chart-tooltip {
+    position: absolute; pointer-events: none; background: var(--surface-2); border: 1px solid var(--border);
+    border-radius: 8px; padding: 6px 10px; font-size: 12px; color: var(--text-secondary); white-space: nowrap;
+    transform: translate(-50%, -110%); opacity: 0; transition: opacity 0.1s;
+  }
+  .chart-tooltip .val { color: var(--text-primary); font-weight: 600; font-variant-numeric: tabular-nums; }
+  .chart-hit-layer { fill: transparent; cursor: crosshair; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th {
+    text-align: left; color: var(--text-muted); font-weight: 500; font-size: 11px; text-transform: uppercase;
+    letter-spacing: 0.03em; padding: 0 10px 8px; border-bottom: 1px solid var(--border);
+  }
+  td { padding: 10px 10px; border-bottom: 1px solid var(--border); font-variant-numeric: tabular-nums; color: var(--text-primary); }
+  tr:last-child td { border-bottom: none; }
+  td.num, th.num { text-align: right; }
+  .pill { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-variant-numeric: initial; }
+  .pill .dot { width: 7px; height: 7px; border-radius: 50%; }
+  .pill.good .dot { background: var(--good); }
+  .pill.critical .dot { background: var(--critical); }
+  .pill.good { color: var(--good); }
+  .pill.critical { color: var(--critical); }
+  .direction-long { color: var(--good); font-weight: 600; }
+  .direction-short { color: var(--critical); font-weight: 600; }
+  .pnl-pos { color: var(--good); }
+  .pnl-neg { color: var(--critical); }
+  .table-scroll { overflow-x: auto; }
+
+  footer { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 32px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <div class="title-block">
+      <h1>Live CFD Trading Bot</h1>
+      <div class="status-line" id="statusLine">Loading…</div>
+    </div>
+    <button class="theme-toggle" id="themeToggle" type="button">Toggle theme</button>
+  </header>
+
+  <div class="stat-row">
+    <div class="stat-tile">
+      <div class="stat-label">Account balance</div>
+      <div class="stat-value hero" id="statBalance">—</div>
+      <div class="stat-delta" id="statBalanceDelta"></div>
+    </div>
+    <div class="stat-tile">
+      <div class="stat-label">Available margin</div>
+      <div class="stat-value" id="statAvailable">—</div>
+      <div class="stat-delta" id="statMarginUsed"></div>
+    </div>
+    <div class="stat-tile">
+      <div class="stat-label">Open positions</div>
+      <div class="stat-value" id="statPositions">—</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Balance over time</h2>
+    <div class="chart-wrap">
+      <svg id="equityChart" viewBox="0 0 1000 260" preserveAspectRatio="none"></svg>
+      <div class="chart-tooltip" id="chartTooltip"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Current positions</h2>
+    <div class="subtext">P&amp;L shown is a raw price-point estimate (does not account for the instrument's contract/lot multiplier) — verify exact figures on the IG platform.</div>
+    <div class="table-scroll">
+      <table id="positionsTable">
+        <thead>
+          <tr>
+            <th>Instrument</th><th>Direction</th><th class="num">Size</th>
+            <th class="num">Entry</th><th class="num">Stop</th><th class="num">Limit</th>
+            <th class="num">Est. P&amp;L (pts)</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <div class="empty" id="positionsEmpty" style="display:none;">No open positions.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Recent activity</h2>
+    <div class="table-scroll">
+      <table id="tradesTable">
+        <thead>
+          <tr>
+            <th>Time</th><th>Action</th><th>Instrument</th><th class="num">Size</th>
+            <th>Status</th><th>Reason</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <div class="empty" id="tradesEmpty" style="display:none;">No activity logged yet.</div>
+    </div>
+  </div>
+
+  <footer id="footer">—</footer>
+
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  const DATA_BASE = 'data/dashboard';
+  const REFRESH_MS = 5 * 60 * 1000; // matches the 5-minute live tick cadence
+
+  const themeToggle = document.getElementById('themeToggle');
+  function applyStoredTheme() {
+    const stored = localStorage.getItem('theme');
+    if (stored) document.documentElement.setAttribute('data-theme', stored);
+  }
+  themeToggle.addEventListener('click', function () {
+    const current = document.documentElement.getAttribute('data-theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const next = current === 'dark' ? 'light' : (current === 'light' ? 'dark' : (prefersDark ? 'light' : 'dark'));
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+  });
+  applyStoredTheme();
+
+  const fmtMoney = (v, ccy) => (ccy ? ccy + ' ' : '$') + Number(v).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const fmtMoneyCompact = (v, ccy) => {
+    const n = Number(v);
+    const prefix = ccy ? ccy + ' ' : '$';
+    if (Math.abs(n) >= 1_000_000) return prefix + (n / 1_000_000).toFixed(2) + 'M';
+    if (Math.abs(n) >= 1_000) return prefix + (n / 1_000).toFixed(1) + 'K';
+    return fmtMoney(n, ccy);
+  };
+  const fmtPct = (v) => (v >= 0 ? '+' : '') + (v * 100).toFixed(2) + '%';
+  const fmtTime = (iso) => {
+    const d = new Date(iso);
+    return d.toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+  };
+
+  async function fetchJSON(name) {
+    const res = await fetch(`${DATA_BASE}/${name}?t=${Date.now()}`);
+    if (!res.ok) throw new Error(`${name}: HTTP ${res.status}`);
+    return res.json();
+  }
+
+  function updateStatusLine(lastUpdatedIso) {
+    const el = document.getElementById('statusLine');
+    let syncText = 'No data yet';
+    if (lastUpdatedIso) {
+      const diffMins = Math.floor((Date.now() - new Date(lastUpdatedIso).getTime()) / 60000);
+      if (diffMins < 1) syncText = 'just now';
+      else if (diffMins < 60) syncText = `${diffMins} min ago`;
+      else syncText = `${Math.floor(diffMins / 60)}h ago`;
+    }
+    el.innerHTML = `Last tick: ${syncText}`;
+  }
+
+  function renderEquityChart(series, ccy) {
+    const svg = document.getElementById('equityChart');
+    const tooltip = document.getElementById('chartTooltip');
+    svg.innerHTML = '';
+    if (!series || series.length === 0) return;
+
+    const W = 1000, H = 260, PAD_L = 8, PAD_R = 8, PAD_T = 16, PAD_B = 28;
+    const values = series.map(p => p.balance);
+    let min = Math.min(...values), max = Math.max(...values);
+    if (min === max) { min -= 1; max += 1; }
+    const pad = (max - min) * 0.08;
+    min -= pad; max += pad;
+
+    const x = (i) => PAD_L + (i / Math.max(series.length - 1, 1)) * (W - PAD_L - PAD_R);
+    const y = (v) => H - PAD_B - ((v - min) / (max - min)) * (H - PAD_T - PAD_B);
+
+    const svgns = 'http://www.w3.org/2000/svg';
+    const g = document.createElementNS(svgns, 'g');
+
+    for (let i = 0; i <= 2; i++) {
+      const gy = PAD_T + (i / 2) * (H - PAD_T - PAD_B);
+      const line = document.createElementNS(svgns, 'line');
+      line.setAttribute('x1', PAD_L); line.setAttribute('x2', W - PAD_R);
+      line.setAttribute('y1', gy); line.setAttribute('y2', gy);
+      line.setAttribute('class', 'chart-gridline');
+      g.appendChild(line);
+      const val = max - (i / 2) * (max - min);
+      const label = document.createElementNS(svgns, 'text');
+      label.setAttribute('x', PAD_L); label.setAttribute('y', gy - 4);
+      label.setAttribute('class', 'chart-axis-label');
+      label.textContent = fmtMoneyCompact(val, ccy);
+      g.appendChild(label);
+    }
+
+    const areaPoints = series.map((p, i) => `${x(i)},${y(p.balance)}`).join(' ');
+    const area = document.createElementNS(svgns, 'polygon');
+    area.setAttribute('points', `${PAD_L},${H - PAD_B} ${areaPoints} ${x(series.length - 1)},${H - PAD_B}`);
+    area.setAttribute('class', 'chart-area');
+    g.appendChild(area);
+
+    const path = document.createElementNS(svgns, 'polyline');
+    path.setAttribute('points', areaPoints);
+    path.setAttribute('class', 'chart-line');
+    g.appendChild(path);
+
+    const lastVal = series[series.length - 1].balance;
+    const endLabel = document.createElementNS(svgns, 'text');
+    endLabel.setAttribute('x', x(series.length - 1) - 6);
+    endLabel.setAttribute('y', y(lastVal) - 10);
+    endLabel.setAttribute('text-anchor', 'end');
+    endLabel.setAttribute('class', 'chart-end-label');
+    endLabel.textContent = fmtMoneyCompact(lastVal, ccy);
+    g.appendChild(endLabel);
+
+    const crosshair = document.createElementNS(svgns, 'line');
+    crosshair.setAttribute('class', 'crosshair-line');
+    crosshair.setAttribute('y1', PAD_T); crosshair.setAttribute('y2', H - PAD_B);
+    crosshair.style.display = 'none';
+    g.appendChild(crosshair);
+
+    const dot = document.createElementNS(svgns, 'circle');
+    dot.setAttribute('r', 4);
+    dot.setAttribute('class', 'crosshair-dot');
+    dot.style.display = 'none';
+    g.appendChild(dot);
+
+    svg.appendChild(g);
+
+    const hit = document.createElementNS(svgns, 'rect');
+    hit.setAttribute('x', 0); hit.setAttribute('y', 0);
+    hit.setAttribute('width', W); hit.setAttribute('height', H);
+    hit.setAttribute('class', 'chart-hit-layer');
+    svg.appendChild(hit);
+
+    function onMove(evt) {
+      const rect = svg.getBoundingClientRect();
+      const px = ((evt.clientX - rect.left) / rect.width) * W;
+      let nearest = 0, best = Infinity;
+      for (let i = 0; i < series.length; i++) {
+        const d = Math.abs(x(i) - px);
+        if (d < best) { best = d; nearest = i; }
+      }
+      const p = series[nearest];
+      crosshair.setAttribute('x1', x(nearest)); crosshair.setAttribute('x2', x(nearest));
+      crosshair.style.display = '';
+      dot.setAttribute('cx', x(nearest)); dot.setAttribute('cy', y(p.balance));
+      dot.style.display = '';
+
+      const tipX = (x(nearest) / W) * rect.width;
+      const tipY = (y(p.balance) / H) * rect.height;
+      tooltip.style.left = tipX + 'px';
+      tooltip.style.top = tipY + 'px';
+      tooltip.innerHTML = `${fmtTime(p.timestamp)}<br><span class="val">${fmtMoney(p.balance, ccy)}</span>`;
+      tooltip.style.opacity = '1';
+    }
+    function onLeave() {
+      crosshair.style.display = 'none';
+      dot.style.display = 'none';
+      tooltip.style.opacity = '0';
+    }
+    hit.addEventListener('pointermove', onMove);
+    hit.addEventListener('pointerleave', onLeave);
+  }
+
+  function renderPositions(positions) {
+    const tbody = document.querySelector('#positionsTable tbody');
+    const empty = document.getElementById('positionsEmpty');
+    tbody.innerHTML = '';
+    if (!positions || positions.length === 0) {
+      empty.style.display = 'block';
+      return;
+    }
+    empty.style.display = 'none';
+    for (const p of positions) {
+      const tr = document.createElement('tr');
+      const dirClass = p.direction === 'BUY' ? 'direction-long' : 'direction-short';
+      const dirLabel = p.direction === 'BUY' ? 'LONG' : 'SHORT';
+      const currentPrice = p.direction === 'BUY' ? p.current_bid : p.current_offer;
+      let pnlPoints = null;
+      if (currentPrice != null && p.entry_level != null) {
+        const sign = p.direction === 'BUY' ? 1 : -1;
+        pnlPoints = (currentPrice - p.entry_level) * sign * p.size;
+      }
+      const pnlClass = pnlPoints == null ? '' : (pnlPoints >= 0 ? 'pnl-pos' : 'pnl-neg');
+      const pnlText = pnlPoints == null ? '—' : pnlPoints.toFixed(2);
+      tr.innerHTML =
+        `<td>${escapeHtml(p.instrument)}</td>` +
+        `<td class="${dirClass}">${dirLabel}</td>` +
+        `<td class="num">${Number(p.size).toLocaleString()}</td>` +
+        `<td class="num">${Number(p.entry_level).toFixed(4)}</td>` +
+        `<td class="num">${p.stop_level != null ? Number(p.stop_level).toFixed(4) : '—'}</td>` +
+        `<td class="num">${p.limit_level != null ? Number(p.limit_level).toFixed(4) : '—'}</td>` +
+        `<td class="num ${pnlClass}">${pnlText}</td>`;
+      tbody.appendChild(tr);
+    }
+  }
+
+  function renderTrades(trades) {
+    const tbody = document.querySelector('#tradesTable tbody');
+    const empty = document.getElementById('tradesEmpty');
+    tbody.innerHTML = '';
+    if (!trades || trades.length === 0) {
+      empty.style.display = 'block';
+      return;
+    }
+    empty.style.display = 'none';
+    for (const t of trades.slice(0, 50)) {
+      const tr = document.createElement('tr');
+      const isRejected = t.status === 'rejected';
+      const pillClass = isRejected ? 'critical' : 'good';
+      const pillLabel = isRejected ? 'Rejected' : (t.status || 'Submitted');
+      tr.innerHTML =
+        `<td>${escapeHtml(fmtTime(t.logged_at))}</td>` +
+        `<td>${escapeHtml(t.action || '')}</td>` +
+        `<td>${escapeHtml(t.instrument || '')}</td>` +
+        `<td class="num">${t.size != null ? Number(t.size).toLocaleString() : '—'}</td>` +
+        `<td><span class="pill ${pillClass}"><span class="dot"></span>${escapeHtml(pillLabel)}</span></td>` +
+        `<td>${escapeHtml(t.reason || '')}</td>`;
+      tbody.appendChild(tr);
+    }
+  }
+
+  function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = String(str);
+    return div.innerHTML;
+  }
+
+  async function loadDashboard() {
+    try {
+      const [equitySeries, positionsData, trades, lastUpdated] = await Promise.all([
+        fetchJSON('equity.json').catch(() => []),
+        fetchJSON('positions.json').catch(() => null),
+        fetchJSON('trades.json').catch(() => []),
+        fetchJSON('last_updated.json').catch(() => null),
+      ]);
+
+      const ccy = positionsData ? positionsData.currency : null;
+      renderEquityChart(equitySeries, ccy);
+      updateStatusLine(lastUpdated ? lastUpdated.timestamp : null);
+
+      if (positionsData) {
+        document.getElementById('statBalance').textContent = fmtMoney(positionsData.balance, ccy);
+        document.getElementById('statAvailable').textContent = fmtMoney(positionsData.available, ccy);
+        document.getElementById('statPositions').textContent = String((positionsData.positions || []).length);
+        renderPositions(positionsData.positions);
+
+        const marginUsedEl = document.getElementById('statMarginUsed');
+        if (positionsData.deposit != null) {
+          marginUsedEl.textContent = `${fmtMoney(positionsData.deposit, ccy)} used as margin`;
+        }
+
+        if (equitySeries.length > 1) {
+          const first = equitySeries[0].balance;
+          const change = positionsData.balance - first;
+          const changePct = first !== 0 ? change / first : 0;
+          const deltaEl = document.getElementById('statBalanceDelta');
+          deltaEl.textContent = `${change >= 0 ? '+' : ''}${fmtMoney(change, ccy)} (${fmtPct(changePct)}) since first recorded tick`;
+          deltaEl.className = 'stat-delta ' + (change >= 0 ? 'up' : 'down');
+        }
+      } else {
+        document.getElementById('statBalance').textContent = 'No data yet';
+        renderPositions(null);
+      }
+
+      renderTrades(trades);
+
+      const footer = document.getElementById('footer');
+      footer.textContent = lastUpdated
+        ? `Data as of ${fmtTime(lastUpdated.timestamp)} · refreshes automatically every 5 minutes`
+        : 'Waiting for the first live tick to publish data.';
+    } catch (err) {
+      console.error('Dashboard load failed:', err);
+      document.getElementById('statusLine').textContent = `Data error: ${err.message}`;
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    loadDashboard();
+    setInterval(loadDashboard, REFRESH_MS);
+  });
+})();
+</script>
+</body>
+</html>
