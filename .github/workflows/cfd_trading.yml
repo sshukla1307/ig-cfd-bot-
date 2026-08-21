@@ -38,7 +38,7 @@ concurrency:
 jobs:
   tick:
     runs-on: ubuntu-latest
-    timeout-minutes: 4
+    timeout-minutes: 6  # bumped from 4 -- OpenAI retry backoff (up to ~32s of sleep across 5 retries) plus the new connectivity diagnostic step eat into the old tighter budget
     permissions:
       contents: write
 
@@ -66,6 +66,15 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+
+      - name: Diagnose OpenAI connectivity (temporary -- remove once resolved)
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          echo "OPENAI_API_KEY length (0 = secret is missing/empty): ${#OPENAI_API_KEY}"
+          echo "--- curl -v to api.openai.com/v1/models (raw network-level result, not masked by openai's SDK) ---"
+          curl -v --max-time 10 https://api.openai.com/v1/models \
+            -H "Authorization: Bearer $OPENAI_API_KEY" 2>&1 | tail -60 || true
 
       - name: Run Live CFD Tick
         env:
