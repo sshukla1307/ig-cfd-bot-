@@ -221,7 +221,7 @@ def run_cfd_tick():
 
     from config import RULES, INSTRUMENTS, PLAYBOOKS_DIR
     from ig_broker import IGBroker
-    from agent_runner import get_agent_trades
+    from agent_runner import get_agent_trades, AgentCallFailed
     from dashboard_exporter import export_for_dashboard
 
     live = os.getenv("IG_LIVE", "").lower() == "true"
@@ -298,7 +298,17 @@ def run_cfd_tick():
     playbook = playbook_path.read_text(encoding="utf-8") if playbook_path.exists() else "Default strategy: maximize risk-adjusted returns on momentum and catalyst-driven moves."
 
     now_str = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
-    trades = get_agent_trades(playbook, portfolio_state, now_str)
+    try:
+        trades = get_agent_trades(playbook, portfolio_state, now_str)
+    except AgentCallFailed as e:
+        # Fails SAFE (no trades this tick, same as a real HOLD would), but
+        # logged loudly and distinctly in the audit trail/dashboard -- an
+        # agent-call failure must never look identical to a legitimate HOLD,
+        # or a persistent outage (e.g. a broken OpenAI connection) can go
+        # unnoticed indefinitely, which is exactly what happened before this.
+        logger.error(f"[IG-CFD] {e}")
+        _log_order_event({"action": "AGENT_CALL_FAILED", "status": "ERROR", "reason": str(e)})
+        trades = []
 
     if not trades:
         logger.info("[IG-CFD] Agent proposed no trades this tick (HOLD).")

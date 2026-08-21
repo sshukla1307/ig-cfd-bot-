@@ -142,6 +142,16 @@ def build_user_prompt(portfolio_state: dict, now_str: str) -> str:
     return prompt
 
 
+class AgentCallFailed(Exception):
+    """Raised when the LLM call itself failed or didn't produce a usable
+    decision -- distinct from the agent successfully deciding to hold. The
+    caller (cfd_runner.py) still treats this as "no trades this tick" for
+    safety, but logs it loudly and visibly instead of silently indistinguishable
+    from a legitimate HOLD -- this exact silent-swallowing is what let a
+    persistent OpenAI connection failure go unnoticed across every real tick
+    this account has run."""
+
+
 def get_agent_trades(playbook: str, portfolio_state: dict, now_str: str) -> list:
     client = OpenAIClient()
     sys_prompt = build_system_prompt(playbook)
@@ -151,12 +161,10 @@ def get_agent_trades(playbook: str, portfolio_state: dict, now_str: str) -> list
     try:
         result_json = client.generate(sys_prompt, user_prompt, tools, max_tool_calls=10)
     except Exception as e:
-        logger.error(f"Agent crashed: {e}")
-        return []
+        raise AgentCallFailed(f"OpenAI call crashed: {e}") from e
 
     if not result_json:
-        logger.error("Agent failed to propose trades.")
-        return []
+        raise AgentCallFailed("Agent responded without ever calling propose_trades (hit max tool calls or returned nothing)")
 
     try:
         data = json.loads(result_json)
@@ -164,5 +172,4 @@ def get_agent_trades(playbook: str, portfolio_state: dict, now_str: str) -> list
         logger.info(f"Agent proposed {len(trades)} trades. Notes: {data.get('notes', '')}")
         return trades
     except json.JSONDecodeError:
-        logger.error(f"Agent returned invalid JSON: {result_json}")
-        return []
+        raise AgentCallFailed(f"Agent returned invalid JSON: {result_json}")

@@ -27,7 +27,12 @@ def retry_with_backoff(func: Callable, max_retries: int = 5, base_delay: float =
                 is_rate_limit = any(x in err_msg for x in ["429", "rate limit", "quota"])
                 is_timeout = any(x in err_msg for x in ["timeout", "timed out", "deadline exceeded"])
                 is_unavailable = any(x in err_msg for x in ["503", "unavailable", "service unavailable"])
-                if is_rate_limit or is_timeout or is_unavailable:
+                is_connection_error = any(x in err_msg for x in [
+                    "connection error", "connection reset", "connection aborted",
+                    "network is unreachable", "failed to establish a new connection",
+                    "remote end closed connection",
+                ])
+                if is_rate_limit or is_timeout or is_unavailable or is_connection_error:
                     retries += 1
                     if retries >= max_retries:
                         logger.error(f"Max retries reached. Final error: {e}")

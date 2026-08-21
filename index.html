@@ -414,8 +414,9 @@
     for (const t of trades.slice(0, 50)) {
       const tr = document.createElement('tr');
       const isRejected = t.status === 'rejected';
-      const pillClass = isRejected ? 'critical' : 'good';
-      const pillLabel = isRejected ? 'Rejected' : (t.status || 'Submitted');
+      const isError = t.status === 'ERROR';
+      const pillClass = (isRejected || isError) ? 'critical' : 'good';
+      const pillLabel = isRejected ? 'Rejected' : isError ? 'Agent call failed' : (t.status || 'Submitted');
       tr.innerHTML =
         `<td>${escapeHtml(fmtTime(t.logged_at))}</td>` +
         `<td>${escapeHtml(t.action || '')}</td>` +
