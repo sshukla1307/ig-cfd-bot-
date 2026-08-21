@@ -198,14 +198,20 @@ class IGBroker:
                         expiry: str = "-") -> dict:
         """Closes (or partially closes) an existing position. direction here is
         the CLOSING direction -- opposite of the position's original direction
-        (e.g. a LONG/BUY position closes with direction='SELL')."""
+        (e.g. a LONG/BUY position closes with direction='SELL').
+
+        IG identifies the position to close by EITHER dealId OR epic+expiry --
+        never both (confirmed in production: sending both non-null gave
+        "validation.mutual-exclusive-value.request" and rejected every close).
+        Since we always know the exact deal_id, epic/expiry are intentionally
+        left null here; the epic/expiry parameters only exist for logging."""
         close_direction = "SELL" if direction == "BUY" else "BUY"
         try:
             result = self.ig.close_open_position(
                 deal_id=deal_id,
                 direction=close_direction,
-                epic=epic,
-                expiry=expiry,
+                epic=None,
+                expiry=None,
                 level=None,
                 order_type="MARKET",
                 quote_id=None,
