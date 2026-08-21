@@ -12,17 +12,22 @@ name: LIVE CFD Trading Loop (Real Capital)
 
 on:
   schedule:
-    # Every 3 minutes, Sunday through Friday (skips Saturday, when every
-    # commodity market covered here is universally closed). The precise
-    # per-instrument gating happens in Python via IG's own live market-status
-    # field, not this cron window -- this is deliberately a superset.
-    #
-    # NOTE: GitHub's own docs say scheduled workflows "can be delayed during
-    # periods of high load" and don't guarantee precise timing -- this is
-    # widely reported to be more noticeable below ~5-minute intervals. Treat
-    # 3 minutes as the target cadence, not a hard real-time guarantee; actual
-    # tick spacing may occasionally drift wider under load.
+    # Kept as a free fallback in case the external pinger (see below) ever
+    # goes down -- GitHub's own docs say scheduled workflows "can be delayed
+    # during periods of high load" and this is widely reported to be much
+    # more noticeable below ~5-minute intervals, so this is NOT the primary
+    # trigger for real cadence. Real 3-minute cadence comes from the
+    # repository_dispatch event below, fired by a Cloudflare Worker Cron
+    # Trigger hitting the GitHub API directly every 3 minutes.
     - cron: '*/3 * * * 0-5'
+  repository_dispatch:
+    # Fired by the Cloudflare Worker (see cloudflare-worker/) every 3 minutes.
+    # This is the primary trigger for real cadence -- a direct API dispatch
+    # starts almost immediately, unlike GitHub's internal schedule queue.
+    # No confirmation-phrase gate here: that gate exists to catch an
+    # ACCIDENTAL human click in the Actions UI, not to gate an
+    # already-authorized automated path we built and control ourselves.
+    types: [cfd-tick]
   workflow_dispatch:
     inputs:
       confirm:
@@ -81,6 +86,6 @@ jobs:
       - name: Commit & Push Audit Log
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Live CFD tick: ${{ github.event.schedule || 'Manual Run' }}"
+          commit_message: "Live CFD tick: ${{ github.event.schedule || (github.event_name == 'repository_dispatch' && 'Cloudflare Worker Trigger' || 'Manual Run') }}"
           file_pattern: 'data'
           branch: main

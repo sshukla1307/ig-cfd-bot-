@@ -42,6 +42,10 @@ Every ~3 minutes (Sun–Fri, `.github/workflows/cfd_trading.yml` — nominal tar
 - **Max 3 concurrent positions** — one per instrument, matching the 3-instrument universe.
 - **Universe**: exactly 3 instruments (Brent Crude, WTI Crude, Natural Gas). Nothing else is tradable, by design — no watchlist scanning.
 
+## Real 3-minute cadence
+
+GitHub's own `schedule:` cron is not reliable below ~5-minute intervals (silently delayed/throttled under load — confirmed in practice: observed gaps of 20–95 minutes despite a `*/3` cron string). Real 3-minute cadence comes from a **Cloudflare Worker Cron Trigger** (`cloudflare-worker/`) that fires a `repository_dispatch` event directly at the GitHub API every 3 minutes — a direct dispatch starts almost immediately, unlike the internal schedule queue. `schedule:` stays in `cfd_trading.yml` only as a free fallback if the Worker ever goes down. See `cloudflare-worker/README.md` for one-time setup (requires your own GitHub token, set as a Cloudflare Worker secret — never committed).
+
 ## Two independent safety switches
 
 Both must be explicitly `"true"` — set only inside `cfd_trading.yml`, never anywhere else:
