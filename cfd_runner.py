@@ -1,8 +1,8 @@
 """
 IG CFD Trading Bot — Tick Runner
 
-Invoked roughly every 3 minutes by GitHub Actions (a nominal target -- GitHub
-doesn't guarantee sub-5-minute cron precision; see cfd_trading.yml). Each tick:
+Invoked roughly every 5 minutes by GitHub Actions (a nominal target -- GitHub
+doesn't guarantee precise cron timing; see cfd_trading.yml). Each tick:
   1. Kill-switch check.
   2. Connect to IG, fetch account state + our 4 tracked positions.
   3. Margin safety check: block ALL new opens account-wide if available
@@ -106,7 +106,7 @@ def _check_stop_breach_backstop(broker, positions: dict) -> list:
     this runs FIRST each tick and actively checks: has the current live price
     already moved past this position's own recorded stop level? If so, close
     it immediately at market rather than waiting -- don't let a loss run
-    further just because we're taking IG's word for it between our ~3-minute
+    further just because we're taking IG's word for it between our ~5-minute
     check-ins. Also force-closes anything that is somehow missing a stop_level
     entirely (should never happen given it's mandatory at open, but a naked
     position is exactly the scenario this exists to prevent). Returns the list

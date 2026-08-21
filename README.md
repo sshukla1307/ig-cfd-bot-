@@ -1,6 +1,6 @@
 # Live CFD Trading Bot — IG Account
 
-An autonomous GPT-4o agent (Aggressive persona) trading leveraged CFDs on a real IG account, focused exclusively on 3 instruments: **Brent Crude Oil, WTI Crude Oil, and Natural Gas**. Checks in roughly every 3 minutes whenever at least one of those markets is open. No paper simulation — every trade executes with real, leveraged capital, subject to a hard-coded rules firewall and two independent kill switches.
+An autonomous GPT-4o agent (Aggressive persona) trading leveraged CFDs on a real IG account, focused exclusively on 3 instruments: **Brent Crude Oil, WTI Crude Oil, and Natural Gas**. Checks in roughly every 5 minutes whenever at least one of those markets is open. No paper simulation — every trade executes with real, leveraged capital, subject to a hard-coded rules firewall and two independent kill switches.
 
 **Trading style**: both directions are treated as equally valid — the agent is explicitly told OPEN_SHORT is not a fallback, just as actionable as OPEN_LONG on a high-conviction bearish read. The house style favors fast, frequent, smaller profit-taking over holding out for a large swing — the agent is encouraged to proactively CLOSE a position once satisfied with a gain rather than only waiting on the passive take-profit level.
 
@@ -20,10 +20,10 @@ Confirmed working (2026-08-20, against IG demo account `SNDPM`):
 
 ## How it works
 
-Every ~3 minutes (Sun–Fri, `.github/workflows/cfd_trading.yml` — nominal target; GitHub Actions cron doesn't guarantee sub-5-minute precision) runs `python -m cfd_runner`, which:
+Every ~5 minutes (Sun–Fri, `.github/workflows/cfd_trading.yml` — nominal target; GitHub Actions cron doesn't guarantee precise timing) runs `python -m cfd_runner`, which:
 
 1. Connects to IG, fetches account state and the bot's 3 tracked positions.
-2. **Stop-breach backstop, runs before anything else**: for every open position, compares the CURRENT live price against that position's own recorded stop level (not IG's system-side stop, which is non-guaranteed and can slip in a fast move or gap). If price has already moved past the stop — or a stop is somehow missing entirely — force-closes it at market immediately, rather than waiting out the ~3-minute gap until the next check-in on the assumption IG's stop already fired.
+2. **Stop-breach backstop, runs before anything else**: for every open position, compares the CURRENT live price against that position's own recorded stop level (not IG's system-side stop, which is non-guaranteed and can slip in a fast move or gap). If price has already moved past the stop — or a stop is somehow missing entirely — force-closes it at market immediately, rather than waiting out the ~5-minute gap until the next check-in on the assumption IG's stop already fired.
 3. Checks each instrument's **live market status** directly from IG (not a hardcoded calendar) — commodity CFDs follow underlying futures session hours plus daily maintenance windows and weekend closures, unlike 24/5 forex. Any instrument not `TRADEABLE` right now is skipped.
 4. Blocks **all** new position opens account-wide if available margin has fallen below the safety buffer (default 30% of balance) — tracked as a *running* total across every trade processed in the same tick, not just a single stale pre-tick snapshot, so several individually-fine-looking opens in one tick can't collectively breach it. Also checked precisely per-trade: if that specific trade's own margin requirement would tip the running total under the buffer, it's rejected even if the tick started out healthy.
 5. Lets the agent decide (or hold) per instrument, using technicals (yfinance continuous futures), commodity-specific news (Brave), and macro context (FRED dollar index/VIX/10Y yield).
@@ -42,9 +42,9 @@ Every ~3 minutes (Sun–Fri, `.github/workflows/cfd_trading.yml` — nominal tar
 - **Max 3 concurrent positions** — one per instrument, matching the 3-instrument universe.
 - **Universe**: exactly 3 instruments (Brent Crude, WTI Crude, Natural Gas). Nothing else is tradable, by design — no watchlist scanning.
 
-## Real 3-minute cadence
+## On tick cadence
 
-GitHub's own `schedule:` cron is not reliable below ~5-minute intervals (silently delayed/throttled under load — confirmed in practice: observed gaps of 20–95 minutes despite a `*/3` cron string). Real 3-minute cadence comes from a **Cloudflare Worker Cron Trigger** (`cloudflare-worker/`) that fires a `repository_dispatch` event directly at the GitHub API every 3 minutes — a direct dispatch starts almost immediately, unlike the internal schedule queue. `schedule:` stays in `cfd_trading.yml` only as a free fallback if the Worker ever goes down. See `cloudflare-worker/README.md` for one-time setup (requires your own GitHub token, set as a Cloudflare Worker secret — never committed).
+GitHub's own `schedule:` cron is not perfectly reliable (can be delayed under load, confirmed in practice at sub-5-minute intervals), so treat 5 minutes as a nominal target, not a hard guarantee — actual spacing may occasionally drift wider. A true, precise 3-minute cadence would require an external pinger (e.g. a Cloudflare Worker Cron Trigger hitting the GitHub API directly) instead of relying on GitHub's internal scheduler, but that path was dropped in favor of keeping the setup simple — 5 minutes on GitHub's own scheduler is an acceptable tradeoff.
 
 ## Two independent safety switches
 
@@ -76,7 +76,7 @@ python meta_strategy.py
 
 ## Dashboard
 
-`index.html` reads `data/dashboard/*.json` and auto-refreshes every ~3 minutes. If hosted via GitHub Pages, the same caveat as any public trading bot applies: Pages on the free plan requires a public repo, and a public repo means the full trade/equity history is visible to anyone via the committed JSON/JSONL files, not just the dashboard view of them.
+`index.html` reads `data/dashboard/*.json` and auto-refreshes every ~5 minutes. If hosted via GitHub Pages, the same caveat as any public trading bot applies: Pages on the free plan requires a public repo, and a public repo means the full trade/equity history is visible to anyone via the committed JSON/JSONL files, not just the dashboard view of them.
 
 ## License
 MIT

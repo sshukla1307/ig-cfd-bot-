@@ -62,9 +62,9 @@ class SystemRules:
     stop_loss_required: bool = True
     take_profit_required: bool = True
     margin_safety_buffer_pct: float = 30.0  # block ALL new opens if available/balance < this %
-    min_tick_interval_minutes: int = 3  # NOTE: GitHub Actions cron doesn't guarantee sub-5-minute
-                                         # firing precision -- see cfd_trading.yml's comment. Treat
-                                         # this as the target/nominal cadence, not a hard guarantee.
+    min_tick_interval_minutes: int = 5  # NOTE: GitHub Actions cron doesn't guarantee precise
+                                         # firing -- see cfd_trading.yml's comment. Treat this as
+                                         # the target/nominal cadence, not a hard guarantee.
 
 
 RULES = SystemRules()
