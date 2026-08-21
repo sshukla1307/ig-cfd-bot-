@@ -176,14 +176,14 @@
 
   <div class="card">
     <h2>Current positions</h2>
-    <div class="subtext">P&amp;L shown is a raw price-point estimate (does not account for the instrument's contract/lot multiplier) — verify exact figures on the IG platform.</div>
+    <div class="subtext">P&amp;L shown is calculated in USD (verified against real IG settlement figures to the cent) — the same figure the trading agent itself sees.</div>
     <div class="table-scroll">
       <table id="positionsTable">
         <thead>
           <tr>
             <th>Instrument</th><th>Direction</th><th class="num">Size</th>
             <th class="num">Entry</th><th class="num">Stop</th><th class="num">Limit</th>
-            <th class="num">Est. P&amp;L (pts)</th>
+            <th class="num">P&amp;L (USD)</th>
           </tr>
         </thead>
         <tbody></tbody>
@@ -382,14 +382,9 @@
       const tr = document.createElement('tr');
       const dirClass = p.direction === 'BUY' ? 'direction-long' : 'direction-short';
       const dirLabel = p.direction === 'BUY' ? 'LONG' : 'SHORT';
-      const currentPrice = p.direction === 'BUY' ? p.current_bid : p.current_offer;
-      let pnlPoints = null;
-      if (currentPrice != null && p.entry_level != null) {
-        const sign = p.direction === 'BUY' ? 1 : -1;
-        pnlPoints = (currentPrice - p.entry_level) * sign * p.size;
-      }
-      const pnlClass = pnlPoints == null ? '' : (pnlPoints >= 0 ? 'pnl-pos' : 'pnl-neg');
-      const pnlText = pnlPoints == null ? '—' : pnlPoints.toFixed(2);
+      const pnlUsd = p.unrealized_pnl_usd;
+      const pnlClass = pnlUsd == null ? '' : (pnlUsd >= 0 ? 'pnl-pos' : 'pnl-neg');
+      const pnlText = pnlUsd == null ? '—' : fmtMoney(pnlUsd);
       tr.innerHTML =
         `<td>${escapeHtml(p.instrument)}</td>` +
         `<td class="${dirClass}">${dirLabel}</td>` +

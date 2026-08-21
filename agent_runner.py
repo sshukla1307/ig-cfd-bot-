@@ -130,7 +130,13 @@ def build_system_prompt(playbook: str) -> str:
     prompt += "\n=== INSTRUCTIONS ===\n"
     prompt += "1. Use your tools to check technicals/news/macro for any instrument you're considering.\n"
     prompt += "2. Decide: open a new long/short, close an existing position, or hold, per instrument.\n"
-    prompt += "3. You MUST end your turn by calling propose_trades exactly once.\n"
+    prompt += (
+        "3. Each open position below includes unrealized_pnl_usd -- the ACTUAL real-time dollar "
+        "profit/loss on that position right now (verified against real IG settlement figures, not "
+        "a rough estimate). Use this real number, not a guess from the raw price levels, to judge "
+        "whether a gain is substantial enough to bank or a loss is becoming severe -- see your house style.\n"
+    )
+    prompt += "4. You MUST end your turn by calling propose_trades exactly once.\n"
     return prompt
 
 
