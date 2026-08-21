@@ -54,8 +54,15 @@ class OpenAIClient:
             logger.warning("OPENAI_API_KEY not found. Agent will fail.")
 
     def _client(self):
+        import httpx
         import openai
-        return openai.OpenAI(api_key=self.api_key)
+        # Explicitly force HTTP/1.1 (httpx defaults to this anyway, but the
+        # persistent "Connection error." seen on GitHub Actions runners lines
+        # up with a known class of HTTP/2 send-side bug -- forcing http2=False
+        # here is a defensive, zero-cost guard against it ever being enabled,
+        # intentionally or via a future httpx/openai default change.
+        http_client = httpx.Client(http2=False)
+        return openai.OpenAI(api_key=self.api_key, http_client=http_client)
 
     def generate(self, system_prompt: str, user_prompt: str, tools: list, max_tool_calls: int = 10) -> str:
         client = self._client()
