@@ -105,6 +105,12 @@ class OpenAIClient:
                     model=self.model,
                     messages=messages,
                     tools=formatted_tools,
+                    tool_choice="required",  # never allow a free-text final answer --
+                    # a model that "concludes" by writing prose with the decision
+                    # embedded in a markdown code fence (a real failure seen in
+                    # production) is otherwise indistinguishable from one that
+                    # crashed; forcing a tool call every turn means it must always
+                    # call propose_trades to conclude, guaranteeing clean JSON.
                     temperature=0.0,
                     max_tokens=4096,
                     parallel_tool_calls=False,
