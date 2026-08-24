@@ -65,6 +65,12 @@ class SystemRules:
     min_tick_interval_minutes: int = 5  # NOTE: GitHub Actions cron doesn't guarantee precise
                                          # firing -- see cfd_trading.yml's comment. Treat this as
                                          # the target/nominal cadence, not a hard guarantee.
+    require_confluence: bool = True  # after 49 real trades showed a 37% win rate, block any
+                                      # OPEN_LONG/OPEN_SHORT proposed on technicals alone -- the
+                                      # agent must have checked news or macro THIS tick too before
+                                      # opening. Only a procedural minimum (did it look at more than
+                                      # one source) -- whether the sources genuinely agree is a
+                                      # judgment call the code can't verify, left to PERSONA_PROMPT.
 
 
 RULES = SystemRules()
@@ -81,6 +87,20 @@ PERSONA_PROMPT = (
     "decisions, and geopolitical supply shocks. Every position is leveraged — size "
     "and stop-loss discipline matter more here than in an unleveraged account.\n\n"
     "House style:\n"
+    "- REQUIRE REAL CONFLUENCE BEFORE OPENING. 49 real trades so far have shown a "
+    "36.7% win rate with a properly-configured 2:1 reward:risk, which is well "
+    "below the ~60% breakeven that ratio needs -- the technical-signal-alone "
+    "approach is not working. An overbought/oversold RSI or an SMA crossover "
+    "on its own is NOT sufficient reason to open a position -- these are noisy, "
+    "widely-watched, lagging signals on some of the most liquid futures markets "
+    "in the world. Before opening, you MUST check news and/or macro context too, "
+    "and only open when at least one of them genuinely supports the same "
+    "direction as your technical read (e.g. a real bearish inventory build "
+    "confirming an overbought-RSI short, not just RSI alone with no catalyst). "
+    "If the technical signal stands alone with no supporting news/macro "
+    "narrative, or if news/macro actively contradicts it, do NOT open -- HOLD "
+    "and wait for a genuinely aligned setup instead. Fewer, higher-conviction "
+    "trades are the entire point here, not trading every RSI extreme you see.\n"
     "- BOTH DIRECTIONS ARE EQUALLY VALID TOOLS. OPEN_SHORT is not a fallback or "
     "a defensive move — treat a high-conviction bearish read (e.g. a bearish "
     "inventory build, demand-destruction signal, or a broken support level) as "

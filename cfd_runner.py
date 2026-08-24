@@ -180,14 +180,20 @@ def _check_stop_breach_backstop(broker, positions: dict) -> list:
 
 
 def _validate_trade(trade: dict, account: dict, positions: dict, rules,
-                     running_available: float = None) -> tuple:
+                     running_available: float = None, checked_multiple_sources: bool = True) -> tuple:
     """running_available: the margin-safety check's source of truth for
     'available margin right now'. Pass this explicitly (rather than reading
     account['available'] directly) so the caller can track it as a running
     total across MULTIPLE trades processed in the same tick -- otherwise every
     proposed open in a tick gets checked against the same stale pre-tick
     snapshot, and several individually-fine-looking opens could collectively
-    breach the safety buffer. Defaults to account['available'] if omitted."""
+    breach the safety buffer. Defaults to account['available'] if omitted.
+
+    checked_multiple_sources: whether the agent called get_commodity_news
+    and/or get_macro THIS tick (see agent_runner.get_agent_trades) -- only a
+    procedural minimum for RULES.require_confluence, not a check that the
+    sources actually agree (that's a judgment call left to the agent's own
+    prompt). Only gates OPENs -- closing a position never needs new research."""
     if running_available is None:
         running_available = account["available"]
 
@@ -218,6 +224,11 @@ def _validate_trade(trade: dict, account: dict, positions: dict, rules,
             return False, "stop_loss_pct is mandatory"
         if not trade.get("take_profit_pct"):
             return False, "take_profit_pct is mandatory"
+        if rules.require_confluence and not checked_multiple_sources:
+            return False, (
+                "Confluence requirement not met: no news/macro was checked this tick -- "
+                "opening on a technical signal alone is blocked (see RULES.require_confluence)"
+            )
         if not _margin_headroom_ok(running_available, account["balance"], rules):
             return False, (
                 f"Margin safety buffer breached: available ${running_available:.2f} is below "
@@ -319,8 +330,9 @@ def run_cfd_tick():
     playbook = playbook_path.read_text(encoding="utf-8") if playbook_path.exists() else "Default strategy: maximize risk-adjusted returns on momentum and catalyst-driven moves."
 
     now_str = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    checked_multiple_sources = False
     try:
-        trades = get_agent_trades(playbook, portfolio_state, now_str)
+        trades, checked_multiple_sources = get_agent_trades(playbook, portfolio_state, now_str)
     except AgentCallFailed as e:
         # Fails SAFE (no trades this tick, same as a real HOLD would), but
         # logged loudly and distinctly in the audit trail/dashboard -- an
@@ -344,7 +356,8 @@ def run_cfd_tick():
             instrument = trade.get("instrument", "").upper()
             action = trade.get("action", "").upper()
 
-            ok, reason = _validate_trade(trade, account, positions, RULES, running_available=running_available)
+            ok, reason = _validate_trade(trade, account, positions, RULES, running_available=running_available,
+                                          checked_multiple_sources=checked_multiple_sources)
             if not ok:
                 _log_order_event({"action": action, "instrument": instrument, "status": "REJECTED", "reason": reason})
                 continue

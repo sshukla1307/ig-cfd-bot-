@@ -158,24 +158,33 @@ class AgentCallFailed(Exception):
     this account has run."""
 
 
-def get_agent_trades(playbook: str, portfolio_state: dict, now_str: str) -> list:
+def get_agent_trades(playbook: str, portfolio_state: dict, now_str: str) -> tuple:
+    """Returns (trades, checked_multiple_sources). checked_multiple_sources is
+    True iff the agent called get_commodity_news and/or get_macro this turn --
+    an objective, code-verifiable minimum for the confluence requirement (see
+    RULES.require_confluence in config.py), independent of whatever the agent
+    itself claims it considered."""
     client = OpenAIClient()
     sys_prompt = build_system_prompt(playbook)
     user_prompt = build_user_prompt(portfolio_state, now_str)
     tools = TOOLS + [PROPOSE_TRADES_SCHEMA]
+    tools_called = set()
 
     try:
-        result_json = client.generate(sys_prompt, user_prompt, tools, max_tool_calls=10)
+        result_json = client.generate(sys_prompt, user_prompt, tools, max_tool_calls=10,
+                                       tool_call_tracker=tools_called)
     except Exception as e:
         raise AgentCallFailed(f"OpenAI call crashed: {e}") from e
 
     if not result_json:
         raise AgentCallFailed("Agent responded without ever calling propose_trades (hit max tool calls or returned nothing)")
 
+    checked_multiple_sources = bool(tools_called & {"get_commodity_news", "get_macro"})
+
     try:
         data = json.loads(result_json)
         trades = data.get("trades", [])
         logger.info(f"Agent proposed {len(trades)} trades. Notes: {data.get('notes', '')}")
-        return trades
+        return trades, checked_multiple_sources
     except json.JSONDecodeError:
         raise AgentCallFailed(f"Agent returned invalid JSON: {result_json}")

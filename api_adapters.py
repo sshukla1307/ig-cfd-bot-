@@ -64,7 +64,12 @@ class OpenAIClient:
         http_client = httpx.Client(http2=False)
         return openai.OpenAI(api_key=self.api_key, http_client=http_client)
 
-    def generate(self, system_prompt: str, user_prompt: str, tools: list, max_tool_calls: int = 10) -> str:
+    def generate(self, system_prompt: str, user_prompt: str, tools: list, max_tool_calls: int = 10,
+                 tool_call_tracker: set = None) -> str:
+        """tool_call_tracker: if provided, every non-propose_trades tool name
+        called during this turn is added to it -- lets the caller verify e.g.
+        "did the agent actually check news/macro before opening" objectively,
+        rather than trusting the agent's own account of what it considered."""
         client = self._client()
         messages = [
             {"role": "system", "content": system_prompt},
@@ -133,6 +138,8 @@ class OpenAIClient:
                 return tool_call.function.arguments
 
             call_count += 1
+            if tool_call_tracker is not None:
+                tool_call_tracker.add(func_name)
             logger.info(f"Agent called {func_name}({args})")
             result = execute_tool(func_name, args)
             messages.append({
