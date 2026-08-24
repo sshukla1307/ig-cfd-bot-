@@ -88,6 +88,17 @@ TOOLS = [
             "required": ["instrument"],
         },
     },
+    {
+        "name": "get_weather_demand",
+        "description": "Get real, current national weather-driven demand for Natural Gas -- heating degree days (winter demand) and cooling degree days (summer A/C-driven power-gen demand), with the recent trend. NATURAL_GAS only. A real-time signal, not the static calendar-only proxy get_seasonality uses.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "instrument": {"type": "string", "enum": ["NATURAL_GAS"]},
+            },
+            "required": ["instrument"],
+        },
+    },
 ]
 
 PROPOSE_TRADES_SCHEMA = {
@@ -183,9 +194,12 @@ def build_system_prompt(playbook: str) -> str:
         "1. Use your tools to check technicals/news/macro for any instrument you're considering. "
         "You also have get_seasonality (deterministic calendar-based demand bias), get_term_structure "
         "(contango/backwardation -- the market's own forward supply/demand expectation, a genuinely "
-        "different signal from spot technicals), and get_positioning_data (CFTC managed-money "
+        "different signal from spot technicals), get_positioning_data (CFTC managed-money "
         "positioning vs its trailing-year range for WTI/Natural Gas only, not Brent -- extreme crowding "
-        "is a real contrarian signal). Be efficient: you have a limited number of tool calls "
+        "is a real contrarian signal), and get_weather_demand (real, current heating/cooling degree-day "
+        "data for Natural Gas -- prefer this over get_seasonality's static calendar proxy when deciding "
+        "on NG, it's the actual current weather driving demand, not just what month it is). "
+        "Be efficient: you have a limited number of tool calls "
         "per check-in -- don't exhaustively check every tool for every instrument if you're not seriously "
         "considering a trade there. Focus deep research on the 1-2 instruments you're actually weighing, "
         "and you MUST leave room to call propose_trades before running out -- hitting the limit without "
@@ -247,7 +261,8 @@ def get_agent_trades(playbook: str, portfolio_state: dict, now_str: str) -> tupl
         raise AgentCallFailed("Agent responded without ever calling propose_trades (hit max tool calls or returned nothing)")
 
     checked_multiple_sources = bool(tools_called & {
-        "get_commodity_news", "get_macro", "get_seasonality", "get_term_structure", "get_positioning_data",
+        "get_commodity_news", "get_macro", "get_seasonality", "get_term_structure",
+        "get_positioning_data", "get_weather_demand",
     })
 
     try:

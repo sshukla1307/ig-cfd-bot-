@@ -383,3 +383,80 @@ def get_positioning_data(instrument: str) -> dict:
     except Exception as e:
         logger.warning(f"get_positioning_data({instrument}) failed: {e}")
         return {"instrument": instrument, "contract": label, "error": str(e)}
+
+
+# NOAA CPC's public degree-day text files -- free, no API key at all. Real
+# current weather data, not the static calendar-only proxy get_seasonality
+# uses. Verified working directly (curl'd real data before writing this).
+_NOAA_HEATING_URL = "https://ftp.cpc.ncep.noaa.gov/htdocs/degree_days/weighted/daily_data/{year}/UtilityGas.Heating.txt"
+_NOAA_COOLING_URL = "https://ftp.cpc.ncep.noaa.gov/htdocs/degree_days/weighted/daily_data/{year}/Population.Cooling.txt"
+
+
+def _fetch_noaa_conus_series(url: str) -> dict:
+    """Parses a NOAA CPC degree-day text file into {date_str: value} for the
+    national (CONUS) row. Finds the header/CONUS rows by content rather than
+    fixed line numbers, so it isn't fragile to incidental format changes."""
+    with httpx.Client(timeout=15.0) as client:
+        resp = client.get(url)
+    resp.raise_for_status()
+    dates, values = None, None
+    for line in resp.text.strip().splitlines():
+        if line.startswith("Region|"):
+            dates = line.split("|")[1:]
+        elif line.startswith("CONUS|"):
+            values = [int(v) for v in line.split("|")[1:]]
+    if not dates or not values:
+        raise ValueError("Could not find Region header or CONUS row in NOAA data")
+    return dict(zip(dates, values))
+
+
+def get_weather_demand(instrument: str) -> dict:
+    """Real, current national weather-driven demand for Natural Gas --
+    utility-gas-weighted Heating Degree Days (direct residential/commercial
+    heating demand) and population-weighted Cooling Degree Days (a proxy for
+    A/C-driven power-generation gas demand in summer). A genuinely different,
+    real-time signal from get_seasonality's static calendar-only proxy.
+    NATURAL_GAS only -- not meaningfully applicable to oil."""
+    if instrument != "NATURAL_GAS":
+        return {"instrument": instrument, "error": "Weather demand data only applies to NATURAL_GAS"}
+
+    def recent_trend(series: dict) -> dict:
+        dates_sorted = sorted(series.keys())
+        recent_7 = [series[d] for d in dates_sorted[-7:]]
+        prior_7 = [series[d] for d in dates_sorted[-14:-7]]
+        recent_avg = sum(recent_7) / len(recent_7) if recent_7 else None
+        prior_avg = sum(prior_7) / len(prior_7) if prior_7 else None
+        if recent_avg is not None and prior_avg is not None and prior_avg > 0:
+            trend = "rising" if recent_avg > prior_avg * 1.1 else ("falling" if recent_avg < prior_avg * 0.9 else "stable")
+        else:
+            trend = "stable"
+        return {
+            "latest_date": dates_sorted[-1], "latest_value": series[dates_sorted[-1]],
+            "trailing_7day_avg": round(recent_avg, 1) if recent_avg is not None else None,
+            "prior_7day_avg": round(prior_avg, 1) if prior_avg is not None else None,
+            "trend": trend,
+        }
+
+    try:
+        year = datetime.now().year
+        heating = recent_trend(_fetch_noaa_conus_series(_NOAA_HEATING_URL.format(year=year)))
+        cooling = recent_trend(_fetch_noaa_conus_series(_NOAA_COOLING_URL.format(year=year)))
+
+        if heating["latest_value"] > 15 and heating["trend"] == "rising":
+            interpretation = "Heating demand is elevated and rising -- bullish for NG"
+        elif cooling["latest_value"] > 15 and cooling["trend"] == "rising":
+            interpretation = "Cooling-driven power-generation demand is elevated and rising -- mildly bullish for NG"
+        elif heating["latest_value"] < 5 and cooling["latest_value"] < 5:
+            interpretation = "Neither heating nor cooling demand is significant right now -- shoulder-season conditions, bearish/neutral for NG"
+        else:
+            interpretation = "Weather-driven demand is moderate -- no strong signal either way"
+
+        return {
+            "instrument": instrument,
+            "heating_degree_days": heating,
+            "cooling_degree_days": cooling,
+            "interpretation": interpretation,
+        }
+    except Exception as e:
+        logger.warning(f"get_weather_demand({instrument}) failed: {e}")
+        return {"instrument": instrument, "error": str(e)}
