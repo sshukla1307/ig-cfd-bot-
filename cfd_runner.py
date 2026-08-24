@@ -58,6 +58,43 @@ def _log_order_event(event: dict):
     logger.warning(f"[IG-CFD] {event}")
 
 
+def _get_last_close_info(order_log_path: Path) -> dict:
+    """Returns {instrument: {"direction": original_direction, "logged_at": iso_str,
+    "is_loss": bool}} for the most recent submitted CLOSE per instrument, read
+    from the append-only audit log (no separate state file needed). Used by
+    the same-direction cooldown: a real, observed pattern of re-shorting an
+    instrument into a strong trend immediately after being stopped out on the
+    exact same thesis, repeatedly. Missing/older entries (logged before
+    "original_direction" was added) are simply skipped -- fails permissive,
+    not unsafe, since the worst case is just not cooling down."""
+    last_close = {}
+    if not order_log_path.exists():
+        return last_close
+    with open(order_log_path) as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                d = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if d.get("action") != "CLOSE" or d.get("status") != "submitted":
+                continue
+            instrument = d.get("instrument")
+            direction = d.get("original_direction")
+            logged_at = d.get("logged_at")
+            if not (instrument and direction and logged_at):
+                continue
+            profit = d.get("raw", {}).get("profit")
+            last_close[instrument] = {
+                "direction": direction,
+                "logged_at": logged_at,
+                "is_loss": (profit is not None and profit <= 0),
+            }
+    return last_close
+
+
 def _compute_position_size(equity: float, allocation_pct: float, snapshot: dict,
                             max_leverage_multiple: float, min_deal_size: float):
     """Returns (size, margin_allocated, effective_leverage, notional) or
@@ -180,7 +217,8 @@ def _check_stop_breach_backstop(broker, positions: dict) -> list:
 
 
 def _validate_trade(trade: dict, account: dict, positions: dict, rules,
-                     running_available: float = None, checked_multiple_sources: bool = True) -> tuple:
+                     running_available: float = None, checked_multiple_sources: bool = True,
+                     last_close_info: dict = None) -> tuple:
     """running_available: the margin-safety check's source of truth for
     'available margin right now'. Pass this explicitly (rather than reading
     account['available'] directly) so the caller can track it as a running
@@ -193,7 +231,13 @@ def _validate_trade(trade: dict, account: dict, positions: dict, rules,
     and/or get_macro THIS tick (see agent_runner.get_agent_trades) -- only a
     procedural minimum for RULES.require_confluence, not a check that the
     sources actually agree (that's a judgment call left to the agent's own
-    prompt). Only gates OPENs -- closing a position never needs new research."""
+    prompt). Only gates OPENs -- closing a position never needs new research.
+
+    last_close_info: {instrument: {direction, logged_at, is_loss}} from
+    _get_last_close_info -- blocks re-opening the SAME direction on an
+    instrument within RULES.same_direction_cooldown_minutes of a LOSING close
+    there (a real, observed pattern: re-shorting into a strong uptrend
+    immediately after each stop-out, 3 times in ~90 minutes)."""
     if running_available is None:
         running_available = account["available"]
 
@@ -229,6 +273,18 @@ def _validate_trade(trade: dict, account: dict, positions: dict, rules,
                 "Confluence requirement not met: no news/macro was checked this tick -- "
                 "opening on a technical signal alone is blocked (see RULES.require_confluence)"
             )
+        if last_close_info and instrument in last_close_info:
+            lc = last_close_info[instrument]
+            proposed_direction = "BUY" if action == "OPEN_LONG" else "SELL"
+            if lc["is_loss"] and proposed_direction == lc["direction"]:
+                minutes_since = (datetime.now(timezone.utc) - datetime.fromisoformat(lc["logged_at"])).total_seconds() / 60
+                if minutes_since < rules.same_direction_cooldown_minutes:
+                    return False, (
+                        f"Same-direction cooldown: {instrument} was closed at a loss "
+                        f"{minutes_since:.0f} min ago in this same direction ({proposed_direction}) -- "
+                        f"blocked for {rules.same_direction_cooldown_minutes} min to avoid immediately "
+                        f"re-entering a thesis that just failed"
+                    )
         if not _margin_headroom_ok(running_available, account["balance"], rules):
             return False, (
                 f"Margin safety buffer breached: available ${running_available:.2f} is below "
@@ -351,13 +407,15 @@ def run_cfd_tick():
         # several positions at once (more likely now that both directions are
         # actively encouraged) -- see _validate_trade's docstring.
         running_available = account["available"]
+        last_close_info = _get_last_close_info(DATA_DIR / "order_log.jsonl")
 
         for trade in trades:
             instrument = trade.get("instrument", "").upper()
             action = trade.get("action", "").upper()
 
             ok, reason = _validate_trade(trade, account, positions, RULES, running_available=running_available,
-                                          checked_multiple_sources=checked_multiple_sources)
+                                          checked_multiple_sources=checked_multiple_sources,
+                                          last_close_info=last_close_info)
             if not ok:
                 _log_order_event({"action": action, "instrument": instrument, "status": "REJECTED", "reason": reason})
                 continue
@@ -425,6 +483,10 @@ def run_cfd_tick():
                 )
                 _log_order_event({
                     "action": "CLOSE", "instrument": instrument, "deal_id": pos["deal_id"],
+                    # original_direction (not the closing/reversed direction inside **result) is
+                    # what the same-direction cooldown check needs to detect "re-opening the exact
+                    # thesis that just lost" -- see _get_last_close_info.
+                    "original_direction": pos["direction"],
                     "reason": trade.get("reason", ""), **result,
                 })
 

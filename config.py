@@ -71,6 +71,13 @@ class SystemRules:
                                       # opening. Only a procedural minimum (did it look at more than
                                       # one source) -- whether the sources genuinely agree is a
                                       # judgment call the code can't verify, left to PERSONA_PROMPT.
+    same_direction_cooldown_minutes: int = 60  # after a real, observed pattern of re-shorting Brent/
+                                                # WTI into a strong uptrend 3 times in ~90 minutes right
+                                                # after each stop-out, using a vague "news suggests a
+                                                # decline" headline to satisfy confluence each time --
+                                                # blocks re-opening the SAME direction on an instrument
+                                                # within this many minutes of a LOSING close there. A
+                                                # different direction, or enough elapsed time, is fine.
 
 
 RULES = SystemRules()
