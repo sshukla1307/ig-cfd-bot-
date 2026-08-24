@@ -96,31 +96,36 @@ PROPOSE_TRADES_SCHEMA = {
                 "maxItems": 4,
                 "items": {
                     "type": "object",
-                    "required": ["action", "instrument", "reason"],
+                    "required": ["action", "reason"],
                     "properties": {
                         "action": {
                             "type": "string",
-                            "enum": ["OPEN_LONG", "OPEN_SHORT", "CLOSE"],
-                            "description": "OPEN_LONG/OPEN_SHORT open a new position (rejected if one is already open on this instrument). CLOSE fully closes an existing position, whichever direction it is.",
+                            "enum": ["OPEN_LONG", "OPEN_SHORT", "OPEN_SPREAD", "CLOSE"],
+                            "description": "OPEN_LONG/OPEN_SHORT open a new single-instrument position (rejected if one is already open on that instrument). OPEN_SPREAD opens a Brent-vs-WTI spread: long one, short the other, sized to roughly matched notional -- BRENT_OIL and WTI_OIL only, both legs must be free. CLOSE fully closes an existing position on one instrument, whichever direction it is (close each leg of a spread separately, or both).",
                         },
-                        "instrument": {"type": "string", "enum": INSTRUMENT_KEYS},
+                        "instrument": {"type": "string", "enum": INSTRUMENT_KEYS,
+                                       "description": "Required for OPEN_LONG/OPEN_SHORT/CLOSE. Not used for OPEN_SPREAD (use long_instrument/short_instrument instead)."},
+                        "long_instrument": {"type": "string", "enum": ["BRENT_OIL", "WTI_OIL"],
+                                            "description": "OPEN_SPREAD only: which of the two goes long."},
+                        "short_instrument": {"type": "string", "enum": ["BRENT_OIL", "WTI_OIL"],
+                                             "description": "OPEN_SPREAD only: which of the two goes short. Must be the OTHER one from long_instrument."},
                         "allocation_pct": {
                             "type": "number",
                             "minimum": RULES.min_allocation_pct,
                             "maximum": RULES.max_allocation_pct,
-                            "description": "For OPEN_LONG/OPEN_SHORT only: % of account equity to allocate as margin for this position.",
+                            "description": "For OPEN_LONG/OPEN_SHORT/OPEN_SPREAD: % of account equity to allocate as margin. For OPEN_SPREAD this is the COMBINED total across both legs (split evenly), not per-leg.",
                         },
                         "stop_loss_pct": {
                             "type": "number",
                             "minimum": 1,
                             "maximum": 50,
-                            "description": "For OPEN_LONG/OPEN_SHORT only: % adverse price move from entry that triggers the stop. Mandatory.",
+                            "description": "For OPEN_LONG/OPEN_SHORT/OPEN_SPREAD: % adverse price move from entry that triggers the stop (applied per-leg for OPEN_SPREAD). Mandatory.",
                         },
                         "take_profit_pct": {
                             "type": "number",
                             "minimum": 1,
                             "maximum": 200,
-                            "description": "For OPEN_LONG/OPEN_SHORT only: % favorable price move from entry that triggers the take-profit. Mandatory.",
+                            "description": "For OPEN_LONG/OPEN_SHORT/OPEN_SPREAD: % favorable price move from entry that triggers the take-profit (applied per-leg for OPEN_SPREAD). Mandatory.",
                         },
                         "reason": {"type": "string", "minLength": 10},
                     },
@@ -136,9 +141,15 @@ def build_system_prompt(playbook: str) -> str:
     prompt = f"YOU ARE A LIVE IG CFD TRADING AGENT.\n\n"
     prompt += "=== SYSTEM RULES (enforced by code, not by you) ===\n"
     prompt += f"- Position sizing: {RULES.min_allocation_pct}-{RULES.max_allocation_pct}% of account equity (as margin) per position\n"
-    prompt += f"- Max {RULES.max_positions} concurrent positions (one per instrument, {RULES.max_positions} instruments total)\n"
+    prompt += f"- Max {RULES.max_positions} concurrent positions (one per instrument, {RULES.max_positions} instruments total). OPEN_SPREAD uses 2 of these 3 slots (one for each leg).\n"
     prompt += f"- Hard leverage cap: {RULES.max_leverage_multiple}x notional exposure per unit of margin allocated, regardless of what IG's own margin factor for the instrument would otherwise permit\n"
-    prompt += "- Every OPEN_LONG/OPEN_SHORT MUST include both stop_loss_pct and take_profit_pct -- both mandatory, no exceptions\n"
+    prompt += "- Every OPEN_LONG/OPEN_SHORT/OPEN_SPREAD MUST include both stop_loss_pct and take_profit_pct -- both mandatory, no exceptions\n"
+    prompt += (
+        "- OPEN_SPREAD (long one of Brent/WTI, short the other) is an ALL-OR-NOTHING atomic pair: "
+        "if one leg fails after the other already opened, the first leg is immediately closed back out "
+        "rather than leaving you with an unintended naked single-leg position. Both legs must be free "
+        "(no existing position on either Brent or WTI) to propose one.\n"
+    )
     prompt += f"- If available margin drops below {RULES.margin_safety_buffer_pct}% of account balance, ALL new opens are blocked account-wide until it recovers\n\n"
 
     prompt += "=== YOUR PERSONA ===\n"

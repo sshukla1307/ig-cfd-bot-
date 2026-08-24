@@ -298,6 +298,71 @@ def _validate_trade(trade: dict, account: dict, positions: dict, rules,
     return True, "OK"
 
 
+def _validate_spread_trade(trade: dict, account: dict, positions: dict, rules,
+                            running_available: float = None, checked_multiple_sources: bool = True,
+                            last_close_info: dict = None) -> tuple:
+    """Validates OPEN_SPREAD (long one of Brent/WTI, short the other) --
+    reuses the exact same rules as a single-instrument open (confluence,
+    per-leg same-direction cooldown, allocation bounds, mandatory stop/limit,
+    margin safety) but checks BOTH legs, since a spread is really just two
+    ordinary IG positions we treat as a linked pair at our own bookkeeping
+    layer -- IG itself has no concept of "spread" here."""
+    if running_available is None:
+        running_available = account["available"]
+
+    long_instrument = (trade.get("long_instrument") or "").upper()
+    short_instrument = (trade.get("short_instrument") or "").upper()
+
+    valid_pair = {"BRENT_OIL", "WTI_OIL"}
+    if {long_instrument, short_instrument} != valid_pair:
+        return False, (
+            f"OPEN_SPREAD requires long_instrument and short_instrument to be BRENT_OIL and WTI_OIL "
+            f"(in either order) -- got long={long_instrument!r} short={short_instrument!r}"
+        )
+
+    if positions.get(long_instrument):
+        return False, f"{long_instrument} already has an open position -- both spread legs must be free"
+    if positions.get(short_instrument):
+        return False, f"{short_instrument} already has an open position -- both spread legs must be free"
+
+    if len(positions) + 2 > rules.max_positions:
+        return False, f"Max positions ({rules.max_positions}) would be exceeded by opening both spread legs"
+
+    allocation_pct = trade.get("allocation_pct", 0)
+    if allocation_pct < rules.min_allocation_pct or allocation_pct > rules.max_allocation_pct:
+        return False, f"Allocation {allocation_pct}% outside [{rules.min_allocation_pct}, {rules.max_allocation_pct}]%"
+    if not trade.get("stop_loss_pct"):
+        return False, "stop_loss_pct is mandatory"
+    if not trade.get("take_profit_pct"):
+        return False, "take_profit_pct is mandatory"
+    if rules.require_confluence and not checked_multiple_sources:
+        return False, (
+            "Confluence requirement not met: no news/macro/seasonality/term-structure/inventory data "
+            "was checked this tick -- opening on a technical signal alone is blocked"
+        )
+
+    for instrument, direction in ((long_instrument, "BUY"), (short_instrument, "SELL")):
+        if last_close_info and instrument in last_close_info:
+            lc = last_close_info[instrument]
+            if lc["is_loss"] and direction == lc["direction"]:
+                minutes_since = (datetime.now(timezone.utc) - datetime.fromisoformat(lc["logged_at"])).total_seconds() / 60
+                if minutes_since < rules.same_direction_cooldown_minutes:
+                    return False, (
+                        f"Same-direction cooldown: {instrument} was closed at a loss "
+                        f"{minutes_since:.0f} min ago in this same direction ({direction}) -- "
+                        f"blocked for {rules.same_direction_cooldown_minutes} min"
+                    )
+
+    if not _margin_headroom_ok(running_available, account["balance"], rules):
+        return False, (
+            f"Margin safety buffer breached: available ${running_available:.2f} is below "
+            f"{rules.margin_safety_buffer_pct}% of balance ${account['balance']:.2f} -- "
+            f"all new opens blocked account-wide until margin recovers"
+        )
+
+    return True, "OK"
+
+
 def run_cfd_tick():
     enabled = os.getenv("IG_LIVE_TRADING_ENABLED", "").lower() == "true"
     if not enabled:
@@ -410,8 +475,113 @@ def run_cfd_tick():
         last_close_info = _get_last_close_info(DATA_DIR / "order_log.jsonl")
 
         for trade in trades:
-            instrument = trade.get("instrument", "").upper()
             action = trade.get("action", "").upper()
+
+            if action == "OPEN_SPREAD":
+                long_instrument = (trade.get("long_instrument") or "").upper()
+                short_instrument = (trade.get("short_instrument") or "").upper()
+
+                ok, reason = _validate_spread_trade(trade, account, positions, RULES, running_available=running_available,
+                                                     checked_multiple_sources=checked_multiple_sources,
+                                                     last_close_info=last_close_info)
+                if not ok:
+                    _log_order_event({"action": action, "long_instrument": long_instrument, "short_instrument": short_instrument,
+                                       "status": "REJECTED", "reason": reason})
+                    continue
+
+                long_snapshot = snapshots.get(long_instrument)
+                short_snapshot = snapshots.get(short_instrument)
+                if not broker.is_tradeable(long_snapshot) or not broker.is_tradeable(short_snapshot):
+                    _log_order_event({"action": action, "long_instrument": long_instrument, "short_instrument": short_instrument,
+                                       "status": "REJECTED", "reason": "One or both legs' market no longer tradeable"})
+                    continue
+
+                half_alloc = trade["allocation_pct"] / 2
+                long_inst_cfg = INSTRUMENTS[long_instrument]
+                short_inst_cfg = INSTRUMENTS[short_instrument]
+
+                long_sizing, long_err = _compute_position_size(
+                    account["balance"], half_alloc, long_snapshot, RULES.max_leverage_multiple, long_inst_cfg.min_deal_size,
+                )
+                short_sizing, short_err = _compute_position_size(
+                    account["balance"], half_alloc, short_snapshot, RULES.max_leverage_multiple, short_inst_cfg.min_deal_size,
+                )
+                if long_err or short_err:
+                    _log_order_event({"action": action, "long_instrument": long_instrument, "short_instrument": short_instrument,
+                                       "status": "REJECTED", "reason": f"Sizing failed: long={long_err}, short={short_err}"})
+                    continue
+
+                combined_margin = long_sizing["margin_allocated"] + short_sizing["margin_allocated"]
+                projected_available = running_available - combined_margin
+                if not _margin_headroom_ok(projected_available, account["balance"], RULES):
+                    _log_order_event({
+                        "action": action, "long_instrument": long_instrument, "short_instrument": short_instrument,
+                        "status": "REJECTED",
+                        "reason": (
+                            f"Combined spread margin (${combined_margin:.2f}) would leave available at "
+                            f"${projected_available:.2f}, below the {RULES.margin_safety_buffer_pct}% safety buffer"
+                        ),
+                    })
+                    continue
+
+                # Open the LONG leg first.
+                long_price = long_sizing["price"]
+                long_stop_distance = round(long_price * (trade["stop_loss_pct"] / 100), 4)
+                long_limit_distance = round(long_price * (trade["take_profit_pct"] / 100), 4)
+                long_result = broker.open_position(
+                    epic=long_inst_cfg.epic, direction="BUY", size=long_sizing["size"],
+                    stop_distance=long_stop_distance, limit_distance=long_limit_distance,
+                    currency_code=account["currency"], expiry=long_snapshot.get("expiry", "-"),
+                )
+                _log_order_event({
+                    "action": "OPEN_SPREAD_LEG", "instrument": long_instrument, "direction": "BUY",
+                    "size": long_sizing["size"], "margin_allocated": long_sizing["margin_allocated"],
+                    "notional": long_sizing["notional"], "stop_distance": long_stop_distance, "limit_distance": long_limit_distance,
+                    "reason": trade.get("reason", ""), **long_result,
+                })
+                if long_result["status"] != "submitted":
+                    # Long leg itself failed -- nothing to roll back yet.
+                    continue
+
+                # Now the SHORT leg.
+                short_price = short_sizing["price"]
+                short_stop_distance = round(short_price * (trade["stop_loss_pct"] / 100), 4)
+                short_limit_distance = round(short_price * (trade["take_profit_pct"] / 100), 4)
+                short_result = broker.open_position(
+                    epic=short_inst_cfg.epic, direction="SELL", size=short_sizing["size"],
+                    stop_distance=short_stop_distance, limit_distance=short_limit_distance,
+                    currency_code=account["currency"], expiry=short_snapshot.get("expiry", "-"),
+                )
+                _log_order_event({
+                    "action": "OPEN_SPREAD_LEG", "instrument": short_instrument, "direction": "SELL",
+                    "size": short_sizing["size"], "margin_allocated": short_sizing["margin_allocated"],
+                    "notional": short_sizing["notional"], "stop_distance": short_stop_distance, "limit_distance": short_limit_distance,
+                    "reason": trade.get("reason", ""), **short_result,
+                })
+
+                if short_result["status"] == "submitted":
+                    running_available -= combined_margin
+                else:
+                    # SHORT leg failed after LONG already succeeded -- roll back
+                    # the long leg immediately rather than leaving an unintended
+                    # naked directional position. This is the entire point of
+                    # building spreads carefully rather than as two independent
+                    # opens that happen to land in the same tick.
+                    rollback_result = broker.close_position(
+                        deal_id=long_result["deal_id"], direction="BUY", epic=long_inst_cfg.epic,
+                        size=long_sizing["size"], expiry=long_snapshot.get("expiry", "-"),
+                    )
+                    _log_order_event({
+                        "action": "SPREAD_ROLLBACK", "instrument": long_instrument,
+                        "reason": (
+                            f"Short leg ({short_instrument}) failed after long leg ({long_instrument}) succeeded -- "
+                            f"closing the long leg immediately to avoid an unintended naked directional position."
+                        ),
+                        **rollback_result,
+                    })
+                continue
+
+            instrument = trade.get("instrument", "").upper()
 
             ok, reason = _validate_trade(trade, account, positions, RULES, running_available=running_available,
                                           checked_multiple_sources=checked_multiple_sources,
