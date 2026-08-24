@@ -48,6 +48,39 @@ TOOLS = [
         "description": "Get US dollar index, VIX, and 10Y Treasury yield -- macro context that moves commodity prices.",
         "parameters": {"type": "object", "properties": {}},
     },
+    {
+        "name": "get_seasonality",
+        "description": "Get the calendar-based seasonal demand bias for an instrument (e.g. NG winter heating withdrawal season vs summer injection season). Deterministic, always available.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "instrument": {"type": "string", "enum": INSTRUMENT_KEYS},
+            },
+            "required": ["instrument"],
+        },
+    },
+    {
+        "name": "get_term_structure",
+        "description": "Get the futures term structure (contango vs backwardation) for an instrument -- compares the near-month price to a dated contract ~3 months out. Reflects the market's own forward supply/demand expectation, a different signal from spot technicals.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "instrument": {"type": "string", "enum": INSTRUMENT_KEYS},
+            },
+            "required": ["instrument"],
+        },
+    },
+    {
+        "name": "get_inventory_data",
+        "description": "Get the real week-over-week EIA inventory change (build/draw) for an instrument, compared to its trailing 8-week average -- structured data on the actual magnitude of the latest report, not just a news search confirming one happened.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "instrument": {"type": "string", "enum": INSTRUMENT_KEYS},
+            },
+            "required": ["instrument"],
+        },
+    },
 ]
 
 PROPOSE_TRADES_SCHEMA = {
@@ -128,7 +161,15 @@ def build_system_prompt(playbook: str) -> str:
     )
 
     prompt += "\n=== INSTRUCTIONS ===\n"
-    prompt += "1. Use your tools to check technicals/news/macro for any instrument you're considering.\n"
+    prompt += (
+        "1. Use your tools to check technicals/news/macro for any instrument you're considering. "
+        "You also have get_seasonality (deterministic calendar-based demand bias), get_term_structure "
+        "(contango/backwardation -- the market's own forward supply/demand expectation, a genuinely "
+        "different signal from spot technicals), and get_inventory_data (real week-over-week EIA "
+        "inventory change vs its trailing average, more structured than a news headline search). "
+        "Prefer these over a generic news search when deciding whether your technical read has real "
+        "confluence -- they're structured data, not just a headline that happens to use the right words.\n"
+    )
     prompt += "2. Decide: open a new long/short, close an existing position, or hold, per instrument.\n"
     prompt += (
         "3. Each open position below includes unrealized_pnl_usd -- the ACTUAL real-time dollar "
@@ -179,7 +220,9 @@ def get_agent_trades(playbook: str, portfolio_state: dict, now_str: str) -> tupl
     if not result_json:
         raise AgentCallFailed("Agent responded without ever calling propose_trades (hit max tool calls or returned nothing)")
 
-    checked_multiple_sources = bool(tools_called & {"get_commodity_news", "get_macro"})
+    checked_multiple_sources = bool(tools_called & {
+        "get_commodity_news", "get_macro", "get_seasonality", "get_term_structure", "get_inventory_data",
+    })
 
     try:
         data = json.loads(result_json)

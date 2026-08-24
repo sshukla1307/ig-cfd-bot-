@@ -86,7 +86,8 @@ class OpenAIClient:
             return response.choices[0].message.content or ""
 
         formatted_tools = [{"type": "function", "function": t} for t in tools]
-        from market_data import get_technicals, get_commodity_news, get_macro
+        from market_data import (get_technicals, get_commodity_news, get_macro,
+                                  get_seasonality, get_term_structure, get_inventory_data)
         from config import YFINANCE_TICKERS
 
         def execute_tool(name: str, args: dict) -> dict:
@@ -100,6 +101,12 @@ class OpenAIClient:
                 return get_commodity_news(args.get("query", ""), count=args.get("count", 5))
             if name == "get_macro":
                 return get_macro()
+            if name == "get_seasonality":
+                return get_seasonality(args.get("instrument"))
+            if name == "get_term_structure":
+                return get_term_structure(args.get("instrument"))
+            if name == "get_inventory_data":
+                return get_inventory_data(args.get("instrument"))
             return {"error": f"Unknown tool: {name}"}
 
         call_count = 0

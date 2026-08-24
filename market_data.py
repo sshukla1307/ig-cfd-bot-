@@ -20,6 +20,125 @@ import httpx
 
 logger = logging.getLogger(__name__)
 
+# NYMEX/futures month codes: Jan=F Feb=G Mar=H Apr=J May=K Jun=M Jul=N Aug=Q Sep=U Oct=V Nov=X Dec=Z
+_MONTH_CODES = "FGHJKMNQUVXZ"
+
+# Root symbols for dated futures contracts (front-month continuous ticker is
+# in config.YFINANCE_TICKERS -- this is the SAME underlying, just for
+# constructing a specific expiry's ticker for term-structure comparison).
+_DATED_CONTRACT_ROOT = {
+    "BRENT_OIL": "BZ",
+    "WTI_OIL": "CL",
+    "NATURAL_GAS": "NG",
+}
+
+
+def _dated_futures_ticker(root: str, months_out: int) -> str:
+    """Builds a Yahoo Finance dated-contract ticker N months out (e.g. CLX26.NYM).
+    Empirically verified against yfinance -- the near-term month can occasionally
+    already be expired/delisted close to roll dates, so callers should use a
+    few months out (3+) for reliability, not the very next calendar month."""
+    now = datetime.now()
+    total_month_index = (now.year * 12 + (now.month - 1)) + months_out
+    year = total_month_index // 12
+    month_idx = total_month_index % 12  # 0-11
+    code = _MONTH_CODES[month_idx]
+    yy = str(year)[-2:]
+    return f"{root}{code}{yy}.NYM"
+
+
+def get_seasonality(instrument: str) -> dict:
+    """Deterministic, calendar-based seasonal demand bias -- no external API,
+    can't fail/be unavailable. Natural Gas has the strongest, best-documented
+    seasonal pattern (winter heating withdrawal season vs shoulder-month
+    injection season); oil's seasonality (summer driving season, winter
+    heating oil) is real but considerably weaker/less reliable, flagged as such."""
+    month = datetime.now().month
+
+    if instrument == "NATURAL_GAS":
+        if month in (12, 1, 2):
+            return {"instrument": instrument, "month": month, "phase": "peak winter withdrawal season",
+                    "historical_bias": "bullish",
+                    "note": "Heating demand draws down storage -- historically the strongest seasonal support for NG."}
+        if month in (11, 3):
+            return {"instrument": instrument, "month": month, "phase": "early/late withdrawal season",
+                    "historical_bias": "mildly bullish",
+                    "note": "Heating-driven withdrawals, but less extreme than peak winter."}
+        if month in (6, 7, 8):
+            return {"instrument": instrument, "month": month, "phase": "summer cooling demand",
+                    "historical_bias": "mildly bullish",
+                    "note": "Power-generation demand for A/C offsets some injection-season softness, but weaker than winter."}
+        return {"instrument": instrument, "month": month, "phase": "shoulder / injection season",
+                "historical_bias": "bearish",
+                "note": "Neither heating nor cooling demand is high -- storage builds fastest, historically the weakest seasonal period."}
+
+    if instrument in ("BRENT_OIL", "WTI_OIL"):
+        if month in (5, 6, 7, 8):
+            return {"instrument": instrument, "month": month, "phase": "US summer driving season",
+                    "historical_bias": "mildly bullish",
+                    "note": "Higher gasoline demand provides some seasonal support via refined-product demand -- WEAKER and less reliable than NG's seasonality, easily overridden by macro/geopolitical factors."}
+        if month in (11, 12, 1, 2):
+            return {"instrument": instrument, "month": month, "phase": "winter heating oil demand",
+                    "historical_bias": "mildly bullish",
+                    "note": "Some support from heating oil/diesel demand -- WEAKER and less reliable than NG's seasonality."}
+        return {"instrument": instrument, "month": month, "phase": "shoulder season",
+                "historical_bias": "neutral",
+                "note": "No strong seasonal demand driver either way for crude oil in this period."}
+
+    return {"instrument": instrument, "month": month, "phase": "unknown", "historical_bias": "neutral", "note": "No seasonality model for this instrument."}
+
+
+def get_term_structure(instrument: str) -> dict:
+    """Contango (far month priced above near month -- typically signals ample/
+    building supply, bearish) vs backwardation (far below near -- typically
+    signals tight supply, bullish). A genuinely different signal from spot
+    RSI/SMA: it reflects the market's own forward supply/demand expectation,
+    not backward-looking price action. Compares the current continuous
+    front-month price against a dated contract 3 months out (near-term dated
+    contracts can already be expired/delisted close to roll dates -- verified
+    empirically against yfinance, 3 months out is reliable)."""
+    from config import YFINANCE_TICKERS
+    import yfinance as yf
+
+    root = _DATED_CONTRACT_ROOT.get(instrument)
+    front_ticker = YFINANCE_TICKERS.get(instrument)
+    if not root or not front_ticker:
+        return {"instrument": instrument, "error": f"No term-structure mapping for {instrument}"}
+
+    far_ticker = _dated_futures_ticker(root, months_out=3)
+    try:
+        front_hist = yf.Ticker(front_ticker).history(period="5d")
+        far_hist = yf.Ticker(far_ticker).history(period="5d")
+        if front_hist.empty or far_hist.empty:
+            return {"instrument": instrument, "front_ticker": front_ticker, "far_ticker": far_ticker,
+                    "error": "One or both contracts returned no price history"}
+
+        front_price = float(front_hist["Close"].iloc[-1])
+        far_price = float(far_hist["Close"].iloc[-1])
+        spread = far_price - front_price
+        spread_pct = (spread / front_price * 100) if front_price else None
+
+        if spread > 0:
+            structure = "contango"
+            interpretation = "far month priced above near month -- typically signals ample/building supply (bearish tilt)"
+        elif spread < 0:
+            structure = "backwardation"
+            interpretation = "far month priced below near month -- typically signals tight supply (bullish tilt)"
+        else:
+            structure = "flat"
+            interpretation = "no meaningful spread between near and far months"
+
+        return {
+            "instrument": instrument,
+            "front_ticker": front_ticker, "front_price": round(front_price, 4),
+            "far_ticker": far_ticker, "far_price": round(far_price, 4),
+            "spread": round(spread, 4), "spread_pct": round(spread_pct, 3) if spread_pct is not None else None,
+            "structure": structure, "interpretation": interpretation,
+        }
+    except Exception as e:
+        logger.warning(f"get_term_structure({instrument}) failed: {e}")
+        return {"instrument": instrument, "error": str(e)}
+
 
 def get_technicals(yf_ticker: str) -> dict:
     """RSI-14, SMA-20/50, and recent price action for a continuous futures ticker."""
@@ -136,3 +255,69 @@ def get_macro() -> dict:
     except Exception as e:
         logger.warning(f"get_macro() failed: {e}")
         return {"error": str(e)}
+
+
+# FRED series IDs for weekly EIA inventory data. WCESTUS1 (crude oil ending
+# stocks) is a well-established, frequently-cited FRED series. The natural
+# gas storage series ID here has NOT been verified against a live FRED key
+# (no key available in this environment) -- if it's wrong, this fails
+# gracefully (same try/except pattern as get_macro) and just returns an
+# "error" field the agent can see, it will not crash the tick. Treat this
+# the same as the margin-sizing-math disclaimer elsewhere in this repo:
+# confirm against a real key before trusting it blindly.
+_INVENTORY_SERIES = {
+    "BRENT_OIL": ("WCESTUS1", "U.S. Ending Stocks of Crude Oil (thousand barrels)"),
+    "WTI_OIL": ("WCESTUS1", "U.S. Ending Stocks of Crude Oil (thousand barrels)"),
+    "NATURAL_GAS": ("NGWSTUS", "U.S. Natural Gas Storage (billion cubic feet) -- UNVERIFIED series ID"),
+}
+
+
+def get_inventory_data(instrument: str) -> dict:
+    """Real, structured week-over-week inventory change (a build or a draw),
+    compared against the trailing-8-week average change -- a genuinely
+    different signal from a generic news-headline search, which only tells
+    you a report existed, not its actual magnitude relative to what's typical.
+    Not the same as a true consensus-surprise figure (that needs a paid
+    Street-estimates feed we don't have) -- this is the real print's size
+    relative to recent history, which is still meaningfully more structured
+    than a headline search."""
+    api_key = os.getenv("FRED_API_KEY")
+    if not api_key:
+        return {"error": "FRED_API_KEY not set. Get one free at https://fred.stlouisfed.org/docs/api/api_key.html"}
+
+    series_info = _INVENTORY_SERIES.get(instrument)
+    if not series_info:
+        return {"instrument": instrument, "error": f"No inventory series configured for {instrument}"}
+    series_id, label = series_info
+
+    try:
+        from fredapi import Fred
+        fred = Fred(api_key=api_key)
+
+        data = fred.get_series(series_id).dropna()
+        if len(data) < 2:
+            return {"instrument": instrument, "series_id": series_id, "error": "Not enough history returned"}
+
+        latest = float(data.iloc[-1])
+        latest_date = data.index[-1].strftime("%Y-%m-%d")
+        change = latest - float(data.iloc[-2])
+
+        trailing = data.diff().dropna().tail(8)
+        avg_change = float(trailing.mean()) if not trailing.empty else None
+
+        direction = "build" if change > 0 else ("draw" if change < 0 else "flat")
+        larger_than_typical = (
+            abs(change) > abs(avg_change) * 1.5 if avg_change not in (None, 0) else None
+        )
+
+        return {
+            "instrument": instrument, "series_id": series_id, "label": label,
+            "latest_value": round(latest, 1), "latest_date": latest_date,
+            "week_over_week_change": round(change, 1),
+            "direction": direction,
+            "trailing_8wk_avg_change": round(avg_change, 1) if avg_change is not None else None,
+            "larger_than_typical_move": larger_than_typical,
+        }
+    except Exception as e:
+        logger.warning(f"get_inventory_data({instrument}) failed: {e}")
+        return {"instrument": instrument, "series_id": series_id, "error": str(e)}
