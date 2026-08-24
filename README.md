@@ -10,7 +10,7 @@ An autonomous GPT-4o agent (Aggressive persona) trading leveraged CFDs on a real
 
 Confirmed working since 2026-08-20: IG session/login, epic resolution, real order submission/closing, margin sizing against real fills, the full agent decision loop. This is no longer a "is it wired up correctly" question — the bot has executed dozens of real trades.
 
-**What's actually being worked on now is signal quality.** Early trades (49 closed) showed a ~37% win rate despite a properly-configured 2:1 reward:risk (which needs ~60% to break even) — RSI/SMA-crossover signals alone, re-evaluated every 5 minutes on some of the most liquid futures markets in the world, aren't producing durable edge. Several rounds of fixes have shipped in response: a confluence requirement (blocks opening on a technical signal alone), a same-direction cooldown (blocks immediately re-opening a just-disproven thesis), and three new signal sources — seasonality, term structure, and real EIA inventory data — intended to give the agent something more differentiated than spot RSI. Whether any of this actually moves the win rate is still being observed against live trades, not backtested in advance.
+**What's actually being worked on now is signal quality.** Early trades (49 closed) showed a ~37% win rate despite a properly-configured 2:1 reward:risk (which needs ~60% to break even) — RSI/SMA-crossover signals alone, re-evaluated every 5 minutes on some of the most liquid futures markets in the world, aren't producing durable edge. Several rounds of fixes have shipped in response: a confluence requirement (blocks opening on a technical signal alone), a same-direction cooldown (blocks immediately re-opening a just-disproven thesis), and new signal sources — seasonality, term structure, and CFTC speculator positioning data — intended to give the agent something more differentiated than spot RSI. (A planned real-EIA-inventory-data source turned out not to exist on FRED and is currently disabled pending a switch to EIA's own API.) Whether any of this actually moves the win rate is still being observed against live trades, not backtested in advance.
 
 ## How it works
 
@@ -20,7 +20,7 @@ Every ~5 minutes (Sun–Fri, `.github/workflows/cfd_trading.yml` — nominal tar
 2. **Stop-breach backstop, runs before anything else**: for every open position, compares the CURRENT live price against that position's own recorded stop level (not IG's system-side stop, which is non-guaranteed and can slip in a fast move or gap). If price has already moved past the stop — or a stop is somehow missing entirely — force-closes it at market immediately, rather than waiting out the ~5-minute gap until the next check-in on the assumption IG's stop already fired.
 3. Checks each instrument's **live market status** directly from IG (not a hardcoded calendar) — commodity CFDs follow underlying futures session hours plus daily maintenance windows and weekend closures, unlike 24/5 forex. Any instrument not `TRADEABLE` right now is skipped.
 4. Blocks **all** new position opens account-wide if available margin has fallen below the safety buffer (default 30% of balance) — tracked as a *running* total across every trade processed in the same tick, not just a single stale pre-tick snapshot, so several individually-fine-looking opens in one tick can't collectively breach it. Also checked precisely per-trade: if that specific trade's own margin requirement would tip the running total under the buffer, it's rejected even if the tick started out healthy.
-5. Lets the agent decide (or hold) per instrument, using technicals (yfinance continuous futures), commodity-specific news (Brave), macro context (FRED dollar index/VIX/10Y yield), calendar-based seasonality, futures term structure (contango/backwardation), and real EIA inventory-change data.
+5. Lets the agent decide (or hold) per instrument, using technicals (yfinance continuous futures), commodity-specific news (Brave), macro context (FRED dollar index/VIX/10Y yield), calendar-based seasonality, futures term structure (contango/backwardation), and CFTC speculator positioning data (WTI/Natural Gas only).
 6. Validates and executes any accepted trade immediately (including atomic two-leg Brent-WTI spread trades), then re-exports the dashboard.
 
 ## "Code is Law" — the rules firewall
@@ -33,7 +33,7 @@ Every ~5 minutes (Sun–Fri, `.github/workflows/cfd_trading.yml` — nominal tar
 - **Absolute notional safety ceiling**: no single position's notional exposure exceeds a fixed dollar ceiling, regardless of the leverage math above — a backstop in case that formula is ever wrong.
 - **Mandatory stop-loss AND take-profit** on every opening trade (each leg, for spreads too).
 - **Margin safety buffer**: new opens blocked account-wide if available margin drops below 30% of balance — checked both against current state AND against what each specific trade's own margin requirement would leave behind, tracked across every trade in a tick, not just a single stale snapshot.
-- **Confluence requirement**: opening a position on a technical signal alone is blocked — the agent must have also checked news, macro, seasonality, term structure, or inventory data this tick (verified objectively via which tools it actually called, not just trusted).
+- **Confluence requirement**: opening a position on a technical signal alone is blocked — the agent must have also checked news, macro, seasonality, term structure, or positioning data this tick (verified objectively via which tools it actually called, not just trusted).
 - **Same-direction cooldown**: re-opening the same direction on an instrument is blocked for 60 minutes after a losing close there, to stop immediately re-entering a thesis that just failed.
 - **Spread rollback safety**: `OPEN_SPREAD` (long one of Brent/WTI, short the other) opens atomically — if the second leg fails after the first succeeds, the first is immediately closed back out rather than left as an unintended naked position.
 - **Max 3 concurrent positions** — one per instrument, matching the 3-instrument universe (a spread uses 2 of the 3 slots).
@@ -56,7 +56,7 @@ Both must be explicitly `"true"` — set only inside `cfd_trading.yml`, never an
 - `ig_broker.py` — `trading_ig` wrapper (account state, positions, market snapshots, order submission).
 - `agent_runner.py` — prompt-building and tool schemas for the LLM decision loop.
 - `api_adapters.py` — OpenAI client with the tool-calling loop.
-- `market_data.py` — technicals (yfinance), news (Brave), macro (FRED), seasonality (deterministic calendar-based), term structure (yfinance dated contracts), and inventory data (FRED) for the 3 instruments.
+- `market_data.py` — technicals (yfinance), news (Brave), macro (FRED), seasonality (deterministic calendar-based), term structure (yfinance dated contracts), and CFTC speculator positioning data for the 3 instruments.
 - `meta_strategy.py` — one-time Day-0 playbook generation.
 - `dashboard_exporter.py` — audit trail → dashboard JSON.
 
