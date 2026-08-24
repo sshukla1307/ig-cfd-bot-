@@ -77,6 +77,17 @@ TOOLS = [
     # from the tool-call budget. The function still exists in market_data.py;
     # re-enable this schema entry once it's switched to EIA's own API
     # (api.eia.gov, needs a separate EIA_API_KEY -- see market_data.py).
+    {
+        "name": "get_positioning_data",
+        "description": "Get managed-money (speculator/hedge fund) net futures positioning from CFTC's weekly Commitment of Traders report, and how extreme it is vs the trailing year -- crowded positioning is a real contrarian signal. NOT available for BRENT_OIL (ICE-listed, outside CFTC jurisdiction).",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "instrument": {"type": "string", "enum": ["WTI_OIL", "NATURAL_GAS"]},
+            },
+            "required": ["instrument"],
+        },
+    },
 ]
 
 PROPOSE_TRADES_SCHEMA = {
@@ -170,9 +181,11 @@ def build_system_prompt(playbook: str) -> str:
     prompt += "\n=== INSTRUCTIONS ===\n"
     prompt += (
         "1. Use your tools to check technicals/news/macro for any instrument you're considering. "
-        "You also have get_seasonality (deterministic calendar-based demand bias) and get_term_structure "
+        "You also have get_seasonality (deterministic calendar-based demand bias), get_term_structure "
         "(contango/backwardation -- the market's own forward supply/demand expectation, a genuinely "
-        "different signal from spot technicals). Be efficient: you have a limited number of tool calls "
+        "different signal from spot technicals), and get_positioning_data (CFTC managed-money "
+        "positioning vs its trailing-year range for WTI/Natural Gas only, not Brent -- extreme crowding "
+        "is a real contrarian signal). Be efficient: you have a limited number of tool calls "
         "per check-in -- don't exhaustively check every tool for every instrument if you're not seriously "
         "considering a trade there. Focus deep research on the 1-2 instruments you're actually weighing, "
         "and you MUST leave room to call propose_trades before running out -- hitting the limit without "
@@ -234,7 +247,7 @@ def get_agent_trades(playbook: str, portfolio_state: dict, now_str: str) -> tupl
         raise AgentCallFailed("Agent responded without ever calling propose_trades (hit max tool calls or returned nothing)")
 
     checked_multiple_sources = bool(tools_called & {
-        "get_commodity_news", "get_macro", "get_seasonality", "get_term_structure",
+        "get_commodity_news", "get_macro", "get_seasonality", "get_term_structure", "get_positioning_data",
     })
 
     try:

@@ -87,7 +87,8 @@ class OpenAIClient:
 
         formatted_tools = [{"type": "function", "function": t} for t in tools]
         from market_data import (get_technicals, get_commodity_news, get_macro,
-                                  get_seasonality, get_term_structure, get_inventory_data)
+                                  get_seasonality, get_term_structure, get_inventory_data,
+                                  get_positioning_data)
         from config import YFINANCE_TICKERS
 
         def execute_tool(name: str, args: dict) -> dict:
@@ -107,6 +108,8 @@ class OpenAIClient:
                 return get_term_structure(args.get("instrument"))
             if name == "get_inventory_data":
                 return get_inventory_data(args.get("instrument"))
+            if name == "get_positioning_data":
+                return get_positioning_data(args.get("instrument"))
             return {"error": f"Unknown tool: {name}"}
 
         call_count = 0

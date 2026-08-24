@@ -321,3 +321,65 @@ def get_inventory_data(instrument: str) -> dict:
     except Exception as e:
         logger.warning(f"get_inventory_data({instrument}) failed: {e}")
         return {"instrument": instrument, "series_id": series_id, "error": str(e)}
+
+
+# CFTC's public Commitment of Traders API (Socrata) -- free, no API key
+# required, verified working directly (curl'd real data before writing this).
+# Brent is intentionally NOT covered: it trades on ICE Futures Europe, outside
+# CFTC's US jurisdiction, which only reports on US-regulated markets.
+_COT_ENDPOINT = "https://publicreporting.cftc.gov/resource/72hh-3qpy.json"
+_COT_CONTRACT_CODES = {
+    "WTI_OIL": ("067651", "WTI-PHYSICAL - NYMEX"),
+    "NATURAL_GAS": ("023651", "NATURAL GAS - NYMEX"),
+}
+
+
+def get_positioning_data(instrument: str) -> dict:
+    """Managed-money (speculator/hedge fund) net futures positioning from
+    CFTC's weekly Commitment of Traders report -- extreme crowding in one
+    direction is a real, well-documented contrarian signal (crowded longs
+    tend to precede pullbacks, and vice versa), a genuinely different
+    signal from spot technicals or a news search. Not available for
+    BRENT_OIL (see module note above)."""
+    contract = _COT_CONTRACT_CODES.get(instrument)
+    if not contract:
+        return {"instrument": instrument, "error": f"No CFTC COT data available for {instrument} (likely ICE-listed, outside CFTC jurisdiction)"}
+    code, label = contract
+
+    try:
+        with httpx.Client(timeout=15.0) as client:
+            resp = client.get(_COT_ENDPOINT, params={
+                "$where": f"cftc_contract_market_code='{code}'",
+                "$order": "report_date_as_yyyy_mm_dd DESC",
+                "$limit": 52,
+            })
+        resp.raise_for_status()
+        rows = resp.json()
+        if not rows:
+            return {"instrument": instrument, "contract": label, "error": "No COT data returned"}
+
+        nets = [float(r["m_money_positions_long_all"]) - float(r["m_money_positions_short_all"]) for r in rows]
+        latest = nets[0]
+        latest_date = rows[0]["report_date_as_yyyy_mm_dd"][:10]
+        open_interest = float(rows[0].get("open_interest_all", 0) or 0)
+
+        sorted_nets = sorted(nets)
+        percentile = (sorted_nets.index(latest) / (len(sorted_nets) - 1) * 100) if len(sorted_nets) > 1 else 50.0
+
+        if percentile >= 85:
+            interpretation = "Managed-money net-long positioning is near a multi-month EXTREME -- crowded long, a contrarian bearish signal"
+        elif percentile <= 15:
+            interpretation = "Managed-money net-short positioning is near a multi-month EXTREME -- crowded short, a contrarian bullish signal"
+        else:
+            interpretation = "Managed-money positioning is within a normal historical range -- no extreme crowding signal"
+
+        return {
+            "instrument": instrument, "contract": label, "report_date": latest_date,
+            "net_managed_money_position": int(latest),
+            "pct_of_open_interest": round(latest / open_interest * 100, 2) if open_interest else None,
+            "percentile_vs_trailing_year": round(percentile, 1),
+            "interpretation": interpretation,
+        }
+    except Exception as e:
+        logger.warning(f"get_positioning_data({instrument}) failed: {e}")
+        return {"instrument": instrument, "contract": label, "error": str(e)}
