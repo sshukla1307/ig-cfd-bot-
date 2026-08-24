@@ -70,17 +70,13 @@ TOOLS = [
             "required": ["instrument"],
         },
     },
-    {
-        "name": "get_inventory_data",
-        "description": "Get the real week-over-week EIA inventory change (build/draw) for an instrument, compared to its trailing 8-week average -- structured data on the actual magnitude of the latest report, not just a news search confirming one happened.",
-        "parameters": {
-            "type": "object",
-            "properties": {
-                "instrument": {"type": "string", "enum": INSTRUMENT_KEYS},
-            },
-            "required": ["instrument"],
-        },
-    },
+    # get_inventory_data is intentionally NOT exposed here -- confirmed live in
+    # production that FRED doesn't carry weekly EIA petroleum/gas inventory
+    # data at all (it only has price series like WTI spot/futures), so every
+    # call failed with "the series does not exist" while still burning a slot
+    # from the tool-call budget. The function still exists in market_data.py;
+    # re-enable this schema entry once it's switched to EIA's own API
+    # (api.eia.gov, needs a separate EIA_API_KEY -- see market_data.py).
 ]
 
 PROPOSE_TRADES_SCHEMA = {
@@ -174,12 +170,13 @@ def build_system_prompt(playbook: str) -> str:
     prompt += "\n=== INSTRUCTIONS ===\n"
     prompt += (
         "1. Use your tools to check technicals/news/macro for any instrument you're considering. "
-        "You also have get_seasonality (deterministic calendar-based demand bias), get_term_structure "
+        "You also have get_seasonality (deterministic calendar-based demand bias) and get_term_structure "
         "(contango/backwardation -- the market's own forward supply/demand expectation, a genuinely "
-        "different signal from spot technicals), and get_inventory_data (real week-over-week EIA "
-        "inventory change vs its trailing average, more structured than a news headline search). "
-        "Prefer these over a generic news search when deciding whether your technical read has real "
-        "confluence -- they're structured data, not just a headline that happens to use the right words.\n"
+        "different signal from spot technicals). Be efficient: you have a limited number of tool calls "
+        "per check-in -- don't exhaustively check every tool for every instrument if you're not seriously "
+        "considering a trade there. Focus deep research on the 1-2 instruments you're actually weighing, "
+        "and you MUST leave room to call propose_trades before running out -- hitting the limit without "
+        "concluding is treated as a system failure, not a valid HOLD.\n"
     )
     prompt += "2. Decide: open a new long/short, close an existing position, or hold, per instrument.\n"
     prompt += (
@@ -223,7 +220,12 @@ def get_agent_trades(playbook: str, portfolio_state: dict, now_str: str) -> tupl
     tools_called = set()
 
     try:
-        result_json = client.generate(sys_prompt, user_prompt, tools, max_tool_calls=10,
+        # 20, not 10: with tool_choice="required" forcing a call every turn
+        # and 5 research tools x 3 instruments potentially relevant, 10 was
+        # observed live to run out before the agent ever reached
+        # propose_trades (logged as AGENT_CALL_FAILED, no decision made at
+        # all that tick -- for every instrument, not just one).
+        result_json = client.generate(sys_prompt, user_prompt, tools, max_tool_calls=20,
                                        tool_call_tracker=tools_called)
     except Exception as e:
         raise AgentCallFailed(f"OpenAI call crashed: {e}") from e
@@ -232,7 +234,7 @@ def get_agent_trades(playbook: str, portfolio_state: dict, now_str: str) -> tupl
         raise AgentCallFailed("Agent responded without ever calling propose_trades (hit max tool calls or returned nothing)")
 
     checked_multiple_sources = bool(tools_called & {
-        "get_commodity_news", "get_macro", "get_seasonality", "get_term_structure", "get_inventory_data",
+        "get_commodity_news", "get_macro", "get_seasonality", "get_term_structure",
     })
 
     try:
