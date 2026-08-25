@@ -174,7 +174,14 @@ def build_system_prompt(playbook: str) -> str:
         "rather than leaving you with an unintended naked single-leg position. Both legs must be free "
         "(no existing position on either Brent or WTI) to propose one.\n"
     )
-    prompt += f"- If available margin drops below {RULES.margin_safety_buffer_pct}% of account balance, ALL new opens are blocked account-wide until it recovers\n\n"
+    prompt += f"- If available margin drops below {RULES.margin_safety_buffer_pct}% of account balance, ALL new opens are blocked account-wide until it recovers\n"
+    if RULES.require_confluence:
+        prompt += (
+            "- Opening a position requires having called at least one of get_commodity_news/get_macro/"
+            "get_seasonality/get_term_structure/get_positioning_data this check-in, in addition to "
+            "technicals -- a technical signal with zero other tool calls this tick will be rejected.\n"
+        )
+    prompt += f"- Re-opening the same direction on an instrument is blocked for {RULES.same_direction_cooldown_minutes} min after a losing close there.\n\n"
 
     prompt += "=== YOUR PERSONA ===\n"
     prompt += f"{PERSONA_PROMPT}\n\n"
