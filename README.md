@@ -1,6 +1,6 @@
 # Live CFD Trading Bot — IG Account
 
-An autonomous GPT-4o agent (Aggressive persona) trading leveraged CFDs on a real IG account, focused exclusively on 3 instruments: **Brent Crude Oil, WTI Crude Oil, and Natural Gas**. Checks in roughly every 5 minutes whenever at least one of those markets is open. No paper simulation — every trade executes with real, leveraged capital, subject to a hard-coded rules firewall and two independent kill switches.
+An autonomous LLM agent (Aggressive persona) trading leveraged CFDs on a real IG account, focused exclusively on 3 instruments: **Brent Crude Oil, WTI Crude Oil, and Natural Gas**. Currently running on Claude Sonnet 5 (`config.LLM_PROVIDER`, switched from GPT-4o to see whether behavioral drift across the large system prompt improves — both `OpenAIClient` and `AnthropicClient` exist in `api_adapters.py` and share the exact same tool dispatcher, so switching back is a one-line config change). Checks in roughly every 5 minutes whenever at least one of those markets is open. No paper simulation — every trade executes with real, leveraged capital, subject to a hard-coded rules firewall and two independent kill switches.
 
 **Trading style**: both directions are treated as equally valid — the agent is explicitly told OPEN_SHORT is not a fallback, just as actionable as OPEN_LONG on a high-conviction bearish read. The house style favors fast, frequent, smaller profit-taking over holding out for a large swing — the agent is encouraged to proactively CLOSE a position once satisfied with a gain rather than only waiting on the passive take-profit level.
 
@@ -55,14 +55,14 @@ Both must be explicitly `"true"` — set only inside `cfd_trading.yml`, never an
 - `cfd_runner.py` — the tick orchestrator: market-status gating, margin safety check, validation, execution.
 - `ig_broker.py` — `trading_ig` wrapper (account state, positions, market snapshots, order submission).
 - `agent_runner.py` — prompt-building and tool schemas for the LLM decision loop.
-- `api_adapters.py` — OpenAI client with the tool-calling loop.
+- `api_adapters.py` — OpenAI and Anthropic clients, both with the same tool-calling loop interface (`config.LLM_PROVIDER` picks which one runs).
 - `market_data.py` — technicals (yfinance), news (Brave), macro (FRED), seasonality (deterministic calendar-based), term structure (yfinance dated contracts), CFTC speculator positioning data, and NOAA weather demand data (Natural Gas) for the 3 instruments.
 - `meta_strategy.py` — one-time Day-0 playbook generation.
 - `dashboard_exporter.py` — audit trail → dashboard JSON.
 
 ## Setup
 
-**Secrets** (GitHub repo → Settings → Secrets and variables → Actions): `IG_USERNAME`, `IG_PASSWORD`, `IG_API_KEY`, `OPENAI_API_KEY`, `BRAVE_API_KEY`, `FRED_API_KEY`.
+**Secrets** (GitHub repo → Settings → Secrets and variables → Actions): `IG_USERNAME`, `IG_PASSWORD`, `IG_API_KEY`, `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `BRAVE_API_KEY`, `FRED_API_KEY`. Both LLM keys are wired in regardless of which one `LLM_PROVIDER` is actively using, so switching providers never needs a workflow change.
 
 **One-time**: generate the Day-0 playbook (epics are already resolved in `config.py`):
 ```bash

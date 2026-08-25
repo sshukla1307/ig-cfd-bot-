@@ -1,9 +1,12 @@
 """
 IG CFD Trading Bot — LLM Adapter
 
-Single provider (OpenAI, gpt-4o), forced temperature=0. Runs a tool-calling
-loop until the agent calls propose_trades, same battle-tested pattern as the
-Alpaca project's UnifiedLLMClient.
+Two interchangeable providers (OpenAIClient, AnthropicClient), both forced
+temperature=0, both sharing the same execute_tool dispatcher so tool
+behavior can never drift between them. Each runs a tool-calling loop until
+the agent calls propose_trades, same battle-tested pattern as the Alpaca
+project's UnifiedLLMClient. agent_runner.py picks which one to use via
+config.LLM_PROVIDER.
 """
 
 import json
@@ -14,6 +17,37 @@ import logging
 from typing import Callable
 
 logger = logging.getLogger(__name__)
+
+
+def execute_tool(name: str, args: dict) -> dict:
+    """Shared by both OpenAIClient and AnthropicClient -- one dispatcher, so
+    adding/changing a tool can never accidentally update only one provider."""
+    from market_data import (get_technicals, get_commodity_news, get_macro,
+                              get_seasonality, get_term_structure, get_inventory_data,
+                              get_positioning_data, get_weather_demand)
+    from config import YFINANCE_TICKERS
+
+    if name == "get_technicals":
+        instrument = args.get("instrument")
+        yf_ticker = YFINANCE_TICKERS.get(instrument)
+        if not yf_ticker:
+            return {"error": f"Unknown instrument: {instrument}"}
+        return get_technicals(yf_ticker)
+    if name == "get_commodity_news":
+        return get_commodity_news(args.get("query", ""), count=args.get("count", 5))
+    if name == "get_macro":
+        return get_macro()
+    if name == "get_seasonality":
+        return get_seasonality(args.get("instrument"))
+    if name == "get_term_structure":
+        return get_term_structure(args.get("instrument"))
+    if name == "get_inventory_data":
+        return get_inventory_data(args.get("instrument"))
+    if name == "get_positioning_data":
+        return get_positioning_data(args.get("instrument"))
+    if name == "get_weather_demand":
+        return get_weather_demand(args.get("instrument"))
+    return {"error": f"Unknown tool: {name}"}
 
 
 def retry_with_backoff(func: Callable, max_retries: int = 5, base_delay: float = 2.0):
@@ -86,33 +120,6 @@ class OpenAIClient:
             return response.choices[0].message.content or ""
 
         formatted_tools = [{"type": "function", "function": t} for t in tools]
-        from market_data import (get_technicals, get_commodity_news, get_macro,
-                                  get_seasonality, get_term_structure, get_inventory_data,
-                                  get_positioning_data, get_weather_demand)
-        from config import YFINANCE_TICKERS
-
-        def execute_tool(name: str, args: dict) -> dict:
-            if name == "get_technicals":
-                instrument = args.get("instrument")
-                yf_ticker = YFINANCE_TICKERS.get(instrument)
-                if not yf_ticker:
-                    return {"error": f"Unknown instrument: {instrument}"}
-                return get_technicals(yf_ticker)
-            if name == "get_commodity_news":
-                return get_commodity_news(args.get("query", ""), count=args.get("count", 5))
-            if name == "get_macro":
-                return get_macro()
-            if name == "get_seasonality":
-                return get_seasonality(args.get("instrument"))
-            if name == "get_term_structure":
-                return get_term_structure(args.get("instrument"))
-            if name == "get_inventory_data":
-                return get_inventory_data(args.get("instrument"))
-            if name == "get_positioning_data":
-                return get_positioning_data(args.get("instrument"))
-            if name == "get_weather_demand":
-                return get_weather_demand(args.get("instrument"))
-            return {"error": f"Unknown tool: {name}"}
 
         call_count = 0
         while call_count < max_tool_calls:
@@ -160,6 +167,107 @@ class OpenAIClient:
                 "name": func_name,
                 "content": json.dumps(result, default=str),
             })
+
+        logger.warning(f"Hit max tool calls ({max_tool_calls})")
+        return ""
+
+
+class AnthropicClient:
+    """Same generate() interface as OpenAIClient (system prompt, user prompt,
+    an OpenAI-style tools list, max_tool_calls, an optional tool_call_tracker)
+    so agent_runner.py can swap providers without touching its own code.
+    Shares execute_tool with OpenAIClient -- tool behavior can't drift
+    between providers."""
+
+    def __init__(self, model: str = "claude-sonnet-5"):
+        self.model = model
+        self.api_key = os.getenv("ANTHROPIC_API_KEY")
+        if not self.api_key:
+            logger.warning("ANTHROPIC_API_KEY not found. Agent will fail.")
+
+    def _client(self):
+        import anthropic
+        return anthropic.Anthropic(api_key=self.api_key)
+
+    @staticmethod
+    def _to_anthropic_tools(tools: list) -> list:
+        # OpenAI's function schemas use "parameters"; Anthropic's use
+        # "input_schema" -- otherwise identical JSON Schema, so this is a
+        # pure rename, not a re-derivation, keeping one source of truth
+        # (agent_runner.TOOLS) for both providers.
+        return [
+            {
+                "name": t["name"],
+                "description": t.get("description", ""),
+                "input_schema": t.get("parameters", {"type": "object", "properties": {}}),
+            }
+            for t in tools
+        ]
+
+    def generate(self, system_prompt: str, user_prompt: str, tools: list, max_tool_calls: int = 10,
+                 tool_call_tracker: set = None) -> str:
+        client = self._client()
+        messages = [{"role": "user", "content": user_prompt}]
+
+        if not tools or max_tool_calls == 0:
+            @retry_with_backoff
+            def _call():
+                return client.messages.create(
+                    model=self.model, max_tokens=4096, temperature=0.0,
+                    system=system_prompt, messages=messages,
+                )
+            response = _call()
+            return "".join(b.text for b in response.content if b.type == "text")
+
+        anthropic_tools = self._to_anthropic_tools(tools)
+
+        call_count = 0
+        while call_count < max_tool_calls:
+            @retry_with_backoff
+            def _call_tool():
+                return client.messages.create(
+                    model=self.model,
+                    max_tokens=4096,
+                    temperature=0.0,
+                    system=system_prompt,
+                    messages=messages,
+                    tools=anthropic_tools,
+                    tool_choice={"type": "any"},  # never allow a free-text final answer --
+                    # mirrors OpenAI's tool_choice="required": the model must always
+                    # call propose_trades to conclude, guaranteeing clean JSON rather
+                    # than a prose "conclusion" with the decision buried in a code fence.
+                )
+            response = _call_tool()
+
+            tool_use_blocks = [b for b in response.content if b.type == "tool_use"]
+            if not tool_use_blocks:
+                return "".join(b.text for b in response.content if b.type == "text")
+
+            messages.append({"role": "assistant", "content": response.content})
+
+            tool_results = []
+            propose_trades_input = None
+            for block in tool_use_blocks:
+                if block.name == "propose_trades":
+                    propose_trades_input = block.input
+                    continue  # concluding call -- nothing to execute or respond to
+                call_count += 1
+                if tool_call_tracker is not None:
+                    tool_call_tracker.add(block.name)
+                logger.info(f"Agent called {block.name}({block.input})")
+                result = execute_tool(block.name, block.input)
+                tool_results.append({
+                    "type": "tool_result", "tool_use_id": block.id,
+                    "content": json.dumps(result, default=str),
+                })
+
+            if propose_trades_input is not None:
+                return json.dumps(propose_trades_input)
+
+            if not tool_results:
+                return ""
+
+            messages.append({"role": "user", "content": tool_results})
 
         logger.warning(f"Hit max tool calls ({max_tool_calls})")
         return ""

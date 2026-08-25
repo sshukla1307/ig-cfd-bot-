@@ -8,8 +8,14 @@ dependency of its own -- cfd_runner.py handles validation/execution.
 import json
 import logging
 
-from config import RULES, PERSONA_PROMPT, INSTRUMENTS
-from api_adapters import OpenAIClient
+from config import RULES, PERSONA_PROMPT, INSTRUMENTS, LLM_PROVIDER, OPENAI_MODEL, ANTHROPIC_MODEL
+from api_adapters import OpenAIClient, AnthropicClient
+
+
+def _make_llm_client():
+    if LLM_PROVIDER == "anthropic":
+        return AnthropicClient(model=ANTHROPIC_MODEL)
+    return OpenAIClient(model=OPENAI_MODEL)
 
 logger = logging.getLogger(__name__)
 
@@ -240,7 +246,7 @@ def get_agent_trades(playbook: str, portfolio_state: dict, now_str: str) -> tupl
     an objective, code-verifiable minimum for the confluence requirement (see
     RULES.require_confluence in config.py), independent of whatever the agent
     itself claims it considered."""
-    client = OpenAIClient()
+    client = _make_llm_client()
     sys_prompt = build_system_prompt(playbook)
     user_prompt = build_user_prompt(portfolio_state, now_str)
     tools = TOOLS + [PROPOSE_TRADES_SCHEMA]

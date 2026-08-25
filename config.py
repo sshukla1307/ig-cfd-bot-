@@ -183,7 +183,15 @@ PERSONA_PROMPT = (
 # LLM Provider
 # ─────────────────────────────────────────────
 
+# Switched from OpenAI to Anthropic to see whether behavioral drift across a
+# large, complex system prompt (RSI-fade fixation, then repeating the
+# identical Brent-WTI spread ~15 times in a row) improves with a different
+# model -- not because either model has more market-prediction skill, that's
+# unlikely to differ between frontier models. Flip back to "openai" here to
+# revert; agent_runner.py picks the client based on this alone.
+LLM_PROVIDER = "anthropic"  # "anthropic" or "openai"
 OPENAI_MODEL = "gpt-4o"
+ANTHROPIC_MODEL = "claude-sonnet-5"
 
 # ─────────────────────────────────────────────
 # Paths
