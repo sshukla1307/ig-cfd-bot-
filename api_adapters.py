@@ -213,7 +213,7 @@ class AnthropicClient:
             @retry_with_backoff
             def _call():
                 return client.messages.create(
-                    model=self.model, max_tokens=4096, temperature=0.0,
+                    model=self.model, max_tokens=4096,
                     system=system_prompt, messages=messages,
                 )
             response = _call()
@@ -228,7 +228,13 @@ class AnthropicClient:
                 return client.messages.create(
                     model=self.model,
                     max_tokens=4096,
-                    temperature=0.0,
+                    # No temperature param -- confirmed live in production that
+                    # the anthropic package actually installed on the runner
+                    # rejected it ("Messages.create() got an unexpected keyword
+                    # argument 'temperature'") despite the latest SDK version
+                    # supporting it when tested locally. Omitting it entirely
+                    # (falls back to the API's own default) is the safe fix
+                    # rather than chasing an exact version mismatch.
                     system=system_prompt,
                     messages=messages,
                     tools=anthropic_tools,

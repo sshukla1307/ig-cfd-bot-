@@ -261,7 +261,7 @@ def get_agent_trades(playbook: str, portfolio_state: dict, now_str: str) -> tupl
         result_json = client.generate(sys_prompt, user_prompt, tools, max_tool_calls=20,
                                        tool_call_tracker=tools_called)
     except Exception as e:
-        raise AgentCallFailed(f"OpenAI call crashed: {e}") from e
+        raise AgentCallFailed(f"LLM call crashed ({LLM_PROVIDER}): {e}") from e
 
     if not result_json:
         raise AgentCallFailed("Agent responded without ever calling propose_trades (hit max tool calls or returned nothing)")
