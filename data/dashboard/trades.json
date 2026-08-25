@@ -1,5 +1,54 @@
 [
   {
+    "action": "HOLD",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Invalid action: HOLD",
+    "logged_at": "2026-08-25T19:16:02.598185+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "WTI_OIL",
+    "direction": "BUY",
+    "size": 0.1,
+    "margin_allocated": 143.36,
+    "effective_leverage": 5.0,
+    "notional": 820.26,
+    "stop_distance": 287.091,
+    "limit_distance": 492.156,
+    "reason": "WTI just had a sharp ~5% pullback from $87.8 to $82.3 on the 'sanctions vs military action' repricing (market treating economic sanctions as lower supply-risk than feared), but underlying trend remains firmly bullish (SMA20>SMA50, both rising steeply from low-$80s to mid-$80s over past 2 weeks), term structure is in backwardation (tight supply, bullish tilt), and CFTC positioning is elevated but not extreme (80th percentile, room to run). This looks like a sharp overreaction/flush within an uptrend rather than a trend reversal -- Strait of Hormuz risk and Iran retaliation risk remain very much alive per multiple news sources. Buying the dip with a defined stop below recent swing low.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR3BJ37AA3",
+    "raw": {
+      "date": "2026-08-25T19:16:02.421",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "FNMDHYC5WCSTYNV",
+      "dealId": "DIAAAAR3BJ37AA3",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR3BJ37AA3",
+          "status": "OPENED"
+        }
+      ],
+      "level": 8201.6,
+      "size": 0.1,
+      "direction": "BUY",
+      "stopLevel": 7914.509,
+      "limitLevel": 8693.756,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-08-25T19:16:02.597907+00:00"
+  },
+  {
     "action": "AGENT_CALL_FAILED",
     "status": "ERROR",
     "reason": "Agent responded without ever calling propose_trades (hit max tool calls or returned nothing)",
@@ -6168,53 +6217,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-08-21T11:36:45.100234+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "BRENT_OIL",
-    "direction": "SELL",
-    "size": 0.1,
-    "margin_allocated": 220.0,
-    "effective_leverage": 5.0,
-    "notional": 917.76,
-    "stop_distance": 458.88,
-    "limit_distance": 917.76,
-    "reason": "Overbought RSI and significant inventory build suggest a potential short-term correction.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR2SMJ6RBF",
-    "raw": {
-      "date": "2026-08-21T11:36:44.525",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "294QL28JFHJTYP5",
-      "dealId": "DIAAAAR2SMJ6RBF",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR2SMJ6RBF",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9168.7,
-      "size": 0.1,
-      "direction": "SELL",
-      "stopLevel": 9627.58,
-      "limitLevel": 8250.94,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-08-21T11:36:44.744371+00:00"
-  },
-  {
-    "action": "AGENT_CALL_FAILED",
-    "status": "ERROR",
-    "reason": "OpenAI call crashed: Connection error.",
-    "logged_at": "2026-08-21T11:33:58.677156+00:00"
   }
 ]
