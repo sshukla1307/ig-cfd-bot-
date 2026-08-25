@@ -50,6 +50,30 @@ def execute_tool(name: str, args: dict) -> dict:
     return {"error": f"Unknown tool: {name}"}
 
 
+MAX_CALLS_PER_TOOL = 3  # prevents a runaway research loop -- observed live:
+# Claude called get_commodity_news 11+ times in one tick with rephrased
+# variations of the same question ("is the Hormuz risk premium fading?"),
+# burning the entire tool-call budget without ever reaching propose_trades.
+# Applies per tool name, per generate() call (call_counts is fresh each tick).
+
+
+def execute_tool_capped(name: str, args: dict, call_counts: dict) -> dict:
+    """Wraps execute_tool with a per-tool-name call limit for this tick. Once
+    exceeded, returns a clear nudge instead of actually calling the tool again
+    -- code-level, so it holds regardless of which model's judgment about
+    "have I researched enough" turns out to be unreliable."""
+    call_counts[name] = call_counts.get(name, 0) + 1
+    if call_counts[name] > MAX_CALLS_PER_TOOL:
+        return {
+            "error": (
+                f"You've already called {name} {MAX_CALLS_PER_TOOL} times this check-in. "
+                "Stop researching this further and make your decision (or HOLD) with the "
+                "information you already have -- rephrasing the same question again won't help."
+            )
+        }
+    return execute_tool(name, args)
+
+
 def retry_with_backoff(func: Callable, max_retries: int = 5, base_delay: float = 2.0):
     def wrapper(*args, **kwargs):
         retries = 0
@@ -122,6 +146,7 @@ class OpenAIClient:
         formatted_tools = [{"type": "function", "function": t} for t in tools]
 
         call_count = 0
+        tool_call_counts = {}
         while call_count < max_tool_calls:
             @retry_with_backoff
             def _call_tool():
@@ -160,7 +185,7 @@ class OpenAIClient:
             if tool_call_tracker is not None:
                 tool_call_tracker.add(func_name)
             logger.info(f"Agent called {func_name}({args})")
-            result = execute_tool(func_name, args)
+            result = execute_tool_capped(func_name, args, tool_call_counts)
             messages.append({
                 "role": "tool",
                 "tool_call_id": tool_call.id,
@@ -222,6 +247,7 @@ class AnthropicClient:
         anthropic_tools = self._to_anthropic_tools(tools)
 
         call_count = 0
+        tool_call_counts = {}
         while call_count < max_tool_calls:
             @retry_with_backoff
             def _call_tool():
@@ -261,7 +287,7 @@ class AnthropicClient:
                 if tool_call_tracker is not None:
                     tool_call_tracker.add(block.name)
                 logger.info(f"Agent called {block.name}({block.input})")
-                result = execute_tool(block.name, block.input)
+                result = execute_tool_capped(block.name, block.input, tool_call_counts)
                 tool_results.append({
                     "type": "tool_result", "tool_use_id": block.id,
                     "content": json.dumps(result, default=str),

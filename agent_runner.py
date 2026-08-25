@@ -209,7 +209,10 @@ def build_system_prompt(playbook: str) -> str:
         "per check-in -- don't exhaustively check every tool for every instrument if you're not seriously "
         "considering a trade there. Focus deep research on the 1-2 instruments you're actually weighing, "
         "and you MUST leave room to call propose_trades before running out -- hitting the limit without "
-        "concluding is treated as a system failure, not a valid HOLD.\n"
+        "concluding is treated as a system failure, not a valid HOLD. get_commodity_news specifically is "
+        "capped at 3 calls per check-in, hard-enforced -- rephrasing the same question with slightly "
+        "different wording won't surface new information; if 1-2 searches don't give you a clear answer, "
+        "decide (or HOLD) with what you have rather than searching again.\n"
     )
     prompt += "2. Decide: open a new long/short, close an existing position, or hold, per instrument.\n"
     prompt += (
