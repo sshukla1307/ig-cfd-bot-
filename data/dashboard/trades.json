@@ -1,5 +1,48 @@
 [
   {
+    "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "deal_id": "DIAAAAR3BTYYWA7",
+    "original_direction": "SELL",
+    "reason": "Same logic as WTI -- Brent's ~7% single-day drop from 92 to 85.86 looks like a violent unwind/correction after the run-up on Iran sanctions fears, not a new bearish trend confirmation. Trend (SMA20>SMA50) remains bullish, term structure is flat (no fresh bearish forward signal), and news still centers on unresolved Iran/Hormuz supply risk which is a upside tail risk against a short. Cutting the short here to avoid getting caught in a reversal squeeze.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-08-25T21:25:08.954",
+      "status": "CLOSED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "TCRKDQL9VZJTYNV",
+      "dealId": "DIAAAAR3BTYYWA7",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR3BTYYWA7",
+          "status": "FULLY_CLOSED"
+        }
+      ],
+      "level": 8607.8,
+      "size": 0.1,
+      "direction": "BUY",
+      "stopLevel": null,
+      "limitLevel": null,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": -5.56,
+      "profitCurrency": "USD"
+    },
+    "logged_at": "2026-08-25T21:25:09.173310+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "WTI_OIL",
+    "status": "REJECTED",
+    "reason": "Market no longer tradeable (status changed since gating check)",
+    "logged_at": "2026-08-25T21:25:08.850222+00:00"
+  },
+  {
     "action": "OPEN_SHORT",
     "instrument": "WTI_OIL",
     "direction": "SELL",
@@ -6231,55 +6274,5 @@
     "reason": "{\"errorCode\":\"validation.mutual-exclusive-value.request\"}",
     "status": "rejected",
     "logged_at": "2026-08-21T13:14:10.566704+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "direction": "SELL",
-    "size": 0.2,
-    "margin_allocated": 110.0,
-    "effective_leverage": 5.0,
-    "notional": 557.8,
-    "stop_distance": 139.45,
-    "limit_distance": 278.9,
-    "reason": "Natural Gas is showing a bearish signal with the 20-day SMA below the 50-day SMA and RSI at 49.3 indicating neutral momentum. This presents an opportunity for a short position as the price may continue to decline.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR2SWDUWAW",
-    "raw": {
-      "date": "2026-08-21T12:33:30.835",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": "-",
-      "dealReference": "32YBWFQV2CJTYP5",
-      "dealId": "DIAAAAR2SWDUWAW",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR2SWDUWAW",
-          "status": "OPENED"
-        }
-      ],
-      "level": 2787.0,
-      "size": 0.2,
-      "direction": "SELL",
-      "stopLevel": 2926.45,
-      "limitLevel": 2508.1,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-08-21T12:33:31.044467+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR2SMJ6RBF",
-    "reason": "{\"errorCode\":\"validation.mutual-exclusive-value.request\"}",
-    "status": "rejected",
-    "logged_at": "2026-08-21T12:33:30.664897+00:00"
   }
 ]
