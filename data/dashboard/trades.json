@@ -1,6 +1,49 @@
 [
   {
     "action": "OPEN_SHORT",
+    "instrument": "WTI_OIL",
+    "status": "REJECTED",
+    "reason": "WTI_OIL already has an open position -- CLOSE it first",
+    "logged_at": "2026-08-25T22:03:34.597651+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "WTI_OIL",
+    "deal_id": "DIAAAAR3BUN3MAA",
+    "original_direction": "SELL",
+    "reason": "Oil dropped sharply (WTI -3%+, Brent -3.9%) on de-escalation of Iran military risk as US pivots to economic sanctions rather than strikes, easing Hormuz disruption fears. This is the exact catalyst that justified the original short, and it has now played out -- price broke below both SMA20/50 support with a large red candle on high volume. Rather than let a winning short round-trip back to breakeven/loss on any dead-cat bounce, bank the move. Current price 81.11 vs entry ~80.4 equivalent -- position is roughly flat but the catalyst-driven leg down (87->81) is largely played out; term structure is now backwardation (bullish tilt) and RSI has cooled to neutral, reducing edge for staying short further without a fresh catalyst.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-08-25T22:03:34.396",
+      "status": "CLOSED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "LYXTFQZGRDJTYNV",
+      "dealId": "DIAAAAR3BUN3MAA",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR3BUN3MAA",
+          "status": "FULLY_CLOSED"
+        }
+      ],
+      "level": 8094.7,
+      "size": 0.1,
+      "direction": "BUY",
+      "stopLevel": null,
+      "limitLevel": null,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": -5.52,
+      "profitCurrency": "USD"
+    },
+    "logged_at": "2026-08-25T22:03:34.597457+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
     "instrument": "BRENT_OIL",
     "status": "REJECTED",
     "reason": "Same-direction cooldown: BRENT_OIL was closed at a loss 25 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
@@ -6256,21 +6299,5 @@
     "reason": "{\"errorCode\":\"validation.mutual-exclusive-value.request\"}",
     "status": "rejected",
     "logged_at": "2026-08-21T13:45:21.838550+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "WTI_OIL",
-    "deal_id": "DIAAAAR2SL7SHA7",
-    "reason": "{\"errorCode\":\"validation.mutual-exclusive-value.request\"}",
-    "status": "rejected",
-    "logged_at": "2026-08-21T13:45:21.564536+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "NATURAL_GAS",
-    "deal_id": "DIAAAAR2SWDUWAW",
-    "reason": "{\"errorCode\":\"validation.mutual-exclusive-value.request\"}",
-    "status": "rejected",
-    "logged_at": "2026-08-21T13:14:10.925337+00:00"
   }
 ]
