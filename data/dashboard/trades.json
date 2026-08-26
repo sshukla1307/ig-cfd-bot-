@@ -1,5 +1,49 @@
 [
   {
+    "action": "OPEN_SPREAD",
+    "long_instrument": "WTI_OIL",
+    "short_instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Sizing failed: long=Computed size rounds to 0 (notional=$249.49, price=8011.4, lot_size=1.0), short=Computed size rounds to 0 (notional=$249.49, price=8552.8, lot_size=1.0)",
+    "logged_at": "2026-08-26T06:51:52.279672+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "deal_id": "DIAAAAR3DKKXSBG",
+    "original_direction": "SELL",
+    "reason": "The current short position in Natural Gas is slightly underwater, and the technicals show a neutral RSI with a short-term bearish SMA crossover. However, the market news indicates a stable demand with no strong signals, and the weather-driven demand is moderate. Closing the position to reassess the market.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-08-26T06:51:52.117",
+      "status": "CLOSED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "D6847HHJXPETYNV",
+      "dealId": "DIAAAAR3DKKXSBG",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR3DKKXSBG",
+          "status": "FULLY_CLOSED"
+        }
+      ],
+      "level": 2871.0,
+      "size": 0.2,
+      "direction": "BUY",
+      "stopLevel": null,
+      "limitLevel": null,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": -2.0,
+      "profitCurrency": "USD"
+    },
+    "logged_at": "2026-08-26T06:51:52.279290+00:00"
+  },
+  {
     "action": "OPEN_SPREAD_LEG",
     "instrument": "BRENT_OIL",
     "direction": "SELL",
@@ -6269,82 +6313,5 @@
       "profitCurrency": "USD"
     },
     "logged_at": "2026-08-21T18:00:34.854656+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "WTI_OIL",
-    "direction": "BUY",
-    "size": 0.1,
-    "margin_allocated": 162.08,
-    "effective_leverage": 5.0,
-    "notional": 870.93,
-    "stop_distance": 435.465,
-    "limit_distance": 870.93,
-    "reason": "WTI Crude Oil shows bullish momentum with the 20-day SMA above the 50-day SMA and an RSI of 65.2, indicating room for further upside. The geopolitical tensions affecting Brent are likely to support WTI prices as well.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR2VEUDZAS",
-    "raw": {
-      "date": "2026-08-21T17:37:55.074",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "WPC8R6GR8SNTYP5",
-      "dealId": "DIAAAAR2VEUDZAS",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR2VEUDZAS",
-          "status": "OPENED"
-        }
-      ],
-      "level": 8710.2,
-      "size": 0.1,
-      "direction": "BUY",
-      "stopLevel": 8274.735,
-      "limitLevel": 9581.13,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-08-21T17:37:55.269432+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR2VAZSMA2",
-    "reason": "Brent Crude Oil is currently overbought with an RSI of 73, and the price is above both the 20-day and 50-day SMAs, indicating strong bullish momentum. However, geopolitical tensions and supply concerns have driven prices higher, and the risk of a pullback is significant. Closing the short position to avoid further losses.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-08-21T17:37:54.702",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "TJXAR89NQ92TYP5",
-      "dealId": "DIAAAAR2VAZSMA2",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR2VAZSMA2",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 9299.6,
-      "size": 0.1,
-      "direction": "BUY",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": -2.53,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-08-21T17:37:54.955671+00:00"
   }
 ]
