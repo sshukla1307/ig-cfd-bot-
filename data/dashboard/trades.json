@@ -1,5 +1,54 @@
 [
   {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 28 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
+    "logged_at": "2026-08-26T05:19:59.042263+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "direction": "BUY",
+    "size": 0.1,
+    "margin_allocated": 149.7,
+    "effective_leverage": 5.0,
+    "notional": 857.8,
+    "stop_distance": 257.34,
+    "limit_distance": 514.68,
+    "reason": "Brent oil is in a short-term bullish trend with the SMA-20 above SMA-50. Despite recent price drops due to geopolitical news, the technicals suggest a potential rebound. The term structure is flat, indicating no strong forward supply/demand imbalance.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR3DCY92BA",
+    "raw": {
+      "date": "2026-08-26T05:19:58.839",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "7JK27WWKUH2TYNV",
+      "dealId": "DIAAAAR3DCY92BA",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR3DCY92BA",
+          "status": "OPENED"
+        }
+      ],
+      "level": 8576.5,
+      "size": 0.1,
+      "direction": "BUY",
+      "stopLevel": 8319.16,
+      "limitLevel": 9091.18,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-08-26T05:19:59.042022+00:00"
+  },
+  {
     "action": "OPEN_SPREAD",
     "long_instrument": "WTI_OIL",
     "short_instrument": "BRENT_OIL",
@@ -6325,82 +6374,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-08-21T16:02:38.341770+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "NATURAL_GAS",
-    "deal_id": "DIAAAAR2URP7JAG",
-    "reason": "Natural gas inventory reports indicate a larger-than-expected storage injection, suggesting potential bearish pressure. Current technicals show a neutral RSI and price slightly below entry level, indicating limited downside potential. Closing to lock in small gains.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-08-21T16:02:37.973",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": "-",
-      "dealReference": "CUX59JF6WKSTYP5",
-      "dealId": "DIAAAAR2URP7JAG",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR2URP7JAG",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 2799.0,
-      "size": 0.2,
-      "direction": "BUY",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": 1.0,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-08-21T16:02:38.113996+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "direction": "SELL",
-    "size": 0.2,
-    "margin_allocated": 108.57,
-    "effective_leverage": 5.0,
-    "notional": 561.4,
-    "stop_distance": 280.7,
-    "limit_distance": 561.4,
-    "reason": "Natural Gas is showing a bearish signal with the 20-day SMA below the 50-day SMA and a neutral RSI. The current price is slightly above the 20-day SMA, providing an opportunity for a short position if the price reverts to the mean.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR2URP7JAG",
-    "raw": {
-      "date": "2026-08-21T15:38:14.416",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": "-",
-      "dealReference": "GKVLQN6D2MWTYP5",
-      "dealId": "DIAAAAR2URP7JAG",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR2URP7JAG",
-          "status": "OPENED"
-        }
-      ],
-      "level": 2804.0,
-      "size": 0.2,
-      "direction": "SELL",
-      "stopLevel": 3084.7,
-      "limitLevel": 2242.6,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-08-21T15:38:14.655419+00:00"
   }
 ]
