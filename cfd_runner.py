@@ -216,6 +216,41 @@ def _check_stop_breach_backstop(broker, positions: dict) -> list:
     return closed_keys
 
 
+def _check_orphaned_wti_mirror(broker, positions: dict) -> list:
+    """WTI_OIL should only ever be open ALONGSIDE an open BRENT_OIL position
+    (it's a pure mirror -- see _validate_trade's WTI rejection and the mirror
+    open/close logic in run_cfd_tick). If WTI_OIL is open with no
+    corresponding BRENT_OIL position, that's an invariant violation, not a
+    valid state: either Brent closed via IG's own native stop/limit (not our
+    CLOSE action, so the same-tick mirror-close never fired), or a stray WTI
+    position predates this mirroring feature entirely (observed live: this
+    is exactly what happened after the feature first shipped). Either way,
+    the agent can never manually close WTI directly and Brent can never
+    reopen while WTI's mirror slot looks occupied, so this must be cleaned
+    up automatically each tick rather than waiting on WTI's own stop/limit
+    to eventually resolve it, which could take a very long time and blocks
+    all Brent trading in the meantime."""
+    if "WTI_OIL" in positions and "BRENT_OIL" not in positions:
+        pos = positions["WTI_OIL"]
+        result = broker.close_position(
+            deal_id=pos["deal_id"], direction=pos["direction"], epic=pos["epic"], size=pos["size"],
+        )
+        _log_order_event({
+            "action": "ORPHANED_WTI_CLEANUP", "instrument": "WTI_OIL", "deal_id": pos["deal_id"],
+            "original_direction": pos["direction"],
+            "reason": (
+                "WTI_OIL was open with no corresponding BRENT_OIL position -- WTI is a pure mirror "
+                "and should never be open on its own (Brent likely closed via its own native stop/"
+                "limit, or this predates the mirroring feature). Closing it automatically so Brent "
+                "can trade again."
+            ),
+            **result,
+        })
+        if result.get("status") == "submitted":
+            return ["WTI_OIL"]
+    return []
+
+
 def _validate_trade(trade: dict, account: dict, positions: dict, rules,
                      running_available: float = None, checked_multiple_sources: bool = True,
                      last_close_info: dict = None) -> tuple:
@@ -436,12 +471,13 @@ def run_cfd_tick():
     # always sees already-resolved, accurate position state -- same timing
     # pattern as the Alpaca bot's profit-lock backstop.
     closed_keys = _check_stop_breach_backstop(broker, positions)
+    closed_keys = closed_keys + _check_orphaned_wti_mirror(broker, positions)
     if closed_keys:
         for key in closed_keys:
             positions.pop(key, None)
         account = broker.get_account_state()  # margin/balance changed by the closes above
         logger.warning(
-            f"[IG-CFD] Refreshed account after stop-breach backstop closes ({closed_keys}): "
+            f"[IG-CFD] Refreshed account after stop-breach backstop / orphan cleanup closes ({closed_keys}): "
             f"balance={account['balance']:.2f} available={account['available']:.2f}"
         )
 
