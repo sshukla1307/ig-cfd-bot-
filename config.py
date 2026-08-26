@@ -78,6 +78,20 @@ class SystemRules:
                                                 # blocks re-opening the SAME direction on an instrument
                                                 # within this many minutes of a LOSING close there. A
                                                 # different direction, or enough elapsed time, is fine.
+    min_hold_minutes_before_discretionary_close: int = 180  # real trade data (76 matched
+                                                # trades in one day) showed a ~30min median hold time,
+                                                # while the backtest that validated the trend-following/
+                                                # mean-reversion strategies needed a 34-48h MEDIAN hold
+                                                # for its 4%/8% stop/target to actually resolve -- the
+                                                # live agent has been closing positions ~100x faster than
+                                                # the strategy it's supposedly running, never letting the
+                                                # validated edge develop. Blocks a discretionary CLOSE
+                                                # (the agent choosing to exit early, as opposed to IG's
+                                                # own stop/limit or the stop-breach backstop firing) within
+                                                # this many minutes of opening. 3 hours is a compromise --
+                                                # not the full backtested median, but enough to stop the
+                                                # ~30-minute knee-jerk exits while still allowing real
+                                                # risk management within the same trading day.
 
 
 RULES = SystemRules()

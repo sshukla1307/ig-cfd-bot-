@@ -181,7 +181,15 @@ def build_system_prompt(playbook: str) -> str:
             "get_seasonality/get_term_structure/get_positioning_data this check-in, in addition to "
             "technicals -- a technical signal with zero other tool calls this tick will be rejected.\n"
         )
-    prompt += f"- Re-opening the same direction on an instrument is blocked for {RULES.same_direction_cooldown_minutes} min after a losing close there.\n\n"
+    prompt += f"- Re-opening the same direction on an instrument is blocked for {RULES.same_direction_cooldown_minutes} min after a losing close there.\n"
+    prompt += (
+        f"- A discretionary CLOSE (you choosing to exit) is blocked within "
+        f"{RULES.min_hold_minutes_before_discretionary_close} min of opening -- real trade data showed a "
+        f"~30min median hold vs the 34-48h a backtested strategy actually needed to resolve its stop/target, "
+        f"so a position needs to be given real time before you decide it isn't working. This does NOT reduce "
+        f"safety: its actual stop-loss/take-profit and the stop-breach backstop still protect it the whole "
+        f"time, independently of you.\n\n"
+    )
 
     prompt += "=== YOUR PERSONA ===\n"
     prompt += f"{PERSONA_PROMPT}\n\n"

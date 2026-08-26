@@ -107,6 +107,11 @@ class IGBroker:
                 "limit_level": float(row["limitLevel"]) if row.get("limitLevel") not in (None, "") else None,
                 "current_bid": float(row.get("bid")) if row.get("bid") not in (None, "") else None,
                 "current_offer": float(row.get("offer")) if row.get("offer") not in (None, "") else None,
+                # IG's own real open timestamp (UTC) -- used for the minimum-
+                # hold-time check (see RULES.min_hold_minutes_before_discretionary_close):
+                # real trade data showed a ~30min median hold vs the 34-48h median the
+                # backtested strategy actually needed to resolve.
+                "opened_at": row.get("createdDateUTC") or None,
             }
         return positions
 

@@ -294,6 +294,22 @@ def _validate_trade(trade: dict, account: dict, positions: dict, rules,
     else:  # CLOSE
         if not existing:
             return False, f"No open position on {instrument} to close"
+        opened_at = existing.get("opened_at")
+        if opened_at:
+            try:
+                open_time = datetime.fromisoformat(opened_at)
+                if open_time.tzinfo is None:
+                    open_time = open_time.replace(tzinfo=timezone.utc)
+                minutes_held = (datetime.now(timezone.utc) - open_time).total_seconds() / 60
+                if minutes_held < rules.min_hold_minutes_before_discretionary_close:
+                    return False, (
+                        f"Minimum hold time not met: {instrument} has only been open for "
+                        f"{minutes_held:.0f} min (minimum {rules.min_hold_minutes_before_discretionary_close} "
+                        f"min before a discretionary close) -- its real stop-loss/take-profit, and the "
+                        f"stop-breach backstop, still protect it independently of this rule"
+                    )
+            except (ValueError, TypeError):
+                pass  # can't parse the timestamp -- fail permissive, allow the close
 
     return True, "OK"
 
