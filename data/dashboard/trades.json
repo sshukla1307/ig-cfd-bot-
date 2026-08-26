@@ -1,5 +1,87 @@
 [
   {
+    "action": "OPEN_SPREAD_LEG",
+    "instrument": "BRENT_OIL",
+    "direction": "SELL",
+    "size": 0.1,
+    "margin_allocated": 98.85,
+    "notional": 850.23,
+    "stop_distance": 255.069,
+    "limit_distance": 510.138,
+    "reason": "WTI is in backwardation, indicating tight supply, while Brent is flat, suggesting no strong supply-demand imbalance. This divergence supports a spread trade with WTI long and Brent short.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR3EPD56AL",
+    "raw": {
+      "date": "2026-08-26T10:40:05.603",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "ZT5TD6GLUANTYNV",
+      "dealId": "DIAAAAR3EPD56AL",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR3EPD56AL",
+          "status": "OPENED"
+        }
+      ],
+      "level": 8489.1,
+      "size": 0.1,
+      "direction": "SELL",
+      "stopLevel": 8744.169,
+      "limitLevel": 7978.962,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-08-26T10:40:05.780525+00:00"
+  },
+  {
+    "action": "OPEN_SPREAD_LEG",
+    "instrument": "WTI_OIL",
+    "direction": "BUY",
+    "size": 0.1,
+    "margin_allocated": 98.85,
+    "notional": 799.79,
+    "stop_distance": 239.937,
+    "limit_distance": 479.874,
+    "reason": "WTI is in backwardation, indicating tight supply, while Brent is flat, suggesting no strong supply-demand imbalance. This divergence supports a spread trade with WTI long and Brent short.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR3EPQVJAS",
+    "raw": {
+      "date": "2026-08-26T10:40:05.287",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "5PKV3RWB7WSTYNV",
+      "dealId": "DIAAAAR3EPQVJAS",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR3EPQVJAS",
+          "status": "OPENED"
+        }
+      ],
+      "level": 7987.9,
+      "size": 0.1,
+      "direction": "BUY",
+      "stopLevel": 7747.963,
+      "limitLevel": 8467.774,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-08-26T10:40:05.487057+00:00"
+  },
+  {
     "action": "OPEN_SPREAD",
     "long_instrument": "WTI_OIL",
     "short_instrument": "BRENT_OIL",
@@ -6276,75 +6358,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-08-21T19:50:29.914261+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR2VPDM5AZ",
-    "reason": "Brent Oil is currently overbought with an RSI of 72.4, and the price is above both the SMA-20 and SMA-50, indicating strong bullish momentum. However, the position is slightly negative, and the geopolitical tensions in the Strait of Hormuz could lead to unpredictable price movements. Closing the position to reassess the market conditions.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-08-21T19:34:09.508",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "M9Q5TBE9ZT6TYP5",
-      "dealId": "DIAAAAR2VPDM5AZ",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR2VPDM5AZ",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 9260.1,
-      "size": 0.1,
-      "direction": "BUY",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": -0.65,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-08-21T19:34:09.779225+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "NATURAL_GAS",
-    "deal_id": "DIAAAAR2VLZUAA7",
-    "reason": "The recent EIA report showed a smaller-than-expected inventory build, which is typically bullish, but the price has not responded positively. The RSI is neutral, and the SMA-20 is below the SMA-50, indicating a lack of bullish momentum. The position is slightly negative, and the original thesis appears to be weakening.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-08-21T19:34:09.149",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": "-",
-      "dealReference": "HMN7HJMSRRSTYP5",
-      "dealId": "DIAAAAR2VLZUAA7",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR2VLZUAA7",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 2784.0,
-      "size": 0.2,
-      "direction": "SELL",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": -3.8,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-08-21T19:34:09.384683+00:00"
   }
 ]
