@@ -1,5 +1,13 @@
 [
   {
+    "action": "OPEN_SPREAD",
+    "long_instrument": "WTI_OIL",
+    "short_instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "WTI_OIL already has an open position -- both spread legs must be free",
+    "logged_at": "2026-08-26T18:24:43.597590+00:00"
+  },
+  {
     "action": "HOLD",
     "instrument": "",
     "status": "REJECTED",
@@ -6223,47 +6231,5 @@
       "profitCurrency": "USD"
     },
     "logged_at": "2026-08-23T22:58:54.454935+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "WTI_OIL",
-    "direction": "SELL",
-    "size": 0.1,
-    "margin_allocated": 159.83,
-    "effective_leverage": 5.0,
-    "notional": 861.36,
-    "stop_distance": 430.68,
-    "limit_distance": 861.36,
-    "reason": "WTI Oil is also overbought with RSI at 78.4, suggesting a potential pullback. The price is above both the 20-day and 50-day SMAs, indicating a possible correction.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR2XFLW4AE",
-    "raw": {
-      "date": "2026-08-23T22:44:51.638",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "C3GTEYECMW2TYP5",
-      "dealId": "DIAAAAR2XFLW4AE",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR2XFLW4AE",
-          "status": "OPENED"
-        }
-      ],
-      "level": 8606.9,
-      "size": 0.1,
-      "direction": "SELL",
-      "stopLevel": 9037.58,
-      "limitLevel": 7745.54,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-08-23T22:44:51.934603+00:00"
   }
 ]
