@@ -1,5 +1,49 @@
 [
   {
+    "action": "OPEN_SPREAD",
+    "long_instrument": "WTI_OIL",
+    "short_instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Same-direction cooldown: WTI_OIL was closed at a loss 51 min ago in this same direction (BUY) -- blocked for 60 min",
+    "logged_at": "2026-08-26T04:51:40.536517+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "deal_id": "DIAAAAR3C8QK4AM",
+    "original_direction": "SELL",
+    "reason": "The current short position in Natural Gas is slightly negative, and there are no strong signals from weather demand or positioning to suggest a continued downside. Seasonality is mildly bullish, which could counteract the short thesis.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-08-26T04:51:40.407",
+      "status": "CLOSED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "GCJ563ZMBYETYNV",
+      "dealId": "DIAAAAR3C8QK4AM",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR3C8QK4AM",
+          "status": "FULLY_CLOSED"
+        }
+      ],
+      "level": 2866.0,
+      "size": 0.2,
+      "direction": "BUY",
+      "stopLevel": null,
+      "limitLevel": null,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": -1.2,
+      "profitCurrency": "USD"
+    },
+    "logged_at": "2026-08-26T04:51:40.536206+00:00"
+  },
+  {
     "action": "OPEN_SHORT",
     "instrument": "NATURAL_GAS",
     "direction": "SELL",
@@ -6358,75 +6402,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-08-21T15:38:14.655419+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "WTI_OIL",
-    "deal_id": "DIAAAAR2UGURVAL",
-    "reason": "WTI Crude is showing bullish signals with the price above both the 20-day and 50-day SMAs and an RSI of 63.9. The short position is against the current market trend, and closing it will prevent further potential losses.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-08-21T15:38:14.072",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "V4CP76YWEPJTYP5",
-      "dealId": "DIAAAAR2UGURVAL",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR2UGURVAL",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 8666.6,
-      "size": 0.1,
-      "direction": "BUY",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": -4.3,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-08-21T15:38:14.306871+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR2UF6KHAJ",
-    "reason": "Brent Crude is currently overbought with RSI at 72.4, and the price is above both the 20-day and 50-day SMAs, indicating strong bullish momentum. However, the short position is not aligning with the current market trend, and it's prudent to close the position to prevent further losses.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-08-21T15:38:13.72",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "WX3JUSYVMSWTYP5",
-      "dealId": "DIAAAAR2UF6KHAJ",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR2UF6KHAJ",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 9273.8,
-      "size": 0.1,
-      "direction": "BUY",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": -3.58,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-08-21T15:38:13.952414+00:00"
   }
 ]
