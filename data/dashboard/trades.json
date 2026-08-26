@@ -2,6 +2,13 @@
   {
     "action": "OPEN_LONG",
     "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Cannot open BRENT_OIL -- its WTI_OIL mirror slot is already occupied by an existing WTI position (shouldn't happen in normal operation; investigate if this recurs)",
+    "logged_at": "2026-08-26T21:31:48.161522+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
     "direction": "BUY",
     "size": 0.1,
     "margin_allocated": 98.65,
@@ -6203,40 +6210,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-08-23T23:16:48.743753+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR2XFE6XA9",
-    "reason": "Brent is also overbought with an RSI of 86.5. The position is slightly profitable, and with the overbought conditions, it's wise to close the position and secure profits.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-08-23T22:58:54.571",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "WHA3SUGVQJATYP5",
-      "dealId": "DIAAAAR2XFE6XA9",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR2XFE6XA9",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 9197.6,
-      "size": 0.1,
-      "direction": "BUY",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": 0.36,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-08-23T22:58:54.766679+00:00"
   }
 ]
