@@ -135,13 +135,17 @@ PERSONA_PROMPT = (
 # LLM Provider
 # ─────────────────────────────────────────────
 
-# Switched from OpenAI to Anthropic to see whether behavioral drift across a
-# large, complex system prompt (RSI-fade fixation, then repeating the
-# identical Brent-WTI spread ~15 times in a row) improves with a different
-# model -- not because either model has more market-prediction skill, that's
-# unlikely to differ between frontier models. Flip back to "openai" here to
-# revert; agent_runner.py picks the client based on this alone.
-LLM_PROVIDER = "anthropic"  # "anthropic" or "openai"
+# Tried Anthropic (Claude) to see whether behavioral drift across a large,
+# complex system prompt (RSI-fade fixation, then repeating the identical
+# Brent-WTI spread ~15 times in a row) improved with a different model. It did
+# fix both of those specific behavioral bugs, but the real-money result was
+# 4 losing trades in a row immediately after switching (and after an
+# aggressive-persona rebalance) -- reinforcing that this is a signal-quality
+# problem, not a which-model problem, exactly as expected going in. Reverted
+# to OpenAI while a backtest harness gets built to validate hypotheses
+# offline before any further live changes. agent_runner.py picks the client
+# based on this alone -- both clients still exist and are still tested.
+LLM_PROVIDER = "openai"  # "anthropic" or "openai"
 OPENAI_MODEL = "gpt-4o"
 ANTHROPIC_MODEL = "claude-sonnet-5"
 
