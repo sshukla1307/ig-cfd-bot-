@@ -1,5 +1,54 @@
 [
   {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 22 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
+    "logged_at": "2026-08-26T07:14:12.185623+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "direction": "BUY",
+    "size": 0.1,
+    "margin_allocated": 149.4,
+    "effective_leverage": 5.0,
+    "notional": 855.33,
+    "stop_distance": 256.599,
+    "limit_distance": 513.198,
+    "reason": "Brent oil is currently in a short-term bullish trend with the SMA-20 above the SMA-50. Despite a recent price drop, the RSI is neutral, and there is no significant term structure signal. The recent news indicates a technical selling pressure, but the underlying trend remains bullish. This presents an opportunity to capitalize on a potential rebound.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR3DR4CWAJ",
+    "raw": {
+      "date": "2026-08-26T07:14:12.03",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "4UD7KP57ANJTYNV",
+      "dealId": "DIAAAAR3DR4CWAJ",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR3DR4CWAJ",
+          "status": "OPENED"
+        }
+      ],
+      "level": 8547.7,
+      "size": 0.1,
+      "direction": "BUY",
+      "stopLevel": 8291.101,
+      "limitLevel": 9060.898,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-08-26T07:14:12.185289+00:00"
+  },
+  {
     "action": "OPEN_SPREAD",
     "long_instrument": "WTI_OIL",
     "short_instrument": "BRENT_OIL",
@@ -6236,82 +6285,5 @@
       "profitCurrency": "USD"
     },
     "logged_at": "2026-08-21T18:36:22.621085+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "BRENT_OIL",
-    "direction": "SELL",
-    "size": 0.1,
-    "margin_allocated": 107.8,
-    "effective_leverage": 5.0,
-    "notional": 929.6,
-    "stop_distance": 464.8,
-    "limit_distance": 929.6,
-    "reason": "Brent crude oil is currently overbought with an RSI of 73.0, indicating a potential pullback. The price is significantly above both the 20-day and 50-day SMAs, suggesting a possible correction. Opening a short position to capitalize on a potential price decline.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR2VG2WRBG",
-    "raw": {
-      "date": "2026-08-21T18:00:34.932",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "NSRXP7BJF6JTYP5",
-      "dealId": "DIAAAAR2VG2WRBG",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR2VG2WRBG",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9283.2,
-      "size": 0.1,
-      "direction": "SELL",
-      "stopLevel": 9748.0,
-      "limitLevel": 8353.6,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-08-21T18:00:35.070913+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "WTI_OIL",
-    "deal_id": "DIAAAAR2VEUDZAS",
-    "reason": "WTI crude oil is currently trading near the entry level, and the recent inventory report showed an increase in US crude inventories, which could put downward pressure on prices. The RSI is neutral, and the price is slightly below the entry level, indicating a lack of strong momentum. Closing the position to avoid potential losses.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-08-21T18:00:34.724",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "KKRAHWP9H3ATYP5",
-      "dealId": "DIAAAAR2VEUDZAS",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR2VEUDZAS",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 8685.2,
-      "size": 0.1,
-      "direction": "SELL",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": -2.5,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-08-21T18:00:34.854656+00:00"
   }
 ]
