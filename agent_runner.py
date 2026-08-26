@@ -25,14 +25,21 @@ logger = logging.getLogger(__name__)
 # and always rejected, which would just waste tool-call budget each tick.
 INSTRUMENT_KEYS = [key for key, inst in INSTRUMENTS.items() if inst.epic]
 
+# WTI_OIL is deliberately excluded here: per explicit user request, WTI no
+# longer gets independent research or an independent trading decision -- it's
+# now a pure auto-mirror of BRENT_OIL (see cfd_runner.py's mirroring logic).
+# No point spending tool-call budget on WTI's own technicals/seasonality/term
+# structure when its direction and size are dictated entirely by Brent.
+RESEARCH_INSTRUMENT_KEYS = [k for k in INSTRUMENT_KEYS if k != "WTI_OIL"]
+
 TOOLS = [
     {
         "name": "get_technicals",
-        "description": "Get RSI-14, SMA-20/50, and recent price history for one of the 4 tracked instruments.",
+        "description": "Get RSI-14, SMA-20/50, and recent price history for an instrument. WTI_OIL is not offered here -- it's an auto-mirror of BRENT_OIL, not independently researched.",
         "parameters": {
             "type": "object",
             "properties": {
-                "instrument": {"type": "string", "enum": INSTRUMENT_KEYS},
+                "instrument": {"type": "string", "enum": RESEARCH_INSTRUMENT_KEYS},
             },
             "required": ["instrument"],
         },
@@ -56,22 +63,22 @@ TOOLS = [
     },
     {
         "name": "get_seasonality",
-        "description": "Get the calendar-based seasonal demand bias for an instrument (e.g. NG winter heating withdrawal season vs summer injection season). Deterministic, always available.",
+        "description": "Get the calendar-based seasonal demand bias for an instrument (e.g. NG winter heating withdrawal season vs summer injection season). Deterministic, always available. WTI_OIL is not offered here -- it's an auto-mirror of BRENT_OIL.",
         "parameters": {
             "type": "object",
             "properties": {
-                "instrument": {"type": "string", "enum": INSTRUMENT_KEYS},
+                "instrument": {"type": "string", "enum": RESEARCH_INSTRUMENT_KEYS},
             },
             "required": ["instrument"],
         },
     },
     {
         "name": "get_term_structure",
-        "description": "Get the futures term structure (contango vs backwardation) for an instrument -- compares the near-month price to a dated contract ~3 months out. Reflects the market's own forward supply/demand expectation, a different signal from spot technicals.",
+        "description": "Get the futures term structure (contango vs backwardation) for an instrument -- compares the near-month price to a dated contract ~3 months out. Reflects the market's own forward supply/demand expectation, a different signal from spot technicals. WTI_OIL is not offered here -- it's an auto-mirror of BRENT_OIL.",
         "parameters": {
             "type": "object",
             "properties": {
-                "instrument": {"type": "string", "enum": INSTRUMENT_KEYS},
+                "instrument": {"type": "string", "enum": RESEARCH_INSTRUMENT_KEYS},
             },
             "required": ["instrument"],
         },
@@ -124,32 +131,28 @@ PROPOSE_TRADES_SCHEMA = {
                     "properties": {
                         "action": {
                             "type": "string",
-                            "enum": ["OPEN_LONG", "OPEN_SHORT", "OPEN_SPREAD", "CLOSE"],
-                            "description": "OPEN_LONG/OPEN_SHORT open a new single-instrument position (rejected if one is already open on that instrument). OPEN_SPREAD opens a Brent-vs-WTI spread: long one, short the other, sized to roughly matched notional -- BRENT_OIL and WTI_OIL only, both legs must be free. CLOSE fully closes an existing position on one instrument, whichever direction it is (close each leg of a spread separately, or both).",
+                            "enum": ["OPEN_LONG", "OPEN_SHORT", "CLOSE"],
+                            "description": "OPEN_LONG/OPEN_SHORT open a new single-instrument position (rejected if one is already open on that instrument, and rejected outright for WTI_OIL -- see the WTI mirroring rule). CLOSE fully closes an existing position on one instrument, whichever direction it is.",
                         },
-                        "instrument": {"type": "string", "enum": INSTRUMENT_KEYS,
-                                       "description": "Required for OPEN_LONG/OPEN_SHORT/CLOSE. Not used for OPEN_SPREAD (use long_instrument/short_instrument instead)."},
-                        "long_instrument": {"type": "string", "enum": ["BRENT_OIL", "WTI_OIL"],
-                                            "description": "OPEN_SPREAD only: which of the two goes long."},
-                        "short_instrument": {"type": "string", "enum": ["BRENT_OIL", "WTI_OIL"],
-                                             "description": "OPEN_SPREAD only: which of the two goes short. Must be the OTHER one from long_instrument."},
+                        "instrument": {"type": "string", "enum": ["BRENT_OIL", "NATURAL_GAS", "WTI_OIL"],
+                                       "description": "Required for OPEN_LONG/OPEN_SHORT/CLOSE. Only propose OPEN_LONG/OPEN_SHORT on BRENT_OIL or NATURAL_GAS -- WTI_OIL positions are opened/closed automatically as a mirror of BRENT_OIL, never propose them directly (CLOSE on WTI_OIL will just be rejected as unnecessary since the mirror handles it)."},
                         "allocation_pct": {
                             "type": "number",
                             "minimum": RULES.min_allocation_pct,
                             "maximum": RULES.max_allocation_pct,
-                            "description": "For OPEN_LONG/OPEN_SHORT/OPEN_SPREAD: % of account equity to allocate as margin. For OPEN_SPREAD this is the COMBINED total across both legs (split evenly), not per-leg.",
+                            "description": "For OPEN_LONG/OPEN_SHORT: % of account equity to allocate as margin for BRENT_OIL/NATURAL_GAS. When you open BRENT_OIL, the exact same allocation_pct is automatically mirrored onto WTI_OIL too.",
                         },
                         "stop_loss_pct": {
                             "type": "number",
                             "minimum": 1,
                             "maximum": 50,
-                            "description": "For OPEN_LONG/OPEN_SHORT/OPEN_SPREAD: % adverse price move from entry that triggers the stop (applied per-leg for OPEN_SPREAD). Mandatory.",
+                            "description": "For OPEN_LONG/OPEN_SHORT: % adverse price move from entry that triggers the stop. Mandatory.",
                         },
                         "take_profit_pct": {
                             "type": "number",
                             "minimum": 1,
                             "maximum": 200,
-                            "description": "For OPEN_LONG/OPEN_SHORT/OPEN_SPREAD: % favorable price move from entry that triggers the take-profit (applied per-leg for OPEN_SPREAD). Mandatory.",
+                            "description": "For OPEN_LONG/OPEN_SHORT: % favorable price move from entry that triggers the take-profit. Mandatory.",
                         },
                         "reason": {"type": "string", "minLength": 10},
                     },
@@ -165,14 +168,19 @@ def build_system_prompt(playbook: str) -> str:
     prompt = f"YOU ARE A LIVE IG CFD TRADING AGENT.\n\n"
     prompt += "=== SYSTEM RULES (enforced by code, not by you) ===\n"
     prompt += f"- Position sizing: {RULES.min_allocation_pct}-{RULES.max_allocation_pct}% of account equity (as margin) per position\n"
-    prompt += f"- Max {RULES.max_positions} concurrent positions (one per instrument, {RULES.max_positions} instruments total). OPEN_SPREAD uses 2 of these 3 slots (one for each leg).\n"
+    prompt += f"- Max {RULES.max_positions} concurrent positions (one per instrument, {RULES.max_positions} instruments total). A Brent open uses 2 of these 3 slots (Brent + its WTI mirror).\n"
     prompt += f"- Hard leverage cap: {RULES.max_leverage_multiple}x notional exposure per unit of margin allocated, regardless of what IG's own margin factor for the instrument would otherwise permit\n"
-    prompt += "- Every OPEN_LONG/OPEN_SHORT/OPEN_SPREAD MUST include both stop_loss_pct and take_profit_pct -- both mandatory, no exceptions\n"
+    prompt += "- Every OPEN_LONG/OPEN_SHORT MUST include both stop_loss_pct and take_profit_pct -- both mandatory, no exceptions\n"
     prompt += (
-        "- OPEN_SPREAD (long one of Brent/WTI, short the other) is an ALL-OR-NOTHING atomic pair: "
-        "if one leg fails after the other already opened, the first leg is immediately closed back out "
-        "rather than leaving you with an unintended naked single-leg position. Both legs must be free "
-        "(no existing position on either Brent or WTI) to propose one.\n"
+        "- WTI_OIL IS A PURE MIRROR OF BRENT_OIL, not an independently-traded instrument anymore. "
+        "You only ever decide on BRENT_OIL and NATURAL_GAS. Whenever you OPEN_LONG or OPEN_SHORT "
+        "BRENT_OIL, the exact same direction and allocation_pct is automatically opened on WTI_OIL "
+        "too, atomically -- if the WTI leg fails after Brent already opened, Brent is immediately "
+        "closed back out rather than leaving you with an unintended naked Brent-only position. When "
+        "you CLOSE BRENT_OIL, its WTI mirror is closed automatically at the same time. Never propose "
+        "OPEN_LONG/OPEN_SHORT/CLOSE on WTI_OIL yourself -- it will simply be rejected. Don't research "
+        "WTI's own technicals/term structure either; its direction and size are fully determined by "
+        "your Brent decision, not by anything WTI-specific.\n"
     )
     prompt += f"- If available margin drops below {RULES.margin_safety_buffer_pct}% of account balance, ALL new opens are blocked account-wide until it recovers\n"
     if RULES.require_confluence:
