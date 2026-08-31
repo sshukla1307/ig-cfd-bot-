@@ -3,6 +3,20 @@
     "action": "CLOSE",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 105 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-08-31T20:41:38.151409+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 165 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-08-31T20:41:38.151194+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 100 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "logged_at": "2026-08-31T20:37:01.644467+00:00"
   },
@@ -4811,48 +4825,5 @@
       "profitCurrency": "USD"
     },
     "logged_at": "2026-08-25T00:01:13.750598+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "WTI_OIL",
-    "deal_id": "DIAAAAR25BQMVAA",
-    "original_direction": "BUY",
-    "reason": "The WTI long position is slightly negative, and while the technicals show overbought conditions, the backwardation suggests tight supply. Closing to reassess the market without current exposure.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-08-24T23:46:54.133",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "MKJSDM26CX6TYNV",
-      "dealId": "DIAAAAR25BQMVAA",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR25BQMVAA",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 8485.5,
-      "size": 0.1,
-      "direction": "SELL",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": -0.19,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-08-24T23:46:54.277019+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Market no longer tradeable (status changed since gating check)",
-    "logged_at": "2026-08-24T23:46:54.015115+00:00"
   }
 ]
