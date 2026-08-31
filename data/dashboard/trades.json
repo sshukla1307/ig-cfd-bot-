@@ -3,6 +3,20 @@
     "action": "CLOSE",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 35 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-08-31T19:32:07.547304+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 95 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-08-31T19:32:07.547008+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 30 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "logged_at": "2026-08-31T19:27:00.494916+00:00"
   },
@@ -5069,83 +5083,5 @@
       "profitCurrency": "USD"
     },
     "logged_at": "2026-08-24T19:00:47.990034+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "WTI_OIL",
-    "deal_id": "DIAAAAR24LUL5A2",
-    "original_direction": "SELL",
-    "reason": "WTI is currently overbought with RSI at 73.9, and the price is above both the 20-day and 50-day SMAs, indicating strong bullish momentum. However, the EIA report suggests reduced inventories, supporting higher prices. The short position is not aligned with the current market conditions.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-08-24T19:00:47.412",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "S8LJHQHKS2ETYNV",
-      "dealId": "DIAAAAR24LUL5A2",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR24LUL5A2",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 8490.8,
-      "size": 0.1,
-      "direction": "BUY",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": -4.0,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-08-24T19:00:47.679247+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "WTI_OIL",
-    "direction": "SELL",
-    "size": 0.1,
-    "margin_allocated": 156.47,
-    "effective_leverage": 5.0,
-    "notional": 845.38,
-    "stop_distance": 422.69,
-    "limit_distance": 845.38,
-    "reason": "WTI Crude Oil is overbought with an RSI of 72.4. Recent news indicates a drop in prices due to profit-taking and geopolitical tensions involving Iran. The market is expected to remain volatile, and the current technical setup suggests a potential pullback.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR24LUL5A2",
-    "raw": {
-      "date": "2026-08-24T18:16:20.585",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "BZ9KGAATW2ATYNV",
-      "dealId": "DIAAAAR24LUL5A2",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR24LUL5A2",
-          "status": "OPENED"
-        }
-      ],
-      "level": 8450.8,
-      "size": 0.1,
-      "direction": "SELL",
-      "stopLevel": 8873.49,
-      "limitLevel": 7605.42,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-08-24T18:16:20.726687+00:00"
   }
 ]
