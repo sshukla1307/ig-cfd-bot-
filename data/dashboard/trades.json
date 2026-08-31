@@ -3,6 +3,13 @@
     "action": "CLOSE",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 90 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-08-31T20:27:02.635469+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 85 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "logged_at": "2026-08-31T20:21:41.462738+00:00"
   },
@@ -4885,13 +4892,5 @@
     "status": "REJECTED",
     "reason": "BRENT_OIL already has an open position -- both spread legs must be free",
     "logged_at": "2026-08-24T22:25:38.649264+00:00"
-  },
-  {
-    "action": "OPEN_SPREAD",
-    "long_instrument": "WTI_OIL",
-    "short_instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "BRENT_OIL already has an open position -- both spread legs must be free",
-    "logged_at": "2026-08-24T22:00:23.592185+00:00"
   }
 ]
