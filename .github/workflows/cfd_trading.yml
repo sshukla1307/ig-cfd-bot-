@@ -17,14 +17,15 @@ on:
     # per-instrument gating happens in Python via IG's own live market-status
     # field, not this cron window -- this is deliberately a superset.
     #
-    # NOTE: GitHub's own docs say scheduled workflows "can be delayed during
-    # periods of high load" and don't guarantee precise timing. 5 minutes is
-    # the realistic practical floor for GitHub's own scheduler -- an external
-    # pinger (e.g. a Cloudflare Worker Cron Trigger) can get closer to a true
-    # 3-minute cadence, but was dropped here in favor of simplicity. Treat 5
-    # minutes as the target cadence, not a hard real-time guarantee; actual
-    # tick spacing may occasionally drift wider under load.
+    # NOTE: this was found to be unreliable in practice -- GitHub's scheduler
+    # dropped the vast majority of fires during 2026-08-27 through 08-31
+    # (down to 1-6 actual runs/day instead of the ~288 this cron implies).
+    # A repository_dispatch trigger (below) driven by an external Cloudflare
+    # Worker Cron Trigger is now the primary tick source; this schedule
+    # entry is kept only as a harmless secondary attempt.
     - cron: '*/5 * * * 0-5'
+  repository_dispatch:
+    types: [tick]
   workflow_dispatch:
     inputs:
       confirm:
@@ -84,6 +85,6 @@ jobs:
       - name: Commit & Push Audit Log
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Live CFD tick: ${{ github.event.schedule || 'Manual Run' }}"
+          commit_message: "Live CFD tick: ${{ github.event.schedule || github.event_name }}"
           file_pattern: 'data'
           branch: main
