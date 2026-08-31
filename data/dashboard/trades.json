@@ -1,5 +1,19 @@
 [
   {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 59 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
+    "logged_at": "2026-08-31T18:36:44.958573+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 40 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-08-31T18:36:44.958318+00:00"
+  },
+  {
     "action": "HOLD",
     "instrument": "",
     "status": "REJECTED",
@@ -5511,47 +5525,5 @@
     "status": "REJECTED",
     "reason": "Missing price or marginFactor from IG snapshot: {'epic': 'CC.D.CL.DBI.IP', 'market_status': 'TRADEABLE', 'bid': 8444.0, 'offer': 8446.0, 'expiry': '-', 'margin_factor': 0, 'margin_factor_unit': 'PERCENTAGE', 'lot_size': 1.0, 'currencies': [{'code': 'USD', 'symbol': '$', 'baseExchangeRate': 1.0, 'exchangeRate': 0.77, 'isDefault': True}]}",
     "logged_at": "2026-08-24T15:33:29.773217+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Missing price or marginFactor from IG snapshot: {'epic': 'CC.D.LCO.DBI.IP', 'market_status': 'TRADEABLE', 'bid': 9063.1, 'offer': 9067.9, 'expiry': '-', 'margin_factor': 0, 'margin_factor_unit': 'PERCENTAGE', 'lot_size': 1.0, 'currencies': [{'code': 'USD', 'symbol': '$', 'baseExchangeRate': 1.0, 'exchangeRate': 0.77, 'isDefault': True}]}",
-    "logged_at": "2026-08-24T15:33:29.772912+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR22VEMWA4",
-    "reason": "Brent Crude Oil is also in overbought territory with an RSI of 82.2, and the price is above both the 20-day and 50-day SMAs. The short position is slightly profitable, and closing it now secures gains before any potential bullish continuation.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-08-24T14:58:33.457",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "86YED5B384STYNV",
-      "dealId": "DIAAAAR22VEMWA4",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR22VEMWA4",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 9092.6,
-      "size": 0.1,
-      "direction": "BUY",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": 7.34,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-08-24T14:58:33.655253+00:00"
   }
 ]
