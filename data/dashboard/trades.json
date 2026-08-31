@@ -4,6 +4,44 @@
     "instrument": "BRENT_OIL",
     "status": "REJECTED",
     "reason": "Cannot open BRENT_OIL -- its WTI_OIL mirror slot is already occupied by an existing WTI position (shouldn't happen in normal operation; investigate if this recurs)",
+    "logged_at": "2026-08-31T21:26:31.859124+00:00"
+  },
+  {
+    "action": "ORPHANED_WTI_CLEANUP",
+    "instrument": "WTI_OIL",
+    "deal_id": "DIAAAAR36XBNGA5",
+    "original_direction": "SELL",
+    "reason": "MARKET_CLOSED_WITH_EDITS",
+    "status": "rejected",
+    "raw": {
+      "date": "2026-08-31T21:26:23.992",
+      "status": null,
+      "reason": "MARKET_CLOSED_WITH_EDITS",
+      "dealStatus": "REJECTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": null,
+      "dealReference": "WNPDSSFXHEATYNV",
+      "dealId": "DIAAAAR37JFUNAT",
+      "affectedDeals": [],
+      "level": null,
+      "size": null,
+      "direction": "BUY",
+      "stopLevel": null,
+      "limitLevel": null,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-08-31T21:26:24.112993+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Cannot open BRENT_OIL -- its WTI_OIL mirror slot is already occupied by an existing WTI position (shouldn't happen in normal operation; investigate if this recurs)",
     "logged_at": "2026-08-31T21:21:44.612661+00:00"
   },
   {
@@ -4527,77 +4565,5 @@
     "status": "REJECTED",
     "reason": "Same-direction cooldown: BRENT_OIL was closed at a loss 45 min ago in this same direction (SELL) -- blocked for 60 min",
     "logged_at": "2026-08-25T07:56:05.954488+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR26WHNKBG",
-    "original_direction": "SELL",
-    "reason": "Brent is also overbought with an RSI of 77.4, and the EIA report indicated an unexpected inventory build. The position is negative, and the technicals and news suggest a potential downside.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-08-25T07:11:00.117",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "4S3U2GQLENWTYNV",
-      "dealId": "DIAAAAR26WHNKBG",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR26WHNKBG",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 8992.4,
-      "size": 0.1,
-      "direction": "BUY",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": -1.81,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-08-25T07:11:00.368172+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "WTI_OIL",
-    "deal_id": "DIAAAAR26WPQVAX",
-    "original_direction": "BUY",
-    "reason": "WTI is currently overbought with an RSI of 72.4, and the recent EIA report showed an unexpected inventory build, which could lead to a price correction. The position is slightly negative, but the technicals and news suggest a potential downside.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-08-25T07:10:59.764",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "D5YQYSSR4RETYNV",
-      "dealId": "DIAAAAR26WPQVAX",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR26WPQVAX",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 8402.5,
-      "size": 0.1,
-      "direction": "SELL",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": 0.35,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-08-25T07:11:00.002202+00:00"
   }
 ]
