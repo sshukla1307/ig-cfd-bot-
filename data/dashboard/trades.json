@@ -3,6 +3,13 @@
     "action": "CLOSE",
     "instrument": "BRENT_OIL",
     "status": "REJECTED",
+    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 10 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-08-31T18:06:45.756881+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
     "reason": "Minimum hold time not met: BRENT_OIL has only been open for 5 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "logged_at": "2026-08-31T18:01:58.215991+00:00"
   },
@@ -5770,40 +5777,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-08-24T11:37:15.666632+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR2Z97G3AP",
-    "reason": "Brent Crude Oil is also in overbought territory with an RSI of 83.5 and is trading above its 20-day and 50-day SMAs, suggesting strong bullish momentum. The current short position is against this trend, and the technicals do not support a bearish outlook.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-08-24T11:04:16.954",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "GK5BSMSPVKNTYNV",
-      "dealId": "DIAAAAR2Z97G3AP",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR2Z97G3AP",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 9120.3,
-      "size": 0.1,
-      "direction": "BUY",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": -1.38,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-08-24T11:04:17.099856+00:00"
   }
 ]
