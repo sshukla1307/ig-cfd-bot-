@@ -3,6 +3,27 @@
     "action": "OPEN_SHORT",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 10 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
+    "logged_at": "2026-08-31T17:46:57.081347+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "WTI_OIL",
+    "status": "REJECTED",
+    "reason": "WTI_OIL is auto-mirrored from BRENT_OIL and is never traded directly -- propose OPEN_LONG/OPEN_SHORT/CLOSE on BRENT_OIL instead, and the identical action is applied to WTI_OIL automatically",
+    "logged_at": "2026-08-31T17:46:57.081133+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 15 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-08-31T17:46:57.080881+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 5 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
     "logged_at": "2026-08-31T17:41:59.929773+00:00"
   },
@@ -5903,124 +5924,5 @@
       "profitCurrency": "USD"
     },
     "logged_at": "2026-08-24T09:59:37.870976+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR2ZXUZPAN",
-    "reason": "Brent Crude is showing strong bullish momentum with RSI at 83 indicating overbought conditions, and the price is above both the 20-day and 50-day SMAs. The bearish position is not aligning with the current market trend.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-08-24T09:59:37.285",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "6ETTEVEXXCATYP5",
-      "dealId": "DIAAAAR2ZXUZPAN",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR2ZXUZPAN",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 9116.9,
-      "size": 0.1,
-      "direction": "BUY",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": -1.02,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-08-24T09:59:37.518826+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "WTI_OIL",
-    "direction": "SELL",
-    "size": 0.1,
-    "margin_allocated": 209.87,
-    "effective_leverage": 5.0,
-    "notional": 847.22,
-    "stop_distance": 847.22,
-    "limit_distance": 1694.44,
-    "reason": "WTI Crude is also overbought with an RSI of 72.4. The technicals suggest a potential correction, and with no new bullish catalysts from OPEC+, a short position could capitalize on a price retracement.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR2ZYTDLAM",
-    "raw": {
-      "date": "2026-08-24T09:09:11.04",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "S62WUMM5QG6TYP5",
-      "dealId": "DIAAAAR2ZYTDLAM",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR2ZYTDLAM",
-          "status": "OPENED"
-        }
-      ],
-      "level": 8462.9,
-      "size": 0.1,
-      "direction": "SELL",
-      "stopLevel": 9310.12,
-      "limitLevel": 6768.46,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-08-24T09:09:11.199730+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "BRENT_OIL",
-    "direction": "SELL",
-    "size": 0.1,
-    "margin_allocated": 209.87,
-    "effective_leverage": 5.0,
-    "notional": 911.44,
-    "stop_distance": 911.44,
-    "limit_distance": 1822.88,
-    "reason": "Brent Crude is currently overbought with an RSI of 82.3, indicating a potential pullback. The recent price surge may not be sustainable, especially with the EIA forecasting a decrease in global oil inventories, which could pressure prices downward.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR2ZXUZPAN",
-    "raw": {
-      "date": "2026-08-24T09:09:10.816",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "5WY3WFWHQJSTYP5",
-      "dealId": "DIAAAAR2ZXUZPAN",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR2ZXUZPAN",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9106.7,
-      "size": 0.1,
-      "direction": "SELL",
-      "stopLevel": 10018.14,
-      "limitLevel": 7283.82,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-08-24T09:09:10.965739+00:00"
   }
 ]
