@@ -1,5 +1,12 @@
 [
   {
+    "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 5 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-08-31T18:01:58.215991+00:00"
+  },
+  {
     "action": "OPEN_SHORT",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
@@ -5798,40 +5805,5 @@
       "profitCurrency": "USD"
     },
     "logged_at": "2026-08-24T11:04:17.099856+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "WTI_OIL",
-    "deal_id": "DIAAAAR2Z9BNKAZ",
-    "reason": "WTI Crude Oil is showing overbought conditions with an RSI of 73.9 and is trading above both its 20-day and 50-day SMAs, indicating strong bullish momentum. The current short position is against this trend, and the thesis for a bearish move is not supported by the technicals.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-08-24T11:04:16.729",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "5FURBSFN4HNTYNV",
-      "dealId": "DIAAAAR2Z9BNKAZ",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR2Z9BNKAZ",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 8496.9,
-      "size": 0.1,
-      "direction": "BUY",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": -2.03,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-08-24T11:04:16.869999+00:00"
   }
 ]
