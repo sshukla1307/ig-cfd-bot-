@@ -3,6 +3,13 @@
     "action": "OPEN_SHORT",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 15 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
+    "logged_at": "2026-08-31T22:21:46.243935+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 10 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
     "logged_at": "2026-08-31T22:16:34.266327+00:00"
   },
@@ -4280,41 +4287,5 @@
       "profitCurrency": "USD"
     },
     "logged_at": "2026-08-25T15:10:50.134366+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "WTI_OIL",
-    "deal_id": "DIAAAAR292P8YAJ",
-    "original_direction": "BUY",
-    "reason": "The WTI position is slightly negative, and the technicals show a neutral RSI with a short-term bullish SMA crossover. However, the EIA report suggests a potential decrease in oil prices in the future, and the backwardation indicates tight supply, which could lead to volatility. Closing the position to reassess.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-08-25T15:10:49.745",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "6R25ZQ8Y6F2TYNV",
-      "dealId": "DIAAAAR292P8YAJ",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR292P8YAJ",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 8228.1,
-      "size": 0.1,
-      "direction": "SELL",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": -0.64,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-08-25T15:10:49.904106+00:00"
   }
 ]
