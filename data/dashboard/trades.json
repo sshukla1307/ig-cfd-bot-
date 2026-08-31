@@ -4,6 +4,44 @@
     "instrument": "BRENT_OIL",
     "status": "REJECTED",
     "reason": "Cannot open BRENT_OIL -- its WTI_OIL mirror slot is already occupied by an existing WTI position (shouldn't happen in normal operation; investigate if this recurs)",
+    "logged_at": "2026-08-31T21:31:40.223824+00:00"
+  },
+  {
+    "action": "ORPHANED_WTI_CLEANUP",
+    "instrument": "WTI_OIL",
+    "deal_id": "DIAAAAR36XBNGA5",
+    "original_direction": "SELL",
+    "reason": "MARKET_CLOSED_WITH_EDITS",
+    "status": "rejected",
+    "raw": {
+      "date": "2026-08-31T21:31:30.29",
+      "status": null,
+      "reason": "MARKET_CLOSED_WITH_EDITS",
+      "dealStatus": "REJECTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": null,
+      "dealReference": "8QERTSMNZ3NTYNV",
+      "dealId": "DIAAAAR37JFYXAT",
+      "affectedDeals": [],
+      "level": null,
+      "size": null,
+      "direction": "BUY",
+      "stopLevel": null,
+      "limitLevel": null,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-08-31T21:31:30.560258+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Cannot open BRENT_OIL -- its WTI_OIL mirror slot is already occupied by an existing WTI position (shouldn't happen in normal operation; investigate if this recurs)",
     "logged_at": "2026-08-31T21:26:31.859124+00:00"
   },
   {
@@ -4516,54 +4554,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-08-25T08:27:17.995131+00:00"
-  },
-  {
-    "action": "OPEN_SPREAD_LEG",
-    "instrument": "WTI_OIL",
-    "direction": "BUY",
-    "size": 0.1,
-    "margin_allocated": 102.34,
-    "notional": 832.86,
-    "stop_distance": 416.43,
-    "limit_distance": 832.86,
-    "reason": "WTI is in backwardation, indicating tighter supply compared to Brent, which is flat. Both Brent and WTI are technically overbought, but the term structure suggests WTI has a more bullish supply picture. The EIA report and OPEC+ decisions indicate constrained supply, supporting a spread trade favoring WTI over Brent.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR27NM4KBD",
-    "raw": {
-      "date": "2026-08-25T08:27:17.573",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "W3VNP3QBVTJTYNV",
-      "dealId": "DIAAAAR27NM4KBD",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR27NM4KBD",
-          "status": "OPENED"
-        }
-      ],
-      "level": 8343.9,
-      "size": 0.1,
-      "direction": "BUY",
-      "stopLevel": 7927.47,
-      "limitLevel": 9176.76,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-08-25T08:27:17.734053+00:00"
-  },
-  {
-    "action": "OPEN_SPREAD",
-    "long_instrument": "WTI_OIL",
-    "short_instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Same-direction cooldown: BRENT_OIL was closed at a loss 45 min ago in this same direction (SELL) -- blocked for 60 min",
-    "logged_at": "2026-08-25T07:56:05.954488+00:00"
   }
 ]
