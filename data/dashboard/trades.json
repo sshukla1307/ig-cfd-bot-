@@ -1,5 +1,12 @@
 [
   {
+    "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 50 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-08-31T18:46:42.321386+00:00"
+  },
+  {
     "action": "HOLD",
     "instrument": "",
     "status": "REJECTED",
@@ -5483,47 +5490,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-08-24T16:06:44.975978+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "BRENT_OIL",
-    "direction": "SELL",
-    "size": 0.1,
-    "margin_allocated": 211.2,
-    "effective_leverage": 5.0,
-    "notional": 907.8,
-    "stop_distance": 907.8,
-    "limit_distance": 1815.6,
-    "reason": "Brent Crude is currently overbought with an RSI of 80.8, indicating a potential pullback. The recent price action shows a high level of resistance around $94, and the EIA report suggests a decrease in global inventories, which could lead to a short-term correction. The macro environment with a strong dollar index also supports a bearish outlook.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR23Z9WZBD",
-    "raw": {
-      "date": "2026-08-24T16:06:44.401",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "FWAB7XBMCXSTYNV",
-      "dealId": "DIAAAAR23Z9WZBD",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR23Z9WZBD",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9072.0,
-      "size": 0.1,
-      "direction": "SELL",
-      "stopLevel": 9979.8,
-      "limitLevel": 7256.4,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-08-24T16:06:44.589176+00:00"
   }
 ]
