@@ -1,5 +1,54 @@
 [
   {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "direction": "SELL",
+    "size": 0.2,
+    "margin_allocated": 99.32,
+    "effective_leverage": 5.0,
+    "notional": 591.4,
+    "stop_distance": 147.85,
+    "limit_distance": 295.7,
+    "reason": "Natural Gas is in a contango structure, indicating ample supply, and the RSI is neutral. The weather-driven demand is moderate with a falling trend in cooling degree days. These factors suggest a potential short opportunity.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR364RG4A2",
+    "raw": {
+      "date": "2026-08-31T18:57:03.371",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "U5FYZDU9RXJTYNV",
+      "dealId": "DIAAAAR364RG4A2",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR364RG4A2",
+          "status": "OPENED"
+        }
+      ],
+      "level": 2954.0,
+      "size": 0.2,
+      "direction": "SELL",
+      "stopLevel": 3101.85,
+      "limitLevel": 2658.3,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-08-31T18:57:03.607494+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 60 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-08-31T18:57:03.235169+00:00"
+  },
+  {
     "action": "HOLD",
     "instrument": "",
     "status": "REJECTED",
@@ -5385,75 +5434,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-08-24T16:34:24.327608+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR23Z9WZBD",
-    "reason": "Brent is overbought with RSI at 82.2 and SMA-20 above SMA-50, indicating strong bullish momentum. The EIA report and geopolitical tensions support higher prices. The short position is against the current trend and macro context.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-08-24T16:29:26.231",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "CWZLEZ2B64NTYNV",
-      "dealId": "DIAAAAR23Z9WZBD",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR23Z9WZBD",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 9105.0,
-      "size": 0.1,
-      "direction": "BUY",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": -3.3,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-08-24T16:29:26.366996+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "WTI_OIL",
-    "deal_id": "DIAAAAR232D4DA9",
-    "reason": "WTI is overbought with RSI at 73.7 and SMA-20 above SMA-50, indicating bullish momentum. However, the EIA report suggests reduced inventories, supporting higher prices. The short position is against the current trend and macro context.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-08-24T16:29:25.978",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "2DQ2YVUGRMWTYNV",
-      "dealId": "DIAAAAR232D4DA9",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR232D4DA9",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 8497.8,
-      "size": 0.1,
-      "direction": "BUY",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": -4.75,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-08-24T16:29:26.147224+00:00"
   }
 ]
