@@ -1,6 +1,13 @@
 [
   {
     "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 60 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
+    "logged_at": "2026-08-31T23:06:40.161432+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
     "instrument": "BRENT_OIL",
     "status": "REJECTED",
     "reason": "Market no longer tradeable (status changed since gating check)",
@@ -4086,47 +4093,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-08-25T20:27:09.446037+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "BRENT_OIL",
-    "direction": "SELL",
-    "size": 0.1,
-    "margin_allocated": 151.73,
-    "effective_leverage": 5.0,
-    "notional": 854.46,
-    "stop_distance": 256.338,
-    "limit_distance": 427.23,
-    "reason": "Sharp -3% drop today on Iran de-escalation news removing geopolitical risk premium; oil fell from Aug 21 highs of ~94 to 85.3, a clean break below both SMA20/50 uptrend on a fresh, credible catalyst (diplomatic progress reducing Hormuz supply risk fears). Momentum is now decisively down intraday despite prior uptrend -- trading the news, not the lagging trend. WTI backwardation still shows some tightness but the immediate driver is risk-premium unwind which hits Brent (more exposed to Mideast supply premium) hardest.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR3BTYYWA7",
-    "raw": {
-      "date": "2026-08-25T20:27:08.855",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "2QWEEQGAN9NTYNV",
-      "dealId": "DIAAAAR3BTYYWA7",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR3BTYYWA7",
-          "status": "OPENED"
-        }
-      ],
-      "level": 8552.2,
-      "size": 0.1,
-      "direction": "SELL",
-      "stopLevel": 8808.538,
-      "limitLevel": 8124.97,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-08-25T20:27:09.063197+00:00"
   }
 ]
