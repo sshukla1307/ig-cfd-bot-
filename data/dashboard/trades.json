@@ -1,5 +1,12 @@
 [
   {
+    "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 20 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-08-31T18:16:40.312071+00:00"
+  },
+  {
     "action": "OPEN_SHORT",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
@@ -5644,40 +5651,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-08-24T12:32:55.626845+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR22JXV6A7",
-    "reason": "Brent is also overbought with RSI at 83.1 and price above both SMA-20 and SMA-50. The technicals suggest a strong bullish momentum, which contradicts the short position. Closing to prevent further losses.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-08-24T11:57:56.407",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "JLYV3FMLYP2TYNV",
-      "dealId": "DIAAAAR22JXV6A7",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR22JXV6A7",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 9137.7,
-      "size": 0.1,
-      "direction": "BUY",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": -0.37,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-08-24T11:57:56.627238+00:00"
   }
 ]
