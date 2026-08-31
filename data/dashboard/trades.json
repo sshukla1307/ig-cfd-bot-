@@ -4,6 +4,44 @@
     "instrument": "BRENT_OIL",
     "status": "REJECTED",
     "reason": "Cannot open BRENT_OIL -- its WTI_OIL mirror slot is already occupied by an existing WTI position (shouldn't happen in normal operation; investigate if this recurs)",
+    "logged_at": "2026-08-31T21:16:34.553051+00:00"
+  },
+  {
+    "action": "ORPHANED_WTI_CLEANUP",
+    "instrument": "WTI_OIL",
+    "deal_id": "DIAAAAR36XBNGA5",
+    "original_direction": "SELL",
+    "reason": "MARKET_CLOSED_WITH_EDITS",
+    "status": "rejected",
+    "raw": {
+      "date": "2026-08-31T21:16:25.682",
+      "status": null,
+      "reason": "MARKET_CLOSED_WITH_EDITS",
+      "dealStatus": "REJECTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": null,
+      "dealReference": "89HJBQ724NETYNV",
+      "dealId": "DIAAAAR37JJL2A9",
+      "affectedDeals": [],
+      "level": null,
+      "size": null,
+      "direction": "BUY",
+      "stopLevel": null,
+      "limitLevel": null,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-08-31T21:16:25.879013+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Cannot open BRENT_OIL -- its WTI_OIL mirror slot is already occupied by an existing WTI position (shouldn't happen in normal operation; investigate if this recurs)",
     "logged_at": "2026-08-31T21:11:40.176441+00:00"
   },
   {
@@ -4605,49 +4643,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-08-25T06:18:12.437039+00:00"
-  },
-  {
-    "action": "OPEN_SPREAD",
-    "long_instrument": "WTI_OIL",
-    "short_instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Same-direction cooldown: WTI_OIL was closed at a loss 33 min ago in this same direction (BUY) -- blocked for 60 min",
-    "logged_at": "2026-08-25T05:48:57.371042+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR26KY9UAJ",
-    "original_direction": "SELL",
-    "reason": "Brent position is slightly positive, but the RSI is overbought, and the EIA report suggests stable prices. Closing to lock in gains and avoid potential reversal.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-08-25T05:16:26.982",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "ZTJ3WGUGBK6TYNV",
-      "dealId": "DIAAAAR26KY9UAJ",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR26KY9UAJ",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 9056.1,
-      "size": 0.1,
-      "direction": "BUY",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": 1.01,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-08-25T05:16:27.115388+00:00"
   }
 ]
