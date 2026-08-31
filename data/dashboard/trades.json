@@ -3,6 +3,20 @@
     "action": "CLOSE",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 100 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-08-31T20:37:01.644467+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 160 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-08-31T20:37:01.644225+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 95 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "logged_at": "2026-08-31T20:32:04.659389+00:00"
   },
@@ -4840,55 +4854,5 @@
     "status": "REJECTED",
     "reason": "Market no longer tradeable (status changed since gating check)",
     "logged_at": "2026-08-24T23:46:54.015115+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "WTI_OIL",
-    "direction": "BUY",
-    "size": 0.1,
-    "margin_allocated": 103.49,
-    "effective_leverage": 5.0,
-    "notional": 848.97,
-    "stop_distance": 424.485,
-    "limit_distance": 848.97,
-    "reason": "WTI is in backwardation, indicating tight supply, and the technicals show a bullish SMA crossover with an overbought RSI. No extreme positioning signal, but the inventory news suggests a bullish tilt.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR25BQMVAA",
-    "raw": {
-      "date": "2026-08-24T23:30:24.259",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "BUDURZBGBF6TYNV",
-      "dealId": "DIAAAAR25BQMVAA",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR25BQMVAA",
-          "status": "OPENED"
-        }
-      ],
-      "level": 8487.4,
-      "size": 0.1,
-      "direction": "BUY",
-      "stopLevel": 8062.915,
-      "limitLevel": 9336.37,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-08-24T23:30:24.467764+00:00"
-  },
-  {
-    "action": "OPEN_SPREAD",
-    "long_instrument": "WTI_OIL",
-    "short_instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "BRENT_OIL already has an open position -- both spread legs must be free",
-    "logged_at": "2026-08-24T23:05:05.467017+00:00"
   }
 ]
