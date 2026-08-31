@@ -3,6 +3,13 @@
     "action": "OPEN_SHORT",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 40 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
+    "logged_at": "2026-08-31T22:46:38.301317+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 35 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
     "logged_at": "2026-08-31T22:41:39.207982+00:00"
   },
@@ -4183,11 +4190,5 @@
     "status": "ERROR",
     "reason": "OpenAI call crashed: Messages.create() got an unexpected keyword argument 'temperature'",
     "logged_at": "2026-08-25T16:29:17.009578+00:00"
-  },
-  {
-    "action": "AGENT_CALL_FAILED",
-    "status": "ERROR",
-    "reason": "OpenAI call crashed: Messages.create() got an unexpected keyword argument 'temperature'",
-    "logged_at": "2026-08-25T16:24:10.482803+00:00"
   }
 ]
