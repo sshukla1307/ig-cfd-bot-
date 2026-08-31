@@ -3,6 +3,13 @@
     "action": "CLOSE",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 115 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-08-31T20:52:00.476989+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 110 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "logged_at": "2026-08-31T20:47:04.557890+00:00"
   },
@@ -4721,46 +4728,5 @@
       "profitCurrency": "USD"
     },
     "logged_at": "2026-08-25T02:23:43.299336+00:00"
-  },
-  {
-    "action": "OPEN_SPREAD_LEG",
-    "instrument": "BRENT_OIL",
-    "direction": "SELL",
-    "size": 0.1,
-    "margin_allocated": 103.23,
-    "notional": 908.22,
-    "stop_distance": 454.11,
-    "limit_distance": 908.22,
-    "reason": "Both Brent and WTI are in backwardation, indicating tight supply, but Brent's RSI is more overbought (78.9) compared to WTI's (72.2). Additionally, the EIA report suggests reduced inventories, supporting a bullish view on oil. However, OPEC+ is expected to increase production, which could pressure Brent more than WTI. This spread trade capitalizes on the relative overbought condition of Brent compared to WTI.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR25TCDBAM",
-    "raw": {
-      "date": "2026-08-25T01:11:11.147",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "PDX23236A4NTYNV",
-      "dealId": "DIAAAAR25TCDBAM",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR25TCDBAM",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9075.7,
-      "size": 0.1,
-      "direction": "SELL",
-      "stopLevel": 9529.81,
-      "limitLevel": 8167.48,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-08-25T01:11:11.327243+00:00"
   }
 ]
