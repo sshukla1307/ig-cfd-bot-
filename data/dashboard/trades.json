@@ -1,6 +1,13 @@
 [
   {
     "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 45 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
+    "logged_at": "2026-08-31T22:51:34.153874+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
     "instrument": "BRENT_OIL",
     "status": "REJECTED",
     "reason": "Market no longer tradeable (status changed since gating check)",
@@ -4185,11 +4192,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-08-25T19:16:02.597907+00:00"
-  },
-  {
-    "action": "AGENT_CALL_FAILED",
-    "status": "ERROR",
-    "reason": "Agent responded without ever calling propose_trades (hit max tool calls or returned nothing)",
-    "logged_at": "2026-08-25T17:33:33.850807+00:00"
   }
 ]
