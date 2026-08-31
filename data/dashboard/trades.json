@@ -3,6 +3,13 @@
     "action": "OPEN_SHORT",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 30 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
+    "logged_at": "2026-08-31T22:36:34.229481+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 25 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
     "logged_at": "2026-08-31T22:31:41.344118+00:00"
   },
@@ -4216,46 +4223,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-08-25T16:13:50.298338+00:00"
-  },
-  {
-    "action": "OPEN_SPREAD_LEG",
-    "instrument": "WTI_OIL",
-    "direction": "BUY",
-    "size": 0.1,
-    "margin_allocated": 102.28,
-    "notional": 819.13,
-    "stop_distance": 245.739,
-    "limit_distance": 491.478,
-    "reason": "WTI is in backwardation, indicating tight supply, while Brent is flat, suggesting no strong supply constraints. This supports a WTI long and Brent short spread. Both technicals show a short-term bullish trend, but the term structure favors WTI.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR3AYB8UAD",
-    "raw": {
-      "date": "2026-08-25T16:13:49.927",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "UYG5ADBNEQSTYNV",
-      "dealId": "DIAAAAR3AYB8UAD",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR3AYB8UAD",
-          "status": "OPENED"
-        }
-      ],
-      "level": 8187.3,
-      "size": 0.1,
-      "direction": "BUY",
-      "stopLevel": 7941.561,
-      "limitLevel": 8678.778,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-08-25T16:13:50.079184+00:00"
   }
 ]
