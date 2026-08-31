@@ -1,5 +1,12 @@
 [
   {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 141 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-08-31T00:30:12.119988+00:00"
+  },
+  {
     "action": "OPEN_SHORT",
     "instrument": "NATURAL_GAS",
     "direction": "SELL",
@@ -6025,47 +6032,5 @@
       "profitCurrency": "USD"
     },
     "logged_at": "2026-08-24T04:26:49.881306+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "WTI_OIL",
-    "direction": "SELL",
-    "size": 0.1,
-    "margin_allocated": 212.85,
-    "effective_leverage": 5.0,
-    "notional": 854.51,
-    "stop_distance": 854.51,
-    "limit_distance": 1709.02,
-    "reason": "WTI Crude is also overbought with an RSI of 75.7. The price is above both the 20-day and 50-day SMAs, indicating a potential for a pullback. The upcoming EIA inventory report could show a build, which would likely exert downward pressure on prices.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR2YLGJ3BB",
-    "raw": {
-      "date": "2026-08-24T03:40:35.472",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "C4MX6Q6RWNSTYP5",
-      "dealId": "DIAAAAR2YLGJ3BB",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR2YLGJ3BB",
-          "status": "OPENED"
-        }
-      ],
-      "level": 8542.4,
-      "size": 0.1,
-      "direction": "SELL",
-      "stopLevel": 9396.91,
-      "limitLevel": 6833.38,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-08-24T03:40:35.692130+00:00"
   }
 ]
