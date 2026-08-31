@@ -3,6 +3,13 @@
     "action": "CLOSE",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 40 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-08-31T19:37:07.280297+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 35 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "logged_at": "2026-08-31T19:32:07.547304+00:00"
   },
@@ -5047,41 +5054,5 @@
     "status": "REJECTED",
     "reason": "Same-direction cooldown: BRENT_OIL was closed at a loss 28 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
     "logged_at": "2026-08-24T19:28:51.641861+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR24L8YSBD",
-    "original_direction": "SELL",
-    "reason": "Brent is also overbought with RSI at 81.0, and the price is above both the 20-day and 50-day SMAs, indicating strong bullish momentum. The EIA report and geopolitical tensions suggest reduced inventories and potential supply constraints, supporting higher prices. The short position is not aligned with the current market conditions.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-08-24T19:00:47.785",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "6FYPRUJMC8WTYNV",
-      "dealId": "DIAAAAR24L8YSBD",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR24L8YSBD",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 9073.1,
-      "size": 0.1,
-      "direction": "BUY",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": -3.16,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-08-24T19:00:47.990034+00:00"
   }
 ]
