@@ -1,6 +1,20 @@
 [
   {
     "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 70 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-08-31T19:07:02.312220+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 10 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-08-31T19:07:02.311955+00:00"
+  },
+  {
+    "action": "CLOSE",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
     "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 5 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
@@ -5294,75 +5308,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-08-24T17:18:39.254969+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR235VZLAF",
-    "reason": "Brent is also overbought with RSI at 82.4, and the price is above both the 20-day and 50-day SMAs, indicating strong bullish momentum. The geopolitical context and reduced shipments through the Strait of Hormuz are supporting higher prices, which contradicts the short position. Closing to avoid further losses.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-08-24T16:51:00.578",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "4ZTRCANU3MJTYNV",
-      "dealId": "DIAAAAR235VZLAF",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR235VZLAF",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 9107.0,
-      "size": 0.1,
-      "direction": "BUY",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": -0.94,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-08-24T16:51:00.716916+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "WTI_OIL",
-    "deal_id": "DIAAAAR236FYYAW",
-    "reason": "WTI is currently overbought with RSI at 74.3, and the price is above both the 20-day and 50-day SMAs, indicating strong bullish momentum. However, the geopolitical context and reduced shipments through the Strait of Hormuz are supporting higher prices, which contradicts the short position. Closing to avoid further losses.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-08-24T16:51:00.358",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "38SLNNL7WW2TYNV",
-      "dealId": "DIAAAAR236FYYAW",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR236FYYAW",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 8509.6,
-      "size": 0.1,
-      "direction": "BUY",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": -1.09,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-08-24T16:51:00.481999+00:00"
   }
 ]
