@@ -1,5 +1,89 @@
 [
   {
+    "action": "WTI_MIRROR_OPEN",
+    "instrument": "WTI_OIL",
+    "direction": "BUY",
+    "size": 0.1,
+    "margin_allocated": 98.13,
+    "effective_leverage": 5.0,
+    "notional": 858.14,
+    "stop_distance": 257.442,
+    "limit_distance": 514.884,
+    "reason": "Auto-mirrored from BRENT_OIL: Brent is trading above its 20-day SMA, indicating a short-term bullish trend. The RSI is neutral, and the term structure is flat, suggesting no significant forward market pressure. No major news catalysts are present, but the technicals support a momentum-based long position.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR37S7XZBC",
+    "raw": {
+      "date": "2026-09-01T00:01:41.321",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "CY9HGGECWQWTYNV",
+      "dealId": "DIAAAAR37S7XZBC",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR37S7XZBC",
+          "status": "OPENED"
+        }
+      ],
+      "level": 8581.3,
+      "size": 0.1,
+      "direction": "BUY",
+      "stopLevel": 8323.858,
+      "limitLevel": 9096.184,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-01T00:01:41.447801+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "direction": "BUY",
+    "size": 0.1,
+    "margin_allocated": 98.13,
+    "effective_leverage": 5.0,
+    "notional": 906.12,
+    "stop_distance": 271.836,
+    "limit_distance": 543.672,
+    "reason": "Brent is trading above its 20-day SMA, indicating a short-term bullish trend. The RSI is neutral, and the term structure is flat, suggesting no significant forward market pressure. No major news catalysts are present, but the technicals support a momentum-based long position.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR37SCC5AG",
+    "raw": {
+      "date": "2026-09-01T00:01:41.071",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "KRLWGCR3AR2TYNV",
+      "dealId": "DIAAAAR37SCC5AG",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR37SCC5AG",
+          "status": "OPENED"
+        }
+      ],
+      "level": 9060.9,
+      "size": 0.1,
+      "direction": "BUY",
+      "stopLevel": 8789.064,
+      "limitLevel": 9604.572,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-01T00:01:41.223783+00:00"
+  },
+  {
     "action": "HOLD",
     "instrument": "",
     "status": "REJECTED",
@@ -3951,54 +4035,5 @@
       "profitCurrency": "USD"
     },
     "logged_at": "2026-08-25T23:58:53.027356+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "WTI_OIL",
-    "direction": "SELL",
-    "size": 0.1,
-    "margin_allocated": 119.91,
-    "effective_leverage": 5.0,
-    "notional": 807.56,
-    "stop_distance": 201.89,
-    "limit_distance": 323.024,
-    "reason": "WTI has dropped ~5% in 2 sessions ($85 to $81) as sanctions on Iran disappointed markets -- traders view economic pressure as less disruptive to supply than feared military escalation, removing the geopolitical premium. Fresh, specific catalyst overriding the prior bullish SMA trend; RSI still neutral (62) so room to fall further. Term structure still shows backwardation (bullish long-term tilt) but near-term momentum is clearly down on this catalyst -- sizing moderately given the conflicting long-term signal.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR3B4Q48BA",
-    "raw": {
-      "date": "2026-08-25T23:20:03.876",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "EV3FG2CGXYWTYNV",
-      "dealId": "DIAAAAR3B4Q48BA",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR3B4Q48BA",
-          "status": "OPENED"
-        }
-      ],
-      "level": 8070.9,
-      "size": 0.1,
-      "direction": "SELL",
-      "stopLevel": 8272.79,
-      "limitLevel": 7747.876,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-08-25T23:20:04.080326+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "WTI_OIL",
-    "status": "REJECTED",
-    "reason": "Same-direction cooldown: WTI_OIL was closed at a loss 55 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
-    "logged_at": "2026-08-25T22:58:17.484570+00:00"
   }
 ]
