@@ -4,6 +4,13 @@
     "instrument": "",
     "status": "REJECTED",
     "reason": "Invalid action: HOLD",
+    "logged_at": "2026-09-01T04:41:47.704564+00:00"
+  },
+  {
+    "action": "HOLD",
+    "instrument": "",
+    "status": "REJECTED",
+    "reason": "Invalid action: HOLD",
     "logged_at": "2026-09-01T04:36:40.168710+00:00"
   },
   {
@@ -2872,41 +2879,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-08-26T23:31:32.946364+00:00"
-  },
-  {
-    "action": "ORPHANED_WTI_CLEANUP",
-    "instrument": "WTI_OIL",
-    "deal_id": "DIAAAAR3HDMBZBA",
-    "original_direction": "BUY",
-    "reason": "WTI_OIL was open with no corresponding BRENT_OIL position -- WTI is a pure mirror and should never be open on its own (Brent likely closed via its own native stop/limit, or this predates the mirroring feature). Closing it automatically so Brent can trade again.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-08-26T23:31:20.475",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "YT8T6NYZ6ZATYNV",
-      "dealId": "DIAAAAR3HDMBZBA",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR3HDMBZBA",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 8147.3,
-      "size": 0.1,
-      "direction": "SELL",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": -13.46,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-08-26T23:31:20.667892+00:00"
   }
 ]
