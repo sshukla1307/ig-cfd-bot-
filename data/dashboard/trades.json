@@ -1,5 +1,95 @@
 [
   {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 35 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
+    "logged_at": "2026-09-01T19:02:09.011392+00:00"
+  },
+  {
+    "action": "MIRROR_ROLLBACK",
+    "instrument": "BRENT_OIL",
+    "reason": "WTI mirror leg failed (Insufficient margin headroom for the WTI mirror leg) -- closing Brent back out.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-09-01T19:02:08.807",
+      "status": "CLOSED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "2WXKSFL8EJ2TYNV",
+      "dealId": "DIAAAAR4EWDAKA5",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR4EWDAKA5",
+          "status": "FULLY_CLOSED"
+        }
+      ],
+      "level": 9445.3,
+      "size": 0.3,
+      "direction": "SELL",
+      "stopLevel": null,
+      "limitLevel": null,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": -1.38,
+      "profitCurrency": "USD"
+    },
+    "logged_at": "2026-09-01T19:02:09.011057+00:00"
+  },
+  {
+    "action": "WTI_MIRROR_OPEN",
+    "instrument": "WTI_OIL",
+    "status": "rejected",
+    "reason": "Insufficient margin headroom for the WTI mirror leg",
+    "logged_at": "2026-09-01T19:02:08.679339+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "direction": "BUY",
+    "size": 0.3,
+    "margin_allocated": 483.77,
+    "effective_leverage": 5.0,
+    "notional": 2838.36,
+    "stop_distance": 473.06,
+    "limit_distance": 946.12,
+    "reason": "Brent is in a strong uptrend with the current price above both the 20-day and 50-day SMAs. The market is in backwardation, indicating tight supply, which is bullish. Despite the EIA's forecast of lower average prices, the immediate technicals and term structure suggest a continuation of the upward momentum.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR4EWDAKA5",
+    "raw": {
+      "date": "2026-09-01T19:02:08.475",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "VMQMPHNUHG6TYNV",
+      "dealId": "DIAAAAR4EWDAKA5",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR4EWDAKA5",
+          "status": "OPENED"
+        }
+      ],
+      "level": 9449.9,
+      "size": 0.3,
+      "direction": "BUY",
+      "stopLevel": 8976.84,
+      "limitLevel": 10396.02,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-01T19:02:08.679005+00:00"
+  },
+  {
     "action": "WTI_MIRROR_OPEN",
     "instrument": "WTI_OIL",
     "direction": "BUY",
@@ -2360,33 +2450,5 @@
     "status": "REJECTED",
     "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 65 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "logged_at": "2026-09-01T07:07:02.837389+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 67 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-01T07:07:02.837091+00:00"
-  },
-  {
-    "action": "HOLD",
-    "instrument": "",
-    "status": "REJECTED",
-    "reason": "Invalid action: HOLD",
-    "logged_at": "2026-09-01T07:01:36.707521+00:00"
-  },
-  {
-    "action": "HOLD",
-    "instrument": "",
-    "status": "REJECTED",
-    "reason": "Invalid action: HOLD",
-    "logged_at": "2026-09-01T06:56:35.694674+00:00"
-  },
-  {
-    "action": "HOLD",
-    "instrument": "",
-    "status": "REJECTED",
-    "reason": "Invalid action: HOLD",
-    "logged_at": "2026-09-01T06:51:38.787748+00:00"
   }
 ]
