@@ -4,6 +4,20 @@
     "instrument": "",
     "status": "REJECTED",
     "reason": "Invalid action: HOLD",
+    "logged_at": "2026-09-01T06:51:38.787748+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 52 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-01T06:51:38.787534+00:00"
+  },
+  {
+    "action": "HOLD",
+    "instrument": "",
+    "status": "REJECTED",
+    "reason": "Invalid action: HOLD",
     "logged_at": "2026-09-01T06:46:59.357610+00:00"
   },
   {
@@ -2131,89 +2145,5 @@
     "status": "REJECTED",
     "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 20 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
     "logged_at": "2026-08-31T17:57:06.062254+00:00"
-  },
-  {
-    "action": "WTI_MIRROR_OPEN",
-    "instrument": "WTI_OIL",
-    "direction": "SELL",
-    "size": 0.1,
-    "margin_allocated": 99.32,
-    "effective_leverage": 5.0,
-    "notional": 849.28,
-    "stop_distance": 424.64,
-    "limit_distance": 849.28,
-    "reason": "Auto-mirrored from BRENT_OIL: Brent is in contango, indicating ample supply, and the price is below the SMA-20, suggesting a bearish trend. No strong bullish catalysts in the news.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR36XBNGA5",
-    "raw": {
-      "date": "2026-08-31T17:57:05.853",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "MBQESV2DQDWTYNV",
-      "dealId": "DIAAAAR36XBNGA5",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR36XBNGA5",
-          "status": "OPENED"
-        }
-      ],
-      "level": 8491.3,
-      "size": 0.1,
-      "direction": "SELL",
-      "stopLevel": 8915.94,
-      "limitLevel": 7642.02,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-08-31T17:57:06.061884+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "BRENT_OIL",
-    "direction": "SELL",
-    "size": 0.1,
-    "margin_allocated": 99.32,
-    "effective_leverage": 5.0,
-    "notional": 899.63,
-    "stop_distance": 449.815,
-    "limit_distance": 899.63,
-    "reason": "Brent is in contango, indicating ample supply, and the price is below the SMA-20, suggesting a bearish trend. No strong bullish catalysts in the news.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR36W6GXBD",
-    "raw": {
-      "date": "2026-08-31T17:57:05.548",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "74Q68WQXJRJTYNV",
-      "dealId": "DIAAAAR36W6GXBD",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR36W6GXBD",
-          "status": "OPENED"
-        }
-      ],
-      "level": 8992.5,
-      "size": 0.1,
-      "direction": "SELL",
-      "stopLevel": 9442.315,
-      "limitLevel": 8092.87,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-08-31T17:57:05.754589+00:00"
   }
 ]
