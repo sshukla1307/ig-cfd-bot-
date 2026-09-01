@@ -3,6 +3,13 @@
     "action": "OPEN_SHORT",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 30 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
+    "logged_at": "2026-09-01T23:16:42.120596+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 25 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
     "logged_at": "2026-09-01T23:11:47.058957+00:00"
   },
@@ -2577,41 +2584,5 @@
     "status": "REJECTED",
     "reason": "Invalid action: HOLD",
     "logged_at": "2026-09-01T10:36:41.742348+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "NATURAL_GAS",
-    "deal_id": "DIAAAAR38WWCPAR",
-    "original_direction": "SELL",
-    "reason": "The current short position in Natural Gas is slightly profitable, and the technicals show a neutral RSI with a bearish term structure (contango). Given the moderate weather-driven demand and no extreme positioning, it's prudent to close the position and secure the profit.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-01T10:32:05.415",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": "-",
-      "dealReference": "Y7WM9F2FL2JTYNV",
-      "dealId": "DIAAAAR38WWCPAR",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR38WWCPAR",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 2945.0,
-      "size": 0.2,
-      "direction": "BUY",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": 2.4,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-09-01T10:32:05.620916+00:00"
   }
 ]
