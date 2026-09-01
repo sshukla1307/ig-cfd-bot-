@@ -54,7 +54,7 @@ YFINANCE_TICKERS = {
 class SystemRules:
     """Immutable trading rules enforced by cfd_runner.py, regardless of what
     the agent proposes."""
-    min_allocation_pct: float = 5.0    # % of account equity allocated as margin, per position
+    min_allocation_pct: float = 20.0   # % of account equity allocated as margin, per position
     max_allocation_pct: float = 25.0   # % of account equity allocated as margin, per position
     max_positions: int = 3             # one per instrument -- 3 active (Palladium excluded, see INSTRUMENTS)
     max_leverage_multiple: float = 5.0 # HARD CAP: notional exposure <= margin_allocated * this,
@@ -115,8 +115,14 @@ PERSONA_PROMPT = (
     "sitting out of. If you've held cash for several consecutive check-ins "
     "while a real move was happening, that is a failure to do your job, not "
     "prudence -- something in the data pointed somewhere, and you should have "
-    "picked a side and sized it accordingly (smaller size for lower conviction, "
-    "full size for high conviction -- but SOME size, not none).\n\n"
+    "picked a side and sized it accordingly. The allocation band is 20-25% "
+    "of equity per position -- 20% is the FLOOR, not a safe default to fall "
+    "back on when unsure. There is no small/timid size available to you "
+    "anymore: every trade you take is already a meaningfully large one. "
+    "Reserve 20% for the rare setup where you're genuinely on the fence but "
+    "still willing to act, and go to 25% whenever you have a real, specific "
+    "reason to believe in the trade -- which, given the job description "
+    "above, should be most of the time you're not at HOLD.\n\n"
     "House style (each of these is a real lesson from live trade data or a "
     "2-year historical backtest, but none of them means 'when in doubt, "
     "don't trade' -- they mean 'when you do trade, trade on a real read, not "
