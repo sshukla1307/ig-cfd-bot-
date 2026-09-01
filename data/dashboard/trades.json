@@ -5,6 +5,89 @@
     "reason": "WTI mirror leg failed (Insufficient margin headroom for the WTI mirror leg) -- closing Brent back out.",
     "status": "submitted",
     "raw": {
+      "date": "2026-09-01T19:11:43.262",
+      "status": "CLOSED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "JPQN2TA59ZATYNV",
+      "dealId": "DIAAAAR4EX958BC",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR4EX958BC",
+          "status": "FULLY_CLOSED"
+        }
+      ],
+      "level": 9445.0,
+      "size": 0.3,
+      "direction": "SELL",
+      "stopLevel": null,
+      "limitLevel": null,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": -0.81,
+      "profitCurrency": "USD"
+    },
+    "logged_at": "2026-09-01T19:11:43.422889+00:00"
+  },
+  {
+    "action": "WTI_MIRROR_OPEN",
+    "instrument": "WTI_OIL",
+    "status": "rejected",
+    "reason": "Insufficient margin headroom for the WTI mirror leg",
+    "logged_at": "2026-09-01T19:11:43.175231+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "direction": "BUY",
+    "size": 0.3,
+    "margin_allocated": 482.7,
+    "effective_leverage": 5.0,
+    "notional": 2834.7,
+    "stop_distance": 472.45,
+    "limit_distance": 944.9,
+    "reason": "Brent oil is in a strong uptrend with the current price above both the 20-day and 50-day SMAs. The market is in backwardation, indicating tight supply, which is bullish. Recent news suggests limited supply and potential geopolitical influences. The RSI is neutral, allowing room for further upside.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR4EX958BC",
+    "raw": {
+      "date": "2026-09-01T19:11:43.019",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "GCVKWG7LFW6TYNV",
+      "dealId": "DIAAAAR4EX958BC",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR4EX958BC",
+          "status": "OPENED"
+        }
+      ],
+      "level": 9447.7,
+      "size": 0.3,
+      "direction": "BUY",
+      "stopLevel": 8975.25,
+      "limitLevel": 10392.6,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-01T19:11:43.174936+00:00"
+  },
+  {
+    "action": "MIRROR_ROLLBACK",
+    "instrument": "BRENT_OIL",
+    "reason": "WTI mirror leg failed (Insufficient margin headroom for the WTI mirror leg) -- closing Brent back out.",
+    "status": "submitted",
+    "raw": {
       "date": "2026-09-01T19:06:47.897",
       "status": "CLOSED",
       "reason": "SUCCESS",
@@ -2491,26 +2574,5 @@
     "status": "REJECTED",
     "reason": "Minimum hold time not met: BRENT_OIL has only been open for 87 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "logged_at": "2026-09-01T07:26:46.231605+00:00"
-  },
-  {
-    "action": "HOLD",
-    "instrument": "",
-    "status": "REJECTED",
-    "reason": "Invalid action: HOLD",
-    "logged_at": "2026-09-01T07:21:47.524647+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 82 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-01T07:21:47.524504+00:00"
-  },
-  {
-    "action": "HOLD",
-    "instrument": "",
-    "status": "REJECTED",
-    "reason": "Invalid action: HOLD",
-    "logged_at": "2026-09-01T07:16:42.164599+00:00"
   }
 ]
