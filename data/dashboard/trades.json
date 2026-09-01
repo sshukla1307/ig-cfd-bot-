@@ -1,5 +1,19 @@
 [
   {
+    "action": "HOLD",
+    "instrument": "",
+    "status": "REJECTED",
+    "reason": "Invalid action: HOLD",
+    "logged_at": "2026-09-01T06:06:42.080608+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 7 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-01T06:06:42.080437+00:00"
+  },
+  {
     "action": "OPEN_SHORT",
     "instrument": "NATURAL_GAS",
     "direction": "SELL",
@@ -2475,77 +2489,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-08-31T11:53:54.640186+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "NATURAL_GAS",
-    "deal_id": "DIAAAAR3ZJU39AF",
-    "original_direction": "SELL",
-    "reason": "Natural Gas is trading slightly below its entry level, and the technicals show a short-term bearish trend with the SMA-20 below the SMA-50. The term structure is in contango, indicating ample supply, which is bearish. The current weather-driven demand is moderate with no strong signal. Closing the position to avoid further potential losses.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-08-31T05:54:36.367",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": "-",
-      "dealReference": "UEVAXRU9R5STYNV",
-      "dealId": "DIAAAAR3ZJU39AF",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR3ZJU39AF",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 2907.0,
-      "size": 0.2,
-      "direction": "BUY",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": 2.8,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-08-31T05:54:36.497860+00:00"
-  },
-  {
-    "action": "WTI_MIRROR_CLOSE",
-    "instrument": "WTI_OIL",
-    "deal_id": "DIAAAAR3ZJMPHAM",
-    "original_direction": "BUY",
-    "reason": "Auto-closed: its BRENT_OIL mirror was closed this tick.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-08-31T05:54:36.122",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "EQQJ3VAKZGJTYNV",
-      "dealId": "DIAAAAR3ZJMPHAM",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR3ZJMPHAM",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 8506.2,
-      "size": 0.1,
-      "direction": "SELL",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": 4.06,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-08-31T05:54:36.283256+00:00"
   }
 ]
