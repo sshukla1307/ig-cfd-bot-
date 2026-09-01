@@ -1,5 +1,19 @@
 [
   {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 20 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-01T06:22:04.518057+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 22 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-01T06:22:04.517656+00:00"
+  },
+  {
     "action": "HOLD",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
@@ -2201,83 +2215,5 @@
     "status": "REJECTED",
     "reason": "Minimum hold time not met: BRENT_OIL has only been open for 6 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "logged_at": "2026-08-31T17:37:24.714258+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "NATURAL_GAS",
-    "deal_id": "DIAAAAR34LPVCAZ",
-    "original_direction": "SELL",
-    "reason": "The technicals for Natural Gas show a neutral RSI and a short-term bearish signal with the SMA-20 below the SMA-50. The term structure is in contango, indicating ample supply, and the weather-driven demand is moderate with a falling trend in cooling degree days. The current position is slightly against the trend, and there is no strong catalyst to support holding the short position further.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-08-31T17:37:24.573",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": "-",
-      "dealReference": "CGHPHSPYRMWTYNV",
-      "dealId": "DIAAAAR34LPVCAZ",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR34LPVCAZ",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 2960.0,
-      "size": 0.2,
-      "direction": "BUY",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": -3.2,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-08-31T17:37:24.713916+00:00"
-  },
-  {
-    "action": "WTI_MIRROR_OPEN",
-    "instrument": "WTI_OIL",
-    "direction": "SELL",
-    "size": 0.1,
-    "margin_allocated": 99.37,
-    "effective_leverage": 5.0,
-    "notional": 850.69,
-    "stop_distance": 425.345,
-    "limit_distance": 850.69,
-    "reason": "Auto-mirrored from BRENT_OIL: Brent is in contango, indicating ample supply, and the price is slightly below the SMA-20, suggesting a potential bearish move. No strong bullish catalysts in the news.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR36T2ZCAV",
-    "raw": {
-      "date": "2026-08-31T17:31:45.441",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "QH8D3PP6PGJTYNV",
-      "dealId": "DIAAAAR36T2ZCAV",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR36T2ZCAV",
-          "status": "OPENED"
-        }
-      ],
-      "level": 8508.1,
-      "size": 0.1,
-      "direction": "SELL",
-      "stopLevel": 8933.445,
-      "limitLevel": 7657.41,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-08-31T17:31:45.684918+00:00"
   }
 ]
