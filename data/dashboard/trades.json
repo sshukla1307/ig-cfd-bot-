@@ -1,5 +1,12 @@
 [
   {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 16 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-01T15:33:37.896567+00:00"
+  },
+  {
     "action": "HOLD",
     "instrument": "",
     "status": "REJECTED",
@@ -2031,41 +2038,5 @@
     "status": "REJECTED",
     "reason": "Invalid action: HOLD",
     "logged_at": "2026-09-01T02:16:40.560042+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "NATURAL_GAS",
-    "deal_id": "DIAAAAR37PRLRAY",
-    "original_direction": "SELL",
-    "reason": "The RSI is neutral, and the weather-driven demand is moderate with a falling trend in cooling degree days. The term structure is in contango, indicating ample supply, which is bearish. The current position is slightly profitable, and there is no strong catalyst to expect further downside.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-01T02:11:58.466",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": "-",
-      "dealReference": "8MQEX4HJAWWTYNV",
-      "dealId": "DIAAAAR37PRLRAY",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR37PRLRAY",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 2956.0,
-      "size": 0.2,
-      "direction": "BUY",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": 0.4,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-09-01T02:11:58.669028+00:00"
   }
 ]
