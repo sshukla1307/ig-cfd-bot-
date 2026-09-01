@@ -1,5 +1,47 @@
 [
   {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "direction": "SELL",
+    "size": 0.5,
+    "margin_allocated": 301.31,
+    "effective_leverage": 5.0,
+    "notional": 1488.5,
+    "stop_distance": 148.85,
+    "limit_distance": 297.7,
+    "reason": "Natural Gas is showing a short-term bearish signal with the SMA-20 below the SMA-50. The RSI is neutral, and there is no extreme positioning or weather-driven demand to counteract this. The market is not crowded, and the cooling degree days are falling, indicating a potential decrease in demand. This aligns with the mean-reversion strategy for Natural Gas.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR4E36B2AZ",
+    "raw": {
+      "date": "2026-09-01T19:41:48.873",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "97WR6S2S6E6TYNV",
+      "dealId": "DIAAAAR4E36B2AZ",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR4E36B2AZ",
+          "status": "OPENED"
+        }
+      ],
+      "level": 2973.0,
+      "size": 0.5,
+      "direction": "SELL",
+      "stopLevel": 3121.85,
+      "limitLevel": 2675.3,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-01T19:41:49.106633+00:00"
+  },
+  {
     "action": "HOLD",
     "instrument": "",
     "status": "REJECTED",
@@ -2699,12 +2741,5 @@
     "status": "REJECTED",
     "reason": "Invalid action: HOLD",
     "logged_at": "2026-09-01T07:46:45.896497+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 107 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-01T07:46:45.896174+00:00"
   }
 ]
