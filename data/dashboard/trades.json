@@ -1,5 +1,89 @@
 [
   {
+    "action": "WTI_MIRROR_OPEN",
+    "instrument": "WTI_OIL",
+    "direction": "BUY",
+    "size": 0.1,
+    "margin_allocated": 155.01,
+    "effective_leverage": 5.0,
+    "notional": 879.36,
+    "stop_distance": 263.808,
+    "limit_distance": 527.616,
+    "reason": "Auto-mirrored from BRENT_OIL: Brent is in a short-term bullish trend with SMA-20 above SMA-50 and a backwardation in the term structure indicating tight supply. The RSI is neutral, allowing room for further upside.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR4DXSC9AR",
+    "raw": {
+      "date": "2026-09-01T16:16:47.01",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "G6HLXHN58MSTYNV",
+      "dealId": "DIAAAAR4DXSC9AR",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR4DXSC9AR",
+          "status": "OPENED"
+        }
+      ],
+      "level": 8795.4,
+      "size": 0.1,
+      "direction": "BUY",
+      "stopLevel": 8531.592,
+      "limitLevel": 9323.016,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-01T16:16:47.243455+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "direction": "BUY",
+    "size": 0.1,
+    "margin_allocated": 155.01,
+    "effective_leverage": 5.0,
+    "notional": 926.75,
+    "stop_distance": 278.025,
+    "limit_distance": 556.05,
+    "reason": "Brent is in a short-term bullish trend with SMA-20 above SMA-50 and a backwardation in the term structure indicating tight supply. The RSI is neutral, allowing room for further upside.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR4DXRDPAC",
+    "raw": {
+      "date": "2026-09-01T16:16:46.673",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "HQ76AGGK5Y6TYNV",
+      "dealId": "DIAAAAR4DXRDPAC",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR4DXRDPAC",
+          "status": "OPENED"
+        }
+      ],
+      "level": 9270.7,
+      "size": 0.1,
+      "direction": "BUY",
+      "stopLevel": 8992.675,
+      "limitLevel": 9826.75,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-01T16:16:46.903863+00:00"
+  },
+  {
     "action": "HOLD",
     "instrument": "",
     "status": "REJECTED",
@@ -2059,77 +2143,5 @@
     "status": "REJECTED",
     "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 35 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "logged_at": "2026-09-01T03:06:58.148019+00:00"
-  },
-  {
-    "action": "WTI_MIRROR_CLOSE",
-    "instrument": "WTI_OIL",
-    "deal_id": "DIAAAAR37S7XZBC",
-    "original_direction": "BUY",
-    "reason": "Auto-closed: its BRENT_OIL mirror was closed this tick.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-01T03:06:58.017",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "VPL67LTV8XJTYNV",
-      "dealId": "DIAAAAR37S7XZBC",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR37S7XZBC",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 8603.4,
-      "size": 0.1,
-      "direction": "SELL",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": 2.21,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-09-01T03:06:58.147737+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR37SCC5AG",
-    "original_direction": "BUY",
-    "reason": "Brent is trading near its entry level with no significant catalyst or technical signal to suggest a strong move in either direction. The term structure is flat, indicating no forward market bias, and the RSI is neutral. Closing to free up margin for better opportunities.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-01T03:06:57.796",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "8WQCRWAG3DNTYNV",
-      "dealId": "DIAAAAR37SCC5AG",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR37SCC5AG",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 9084.3,
-      "size": 0.1,
-      "direction": "SELL",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": 2.34,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-09-01T03:06:57.927492+00:00"
   }
 ]
