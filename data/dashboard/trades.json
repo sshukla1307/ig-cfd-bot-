@@ -4,6 +4,49 @@
     "instrument": "",
     "status": "REJECTED",
     "reason": "Invalid action: HOLD",
+    "logged_at": "2026-09-02T07:01:37.692448+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "deal_id": "DIAAAAR4GN6RGAZ",
+    "original_direction": "SELL",
+    "reason": "Natural Gas RSI is near overbought levels, and the current short position is slightly negative. The market news indicates a potential increase in prices due to geopolitical tensions, which could further pressure the short position.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-09-02T07:01:37.536",
+      "status": "CLOSED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "KVQQPUTUGBJTYNV",
+      "dealId": "DIAAAAR4GN6RGAZ",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR4GN6RGAZ",
+          "status": "FULLY_CLOSED"
+        }
+      ],
+      "level": 2979.0,
+      "size": 0.5,
+      "direction": "BUY",
+      "stopLevel": null,
+      "limitLevel": null,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": -1.0,
+      "profitCurrency": "USD"
+    },
+    "logged_at": "2026-09-02T07:01:37.692134+00:00"
+  },
+  {
+    "action": "HOLD",
+    "instrument": "",
+    "status": "REJECTED",
+    "reason": "Invalid action: HOLD",
     "logged_at": "2026-09-02T06:56:39.611666+00:00"
   },
   {
@@ -2094,54 +2137,5 @@
     "status": "rejected",
     "reason": "Insufficient margin headroom for the WTI mirror leg",
     "logged_at": "2026-09-01T19:06:47.810715+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "direction": "BUY",
-    "size": 0.3,
-    "margin_allocated": 483.22,
-    "effective_leverage": 5.0,
-    "notional": 2834.28,
-    "stop_distance": 472.38,
-    "limit_distance": 944.76,
-    "reason": "Brent is in a strong uptrend with the current price above both the 20-day and 50-day SMAs. The market is in backwardation, indicating tight supply, which is bullish. Recent news suggests limited supply growth, supporting higher prices. Opening a long position to capitalize on this momentum.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR4EXTWHAC",
-    "raw": {
-      "date": "2026-09-01T19:06:47.665",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "M922XNHUE4ATYNV",
-      "dealId": "DIAAAAR4EXTWHAC",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR4EXTWHAC",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9447.6,
-      "size": 0.3,
-      "direction": "BUY",
-      "stopLevel": 8975.22,
-      "limitLevel": 10392.36,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-01T19:06:47.810346+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 35 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
-    "logged_at": "2026-09-01T19:02:09.011392+00:00"
   }
 ]
