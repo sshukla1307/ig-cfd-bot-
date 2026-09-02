@@ -3,6 +3,13 @@
     "action": "CLOSE",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 160 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-02T06:36:55.301433+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 155 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "logged_at": "2026-09-02T06:31:35.185888+00:00"
   },
@@ -2303,47 +2310,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-01T18:45:55.831934+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "direction": "BUY",
-    "size": 0.2,
-    "margin_allocated": 300.45,
-    "effective_leverage": 5.0,
-    "notional": 1887.18,
-    "stop_distance": 283.077,
-    "limit_distance": 566.154,
-    "reason": "Brent is in a strong uptrend with the current price above both the 20-day and 50-day SMAs. The market is in backwardation, indicating tight supply, which is bullish. Recent news suggests geopolitical tensions around the Strait of Hormuz, which could further support prices.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR4ETUT9AC",
-    "raw": {
-      "date": "2026-09-01T18:45:55.223",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "VM9VEKGXBWSTYNV",
-      "dealId": "DIAAAAR4ETUT9AC",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR4ETUT9AC",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9437.7,
-      "size": 0.2,
-      "direction": "BUY",
-      "stopLevel": 9154.623,
-      "limitLevel": 10003.854,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-01T18:45:55.420448+00:00"
   }
 ]
