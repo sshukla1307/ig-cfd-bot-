@@ -1,5 +1,47 @@
 [
   {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "direction": "SELL",
+    "size": 0.5,
+    "margin_allocated": 294.23,
+    "effective_leverage": 5.0,
+    "notional": 1485.5,
+    "stop_distance": 148.55,
+    "limit_distance": 297.1,
+    "reason": "Natural Gas is showing a bearish term structure with a significant contango, indicating ample supply. The RSI is near overbought levels, and the SMA-20 is below the SMA-50, suggesting a potential pullback. Weather-driven demand is stable with no strong signals, and managed-money positioning is neutral. This setup supports a short position.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR4JV58XAK",
+    "raw": {
+      "date": "2026-09-02T11:21:40.201",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "9MQM5TS3J6WTYP5",
+      "dealId": "DIAAAAR4JV58XAK",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR4JV58XAK",
+          "status": "OPENED"
+        }
+      ],
+      "level": 2968.0,
+      "size": 0.5,
+      "direction": "SELL",
+      "stopLevel": 3116.55,
+      "limitLevel": 2670.9,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-02T11:21:40.337696+00:00"
+  },
+  {
     "action": "HOLD",
     "instrument": "",
     "status": "REJECTED",
@@ -2037,12 +2079,5 @@
     "status": "REJECTED",
     "reason": "Invalid action: HOLD",
     "logged_at": "2026-09-01T23:26:43.424364+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 36 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
-    "logged_at": "2026-09-01T23:22:51.348339+00:00"
   }
 ]
