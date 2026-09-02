@@ -1,5 +1,12 @@
 [
   {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 10 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-02T16:26:55.057214+00:00"
+  },
+  {
     "action": "HOLD",
     "instrument": "",
     "status": "REJECTED",
@@ -2107,12 +2114,5 @@
     "status": "REJECTED",
     "reason": "Invalid action: HOLD",
     "logged_at": "2026-09-02T03:41:41.515761+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 45 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
-    "logged_at": "2026-09-02T03:36:43.479238+00:00"
   }
 ]
