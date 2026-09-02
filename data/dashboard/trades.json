@@ -1,5 +1,12 @@
 [
   {
+    "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 100 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-02T03:21:40.851625+00:00"
+  },
+  {
     "action": "HOLD",
     "instrument": "",
     "status": "REJECTED",
@@ -2449,47 +2456,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-01T16:16:47.243455+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "direction": "BUY",
-    "size": 0.1,
-    "margin_allocated": 155.01,
-    "effective_leverage": 5.0,
-    "notional": 926.75,
-    "stop_distance": 278.025,
-    "limit_distance": 556.05,
-    "reason": "Brent is in a short-term bullish trend with SMA-20 above SMA-50 and a backwardation in the term structure indicating tight supply. The RSI is neutral, allowing room for further upside.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR4DXRDPAC",
-    "raw": {
-      "date": "2026-09-01T16:16:46.673",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "HQ76AGGK5Y6TYNV",
-      "dealId": "DIAAAAR4DXRDPAC",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR4DXRDPAC",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9270.7,
-      "size": 0.1,
-      "direction": "BUY",
-      "stopLevel": 8992.675,
-      "limitLevel": 9826.75,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-01T16:16:46.903863+00:00"
   }
 ]
