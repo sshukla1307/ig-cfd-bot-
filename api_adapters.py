@@ -105,8 +105,12 @@ def retry_with_backoff(func: Callable, max_retries: int = 5, base_delay: float =
 
 
 class OpenAIClient:
-    def __init__(self, model: str = "gpt-4o"):
+    def __init__(self, model: str = "gpt-4o", research_model: str = None):
         self.model = model
+        # research_model (cheaper) drives the intermediate tool-selection turns;
+        # the actual propose_trades decision is always re-asked of `model` --
+        # see generate(). Defaults to `model` itself if not given.
+        self.research_model = research_model or model
         self.api_key = os.getenv("OPENAI_API_KEY")
         if not self.api_key:
             logger.warning("OPENAI_API_KEY not found. Agent will fail.")
@@ -151,7 +155,7 @@ class OpenAIClient:
             @retry_with_backoff
             def _call_tool():
                 return client.chat.completions.create(
-                    model=self.model,
+                    model=self.research_model,
                     messages=messages,
                     tools=formatted_tools,
                     tool_choice="required",  # never allow a free-text final answer --
@@ -166,20 +170,39 @@ class OpenAIClient:
                 )
             response = _call_tool()
             message = response.choices[0].message
-            messages.append(message)
 
             if not message.tool_calls:
+                messages.append(message)
                 return message.content or ""
 
             tool_call = message.tool_calls[0]
             func_name = tool_call.function.name
+
+            if func_name == "propose_trades":
+                # research_model only decided it's DONE researching -- the actual
+                # trade judgment always goes to the primary model, re-asked with
+                # the same accumulated research context (not this tool_call's own
+                # arguments, which came from the cheaper model and are discarded).
+                if self.research_model != self.model:
+                    @retry_with_backoff
+                    def _call_decide():
+                        return client.chat.completions.create(
+                            model=self.model,
+                            messages=messages,
+                            tools=formatted_tools,
+                            tool_choice={"type": "function", "function": {"name": "propose_trades"}},
+                            temperature=0.0,
+                            max_tokens=4096,
+                        )
+                    response = _call_decide()
+                    tool_call = response.choices[0].message.tool_calls[0]
+                return tool_call.function.arguments
+
+            messages.append(message)
             try:
                 args = json.loads(tool_call.function.arguments)
             except Exception:
                 args = {}
-
-            if func_name == "propose_trades":
-                return tool_call.function.arguments
 
             call_count += 1
             if tool_call_tracker is not None:

@@ -12,18 +12,19 @@ name: LIVE CFD Trading Loop (Real Capital)
 
 on:
   schedule:
-    # Every 5 minutes, Sunday through Friday (skips Saturday, when every
-    # commodity market covered here is universally closed). The precise
-    # per-instrument gating happens in Python via IG's own live market-status
-    # field, not this cron window -- this is deliberately a superset.
+    # Hourly, Sunday through Friday (skips Saturday, when every commodity
+    # market covered here is universally closed). The precise per-instrument
+    # gating happens in Python via IG's own live market-status field, not
+    # this cron window -- this is deliberately a superset. Was */5 min;
+    # slowed to match backtest.py's 1h-bar timeframe (the validated edge
+    # needs hours to resolve, not minutes) and to cut OpenAI cost.
     #
     # NOTE: this was found to be unreliable in practice -- GitHub's scheduler
-    # dropped the vast majority of fires during 2026-08-27 through 08-31
-    # (down to 1-6 actual runs/day instead of the ~288 this cron implies).
+    # dropped the vast majority of fires during 2026-08-27 through 08-31.
     # A repository_dispatch trigger (below) driven by an external Cloudflare
     # Worker Cron Trigger is now the primary tick source; this schedule
     # entry is kept only as a harmless secondary attempt.
-    - cron: '*/5 * * * 0-5'
+    - cron: '0 * * * 0-5'
   repository_dispatch:
     types: [tick]
   workflow_dispatch:

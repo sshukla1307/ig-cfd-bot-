@@ -8,14 +8,17 @@ dependency of its own -- cfd_runner.py handles validation/execution.
 import json
 import logging
 
-from config import RULES, PERSONA_PROMPT, INSTRUMENTS, LLM_PROVIDER, OPENAI_MODEL, ANTHROPIC_MODEL
+from config import (
+    RULES, PERSONA_PROMPT, INSTRUMENTS, LLM_PROVIDER, OPENAI_MODEL, OPENAI_RESEARCH_MODEL,
+    ANTHROPIC_MODEL,
+)
 from api_adapters import OpenAIClient, AnthropicClient
 
 
 def _make_llm_client():
     if LLM_PROVIDER == "anthropic":
         return AnthropicClient(model=ANTHROPIC_MODEL)
-    return OpenAIClient(model=OPENAI_MODEL)
+    return OpenAIClient(model=OPENAI_MODEL, research_model=OPENAI_RESEARCH_MODEL)
 
 logger = logging.getLogger(__name__)
 

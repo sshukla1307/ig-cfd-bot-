@@ -62,9 +62,13 @@ class SystemRules:
     stop_loss_required: bool = True
     take_profit_required: bool = True
     margin_safety_buffer_pct: float = 30.0  # block ALL new opens if available/balance < this %
-    min_tick_interval_minutes: int = 5  # NOTE: GitHub Actions cron doesn't guarantee precise
-                                         # firing -- see cfd_trading.yml's comment. Treat this as
-                                         # the target/nominal cadence, not a hard guarantee.
+    min_tick_interval_minutes: int = 60  # slowed from 5 to 60 -- the validated edge (backtest.py)
+                                         # was measured on 1h bars, not 5-min ticks, and every LLM
+                                         # call at 5-min cadence was pure OpenAI cost with no
+                                         # matching signal resolution. NOTE: GitHub Actions cron
+                                         # doesn't guarantee precise firing -- see cfd_trading.yml's
+                                         # comment. Treat this as the target/nominal cadence, not a
+                                         # hard guarantee.
     require_confluence: bool = True  # after 49 real trades showed a 37% win rate, block any
                                       # OPEN_LONG/OPEN_SHORT proposed on technicals alone -- the
                                       # agent must have checked news or macro THIS tick too before
@@ -78,7 +82,7 @@ class SystemRules:
                                                 # blocks re-opening the SAME direction on an instrument
                                                 # within this many minutes of a LOSING close there. A
                                                 # different direction, or enough elapsed time, is fine.
-    min_hold_minutes_before_discretionary_close: int = 180  # real trade data (76 matched
+    min_hold_minutes_before_discretionary_close: int = 720  # real trade data (76 matched
                                                 # trades in one day) showed a ~30min median hold time,
                                                 # while the backtest that validated the trend-following/
                                                 # mean-reversion strategies needed a 34-48h MEDIAN hold
@@ -88,10 +92,12 @@ class SystemRules:
                                                 # validated edge develop. Blocks a discretionary CLOSE
                                                 # (the agent choosing to exit early, as opposed to IG's
                                                 # own stop/limit or the stop-breach backstop firing) within
-                                                # this many minutes of opening. 3 hours is a compromise --
-                                                # not the full backtested median, but enough to stop the
-                                                # ~30-minute knee-jerk exits while still allowing real
-                                                # risk management within the same trading day.
+                                                # this many minutes of opening. Raised from 180 (3h) to
+                                                # 720 (12h) -- still short of the full 34-48h backtested
+                                                # median, but a much bigger step toward letting the
+                                                # validated edge actually develop; the real stop/limit and
+                                                # the stop-breach backstop still protect capital
+                                                # independently of this rule the whole time.
 
 
 RULES = SystemRules()
@@ -165,9 +171,13 @@ PERSONA_PROMPT = (
     "before banking it, and don't reflexively close a loser just because it's "
     "red if the original thesis still holds. Both calls should be about "
     "whether the thesis is still intact, not the mere sign of the P&L.\n"
-    "- You check in every few minutes -- you don't need to catch an entire "
-    "move, a fast, well-defined slice of it is a complete, valid trade on its "
-    "own, and you can always re-enter later if the setup is still there."
+    "- You check in about once an hour, and a discretionary close is blocked "
+    "for the first 12 hours after opening -- this strategy's edge (see the "
+    "backtest) resolves over many hours, not minutes. Let the thesis actually "
+    "play out toward its stop/target instead of grabbing a fast slice; you "
+    "can always re-enter later if the setup is still there, but exiting a "
+    "still-valid thesis early just to bank a small move is exactly the habit "
+    "that has been cutting winners short."
 )
 
 # ─────────────────────────────────────────────
@@ -186,6 +196,12 @@ PERSONA_PROMPT = (
 # based on this alone -- both clients still exist and are still tested.
 LLM_PROVIDER = "openai"  # "anthropic" or "openai"
 OPENAI_MODEL = "gpt-4o"
+OPENAI_RESEARCH_MODEL = "gpt-4o-mini"  # used ONLY for the intermediate tool-selection
+# turns (get_technicals/get_commodity_news/etc.) within a tick's research loop -- those
+# are mechanical function-picking steps, not the trade judgment itself. The actual
+# propose_trades decision is always re-asked of OPENAI_MODEL once research concludes
+# (see OpenAIClient.generate), so trade quality shouldn't be affected -- only the cost
+# of the research turns, which was most of a tick's token spend at 5-6 calls/tick.
 ANTHROPIC_MODEL = "claude-sonnet-5"
 
 # ─────────────────────────────────────────────
