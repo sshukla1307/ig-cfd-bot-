@@ -1,5 +1,12 @@
 [
   {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 61 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-02T00:52:17.325379+00:00"
+  },
+  {
     "action": "HOLD",
     "instrument": "",
     "status": "REJECTED",
@@ -2612,47 +2619,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-01T12:36:40.112235+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "direction": "BUY",
-    "size": 0.1,
-    "margin_allocated": 152.35,
-    "effective_leverage": 5.0,
-    "notional": 919.86,
-    "stop_distance": 459.93,
-    "limit_distance": 919.86,
-    "reason": "Brent is in a short-term bullish trend with SMA-20 above SMA-50 and RSI at 57.8, indicating potential for further upside. The market is in backwardation, suggesting tight supply, which supports a bullish outlook.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR4BTU5TAB",
-    "raw": {
-      "date": "2026-09-01T12:36:39.589",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "K57T5K8GMCNTYNV",
-      "dealId": "DIAAAAR4BTU5TAB",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR4BTU5TAB",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9199.1,
-      "size": 0.1,
-      "direction": "BUY",
-      "stopLevel": 8739.17,
-      "limitLevel": 10118.96,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-01T12:36:39.827032+00:00"
   }
 ]
