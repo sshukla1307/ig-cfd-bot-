@@ -1,5 +1,12 @@
 [
   {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 25 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
+    "logged_at": "2026-09-02T07:26:42.926971+00:00"
+  },
+  {
     "action": "HOLD",
     "instrument": "",
     "status": "REJECTED",
@@ -2041,39 +2048,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-01T19:16:49.324840+00:00"
-  },
-  {
-    "action": "MIRROR_ROLLBACK",
-    "instrument": "BRENT_OIL",
-    "reason": "WTI mirror leg failed (Insufficient margin headroom for the WTI mirror leg) -- closing Brent back out.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-01T19:11:43.262",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "JPQN2TA59ZATYNV",
-      "dealId": "DIAAAAR4EX958BC",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR4EX958BC",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 9445.0,
-      "size": 0.3,
-      "direction": "SELL",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": -0.81,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-09-01T19:11:43.422889+00:00"
   }
 ]
