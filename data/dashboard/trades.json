@@ -3,6 +3,13 @@
     "action": "OPEN_SHORT",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 15 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
+    "logged_at": "2026-09-02T03:06:44.742822+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 10 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
     "logged_at": "2026-09-02T03:02:18.147353+00:00"
   },
@@ -2519,47 +2526,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-01T16:06:45.183063+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "direction": "BUY",
-    "size": 0.1,
-    "margin_allocated": 153.51,
-    "effective_leverage": 5.0,
-    "notional": 921.24,
-    "stop_distance": 460.62,
-    "limit_distance": 921.24,
-    "reason": "Brent is in a short-term bullish trend with SMA-20 above SMA-50 and a backwardation in the term structure indicating tight supply. RSI is neutral, allowing room for further upside. No significant bearish news to counter the technicals.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR4DUP4GBG",
-    "raw": {
-      "date": "2026-09-01T16:06:44.671",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "7WLG68K9L4NTYNV",
-      "dealId": "DIAAAAR4DUP4GBG",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR4DUP4GBG",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9213.5,
-      "size": 0.1,
-      "direction": "BUY",
-      "stopLevel": 8752.88,
-      "limitLevel": 10134.74,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-01T16:06:44.878209+00:00"
   }
 ]
