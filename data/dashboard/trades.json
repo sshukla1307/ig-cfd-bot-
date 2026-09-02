@@ -4,6 +4,20 @@
     "instrument": "",
     "status": "REJECTED",
     "reason": "Invalid action: HOLD",
+    "logged_at": "2026-09-02T02:27:01.446592+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 155 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-02T02:27:01.446410+00:00"
+  },
+  {
+    "action": "HOLD",
+    "instrument": "",
+    "status": "REJECTED",
+    "reason": "Invalid action: HOLD",
     "logged_at": "2026-09-02T02:21:43.933673+00:00"
   },
   {
@@ -2611,48 +2625,5 @@
     "status": "REJECTED",
     "reason": "Minimum hold time not met: BRENT_OIL has only been open for 161 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "logged_at": "2026-09-01T15:17:24.340423+00:00"
-  },
-  {
-    "action": "HOLD",
-    "instrument": "",
-    "status": "REJECTED",
-    "reason": "Invalid action: HOLD",
-    "logged_at": "2026-09-01T15:11:45.687613+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "NATURAL_GAS",
-    "deal_id": "DIAAAAR4BKV22A4",
-    "original_direction": "SELL",
-    "reason": "The current short position in Natural Gas is slightly profitable, and the technicals show a neutral RSI with a bearish SMA crossover. However, the news indicates a potential increase in cooling demand due to hotter weather forecasts, which could support prices. Closing the position to lock in gains and reassess the situation.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-01T15:06:38.267",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": "-",
-      "dealReference": "V93FXD6VEDATYNV",
-      "dealId": "DIAAAAR4BKV22A4",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR4BKV22A4",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 2915.0,
-      "size": 0.2,
-      "direction": "BUY",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": 3.2,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-09-01T15:06:38.413806+00:00"
   }
 ]
