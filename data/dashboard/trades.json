@@ -3,6 +3,20 @@
     "action": "OPEN_SHORT",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 45 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
+    "logged_at": "2026-09-02T07:46:53.198957+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 115 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-02T07:46:53.198799+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 40 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
     "logged_at": "2026-09-02T07:41:38.092693+00:00"
   },
@@ -1902,89 +1916,5 @@
     "status": "REJECTED",
     "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 60 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
     "logged_at": "2026-09-01T19:26:44.449883+00:00"
-  },
-  {
-    "action": "WTI_MIRROR_OPEN",
-    "instrument": "WTI_OIL",
-    "direction": "BUY",
-    "size": 0.2,
-    "margin_allocated": 301.31,
-    "effective_leverage": 5.0,
-    "notional": 1789.46,
-    "stop_distance": 447.365,
-    "limit_distance": 894.73,
-    "reason": "Auto-mirrored from BRENT_OIL: Brent oil is in a strong uptrend with the current price above both the 20-day and 50-day SMAs. The market is in backwardation, indicating tight supply, which is bullish. No extreme positioning signals to counter this view.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR4EZN98AX",
-    "raw": {
-      "date": "2026-09-01T19:21:51.734",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "6NW98DZFYCWTYNV",
-      "dealId": "DIAAAAR4EZN98AX",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR4EZN98AX",
-          "status": "OPENED"
-        }
-      ],
-      "level": 8946.7,
-      "size": 0.2,
-      "direction": "BUY",
-      "stopLevel": 8499.335,
-      "limitLevel": 9841.43,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-01T19:21:51.857424+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "direction": "BUY",
-    "size": 0.2,
-    "margin_allocated": 301.31,
-    "effective_leverage": 5.0,
-    "notional": 1890.06,
-    "stop_distance": 472.515,
-    "limit_distance": 945.03,
-    "reason": "Brent oil is in a strong uptrend with the current price above both the 20-day and 50-day SMAs. The market is in backwardation, indicating tight supply, which is bullish. No extreme positioning signals to counter this view.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR4EZ4JEAZ",
-    "raw": {
-      "date": "2026-09-01T19:21:51.384",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "4LU9VDYTSHNTYNV",
-      "dealId": "DIAAAAR4EZ4JEAZ",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR4EZ4JEAZ",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9450.1,
-      "size": 0.2,
-      "direction": "BUY",
-      "stopLevel": 8977.585,
-      "limitLevel": 10395.13,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-01T19:21:51.588497+00:00"
   }
 ]
