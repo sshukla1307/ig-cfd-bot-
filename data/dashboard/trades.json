@@ -1,5 +1,47 @@
 [
   {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "direction": "SELL",
+    "size": 0.5,
+    "margin_allocated": 289.6,
+    "effective_leverage": 5.0,
+    "notional": 1499.0,
+    "stop_distance": 149.9,
+    "limit_distance": 299.8,
+    "reason": "Natural Gas is in a contango structure, indicating ample supply. The RSI is near overbought levels, and the seasonality is bearish with the shoulder/injection season. Weather-driven demand is moderate, providing no strong bullish signal. This setup suggests a short opportunity.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR4MJUP3AJ",
+    "raw": {
+      "date": "2026-09-02T16:16:51.678",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "ET9LXH89CKSTYP5",
+      "dealId": "DIAAAAR4MJUP3AJ",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR4MJUP3AJ",
+          "status": "OPENED"
+        }
+      ],
+      "level": 2994.0,
+      "size": 0.5,
+      "direction": "SELL",
+      "stopLevel": 3143.9,
+      "limitLevel": 2694.2,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-02T16:16:51.971915+00:00"
+  },
+  {
     "action": "HOLD",
     "instrument": "",
     "status": "REJECTED",
@@ -2072,12 +2114,5 @@
     "status": "REJECTED",
     "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 40 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
     "logged_at": "2026-09-02T03:32:19.708901+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 111 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-02T03:32:19.708601+00:00"
   }
 ]
