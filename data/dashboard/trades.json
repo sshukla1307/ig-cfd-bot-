@@ -3,6 +3,20 @@
     "action": "CLOSE",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 30 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-02T17:36:57.774906+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 55 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-02T17:36:57.774627+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 25 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "logged_at": "2026-09-02T17:31:44.867986+00:00"
   },
@@ -2141,48 +2155,5 @@
       "profitCurrency": "USD"
     },
     "logged_at": "2026-09-02T04:47:06.112038+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR4F6SQXAZ",
-    "original_direction": "BUY",
-    "reason": "Brent oil is currently in a backwardation structure, indicating tight supply, which is typically bullish. However, the recent geopolitical tensions between the US and Iran have already been priced in, and the RSI is nearing overbought levels. The position is currently at a loss, and given the mixed signals, it's prudent to close the position to prevent further losses.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-02T04:47:05.767",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "UNH43DA4AP6TYNV",
-      "dealId": "DIAAAAR4F6SQXAZ",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR4F6SQXAZ",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 9455.9,
-      "size": 0.2,
-      "direction": "SELL",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": -26.82,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-09-02T04:47:05.897429+00:00"
-  },
-  {
-    "action": "HOLD",
-    "instrument": "",
-    "status": "REJECTED",
-    "reason": "Invalid action: HOLD",
-    "logged_at": "2026-09-02T04:41:44.212263+00:00"
   }
 ]
