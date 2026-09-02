@@ -3,6 +3,13 @@
     "action": "CLOSE",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 135 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-02T06:11:46.818525+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 130 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "logged_at": "2026-09-02T06:06:43.979609+00:00"
   },
@@ -2338,41 +2345,5 @@
     "status": "REJECTED",
     "reason": "Invalid action: HOLD",
     "logged_at": "2026-09-01T18:27:07.467966+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "NATURAL_GAS",
-    "deal_id": "DIAAAAR4DJA54AB",
-    "original_direction": "SELL",
-    "reason": "The current technicals for Natural Gas show a neutral RSI and a bearish SMA crossover, indicating potential further downside. The term structure is in contango, suggesting ample supply, which aligns with a bearish outlook. The current weather-driven demand is moderate with a falling trend in cooling degree days, providing no strong bullish catalyst. Given these factors, it's prudent to close the short position to avoid further losses.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-01T18:27:07.153",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": "-",
-      "dealReference": "CRR4UNRERB2TYNV",
-      "dealId": "DIAAAAR4DJA54AB",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR4DJA54AB",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 2927.0,
-      "size": 0.2,
-      "direction": "BUY",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": -1.8,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-09-01T18:27:07.467611+00:00"
   }
 ]
