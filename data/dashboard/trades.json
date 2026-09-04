@@ -1,5 +1,12 @@
 [
   {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 365 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-04T04:06:24.917579+00:00"
+  },
+  {
     "action": "AGENT_CALL_FAILED",
     "status": "ERROR",
     "reason": "Agent responded without ever calling propose_trades (hit max tool calls or returned nothing)",
@@ -2219,41 +2226,5 @@
     "status": "REJECTED",
     "reason": "Invalid action: HOLD",
     "logged_at": "2026-09-02T07:01:37.692448+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "NATURAL_GAS",
-    "deal_id": "DIAAAAR4GN6RGAZ",
-    "original_direction": "SELL",
-    "reason": "Natural Gas RSI is near overbought levels, and the current short position is slightly negative. The market news indicates a potential increase in prices due to geopolitical tensions, which could further pressure the short position.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-02T07:01:37.536",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": "-",
-      "dealReference": "KVQQPUTUGBJTYNV",
-      "dealId": "DIAAAAR4GN6RGAZ",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR4GN6RGAZ",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 2979.0,
-      "size": 0.5,
-      "direction": "BUY",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": -1.0,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-09-02T07:01:37.692134+00:00"
   }
 ]
