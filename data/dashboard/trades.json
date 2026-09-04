@@ -1,5 +1,96 @@
 [
   {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "This trade's margin ($289.79) would leave available at $289.80, below the 30.0% safety buffer of balance $1159.17 -- rejected to avoid risking a forced closure on this or other open positions",
+    "logged_at": "2026-09-04T20:01:35.793268+00:00"
+  },
+  {
+    "action": "WTI_MIRROR_OPEN",
+    "instrument": "WTI_OIL",
+    "direction": "BUY",
+    "size": 0.2,
+    "margin_allocated": 289.79,
+    "effective_leverage": 5.0,
+    "notional": 1797.78,
+    "stop_distance": 449.445,
+    "limit_distance": 898.89,
+    "reason": "Auto-mirrored from BRENT_OIL: Brent is in a strong uptrend with SMA-20 above SMA-50 and RSI at 63.3, indicating bullish momentum. The market is in backwardation, suggesting tight supply. Recent geopolitical tensions with Iran have also pushed prices higher, providing a catalyst for further gains.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR45N6AYBD",
+    "raw": {
+      "date": "2026-09-04T20:01:35.568",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "2YM8UMNAW6ETYNV",
+      "dealId": "DIAAAAR45N6AYBD",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR45N6AYBD",
+          "status": "OPENED"
+        }
+      ],
+      "level": 8988.8,
+      "size": 0.2,
+      "direction": "BUY",
+      "stopLevel": 8539.355,
+      "limitLevel": 9887.69,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-04T20:01:35.792930+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "direction": "BUY",
+    "size": 0.2,
+    "margin_allocated": 289.79,
+    "effective_leverage": 5.0,
+    "notional": 1899.9,
+    "stop_distance": 474.975,
+    "limit_distance": 949.95,
+    "reason": "Brent is in a strong uptrend with SMA-20 above SMA-50 and RSI at 63.3, indicating bullish momentum. The market is in backwardation, suggesting tight supply. Recent geopolitical tensions with Iran have also pushed prices higher, providing a catalyst for further gains.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR45QFLYAP",
+    "raw": {
+      "date": "2026-09-04T20:01:35.341",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "V8HEBZUQGWWTYNV",
+      "dealId": "DIAAAAR45QFLYAP",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR45QFLYAP",
+          "status": "OPENED"
+        }
+      ],
+      "level": 9501.9,
+      "size": 0.2,
+      "direction": "BUY",
+      "stopLevel": 9026.925,
+      "limitLevel": 10451.85,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-04T20:01:35.474305+00:00"
+  },
+  {
     "action": "AGENT_CALL_FAILED",
     "status": "ERROR",
     "reason": "Agent responded without ever calling propose_trades (hit max tool calls or returned nothing)",
@@ -2358,61 +2449,5 @@
     "status": "REJECTED",
     "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 5 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "logged_at": "2026-09-02T08:16:48.107533+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "direction": "SELL",
-    "size": 0.5,
-    "margin_allocated": 298.14,
-    "effective_leverage": 5.0,
-    "notional": 1488.0,
-    "stop_distance": 148.8,
-    "limit_distance": 297.6,
-    "reason": "Natural Gas is showing a contango structure, indicating ample supply. The RSI is near overbought levels, suggesting a potential pullback. Weather-driven demand is moderate, providing no strong bullish catalyst. This aligns with the mean-reversion strategy for Natural Gas.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR4HR972AG",
-    "raw": {
-      "date": "2026-09-02T08:11:44.747",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": "-",
-      "dealReference": "F7629UZAS2ATYNV",
-      "dealId": "DIAAAAR4HR972AG",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR4HR972AG",
-          "status": "OPENED"
-        }
-      ],
-      "level": 2973.0,
-      "size": 0.5,
-      "direction": "SELL",
-      "stopLevel": 3121.8,
-      "limitLevel": 2675.4,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-02T08:11:44.900831+00:00"
-  },
-  {
-    "action": "HOLD",
-    "instrument": "",
-    "status": "REJECTED",
-    "reason": "Invalid action: HOLD",
-    "logged_at": "2026-09-02T08:06:44.484491+00:00"
-  },
-  {
-    "action": "HOLD",
-    "instrument": "",
-    "status": "REJECTED",
-    "reason": "Invalid action: HOLD",
-    "logged_at": "2026-09-02T08:01:35.797984+00:00"
   }
 ]
