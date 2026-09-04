@@ -1,5 +1,11 @@
 [
   {
+    "action": "AGENT_CALL_FAILED",
+    "status": "ERROR",
+    "reason": "Agent responded without ever calling propose_trades (hit max tool calls or returned nothing)",
+    "logged_at": "2026-09-04T14:51:03.261848+00:00"
+  },
+  {
     "action": "OPEN_SHORT",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
@@ -2305,12 +2311,5 @@
     "status": "REJECTED",
     "reason": "Invalid action: HOLD",
     "logged_at": "2026-09-02T07:36:38.257117+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 30 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
-    "logged_at": "2026-09-02T07:31:44.416881+00:00"
   }
 ]
