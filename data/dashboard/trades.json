@@ -1,5 +1,47 @@
 [
   {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "direction": "SELL",
+    "size": 1.2,
+    "margin_allocated": 706.99,
+    "effective_leverage": 5.0,
+    "notional": 3556.8,
+    "stop_distance": 148.2,
+    "limit_distance": 296.4,
+    "reason": "Natural Gas is in contango, indicating ample supply, and the RSI is neutral at 60.1. Weather-driven demand is moderate with no strong signal, and managed-money positioning is within a normal range. The macro environment shows a strong dollar, which can pressure commodity prices. These factors suggest a bearish outlook for Natural Gas.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR5JGVZDA5",
+    "raw": {
+      "date": "2026-09-08T22:03:01.044",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "48FPRKV53TNTYNV",
+      "dealId": "DIAAAAR5JGVZDA5",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR5JGVZDA5",
+          "status": "OPENED"
+        }
+      ],
+      "level": 2961.0,
+      "size": 1.2,
+      "direction": "SELL",
+      "stopLevel": 3109.2,
+      "limitLevel": 2664.6,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-08T22:03:01.229664+00:00"
+  },
+  {
     "action": "AGENT_CALL_FAILED",
     "status": "ERROR",
     "reason": "Agent responded without ever calling propose_trades (hit max tool calls or returned nothing)",
@@ -2443,12 +2485,5 @@
     "status": "REJECTED",
     "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 15 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "logged_at": "2026-09-02T12:16:43.732123+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 100 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-02T12:16:43.731872+00:00"
   }
 ]
