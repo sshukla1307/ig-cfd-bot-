@@ -1,5 +1,47 @@
 [
   {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "direction": "SELL",
+    "size": 0.5,
+    "margin_allocated": 296.36,
+    "effective_leverage": 5.0,
+    "notional": 1501.0,
+    "stop_distance": 150.1,
+    "limit_distance": 300.2,
+    "reason": "Natural Gas is in contango, indicating ample supply, and the RSI is approaching overbought levels. The weather-driven demand is moderate with no strong signal, and managed-money positioning is within a normal range. This suggests a potential for a short-term pullback.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR5BXHBGA5",
+    "raw": {
+      "date": "2026-09-08T02:01:30.332",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "LDV83ZCRQCNTYNV",
+      "dealId": "DIAAAAR5BXHBGA5",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR5BXHBGA5",
+          "status": "OPENED"
+        }
+      ],
+      "level": 3001.0,
+      "size": 0.5,
+      "direction": "SELL",
+      "stopLevel": 3151.1,
+      "limitLevel": 2700.8,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-08T02:01:30.493082+00:00"
+  },
+  {
     "action": "AGENT_CALL_FAILED",
     "status": "ERROR",
     "reason": "Agent responded without ever calling propose_trades (hit max tool calls or returned nothing)",
@@ -2421,12 +2463,5 @@
     "status": "REJECTED",
     "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 160 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "logged_at": "2026-09-02T10:51:41.880154+00:00"
-  },
-  {
-    "action": "HOLD",
-    "instrument": "",
-    "status": "REJECTED",
-    "reason": "Invalid action: HOLD",
-    "logged_at": "2026-09-02T10:46:41.835567+00:00"
   }
 ]
