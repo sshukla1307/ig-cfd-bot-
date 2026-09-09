@@ -152,13 +152,25 @@ class OpenAIClient:
         call_count = 0
         tool_call_counts = {}
         while call_count < max_tool_calls:
+            # On the last allowed turn, force propose_trades specifically rather
+            # than leaving the choice open -- a model that's been looping on one
+            # tool despite execute_tool_capped's error nudges (observed live:
+            # get_weather_demand called 8x after being capped at 3) will
+            # otherwise burn its final call the same way and hit AgentCallFailed
+            # with zero decision made, instead of concluding with what it has.
+            is_last_turn = call_count >= max_tool_calls - 1
+            turn_tool_choice = (
+                {"type": "function", "function": {"name": "propose_trades"}}
+                if is_last_turn else "required"
+            )
+
             @retry_with_backoff
             def _call_tool():
                 return client.chat.completions.create(
                     model=self.research_model,
                     messages=messages,
                     tools=formatted_tools,
-                    tool_choice="required",  # never allow a free-text final answer --
+                    tool_choice=turn_tool_choice,  # never allow a free-text final answer --
                     # a model that "concludes" by writing prose with the decision
                     # embedded in a markdown code fence (a real failure seen in
                     # production) is otherwise indistinguishable from one that
@@ -272,6 +284,20 @@ class AnthropicClient:
         call_count = 0
         tool_call_counts = {}
         while call_count < max_tool_calls:
+            # On the last allowed turn, force propose_trades specifically rather
+            # than leaving the choice open -- a model that's been looping on one
+            # tool despite execute_tool_capped's error nudges (observed live:
+            # get_weather_demand called 8x after being capped at 3) will
+            # otherwise burn its final call the same way and hit AgentCallFailed
+            # with zero decision made, instead of concluding with what it has.
+            # >= rather than == because a single Anthropic turn can return
+            # multiple tool_use blocks, so call_count can jump by more than 1.
+            is_last_turn = call_count >= max_tool_calls - 1
+            turn_tool_choice = (
+                {"type": "tool", "name": "propose_trades"}
+                if is_last_turn else {"type": "any"}
+            )
+
             @retry_with_backoff
             def _call_tool():
                 return client.messages.create(
@@ -287,7 +313,7 @@ class AnthropicClient:
                     system=system_prompt,
                     messages=messages,
                     tools=anthropic_tools,
-                    tool_choice={"type": "any"},  # never allow a free-text final answer --
+                    tool_choice=turn_tool_choice,  # never allow a free-text final answer --
                     # mirrors OpenAI's tool_choice="required": the model must always
                     # call propose_trades to conclude, guaranteeing clean JSON rather
                     # than a prose "conclusion" with the decision buried in a code fence.
