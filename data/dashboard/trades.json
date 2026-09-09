@@ -1,5 +1,89 @@
 [
   {
+    "action": "WTI_MIRROR_OPEN",
+    "instrument": "WTI_OIL",
+    "direction": "BUY",
+    "size": 0.4,
+    "margin_allocated": 714.54,
+    "effective_leverage": 5.0,
+    "notional": 3712.76,
+    "stop_distance": 464.095,
+    "limit_distance": 928.19,
+    "reason": "Auto-mirrored from BRENT_OIL: Brent oil is in a strong uptrend with the current price above both the 20-day and 50-day SMAs. The RSI is approaching overbought levels but not yet extreme, indicating potential for further upside. The market is in backwardation, suggesting tight supply, and recent geopolitical news about Iran's control over the Strait of Hormuz adds a bullish catalyst. Seasonality is neutral, not counteracting the bullish signals.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR5LHFY5AE",
+    "raw": {
+      "date": "2026-09-09T07:31:05.088",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "VL2AT52CSQATYNV",
+      "dealId": "DIAAAAR5LHFY5AE",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR5LHFY5AE",
+          "status": "OPENED"
+        }
+      ],
+      "level": 9279.4,
+      "size": 0.4,
+      "direction": "BUY",
+      "stopLevel": 8815.305,
+      "limitLevel": 10207.59,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-09T07:31:05.308353+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "direction": "BUY",
+    "size": 0.4,
+    "margin_allocated": 714.54,
+    "effective_leverage": 5.0,
+    "notional": 3934.36,
+    "stop_distance": 491.795,
+    "limit_distance": 983.59,
+    "reason": "Brent oil is in a strong uptrend with the current price above both the 20-day and 50-day SMAs. The RSI is approaching overbought levels but not yet extreme, indicating potential for further upside. The market is in backwardation, suggesting tight supply, and recent geopolitical news about Iran's control over the Strait of Hormuz adds a bullish catalyst. Seasonality is neutral, not counteracting the bullish signals.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR5LHRY4A3",
+    "raw": {
+      "date": "2026-09-09T07:31:04.682",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "EJ29DL3XMEWTYNV",
+      "dealId": "DIAAAAR5LHRY4A3",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR5LHRY4A3",
+          "status": "OPENED"
+        }
+      ],
+      "level": 9833.0,
+      "size": 0.4,
+      "direction": "BUY",
+      "stopLevel": 9341.205,
+      "limitLevel": 10816.59,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-09T07:31:04.950092+00:00"
+  },
+  {
     "action": "AGENT_CALL_FAILED",
     "status": "ERROR",
     "reason": "Agent responded without ever calling propose_trades (hit max tool calls or returned nothing)",
@@ -2458,19 +2542,5 @@
     "status": "REJECTED",
     "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 70 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "logged_at": "2026-09-02T13:11:43.403065+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 155 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-02T13:11:43.402762+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 65 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-02T13:06:44.015640+00:00"
   }
 ]
