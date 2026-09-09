@@ -3,6 +3,20 @@
     "action": "CLOSE",
     "instrument": "BRENT_OIL",
     "status": "REJECTED",
+    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 287 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-09T23:02:30.404638+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 293 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-09T23:02:30.404220+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
     "reason": "Minimum hold time not met: BRENT_OIL has only been open for 256 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "logged_at": "2026-09-09T22:32:23.891034+00:00"
   },
@@ -2777,19 +2791,5 @@
     "status": "REJECTED",
     "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 30 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
     "logged_at": "2026-09-02T15:36:44.974128+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 25 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
-    "logged_at": "2026-09-02T15:31:43.906440+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 20 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
-    "logged_at": "2026-09-02T15:26:46.041792+00:00"
   }
 ]
