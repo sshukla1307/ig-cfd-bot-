@@ -1,5 +1,96 @@
 [
   {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "This trade's margin ($737.76) would leave available at $737.75, below the 30.0% safety buffer of balance $2951.03 -- rejected to avoid risking a forced closure on this or other open positions",
+    "logged_at": "2026-09-09T16:38:36.897592+00:00"
+  },
+  {
+    "action": "WTI_MIRROR_OPEN",
+    "instrument": "WTI_OIL",
+    "direction": "SELL",
+    "size": 0.4,
+    "margin_allocated": 737.76,
+    "effective_leverage": 5.0,
+    "notional": 3761.4,
+    "stop_distance": 470.175,
+    "limit_distance": 940.35,
+    "reason": "Auto-mirrored from BRENT_OIL: Brent oil is currently overbought with an RSI of 70.1, and the price is significantly above both the 20-day and 50-day SMAs, indicating a potential pullback. The recent news suggests geopolitical risks, but the price has already risen significantly, suggesting a correction is likely. Seasonality is neutral, providing no strong support for continued upward momentum.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR5QY7QVAS",
+    "raw": {
+      "date": "2026-09-09T16:38:36.705",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "PCW2SNCBDGATYNV",
+      "dealId": "DIAAAAR5QY7QVAS",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR5QY7QVAS",
+          "status": "OPENED"
+        }
+      ],
+      "level": 9394.2,
+      "size": 0.4,
+      "direction": "SELL",
+      "stopLevel": 9864.375,
+      "limitLevel": 8453.85,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-09T16:38:36.897286+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "BRENT_OIL",
+    "direction": "SELL",
+    "size": 0.4,
+    "margin_allocated": 737.76,
+    "effective_leverage": 5.0,
+    "notional": 3969.56,
+    "stop_distance": 496.195,
+    "limit_distance": 992.39,
+    "reason": "Brent oil is currently overbought with an RSI of 70.1, and the price is significantly above both the 20-day and 50-day SMAs, indicating a potential pullback. The recent news suggests geopolitical risks, but the price has already risen significantly, suggesting a correction is likely. Seasonality is neutral, providing no strong support for continued upward momentum.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR5QYWKUAK",
+    "raw": {
+      "date": "2026-09-09T16:38:36.429",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "KEFCP2AV84ATYNV",
+      "dealId": "DIAAAAR5QYWKUAK",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR5QYWKUAK",
+          "status": "OPENED"
+        }
+      ],
+      "level": 9911.6,
+      "size": 0.4,
+      "direction": "SELL",
+      "stopLevel": 10407.795,
+      "limitLevel": 8919.21,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-09T16:38:36.615258+00:00"
+  },
+  {
     "action": "AGENT_CALL_FAILED",
     "status": "ERROR",
     "reason": "Agent responded without ever calling propose_trades (hit max tool calls or returned nothing)",
@@ -2554,26 +2645,5 @@
     "status": "REJECTED",
     "reason": "Same-direction cooldown: BRENT_OIL was closed at a loss 55 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
     "logged_at": "2026-09-02T14:31:40.193847+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Same-direction cooldown: BRENT_OIL was closed at a loss 50 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
-    "logged_at": "2026-09-02T14:26:47.969308+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Same-direction cooldown: BRENT_OIL was closed at a loss 45 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
-    "logged_at": "2026-09-02T14:21:53.976723+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Same-direction cooldown: BRENT_OIL was closed at a loss 40 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
-    "logged_at": "2026-09-02T14:16:44.623460+00:00"
   }
 ]
