@@ -2,6 +2,48 @@
   {
     "action": "OPEN_SHORT",
     "instrument": "NATURAL_GAS",
+    "direction": "SELL",
+    "size": 1.2,
+    "margin_allocated": 722.59,
+    "effective_leverage": 5.0,
+    "notional": 3532.8,
+    "stop_distance": 147.2,
+    "limit_distance": 294.4,
+    "reason": "Natural Gas is in a bearish seasonal phase with no strong weather-driven demand signals. Technicals show a short-term bearish trend with SMA-20 below SMA-50. Managed-money positioning is neutral, providing no contrarian signal. The macro environment is stable with no significant impact on Natural Gas. This setup supports a short position.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR5MT7FKA9",
+    "raw": {
+      "date": "2026-09-09T11:01:44.554",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "3FDNYNCDT5ATYNV",
+      "dealId": "DIAAAAR5MT7FKA9",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR5MT7FKA9",
+          "status": "OPENED"
+        }
+      ],
+      "level": 2943.0,
+      "size": 1.2,
+      "direction": "SELL",
+      "stopLevel": 3090.2,
+      "limitLevel": 2648.6,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-09T11:01:44.789842+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
     "status": "REJECTED",
     "reason": "This trade's margin ($578.07) would leave available at $867.10, below the 30.0% safety buffer of balance $2890.35 -- rejected to avoid risking a forced closure on this or other open positions",
     "logged_at": "2026-09-09T10:41:03.907923+00:00"
@@ -2541,12 +2583,5 @@
     "status": "REJECTED",
     "reason": "Same-direction cooldown: BRENT_OIL was closed at a loss 5 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
     "logged_at": "2026-09-02T13:42:03.799149+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 95 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-02T13:36:44.653733+00:00"
   }
 ]
