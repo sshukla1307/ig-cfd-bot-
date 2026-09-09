@@ -1,5 +1,11 @@
 [
   {
+    "action": "AGENT_CALL_FAILED",
+    "status": "ERROR",
+    "reason": "Agent responded without ever calling propose_trades (hit max tool calls or returned nothing)",
+    "logged_at": "2026-09-09T12:02:17.342162+00:00"
+  },
+  {
     "action": "OPEN_SHORT",
     "instrument": "NATURAL_GAS",
     "direction": "SELL",
@@ -2576,12 +2582,5 @@
     "status": "REJECTED",
     "reason": "Same-direction cooldown: BRENT_OIL was closed at a loss 10 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
     "logged_at": "2026-09-02T13:46:44.744421+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Same-direction cooldown: BRENT_OIL was closed at a loss 5 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
-    "logged_at": "2026-09-02T13:42:03.799149+00:00"
   }
 ]
