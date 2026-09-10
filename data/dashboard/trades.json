@@ -1,5 +1,19 @@
 [
   {
+    "action": "HOLD",
+    "instrument": "",
+    "status": "REJECTED",
+    "reason": "Invalid action: HOLD",
+    "logged_at": "2026-09-10T01:19:24.404675+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 430 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-10T01:19:24.404345+00:00"
+  },
+  {
     "action": "CLOSE",
     "instrument": "BRENT_OIL",
     "status": "REJECTED",
@@ -2742,54 +2756,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-02T15:51:46.665200+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "direction": "BUY",
-    "size": 0.2,
-    "margin_allocated": 289.6,
-    "effective_leverage": 5.0,
-    "notional": 1898.28,
-    "stop_distance": 474.57,
-    "limit_distance": 949.14,
-    "reason": "Brent oil is in a strong uptrend with the current price above both the 20-day and 50-day SMAs. The market is in backwardation, indicating tight supply, and recent geopolitical tensions involving the US and Iran are providing a bullish catalyst. The RSI is near overbought but not extreme, suggesting room for further upside.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR4MEXYXAZ",
-    "raw": {
-      "date": "2026-09-02T15:51:46.265",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "X4XL7RT3NPWTYP5",
-      "dealId": "DIAAAAR4MEXYXAZ",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR4MEXYXAZ",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9486.5,
-      "size": 0.2,
-      "direction": "BUY",
-      "stopLevel": 9011.93,
-      "limitLevel": 10435.64,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-02T15:51:46.429999+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 40 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
-    "logged_at": "2026-09-02T15:46:49.309009+00:00"
   }
 ]
