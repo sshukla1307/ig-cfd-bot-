@@ -2,6 +2,48 @@
   {
     "action": "OPEN_SHORT",
     "instrument": "NATURAL_GAS",
+    "direction": "SELL",
+    "size": 1.4,
+    "margin_allocated": 785.95,
+    "effective_leverage": 5.0,
+    "notional": 4027.8,
+    "stop_distance": 287.7,
+    "limit_distance": 575.4,
+    "reason": "Natural Gas is in a bearish seasonal phase with no strong weather-driven demand signals. Technicals show a short-term bearish trend with SMA-20 below SMA-50. Managed-money positioning is neutral, providing no contrarian signal. This setup suggests a potential downside move.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR5YAGK5AY",
+    "raw": {
+      "date": "2026-09-10T16:02:07.439",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "E9BPEJZFC8STYNV",
+      "dealId": "DIAAAAR5YAGK5AY",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR5YAGK5AY",
+          "status": "OPENED"
+        }
+      ],
+      "level": 2876.0,
+      "size": 1.4,
+      "direction": "SELL",
+      "stopLevel": 3163.7,
+      "limitLevel": 2300.6,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-10T16:02:07.691344+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
     "status": "REJECTED",
     "reason": "This trade's margin ($785.95) would leave available at $785.96, below the 30.0% safety buffer of balance $3143.81 -- rejected to avoid risking a forced closure on this or other open positions",
     "logged_at": "2026-09-10T15:31:39.290666+00:00"
@@ -2785,12 +2827,5 @@
     "status": "REJECTED",
     "reason": "Invalid action: HOLD",
     "logged_at": "2026-09-02T17:21:50.664959+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 10 min (minimum 180 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-02T17:16:43.388749+00:00"
   }
 ]
