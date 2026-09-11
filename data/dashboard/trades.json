@@ -1,5 +1,77 @@
 [
   {
+    "action": "WTI_MIRROR_CLOSE",
+    "instrument": "WTI_OIL",
+    "deal_id": "DIAAAAR5YGFYPAY",
+    "original_direction": "SELL",
+    "reason": "Auto-closed: its BRENT_OIL mirror was closed this tick.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-09-11T05:01:38.436",
+      "status": "CLOSED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "KWR7XY5TSZSTYNV",
+      "dealId": "DIAAAAR5YGFYPAY",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR5YGFYPAY",
+          "status": "FULLY_CLOSED"
+        }
+      ],
+      "level": 9936.4,
+      "size": 0.4,
+      "direction": "BUY",
+      "stopLevel": null,
+      "limitLevel": null,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": -20.76,
+      "profitCurrency": "USD"
+    },
+    "logged_at": "2026-09-11T05:01:38.597694+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "deal_id": "DIAAAAR5YGKSNAG",
+    "original_direction": "SELL",
+    "reason": "The current Brent Oil position is in a loss and the technical indicators show a strong bullish trend with the price above both the 20-day and 50-day SMAs and an overbought RSI. The backwardation in the term structure also suggests tight supply, which is bullish. Closing the short position is prudent to prevent further losses.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-09-11T05:01:38.17",
+      "status": "CLOSED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "NQNV259NP9ETYNV",
+      "dealId": "DIAAAAR5YGKSNAG",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR5YGKSNAG",
+          "status": "FULLY_CLOSED"
+        }
+      ],
+      "level": 10509.6,
+      "size": 0.4,
+      "direction": "BUY",
+      "stopLevel": null,
+      "limitLevel": null,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": -18.92,
+      "profitCurrency": "USD"
+    },
+    "logged_at": "2026-09-11T05:01:38.335093+00:00"
+  },
+  {
     "action": "CLOSE",
     "instrument": "BRENT_OIL",
     "status": "REJECTED",
@@ -2523,54 +2595,5 @@
     "status": "ERROR",
     "reason": "Agent responded without ever calling propose_trades (hit max tool calls or returned nothing)",
     "logged_at": "2026-09-04T18:15:25.495859+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "direction": "SELL",
-    "size": 0.5,
-    "margin_allocated": 283.96,
-    "effective_leverage": 5.0,
-    "notional": 1506.5,
-    "stop_distance": 150.65,
-    "limit_distance": 301.3,
-    "reason": "Natural Gas is currently overbought with an RSI of 71.5, indicating a potential pullback. The seasonality is bearish as it's the shoulder/injection season, and managed-money positioning is neutral, providing no counter-signal. Weather-driven demand is moderate, offering no strong support for current high prices.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR45CSM7AK",
-    "raw": {
-      "date": "2026-09-04T18:11:33.082",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": "-",
-      "dealReference": "YKHQ3PEYA6TYNV",
-      "dealId": "DIAAAAR45CSM7AK",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR45CSM7AK",
-          "status": "OPENED"
-        }
-      ],
-      "level": 3009.0,
-      "size": 0.5,
-      "direction": "SELL",
-      "stopLevel": 3159.65,
-      "limitLevel": 2707.7,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-04T18:11:33.289678+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "This trade's margin ($283.96) would leave available at $283.97, below the 30.0% safety buffer of balance $1135.85 -- rejected to avoid risking a forced closure on this or other open positions",
-    "logged_at": "2026-09-04T17:31:24.608802+00:00"
   }
 ]
