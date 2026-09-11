@@ -1,5 +1,19 @@
 [
   {
+    "action": "HOLD",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Invalid action: HOLD",
+    "logged_at": "2026-09-11T18:03:05.855456+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 421 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-11T18:03:05.855238+00:00"
+  },
+  {
     "action": "WTI_MIRROR_OPEN",
     "instrument": "WTI_OIL",
     "direction": "SELL",
@@ -2693,53 +2707,5 @@
     "status": "REJECTED",
     "reason": "Invalid action: HOLD",
     "logged_at": "2026-09-07T11:01:27.503011+00:00"
-  },
-  {
-    "action": "AGENT_CALL_FAILED",
-    "status": "ERROR",
-    "reason": "Agent responded without ever calling propose_trades (hit max tool calls or returned nothing)",
-    "logged_at": "2026-09-07T10:05:33.235458+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "direction": "SELL",
-    "size": 0.5,
-    "margin_allocated": 300.94,
-    "effective_leverage": 5.0,
-    "notional": 1492.5,
-    "stop_distance": 298.5,
-    "limit_distance": 597.0,
-    "reason": "Natural Gas is showing a bearish term structure with contango, indicating ample supply. The RSI is nearing overbought levels, and the technicals show a short-term bearish signal with the SMA-20 below the SMA-50. Weather-driven demand is moderate with no strong signal, and managed-money positioning is within a normal range, providing no extreme crowding signal. This setup suggests a potential short opportunity.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR485TAVAN",
-    "raw": {
-      "date": "2026-09-07T10:01:24.604",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": "-",
-      "dealReference": "RJHQPHTC566TYNV",
-      "dealId": "DIAAAAR485TAVAN",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR485TAVAN",
-          "status": "OPENED"
-        }
-      ],
-      "level": 2983.0,
-      "size": 0.5,
-      "direction": "SELL",
-      "stopLevel": 3281.5,
-      "limitLevel": 2386.0,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-07T10:01:24.740863+00:00"
   }
 ]
