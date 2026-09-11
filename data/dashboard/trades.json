@@ -3,6 +3,85 @@
     "action": "CLOSE",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 390 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-11T17:32:11.573218+00:00"
+  },
+  {
+    "action": "WTI_MIRROR_CLOSE",
+    "instrument": "WTI_OIL",
+    "deal_id": "DIAAAAR529LD4A5",
+    "original_direction": "BUY",
+    "reason": "Auto-closed: its BRENT_OIL mirror was closed this tick.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-09-11T17:32:11.054",
+      "status": "CLOSED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "3FXGJB9MKRETYNV",
+      "dealId": "DIAAAAR529LD4A5",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR529LD4A5",
+          "status": "FULLY_CLOSED"
+        }
+      ],
+      "level": 9652.7,
+      "size": 0.4,
+      "direction": "SELL",
+      "stopLevel": null,
+      "limitLevel": null,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": -90.12,
+      "profitCurrency": "USD"
+    },
+    "logged_at": "2026-09-11T17:32:11.572885+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "deal_id": "DIAAAAR53AGH4BB",
+    "original_direction": "BUY",
+    "reason": "The current Brent Oil position is showing a significant unrealized loss, and the technicals indicate a potential reversal. The RSI is neutral, and the market is in backwardation, suggesting tight supply, but the managed-money positioning in WTI (a mirror of Brent) is at a multi-month extreme, indicating a potential bearish reversal. Closing the position to prevent further losses.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-09-11T17:32:10.562",
+      "status": "CLOSED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "Q3ZAMCZC2E6TYNV",
+      "dealId": "DIAAAAR53AGH4BB",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR53AGH4BB",
+          "status": "FULLY_CLOSED"
+        }
+      ],
+      "level": 10170.6,
+      "size": 0.4,
+      "direction": "SELL",
+      "stopLevel": null,
+      "limitLevel": null,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": -106.12,
+      "profitCurrency": "USD"
+    },
+    "logged_at": "2026-09-11T17:32:10.873208+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 282 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "logged_at": "2026-09-11T15:43:41.742285+00:00"
   },
@@ -2590,60 +2669,5 @@
     "status": "ERROR",
     "reason": "Agent responded without ever calling propose_trades (hit max tool calls or returned nothing)",
     "logged_at": "2026-09-07T08:01:42.846224+00:00"
-  },
-  {
-    "action": "AGENT_CALL_FAILED",
-    "status": "ERROR",
-    "reason": "Agent responded without ever calling propose_trades (hit max tool calls or returned nothing)",
-    "logged_at": "2026-09-07T07:01:45.766540+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "This trade's margin ($240.75) would leave available at $361.12, below the 30.0% safety buffer of balance $1203.75 -- rejected to avoid risking a forced closure on this or other open positions",
-    "logged_at": "2026-09-07T06:06:45.650717+00:00"
-  },
-  {
-    "action": "WTI_MIRROR_OPEN",
-    "instrument": "WTI_OIL",
-    "direction": "BUY",
-    "size": 0.2,
-    "margin_allocated": 300.94,
-    "effective_leverage": 5.0,
-    "notional": 1820.98,
-    "stop_distance": 455.245,
-    "limit_distance": 910.49,
-    "reason": "Auto-mirrored from BRENT_OIL: Brent oil is in a strong uptrend with the current price above both the 20-day and 50-day SMAs. The RSI is neutral, indicating room for further upside. The market is in backwardation, suggesting tight supply, and geopolitical tensions with Iran could further support prices.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR47WUKRAV",
-    "raw": {
-      "date": "2026-09-07T06:06:45.526",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "435KDEXHP7ATYNV",
-      "dealId": "DIAAAAR47WUKRAV",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR47WUKRAV",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9109.8,
-      "size": 0.2,
-      "direction": "BUY",
-      "stopLevel": 8654.555,
-      "limitLevel": 10020.29,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-07T06:06:45.650454+00:00"
   }
 ]
