@@ -1,6 +1,49 @@
 [
   {
     "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 691 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-11T04:02:34.401551+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "deal_id": "DIAAAAR5YAGK5AY",
+    "original_direction": "SELL",
+    "reason": "The technical indicators for Natural Gas show a short-term bearish signal with the SMA-20 below the SMA-50. The RSI is neutral, and the term structure indicates contango, suggesting ample supply. The current position is slightly against the trend, and there is no strong weather-driven demand signal. Closing the position to reassess the market.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-09-11T04:02:34.237",
+      "status": "CLOSED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "2MB3V92WHSATYNV",
+      "dealId": "DIAAAAR5YAGK5AY",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR5YAGK5AY",
+          "status": "FULLY_CLOSED"
+        }
+      ],
+      "level": 2909.0,
+      "size": 1.4,
+      "direction": "BUY",
+      "stopLevel": null,
+      "limitLevel": null,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": -46.2,
+      "profitCurrency": "USD"
+    },
+    "logged_at": "2026-09-11T04:02:34.401279+00:00"
+  },
+  {
+    "action": "CLOSE",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
     "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 689 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
@@ -2564,53 +2607,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-04T17:31:24.608540+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "direction": "BUY",
-    "size": 0.1,
-    "margin_allocated": 283.96,
-    "effective_leverage": 5.0,
-    "notional": 947.45,
-    "stop_distance": 473.725,
-    "limit_distance": 947.45,
-    "reason": "Brent oil is in a short-term bullish trend with the SMA-20 above SMA-50 and a neutral RSI. The market is in backwardation, indicating tight supply, and recent geopolitical tensions involving Iran have pushed prices higher. Despite the EIA's forecast of lower average prices, the immediate market conditions and technicals support a long position.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR448UVYAL",
-    "raw": {
-      "date": "2026-09-04T17:31:24.007",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "Y959MX9RDGWTYNV",
-      "dealId": "DIAAAAR448UVYAL",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR448UVYAL",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9475.4,
-      "size": 0.1,
-      "direction": "BUY",
-      "stopLevel": 9001.675,
-      "limitLevel": 10422.85,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-04T17:31:24.229047+00:00"
-  },
-  {
-    "action": "AGENT_CALL_FAILED",
-    "status": "ERROR",
-    "reason": "Agent responded without ever calling propose_trades (hit max tool calls or returned nothing)",
-    "logged_at": "2026-09-04T14:51:03.261848+00:00"
   }
 ]
