@@ -2,6 +2,48 @@
   {
     "action": "OPEN_SHORT",
     "instrument": "NATURAL_GAS",
+    "direction": "SELL",
+    "size": 2.7,
+    "margin_allocated": 1630.81,
+    "effective_leverage": 5.0,
+    "notional": 8056.8,
+    "stop_distance": 298.4,
+    "limit_distance": 596.8,
+    "reason": "Natural Gas is in a contango structure, indicating ample supply. The RSI is neutral, and the weather-driven demand is moderate with a bearish seasonal bias. These factors suggest a potential downside.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR6DKVL6A2",
+    "raw": {
+      "date": "2026-09-14T12:19:27.607",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "UVQS95L4Z8STYNV",
+      "dealId": "DIAAAAR6DKVL6A2",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR6DKVL6A2",
+          "status": "OPENED"
+        }
+      ],
+      "level": 2982.0,
+      "size": 2.7,
+      "direction": "SELL",
+      "stopLevel": 3280.4,
+      "limitLevel": 2385.2,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-14T12:19:27.800927+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
     "status": "REJECTED",
     "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 29 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
     "logged_at": "2026-09-14T11:31:12.853674+00:00"
@@ -2802,11 +2844,5 @@
     "status": "ERROR",
     "reason": "Agent responded without ever calling propose_trades (hit max tool calls or returned nothing)",
     "logged_at": "2026-09-08T21:01:59.417258+00:00"
-  },
-  {
-    "action": "AGENT_CALL_FAILED",
-    "status": "ERROR",
-    "reason": "Agent responded without ever calling propose_trades (hit max tool calls or returned nothing)",
-    "logged_at": "2026-09-08T20:01:40.617835+00:00"
   }
 ]
