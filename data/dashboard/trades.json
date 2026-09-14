@@ -1,6 +1,20 @@
 [
   {
     "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 360 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-14T22:32:17.249333+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 330 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-14T22:32:17.249098+00:00"
+  },
+  {
+    "action": "CLOSE",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
     "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 300 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
@@ -2854,17 +2868,5 @@
     "status": "ERROR",
     "reason": "Agent responded without ever calling propose_trades (hit max tool calls or returned nothing)",
     "logged_at": "2026-09-09T14:21:51.538436+00:00"
-  },
-  {
-    "action": "AGENT_CALL_FAILED",
-    "status": "ERROR",
-    "reason": "Agent responded without ever calling propose_trades (hit max tool calls or returned nothing)",
-    "logged_at": "2026-09-09T14:03:20.103197+00:00"
-  },
-  {
-    "action": "AGENT_CALL_FAILED",
-    "status": "ERROR",
-    "reason": "Agent responded without ever calling propose_trades (hit max tool calls or returned nothing)",
-    "logged_at": "2026-09-09T13:01:44.940394+00:00"
   }
 ]
