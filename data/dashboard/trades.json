@@ -3,6 +3,13 @@
     "action": "CLOSE",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 719 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-14T10:02:47.117155+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 688 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "logged_at": "2026-09-14T09:31:48.754465+00:00"
   },
@@ -2674,11 +2681,5 @@
     "status": "ERROR",
     "reason": "Agent responded without ever calling propose_trades (hit max tool calls or returned nothing)",
     "logged_at": "2026-09-08T15:01:59.811704+00:00"
-  },
-  {
-    "action": "AGENT_CALL_FAILED",
-    "status": "ERROR",
-    "reason": "Agent responded without ever calling propose_trades (hit max tool calls or returned nothing)",
-    "logged_at": "2026-09-08T14:20:33.608926+00:00"
   }
 ]
