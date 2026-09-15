@@ -1,5 +1,19 @@
 [
   {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "This trade's margin ($1687.80) would leave available at $1263.38, below the 30.0% safety buffer of balance $6751.20 -- rejected to avoid risking a forced closure on this or other open positions",
+    "logged_at": "2026-09-15T10:02:08.875936+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 322 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-15T10:02:08.875740+00:00"
+  },
+  {
     "action": "CLOSE",
     "instrument": "BRENT_OIL",
     "status": "REJECTED",
@@ -2666,19 +2680,5 @@
     "status": "REJECTED",
     "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 211 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "logged_at": "2026-09-10T10:03:05.397268+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 120 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-10T08:32:19.496938+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 60 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-10T07:32:15.101623+00:00"
   }
 ]
