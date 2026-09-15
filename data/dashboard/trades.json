@@ -1,5 +1,19 @@
 [
   {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 540 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-15T02:02:22.303582+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 570 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-15T02:02:22.303377+00:00"
+  },
+  {
     "action": "HOLD",
     "instrument": "",
     "status": "REJECTED",
@@ -2684,89 +2698,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-09T17:52:20.404767+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "direction": "BUY",
-    "size": 0.4,
-    "margin_allocated": 752.71,
-    "effective_leverage": 5.0,
-    "notional": 3966.72,
-    "stop_distance": 495.84,
-    "limit_distance": 991.68,
-    "reason": "Brent oil is in a strong uptrend with the current price above both the 20-day and 50-day SMAs. The RSI is near overbought but not extreme, suggesting room for further upside. The market is in backwardation, indicating tight supply, and recent geopolitical tensions with Iran are supporting higher prices. This setup aligns with a trend-following strategy.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR5RBASLBC",
-    "raw": {
-      "date": "2026-09-09T17:52:20.014",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "BGX5A6J35WSTYNV",
-      "dealId": "DIAAAAR5RBASLBC",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR5RBASLBC",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9910.4,
-      "size": 0.4,
-      "direction": "BUY",
-      "stopLevel": 9414.56,
-      "limitLevel": 10902.08,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-09T17:52:20.179693+00:00"
-  },
-  {
-    "action": "WTI_MIRROR_OPEN",
-    "instrument": "WTI_OIL",
-    "direction": "BUY",
-    "size": 0.4,
-    "margin_allocated": 744.4,
-    "effective_leverage": 5.0,
-    "notional": 3741.32,
-    "stop_distance": 467.665,
-    "limit_distance": 935.33,
-    "reason": "Auto-mirrored from BRENT_OIL: Brent oil is in a strong upward trend with the current price above both the 20-day and 50-day SMAs. The RSI is approaching overbought levels but not yet extreme, indicating potential for further upside. The market is in backwardation, suggesting tight supply conditions, which is bullish. Recent news supports a strong price increase, and the technicals align with a continuation of this trend.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR5Q4EUTA4",
-    "raw": {
-      "date": "2026-09-09T17:01:59.913",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "2H949W3KA2ATYNV",
-      "dealId": "DIAAAAR5Q4EUTA4",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR5Q4EUTA4",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9346.5,
-      "size": 0.4,
-      "direction": "BUY",
-      "stopLevel": 8878.835,
-      "limitLevel": 10281.83,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-09T17:02:00.059760+00:00"
   }
 ]
