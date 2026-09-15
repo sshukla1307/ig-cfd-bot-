@@ -1,5 +1,96 @@
 [
   {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "This trade's margin ($1723.43) would leave available at $1723.42, below the 30.0% safety buffer of balance $6893.71 -- rejected to avoid risking a forced closure on this or other open positions",
+    "logged_at": "2026-09-15T11:34:36.822614+00:00"
+  },
+  {
+    "action": "WTI_MIRROR_OPEN",
+    "instrument": "WTI_OIL",
+    "direction": "SELL",
+    "size": 0.9,
+    "margin_allocated": 1723.43,
+    "effective_leverage": 5.0,
+    "notional": 8883.72,
+    "stop_distance": 493.54,
+    "limit_distance": 987.08,
+    "reason": "Auto-mirrored from BRENT_OIL: Brent oil is currently overbought with an RSI of 71.1, indicating a potential pullback. The recent news of Hormuz disruptions and Saudi pipeline shutdowns have already been priced in, as evidenced by the recent spike above $107. The flat term structure suggests no immediate supply concerns, and the technicals show a short-term bullish trend that may be due for a correction.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR6LKFAEBC",
+    "raw": {
+      "date": "2026-09-15T11:34:36.533",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "V77DV24FLDATYNV",
+      "dealId": "DIAAAAR6LKFAEBC",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR6LKFAEBC",
+          "status": "OPENED"
+        }
+      ],
+      "level": 9869.2,
+      "size": 0.9,
+      "direction": "SELL",
+      "stopLevel": 10362.74,
+      "limitLevel": 8882.12,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-15T11:34:36.822266+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "BRENT_OIL",
+    "direction": "SELL",
+    "size": 0.8,
+    "margin_allocated": 1723.43,
+    "effective_leverage": 5.0,
+    "notional": 8240.08,
+    "stop_distance": 515.005,
+    "limit_distance": 1030.01,
+    "reason": "Brent oil is currently overbought with an RSI of 71.1, indicating a potential pullback. The recent news of Hormuz disruptions and Saudi pipeline shutdowns have already been priced in, as evidenced by the recent spike above $107. The flat term structure suggests no immediate supply concerns, and the technicals show a short-term bullish trend that may be due for a correction.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR6LLZ7GAZ",
+    "raw": {
+      "date": "2026-09-15T11:34:36.129",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "PWHSLUQN8USTYNV",
+      "dealId": "DIAAAAR6LLZ7GAZ",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR6LLZ7GAZ",
+          "status": "OPENED"
+        }
+      ],
+      "level": 10298.8,
+      "size": 0.8,
+      "direction": "SELL",
+      "stopLevel": 10813.805,
+      "limitLevel": 9268.79,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-15T11:34:36.423115+00:00"
+  },
+  {
     "action": "CLOSE",
     "instrument": "BRENT_OIL",
     "status": "REJECTED",
@@ -2588,61 +2679,5 @@
     "status": "REJECTED",
     "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 120 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "logged_at": "2026-09-10T18:01:49.753598+00:00"
-  },
-  {
-    "action": "HOLD",
-    "instrument": "",
-    "status": "REJECTED",
-    "reason": "Invalid action: HOLD",
-    "logged_at": "2026-09-10T17:31:45.293090+00:00"
-  },
-  {
-    "action": "HOLD",
-    "instrument": "",
-    "status": "REJECTED",
-    "reason": "Invalid action: HOLD",
-    "logged_at": "2026-09-10T17:02:15.426477+00:00"
-  },
-  {
-    "action": "WTI_MIRROR_OPEN",
-    "instrument": "WTI_OIL",
-    "direction": "SELL",
-    "size": 0.4,
-    "margin_allocated": 807.69,
-    "effective_leverage": 5.0,
-    "notional": 3956.6,
-    "stop_distance": 494.575,
-    "limit_distance": 989.15,
-    "reason": "Auto-mirrored from BRENT_OIL: Brent oil is currently overbought with an RSI of 74.4, indicating a potential pullback. Despite the bullish trend and backwardation in the term structure, the recent surge due to geopolitical tensions might be overextended. A short position aims to capitalize on a potential correction.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR5YGFYPAY",
-    "raw": {
-      "date": "2026-09-10T16:31:51.653",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "S6BWC8VGWNSTYNV",
-      "dealId": "DIAAAAR5YGFYPAY",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR5YGFYPAY",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9884.5,
-      "size": 0.4,
-      "direction": "SELL",
-      "stopLevel": 10379.075,
-      "limitLevel": 8895.35,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-10T16:31:51.789399+00:00"
   }
 ]
