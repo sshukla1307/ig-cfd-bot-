@@ -1,5 +1,47 @@
 [
   {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "direction": "SELL",
+    "size": 2.8,
+    "margin_allocated": 1658.6,
+    "effective_leverage": 5.0,
+    "notional": 8433.6,
+    "stop_distance": 150.6,
+    "limit_distance": 301.2,
+    "reason": "Natural Gas is in a bearish seasonal phase with moderate weather-driven demand and neutral managed-money positioning. The technicals show a neutral RSI and a slight bullish bias with SMA-20 above SMA-50, but the overall context suggests a potential for a downside move.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR6RC8WWA8",
+    "raw": {
+      "date": "2026-09-16T05:31:56.812",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "LCH6TAKFDGSTYNV",
+      "dealId": "DIAAAAR6RC8WWA8",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR6RC8WWA8",
+          "status": "OPENED"
+        }
+      ],
+      "level": 3010.0,
+      "size": 2.8,
+      "direction": "SELL",
+      "stopLevel": 3160.6,
+      "limitLevel": 2708.8,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-16T05:31:57.017436+00:00"
+  },
+  {
     "action": "CLOSE",
     "instrument": "BRENT_OIL",
     "status": "REJECTED",
@@ -2911,41 +2953,5 @@
     "status": "REJECTED",
     "reason": "Minimum hold time not met: BRENT_OIL has only been open for 691 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "logged_at": "2026-09-11T04:02:34.401551+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "NATURAL_GAS",
-    "deal_id": "DIAAAAR5YAGK5AY",
-    "original_direction": "SELL",
-    "reason": "The technical indicators for Natural Gas show a short-term bearish signal with the SMA-20 below the SMA-50. The RSI is neutral, and the term structure indicates contango, suggesting ample supply. The current position is slightly against the trend, and there is no strong weather-driven demand signal. Closing the position to reassess the market.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-11T04:02:34.237",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": "-",
-      "dealReference": "2MB3V92WHSATYNV",
-      "dealId": "DIAAAAR5YAGK5AY",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR5YAGK5AY",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 2909.0,
-      "size": 1.4,
-      "direction": "BUY",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": -46.2,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-09-11T04:02:34.401279+00:00"
   }
 ]
