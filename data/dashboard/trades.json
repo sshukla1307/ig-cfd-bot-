@@ -1,5 +1,89 @@
 [
   {
+    "action": "WTI_MIRROR_OPEN",
+    "instrument": "WTI_OIL",
+    "direction": "SELL",
+    "size": 0.9,
+    "margin_allocated": 1744.84,
+    "effective_leverage": 5.0,
+    "notional": 8828.73,
+    "stop_distance": 490.485,
+    "limit_distance": 980.97,
+    "reason": "Auto-mirrored from BRENT_OIL: Brent oil is currently overbought with an RSI of 79.8, indicating a potential pullback. The market is in backwardation, suggesting tight supply, but recent geopolitical tensions and supply disruptions have already been priced in, as seen in the recent price surge. The technical overbought condition suggests a short-term correction is likely.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR6URM6QAS",
+    "raw": {
+      "date": "2026-09-16T15:02:28.209",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "P86B87A8B7JTYNV",
+      "dealId": "DIAAAAR6URM6QAS",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR6URM6QAS",
+          "status": "OPENED"
+        }
+      ],
+      "level": 9816.1,
+      "size": 0.9,
+      "direction": "SELL",
+      "stopLevel": 10306.585,
+      "limitLevel": 8835.13,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-16T15:02:28.452397+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "BRENT_OIL",
+    "direction": "SELL",
+    "size": 0.9,
+    "margin_allocated": 1744.84,
+    "effective_leverage": 5.0,
+    "notional": 9207.9,
+    "stop_distance": 511.55,
+    "limit_distance": 1023.1,
+    "reason": "Brent oil is currently overbought with an RSI of 79.8, indicating a potential pullback. The market is in backwardation, suggesting tight supply, but recent geopolitical tensions and supply disruptions have already been priced in, as seen in the recent price surge. The technical overbought condition suggests a short-term correction is likely.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR6UQ537BA",
+    "raw": {
+      "date": "2026-09-16T15:02:27.863",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "YELCJKZW266TYNV",
+      "dealId": "DIAAAAR6UQ537BA",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR6UQ537BA",
+          "status": "OPENED"
+        }
+      ],
+      "level": 10238.3,
+      "size": 0.9,
+      "direction": "SELL",
+      "stopLevel": 10749.85,
+      "limitLevel": 9215.2,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-16T15:02:28.101031+00:00"
+  },
+  {
     "action": "CLOSE",
     "instrument": "BRENT_OIL",
     "status": "REJECTED",
@@ -2928,19 +3012,5 @@
     "status": "REJECTED",
     "reason": "Minimum hold time not met: BRENT_OIL has only been open for 81 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "logged_at": "2026-09-11T19:02:18.129264+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 480 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-11T19:02:18.129038+00:00"
-  },
-  {
-    "action": "HOLD",
-    "instrument": "",
-    "status": "REJECTED",
-    "reason": "Invalid action: HOLD",
-    "logged_at": "2026-09-11T18:32:03.005528+00:00"
   }
 ]
