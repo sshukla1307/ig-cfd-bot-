@@ -3,6 +3,20 @@
     "action": "CLOSE",
     "instrument": "BRENT_OIL",
     "status": "REJECTED",
+    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 71 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-16T12:42:41.612358+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 251 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-16T12:42:41.612036+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
     "reason": "Minimum hold time not met: BRENT_OIL has only been open for 60 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "logged_at": "2026-09-16T12:32:08.732595+00:00"
   },
@@ -3027,48 +3041,5 @@
       "profitCurrency": "USD"
     },
     "logged_at": "2026-09-11T17:32:11.572885+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR53AGH4BB",
-    "original_direction": "BUY",
-    "reason": "The current Brent Oil position is showing a significant unrealized loss, and the technicals indicate a potential reversal. The RSI is neutral, and the market is in backwardation, suggesting tight supply, but the managed-money positioning in WTI (a mirror of Brent) is at a multi-month extreme, indicating a potential bearish reversal. Closing the position to prevent further losses.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-11T17:32:10.562",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "Q3ZAMCZC2E6TYNV",
-      "dealId": "DIAAAAR53AGH4BB",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR53AGH4BB",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 10170.6,
-      "size": 0.4,
-      "direction": "SELL",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": -106.12,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-09-11T17:32:10.873208+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 282 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-11T15:43:41.742285+00:00"
   }
 ]
