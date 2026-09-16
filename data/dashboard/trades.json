@@ -3,6 +3,20 @@
     "action": "CLOSE",
     "instrument": "BRENT_OIL",
     "status": "REJECTED",
+    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 91 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-16T13:02:56.155366+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 271 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-16T13:02:56.155136+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
     "reason": "Minimum hold time not met: BRENT_OIL has only been open for 71 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "logged_at": "2026-09-16T12:42:41.612358+00:00"
   },
@@ -2998,48 +3012,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-11T17:41:19.237021+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 390 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-11T17:32:11.573218+00:00"
-  },
-  {
-    "action": "WTI_MIRROR_CLOSE",
-    "instrument": "WTI_OIL",
-    "deal_id": "DIAAAAR529LD4A5",
-    "original_direction": "BUY",
-    "reason": "Auto-closed: its BRENT_OIL mirror was closed this tick.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-11T17:32:11.054",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "3FXGJB9MKRETYNV",
-      "dealId": "DIAAAAR529LD4A5",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR529LD4A5",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 9652.7,
-      "size": 0.4,
-      "direction": "SELL",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": -90.12,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-09-11T17:32:11.572885+00:00"
   }
 ]
