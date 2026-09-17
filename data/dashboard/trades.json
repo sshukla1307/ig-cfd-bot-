@@ -1,5 +1,47 @@
 [
   {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "direction": "SELL",
+    "size": 3.1,
+    "margin_allocated": 1874.56,
+    "effective_leverage": 5.0,
+    "notional": 9340.3,
+    "stop_distance": 150.65,
+    "limit_distance": 301.3,
+    "reason": "Natural Gas is in a contango structure, indicating ample supply. The RSI is neutral, and the seasonality is bearish. Managed-money positioning is not at an extreme, but the overall setup suggests a bearish tilt.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR66PH88BA",
+    "raw": {
+      "date": "2026-09-17T16:44:26.92",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "LSK8KYDF6EWTYNV",
+      "dealId": "DIAAAAR66PH88BA",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR66PH88BA",
+          "status": "OPENED"
+        }
+      ],
+      "level": 3011.0,
+      "size": 3.1,
+      "direction": "SELL",
+      "stopLevel": 3161.65,
+      "limitLevel": 2709.7,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-17T16:44:27.079886+00:00"
+  },
+  {
     "action": "HOLD",
     "instrument": "",
     "status": "REJECTED",
@@ -3140,12 +3182,5 @@
     "status": "REJECTED",
     "reason": "Invalid action: HOLD",
     "logged_at": "2026-09-14T20:02:34.579085+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 210 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-14T20:02:34.578898+00:00"
   }
 ]
