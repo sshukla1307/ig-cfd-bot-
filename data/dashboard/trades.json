@@ -1,5 +1,12 @@
 [
   {
+    "action": "HOLD",
+    "instrument": "",
+    "status": "REJECTED",
+    "reason": "Invalid action: HOLD",
+    "logged_at": "2026-09-17T05:32:05.924801+00:00"
+  },
+  {
     "action": "CLOSE",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
@@ -3035,47 +3042,5 @@
     "status": "REJECTED",
     "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 29 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
     "logged_at": "2026-09-14T11:31:12.853674+00:00"
-  },
-  {
-    "action": "WTI_MIRROR_OPEN",
-    "instrument": "WTI_OIL",
-    "direction": "SELL",
-    "size": 0.8,
-    "margin_allocated": 1630.81,
-    "effective_leverage": 5.0,
-    "notional": 7968.56,
-    "stop_distance": 996.07,
-    "limit_distance": 1494.105,
-    "reason": "Auto-mirrored from BRENT_OIL: Brent oil is currently overbought with an RSI of 75.2, indicating a potential pullback. The recent news of Houthi strikes and geopolitical tensions have driven prices up significantly, but such spikes often see corrections. The SMA-20 is above the SMA-50, confirming a bullish trend, but the overbought condition suggests a short-term reversal is likely.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR6DCGCGAS",
-    "raw": {
-      "date": "2026-09-14T11:31:12.566",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "Z9DQNA6483JTYNV",
-      "dealId": "DIAAAAR6DCGCGAS",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR6DCGCGAS",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9955.6,
-      "size": 0.8,
-      "direction": "SELL",
-      "stopLevel": 10951.67,
-      "limitLevel": 8461.495,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-14T11:31:12.853409+00:00"
   }
 ]
