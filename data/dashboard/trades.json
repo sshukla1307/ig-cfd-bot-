@@ -3,6 +3,20 @@
     "action": "CLOSE",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 295 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-17T04:02:21.473619+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 503 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-17T04:02:21.473364+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 204 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "logged_at": "2026-09-17T02:32:00.040857+00:00"
   },
@@ -3063,83 +3077,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-14T11:31:12.853409+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "BRENT_OIL",
-    "direction": "SELL",
-    "size": 0.8,
-    "margin_allocated": 1630.81,
-    "effective_leverage": 5.0,
-    "notional": 8396.32,
-    "stop_distance": 1049.54,
-    "limit_distance": 1574.31,
-    "reason": "Brent oil is currently overbought with an RSI of 75.2, indicating a potential pullback. The recent news of Houthi strikes and geopolitical tensions have driven prices up significantly, but such spikes often see corrections. The SMA-20 is above the SMA-50, confirming a bullish trend, but the overbought condition suggests a short-term reversal is likely.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR6DCE2MA4",
-    "raw": {
-      "date": "2026-09-14T11:31:11.701",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "ETNWNPHNECWTYNV",
-      "dealId": "DIAAAAR6DCE2MA4",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR6DCE2MA4",
-          "status": "OPENED"
-        }
-      ],
-      "level": 10494.8,
-      "size": 0.8,
-      "direction": "SELL",
-      "stopLevel": 11544.34,
-      "limitLevel": 8920.49,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-14T11:31:12.176212+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "NATURAL_GAS",
-    "deal_id": "DIAAAAR59JNBEAQ",
-    "original_direction": "SELL",
-    "reason": "Natural Gas is in contango, indicating ample supply, and the technicals show a neutral RSI with a bearish short-term trend. The current position is at a loss, and there are no strong signals for a reversal. Closing the position to prevent further losses.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-14T11:02:14.953",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": "-",
-      "dealReference": "EG3ZDXKJMSSTYNV",
-      "dealId": "DIAAAAR59JNBEAQ",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR59JNBEAQ",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 2985.0,
-      "size": 2.3,
-      "direction": "BUY",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": -75.9,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-09-14T11:02:15.190769+00:00"
   }
 ]
