@@ -1,5 +1,26 @@
 [
   {
+    "action": "HOLD",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Invalid action: HOLD",
+    "logged_at": "2026-09-17T18:02:20.142408+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "WTI_OIL",
+    "status": "REJECTED",
+    "reason": "WTI_OIL is auto-mirrored from BRENT_OIL and is never traded directly -- propose OPEN_LONG/OPEN_SHORT/CLOSE on BRENT_OIL instead, and the identical action is applied to WTI_OIL automatically",
+    "logged_at": "2026-09-17T18:02:20.142305+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 120 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-17T18:02:20.142111+00:00"
+  },
+  {
     "action": "CLOSE",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
@@ -3161,26 +3182,5 @@
     "status": "REJECTED",
     "reason": "Minimum hold time not met: BRENT_OIL has only been open for 390 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "logged_at": "2026-09-14T23:02:20.924554+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 360 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-14T22:32:17.249333+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 330 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-14T22:32:17.249098+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 300 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-14T22:02:13.615204+00:00"
   }
 ]
