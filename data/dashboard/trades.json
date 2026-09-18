@@ -3,6 +3,90 @@
     "action": "WTI_MIRROR_OPEN",
     "instrument": "WTI_OIL",
     "direction": "SELL",
+    "size": 1.8,
+    "margin_allocated": 3503.11,
+    "effective_leverage": 5.0,
+    "notional": 17292.78,
+    "stop_distance": 480.355,
+    "limit_distance": 960.71,
+    "reason": "Auto-mirrored from BRENT_OIL: Brent Oil is currently overbought with an RSI of 72.5, indicating a potential pullback. The market is in backwardation, suggesting tight supply, but managed-money positioning in WTI (a mirror of Brent) is at a multi-month extreme, which is a contrarian bearish signal. The combination of technical overbought conditions and extreme positioning suggests a short opportunity.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR69RCQ7A7",
+    "raw": {
+      "date": "2026-09-18T06:32:03.165",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "6V6MTWVHCHETYNV",
+      "dealId": "DIAAAAR69RCQ7A7",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR69RCQ7A7",
+          "status": "OPENED"
+        }
+      ],
+      "level": 9601.8,
+      "size": 1.8,
+      "direction": "SELL",
+      "stopLevel": 10082.155,
+      "limitLevel": 8641.09,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-18T06:32:03.310737+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "BRENT_OIL",
+    "direction": "SELL",
+    "size": 1.8,
+    "margin_allocated": 3503.11,
+    "effective_leverage": 5.0,
+    "notional": 17931.06,
+    "stop_distance": 498.085,
+    "limit_distance": 996.17,
+    "reason": "Brent Oil is currently overbought with an RSI of 72.5, indicating a potential pullback. The market is in backwardation, suggesting tight supply, but managed-money positioning in WTI (a mirror of Brent) is at a multi-month extreme, which is a contrarian bearish signal. The combination of technical overbought conditions and extreme positioning suggests a short opportunity.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR69RVRAAQ",
+    "raw": {
+      "date": "2026-09-18T06:32:02.905",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "S46B8DNZAZWTYNV",
+      "dealId": "DIAAAAR69RVRAAQ",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR69RVRAAQ",
+          "status": "OPENED"
+        }
+      ],
+      "level": 9955.1,
+      "size": 1.8,
+      "direction": "SELL",
+      "stopLevel": 10453.185,
+      "limitLevel": 8958.93,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-18T06:32:03.079783+00:00"
+  },
+  {
+    "action": "WTI_MIRROR_OPEN",
+    "instrument": "WTI_OIL",
+    "direction": "SELL",
     "size": 1.0,
     "margin_allocated": 1878.29,
     "effective_leverage": 5.0,
@@ -3174,19 +3258,5 @@
     "status": "REJECTED",
     "reason": "This trade's margin ($1687.80) would leave available at $1263.38, below the 30.0% safety buffer of balance $6751.20 -- rejected to avoid risking a forced closure on this or other open positions",
     "logged_at": "2026-09-15T10:02:08.875936+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 322 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-15T10:02:08.875740+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 293 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-15T09:32:15.103425+00:00"
   }
 ]
