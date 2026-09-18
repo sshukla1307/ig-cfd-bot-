@@ -1,5 +1,19 @@
 [
   {
+    "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 121 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-18T11:02:14.296970+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 150 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-18T11:02:14.296595+00:00"
+  },
+  {
     "action": "HOLD",
     "instrument": "",
     "status": "REJECTED",
@@ -3308,54 +3322,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-15T12:32:06.050783+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "This trade's margin ($1723.43) would leave available at $1723.42, below the 30.0% safety buffer of balance $6893.71 -- rejected to avoid risking a forced closure on this or other open positions",
-    "logged_at": "2026-09-15T11:34:36.822614+00:00"
-  },
-  {
-    "action": "WTI_MIRROR_OPEN",
-    "instrument": "WTI_OIL",
-    "direction": "SELL",
-    "size": 0.9,
-    "margin_allocated": 1723.43,
-    "effective_leverage": 5.0,
-    "notional": 8883.72,
-    "stop_distance": 493.54,
-    "limit_distance": 987.08,
-    "reason": "Auto-mirrored from BRENT_OIL: Brent oil is currently overbought with an RSI of 71.1, indicating a potential pullback. The recent news of Hormuz disruptions and Saudi pipeline shutdowns have already been priced in, as evidenced by the recent spike above $107. The flat term structure suggests no immediate supply concerns, and the technicals show a short-term bullish trend that may be due for a correction.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR6LKFAEBC",
-    "raw": {
-      "date": "2026-09-15T11:34:36.533",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "V77DV24FLDATYNV",
-      "dealId": "DIAAAAR6LKFAEBC",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR6LKFAEBC",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9869.2,
-      "size": 0.9,
-      "direction": "SELL",
-      "stopLevel": 10362.74,
-      "limitLevel": 8882.12,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-15T11:34:36.822266+00:00"
   }
 ]
