@@ -5,15 +5,20 @@ Invoked roughly every 5 minutes by GitHub Actions (a nominal target -- GitHub
 doesn't guarantee precise cron timing; see cfd_trading.yml). Each tick:
   1. Kill-switch check.
   2. Connect to IG, fetch account state + our 4 tracked positions.
-  3. Margin safety check: block ALL new opens account-wide if available
+  3. Margin-based take-profit: immediately close any position whose unrealized
+     P&L has reached MARGIN_PROFIT_TAKE_PCT of the margin used to open it (see
+     _check_margin_profit_takeout), same tier as the stop-breach backstop --
+     if this fires, the whole tick loops again immediately (see
+     MAX_IMMEDIATE_RETRIGGERS) instead of waiting for the next scheduled run.
+  4. Margin safety check: block ALL new opens account-wide if available
      margin has fallen below RULES.margin_safety_buffer_pct of balance.
-  4. Per-instrument: skip any instrument whose market isn't currently
+  5. Per-instrument: skip any instrument whose market isn't currently
      TRADEABLE (read live from IG each tick, not a hardcoded calendar --
      commodity CFDs follow underlying futures session hours + maintenance
      windows + weekend closures, unlike 24/5 forex).
-  5. Let the agent decide (or HOLD).
-  6. Validate every proposed trade against the rules firewall, then execute.
-  7. Log + export dashboard data.
+  6. Let the agent decide (or HOLD).
+  7. Validate every proposed trade against the rules firewall, then execute.
+  8. Log + export dashboard data.
 
 Two independent switches must BOTH be explicitly true for any order to fire:
   IG_LIVE_TRADING_ENABLED=true   (master kill switch)
@@ -251,6 +256,121 @@ def _check_orphaned_wti_mirror(broker, positions: dict) -> list:
     return []
 
 
+MARGIN_PROFIT_TAKE_PCT = 3.5  # Manually validated against real trade history (2026-08-21
+# to 2026-09-18): closing a position the moment its unrealized P&L reaches this % of the
+# margin originally committed to open it had a 93% win rate and a 23x profit factor over
+# 142 real closes -- dramatically better than the agent's own discretionary CLOSE decisions
+# over the same period (30% win rate, 0.07 profit factor). Hardcoded here (rather than left
+# as a manual habit) so it fires around the clock instead of only when someone happens to
+# be online watching the account.
+
+
+def _get_margin_allocated_by_deal(order_log_path: Path) -> dict:
+    """Returns {deal_id: margin_allocated} for every successfully opened position,
+    read from the append-only audit log. IG's own position API (get_positions)
+    doesn't return the margin we originally committed at open time -- only the
+    position's current state -- so this log is the only place that number
+    survives past the opening tick."""
+    margin_by_deal = {}
+    if not order_log_path.exists():
+        return margin_by_deal
+    with open(order_log_path) as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                d = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if d.get("action") not in ("OPEN_LONG", "OPEN_SHORT", "WTI_MIRROR_OPEN"):
+                continue
+            if d.get("status") != "submitted":
+                continue
+            deal_id = d.get("deal_id")
+            margin = d.get("margin_allocated")
+            if deal_id and margin is not None:
+                margin_by_deal[deal_id] = margin
+    return margin_by_deal
+
+
+def _check_margin_profit_takeout(broker, positions: dict, margin_by_deal: dict) -> list:
+    """Hardcodes the user's own manually-validated rule (see MARGIN_PROFIT_TAKE_PCT):
+    close any open position immediately once its unrealized P&L reaches
+    MARGIN_PROFIT_TAKE_PCT of the margin committed to open it. Runs every tick,
+    before the agent's turn, exactly like _check_stop_breach_backstop -- a hard
+    mechanical rule, not agent discretion, so it intentionally bypasses
+    RULES.min_hold_minutes_before_discretionary_close the same way that check does.
+
+    Closing BRENT_OIL also closes its WTI_OIL mirror (same convention as every
+    other Brent-close path in this file, so Brent never ends up re-opening while
+    an old WTI mirror slot still looks occupied). WTI_OIL and NATURAL_GAS can
+    each independently trigger this rule on their own -- WTI closing early on
+    its own doesn't touch Brent (the orphan-cleanup check only ever protects
+    against the opposite case, WTI open with no Brent).
+
+    Returns the list of instrument keys force-closed this tick so the caller
+    can drop them from its in-memory positions dict."""
+    closed_keys = []
+
+    def _pct_of_margin(pos: dict):
+        margin = margin_by_deal.get(pos["deal_id"])
+        pnl = _estimate_unrealized_pnl(pos)
+        if not margin or pnl is None:
+            return None
+        return (pnl / margin) * 100
+
+    def _close_and_log(instrument: str, pos: dict, pct: float) -> bool:
+        result = broker.close_position(
+            deal_id=pos["deal_id"], direction=pos["direction"], epic=pos["epic"], size=pos["size"],
+        )
+        _log_order_event({
+            "action": "MARGIN_PROFIT_TAKE", "instrument": instrument, "deal_id": pos["deal_id"],
+            "profit_pct_of_margin": round(pct, 2),
+            "reason": (
+                f"Unrealized profit reached {pct:.1f}% of margin (threshold {MARGIN_PROFIT_TAKE_PCT}%) "
+                f"-- closing immediately."
+            ),
+            **result,
+        })
+        return result.get("status") == "submitted"
+
+    # Brent (and its WTI mirror) handled as one unit first, so the WTI_OIL loop
+    # below never acts on a mirror that's about to disappear anyway.
+    brent = positions.get("BRENT_OIL")
+    if brent is not None:
+        pct = _pct_of_margin(brent)
+        if pct is not None and pct >= MARGIN_PROFIT_TAKE_PCT:
+            if _close_and_log("BRENT_OIL", brent, pct):
+                closed_keys.append("BRENT_OIL")
+                wti = positions.get("WTI_OIL")
+                if wti is not None:
+                    wti_result = broker.close_position(
+                        deal_id=wti["deal_id"], direction=wti["direction"], epic=wti["epic"], size=wti["size"],
+                    )
+                    _log_order_event({
+                        "action": "WTI_MIRROR_CLOSE", "instrument": "WTI_OIL", "deal_id": wti["deal_id"],
+                        "original_direction": wti["direction"],
+                        "reason": "Auto-closed: its BRENT_OIL mirror hit the margin-based take-profit rule this tick.",
+                        **wti_result,
+                    })
+                    if wti_result.get("status") == "submitted":
+                        closed_keys.append("WTI_OIL")
+
+    for instrument in ("WTI_OIL", "NATURAL_GAS"):
+        if instrument in closed_keys:
+            continue  # WTI already closed above as Brent's mirror
+        pos = positions.get(instrument)
+        if pos is None:
+            continue
+        pct = _pct_of_margin(pos)
+        if pct is not None and pct >= MARGIN_PROFIT_TAKE_PCT:
+            if _close_and_log(instrument, pos, pct):
+                closed_keys.append(instrument)
+
+    return closed_keys
+
+
 def _validate_trade(trade: dict, account: dict, positions: dict, rules,
                      running_available: float = None, checked_multiple_sources: bool = True,
                      last_close_info: dict = None) -> tuple:
@@ -426,16 +546,21 @@ def _validate_spread_trade(trade: dict, account: dict, positions: dict, rules,
     return True, "OK"
 
 
+MAX_IMMEDIATE_RETRIGGERS = 3  # bounds worst-case runtime/cost per workflow invocation --
+# "immediately retrigger the tick" (user's own rule, see _check_margin_profit_takeout)
+# means don't idle until the next scheduled trigger once we've just taken profit, but an
+# unbounded loop risks one invocation looping indefinitely (e.g. repeatedly opening then
+# instantly profit-taking in a choppy market) and blowing through the workflow's
+# timeout-minutes / OpenAI budget in a single run.
+
+
 def run_cfd_tick():
     enabled = os.getenv("IG_LIVE_TRADING_ENABLED", "").lower() == "true"
     if not enabled:
         logger.info("[IG-CFD] IG_LIVE_TRADING_ENABLED is not 'true'. Doing nothing.")
         return
 
-    from config import RULES, INSTRUMENTS, PLAYBOOKS_DIR
     from ig_broker import IGBroker
-    from agent_runner import get_agent_trades, AgentCallFailed
-    from dashboard_exporter import export_for_dashboard
 
     live = os.getenv("IG_LIVE", "").lower() == "true"
     username = os.getenv("IG_USERNAME")
@@ -453,6 +578,27 @@ def run_cfd_tick():
         logger.error(f"[IG-CFD] Could not create IG session: {e}")
         return
 
+    for attempt in range(MAX_IMMEDIATE_RETRIGGERS + 1):
+        took_profit = _run_one_pass(broker)
+        if not took_profit:
+            break
+        logger.warning(
+            f"[IG-CFD] Margin-based take-profit fired this pass -- immediately retriggering "
+            f"the tick instead of waiting for the next scheduled run "
+            f"(retrigger {attempt + 1}/{MAX_IMMEDIATE_RETRIGGERS})."
+        )
+
+
+def _run_one_pass(broker) -> bool:
+    """One full tick pass: safety checks, agent decision, trade execution,
+    dashboard export. Returns True iff _check_margin_profit_takeout closed
+    anything this pass -- run_cfd_tick uses that to decide whether to
+    immediately loop into another pass rather than waiting for the next
+    scheduled trigger."""
+    from config import RULES, INSTRUMENTS, PLAYBOOKS_DIR
+    from agent_runner import get_agent_trades, AgentCallFailed
+    from dashboard_exporter import export_for_dashboard
+
     account = broker.get_account_state()
     logger.warning(
         f"[IG-CFD] Account: id={account['account_id']} currency={account['currency']} "
@@ -463,7 +609,7 @@ def run_cfd_tick():
     epic_to_key = {inst.epic: key for key, inst in INSTRUMENTS.items() if inst.epic}
     if not epic_to_key:
         logger.error("[IG-CFD] No instrument epics configured in config.py yet. Nothing to trade. Aborting.")
-        return
+        return False
 
     positions = broker.get_positions(epic_to_key)
 
@@ -472,12 +618,22 @@ def run_cfd_tick():
     # pattern as the Alpaca bot's profit-lock backstop.
     closed_keys = _check_stop_breach_backstop(broker, positions)
     closed_keys = closed_keys + _check_orphaned_wti_mirror(broker, positions)
+
+    # Hardcoded margin-based take-profit (see _check_margin_profit_takeout docstring
+    # above): a hard mechanical rule, not agent discretion, so it runs in this same
+    # pre-agent safety phase and bypasses RULES.min_hold_minutes_before_discretionary_close
+    # exactly like the two checks above.
+    margin_by_deal = _get_margin_allocated_by_deal(DATA_DIR / "order_log.jsonl")
+    profit_take_closed = _check_margin_profit_takeout(broker, positions, margin_by_deal)
+    closed_keys = closed_keys + profit_take_closed
+
     if closed_keys:
         for key in closed_keys:
             positions.pop(key, None)
         account = broker.get_account_state()  # margin/balance changed by the closes above
         logger.warning(
-            f"[IG-CFD] Refreshed account after stop-breach backstop / orphan cleanup closes ({closed_keys}): "
+            f"[IG-CFD] Refreshed account after stop-breach backstop / orphan cleanup / "
+            f"margin-profit-take closes ({closed_keys}): "
             f"balance={account['balance']:.2f} available={account['available']:.2f}"
         )
 
@@ -495,7 +651,7 @@ def run_cfd_tick():
     tradeable_instruments = {k: s for k, s in snapshots.items() if broker.is_tradeable(s)}
     if not tradeable_instruments:
         logger.info("[IG-CFD] No tracked instrument's market is currently TRADEABLE. Skipping this tick.")
-        return
+        return bool(profit_take_closed)
 
     positions_with_pnl = {key: {**pos, "unrealized_pnl_usd": _estimate_unrealized_pnl(pos)}
                            for key, pos in positions.items()}
@@ -800,6 +956,8 @@ def run_cfd_tick():
         pos["unrealized_pnl_usd"] = _estimate_unrealized_pnl(pos)
     _record_snapshot(account, positions)
     export_for_dashboard(DATA_DIR, DATA_DIR / "dashboard")
+
+    return bool(profit_take_closed)
 
 
 def _record_snapshot(account: dict, positions: dict):
