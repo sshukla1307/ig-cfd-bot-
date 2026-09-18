@@ -46,6 +46,7 @@ import logging
 import os
 from datetime import datetime, timezone
 from pathlib import Path
+from typing import Optional
 
 logger = logging.getLogger(__name__)
 
@@ -258,14 +259,16 @@ def _check_orphaned_wti_mirror(broker, positions: dict) -> list:
     return []
 
 
-MARGIN_PROFIT_TAKE_PCT = 3.5  # Manually validated against real trade history (2026-08-21
-# to 2026-09-18): closing a position the moment its unrealized P&L reaches this % of the
-# margin originally committed to open it had a 93% win rate and a 23x profit factor over
-# 142 real closes -- dramatically better than the agent's own discretionary CLOSE decisions
-# over the same period (30% win rate, 0.07 profit factor). Implemented as a REAL resting IG
-# limit order (see _margin_based_limit_distance), not a bot-side poll: this account's tick
-# cadence is 30 minutes, and a resting order lets IG execute the instant price touches it,
-# 24/7, rather than only whenever the bot next happens to check.
+MARGIN_PROFIT_TAKE_PCT = 2.0  # Originally validated at 3.5% against real trade history
+# (2026-08-21 to 2026-09-18): closing a position the moment its unrealized P&L reaches this
+# % of the margin originally committed to open it had a 93% win rate and a 23x profit factor
+# over 142 real closes -- dramatically better than the agent's own discretionary CLOSE
+# decisions over the same period (30% win rate, 0.07 profit factor). Lowered to 2.0% on
+# 2026-09-18 (user's own choice, for faster/more frequent profit-taking) -- same mechanism,
+# just a tighter target. Implemented as a REAL resting IG limit order (see
+# _margin_based_limit_distance), not a bot-side poll: this account's tick cadence is 30
+# minutes, and a resting order lets IG execute the instant price touches it, 24/7, rather
+# than only whenever the bot next happens to check.
 
 
 def _margin_based_limit_distance(margin_allocated: float, size: float) -> float:
@@ -280,36 +283,32 @@ def _margin_based_limit_distance(margin_allocated: float, size: float) -> float:
     return round(margin_allocated * (MARGIN_PROFIT_TAKE_PCT / 100) / size, 4)
 
 
-def _get_margin_allocated_by_deal(order_log_path: Path) -> dict:
-    """Returns {deal_id: margin_allocated} for every successfully opened position,
-    read from the append-only audit log. IG's own position API (get_positions)
-    doesn't return the margin we originally committed at open time -- only the
-    position's current state -- so this log is the only place that number
-    survives past the opening tick. Used only to reconcile positions that predate
-    a limit_distance change (see _sync_margin_based_limits) -- a position opened
-    going forward already gets the correct limit at open time and never needs
-    this lookup again."""
-    margin_by_deal = {}
-    if not order_log_path.exists():
-        return margin_by_deal
-    with open(order_log_path) as f:
-        for line in f:
-            line = line.strip()
-            if not line:
-                continue
-            try:
-                d = json.loads(line)
-            except json.JSONDecodeError:
-                continue
-            if d.get("action") not in ("OPEN_LONG", "OPEN_SHORT", "WTI_MIRROR_OPEN"):
-                continue
-            if d.get("status") != "submitted":
-                continue
-            deal_id = d.get("deal_id")
-            margin = d.get("margin_allocated")
-            if deal_id and margin is not None:
-                margin_by_deal[deal_id] = margin
-    return margin_by_deal
+def _margin_allocated_for_position(pos: dict, snapshot: Optional[dict], max_leverage_multiple: float) -> Optional[float]:
+    """Recomputes the margin committed to an OPEN position directly from its live
+    size/entry_level plus a fresh market snapshot's lot_size/margin_factor --
+    the exact inverse of _compute_position_size's own math (notional =
+    margin_allocated * effective_leverage, so margin_allocated = notional /
+    effective_leverage), giving the identical number that was originally
+    computed at open time, without needing to read it back from anywhere.
+
+    This deliberately does NOT read the audit log (an earlier version did, via
+    a since-removed _get_margin_allocated_by_deal) -- a real 2026-09-18 incident
+    involved a workflow run whose audit-log commit failed to push, silently
+    losing that run's OPEN_LONG/WTI_MIRROR_OPEN entries. Recomputing live means
+    _sync_margin_based_limits can still correct a position's limit even when its
+    own opening record never made it into the log."""
+    if not snapshot:
+        return None
+    entry_level = pos.get("entry_level")
+    size = pos.get("size")
+    if entry_level is None or not size:
+        return None
+    lot_size = snapshot.get("lot_size") or 1
+    margin_factor = snapshot.get("margin_factor")
+    ig_implied_leverage = 100 / margin_factor if margin_factor else max_leverage_multiple
+    effective_leverage = min(ig_implied_leverage, max_leverage_multiple)
+    notional = size * entry_level * lot_size
+    return notional / effective_leverage
 
 
 MARGIN_LIMIT_SYNC_TOLERANCE = 0.5  # points -- skip amending a position whose live
@@ -348,14 +347,19 @@ def _get_stop_level_by_deal(order_log_path: Path) -> dict:
     return stop_by_deal
 
 
-def _sync_margin_based_limits(broker, positions: dict, margin_by_deal: dict, stop_by_deal: dict) -> list:
+def _sync_margin_based_limits(broker, positions: dict, snapshots: dict, max_leverage_multiple: float,
+                               stop_by_deal: dict) -> list:
     """Ensures every open position's live limit_level on IG actually matches the
     MARGIN_PROFIT_TAKE_PCT target, amending it (never closing) if it doesn't.
     Positions opened going forward already get the correct limit_distance at open
-    time (see the OPEN_LONG/OPEN_SHORT/WTI_MIRROR_OPEN call sites) -- this only
-    matters for a position that predates that change, or where margin_allocated
-    couldn't be found for some reason (in which case it's left untouched: we'd
-    rather leave an old, looser limit in place than guess).
+    time (see the OPEN_LONG/OPEN_SHORT/WTI_MIRROR_OPEN call sites) -- this mainly
+    matters for a position that predates the current MARGIN_PROFIT_TAKE_PCT value
+    (e.g. it was opened under an earlier % and needs retightening/loosening), or
+    one whose live margin/snapshot can't be determined for some reason (in which
+    case it's left untouched: we'd rather leave an old limit in place than guess).
+
+    margin_allocated is recomputed live via _margin_allocated_for_position rather
+    than read from the audit log -- see that function's docstring for why.
 
     *** INCIDENT (2026-09-18): a version of this function called
     broker.update_position() with only limit_level set, leaving stop_level as
@@ -373,7 +377,8 @@ def _sync_margin_based_limits(broker, positions: dict, margin_by_deal: dict, sto
     for logging/visibility -- callers don't need to treat this any differently."""
     synced = []
     for instrument, pos in positions.items():
-        margin = margin_by_deal.get(pos["deal_id"])
+        snapshot = snapshots.get(instrument)
+        margin = _margin_allocated_for_position(pos, snapshot, max_leverage_multiple)
         entry_level = pos.get("entry_level")
         current_limit = pos.get("limit_level")
         size = pos.get("size")
@@ -646,18 +651,9 @@ def run_cfd_tick():
             f"balance={account['balance']:.2f} available={account['available']:.2f}"
         )
 
-    # Margin-based take-profit is now a REAL resting IG limit order, set at open
-    # time (see MARGIN_PROFIT_TAKE_PCT / _margin_based_limit_distance) -- IG's own
-    # engine executes it the instant price touches it, not on our tick cadence.
-    # This just reconciles any position whose live limit_level doesn't already
-    # match that target (e.g. it was opened before this feature existed) by
-    # amending it in place -- never closes anything itself.
-    margin_by_deal = _get_margin_allocated_by_deal(DATA_DIR / "order_log.jsonl")
-    stop_by_deal = _get_stop_level_by_deal(DATA_DIR / "order_log.jsonl")
-    _sync_margin_based_limits(broker, positions, margin_by_deal, stop_by_deal)
-
     # Per-instrument market status, read fresh every tick -- this is what
-    # actually gates trading hours instead of a hardcoded calendar.
+    # actually gates trading hours instead of a hardcoded calendar. Also
+    # supplies lot_size/margin_factor for the margin-based limit sync below.
     snapshots = {}
     for key, inst in INSTRUMENTS.items():
         if not inst.epic:
@@ -666,6 +662,15 @@ def run_cfd_tick():
         snapshots[key] = snap
         status = snap.get("market_status") if snap else "UNKNOWN"
         logger.info(f"[IG-CFD] {key} ({inst.display_name}): market_status={status}")
+
+    # Margin-based take-profit is now a REAL resting IG limit order, set at open
+    # time (see MARGIN_PROFIT_TAKE_PCT / _margin_based_limit_distance) -- IG's own
+    # engine executes it the instant price touches it, not on our tick cadence.
+    # This just reconciles any position whose live limit_level doesn't already
+    # match that target (e.g. it predates the current MARGIN_PROFIT_TAKE_PCT
+    # value) by amending it in place -- never closes anything itself.
+    stop_by_deal = _get_stop_level_by_deal(DATA_DIR / "order_log.jsonl")
+    _sync_margin_based_limits(broker, positions, snapshots, RULES.max_leverage_multiple, stop_by_deal)
 
     tradeable_instruments = {k: s for k, s in snapshots.items() if broker.is_tradeable(s)}
     if not tradeable_instruments:
