@@ -26,7 +26,7 @@ on:
     # entry is kept only as a harmless secondary attempt.
     - cron: '*/30 * * * 0-5'
   repository_dispatch:
-    types: [tick]
+    types: [tick, watch]
   workflow_dispatch:
     inputs:
       confirm:
@@ -81,11 +81,16 @@ jobs:
           BRAVE_API_KEY: ${{ secrets.BRAVE_API_KEY }}
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
           PYTHONPATH: ${{ github.workspace }}
+          # Only set for repository_dispatch -- "watch" runs the cheap check in
+          # cfd_runner.run_watch_check instead of a full tick; anything else
+          # (including this being unset, e.g. on schedule/workflow_dispatch)
+          # runs the normal full tick.
+          CFD_EVENT_TYPE: ${{ github.event.action }}
         run: python -m cfd_runner
 
       - name: Commit & Push Audit Log
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Live CFD tick: ${{ github.event.schedule || github.event_name }}"
+          commit_message: "Live CFD tick: ${{ github.event.schedule || github.event.action || github.event_name }}"
           file_pattern: 'data'
           branch: main

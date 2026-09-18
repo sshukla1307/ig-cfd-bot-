@@ -596,6 +596,91 @@ def _validate_spread_trade(trade: dict, account: dict, positions: dict, rules,
     return True, "OK"
 
 
+def _last_known_open_deal_ids() -> set:
+    """Returns the set of deal_ids open as of the most recent equity_history.jsonl
+    snapshot (written at the end of every real run_cfd_tick pass) -- the cheapest
+    available 'last known state' to diff a fresh get_positions() call against in
+    run_watch_check, with no need for its own separate state file."""
+    path = DATA_DIR / "equity_history.jsonl"
+    if not path.exists():
+        return set()
+    last_line = None
+    with open(path) as f:
+        for line in f:
+            line = line.strip()
+            if line:
+                last_line = line
+    if not last_line:
+        return set()
+    try:
+        snapshot = json.loads(last_line)
+    except json.JSONDecodeError:
+        return set()
+    return {p.get("deal_id") for p in snapshot.get("positions", []) if p.get("deal_id")}
+
+
+def run_watch_check():
+    """Cheap, frequent check (see gh-cron-pinger's 2-min "watch" Cron Trigger,
+    distinct from the normal 30-min "tick" one): did any position open as of
+    the last recorded snapshot silently close since then -- most likely its
+    resting IG take-profit/stop firing between our scheduled ticks? If so,
+    escalate immediately into a full run_cfd_tick() pass rather than waiting
+    up to 30 min for the next one, so freed-up margin/a new opportunity isn't
+    left idle. No OpenAI calls, no IG orders placed here directly -- only an
+    IG session + a single get_positions() read, deliberately kept far cheaper
+    than a full tick since this runs 15x more often.
+
+    Writes NOTHING to disk when nothing has changed -- the calling workflow's
+    git-auto-commit-action step only commits if there's an actual diff under
+    data/, so a quiet watch cycle produces zero commit noise. Uses the same
+    two kill-switches as run_cfd_tick (a disabled account makes no IG calls
+    here either)."""
+    enabled = os.getenv("IG_LIVE_TRADING_ENABLED", "").lower() == "true"
+    if not enabled:
+        logger.info("[IG-CFD] [watch] IG_LIVE_TRADING_ENABLED is not 'true'. Doing nothing.")
+        return
+
+    last_known_deal_ids = _last_known_open_deal_ids()
+    if not last_known_deal_ids:
+        logger.info("[IG-CFD] [watch] No open positions as of the last snapshot (or no snapshot yet) -- nothing to check.")
+        return
+
+    from config import INSTRUMENTS
+    from ig_broker import IGBroker
+
+    live = os.getenv("IG_LIVE", "").lower() == "true"
+    username = os.getenv("IG_USERNAME")
+    password = os.getenv("IG_PASSWORD")
+    api_key = os.getenv("IG_API_KEY")
+    if not (username and password and api_key):
+        logger.error("[IG-CFD] [watch] IG_USERNAME / IG_PASSWORD / IG_API_KEY not fully set. Aborting.")
+        return
+
+    try:
+        broker = IGBroker(username, password, api_key, live=live)
+    except Exception as e:
+        logger.error(f"[IG-CFD] [watch] Could not create IG session: {e}")
+        return
+
+    epic_to_key = {inst.epic: key for key, inst in INSTRUMENTS.items() if inst.epic}
+    if not epic_to_key:
+        return
+    positions = broker.get_positions(epic_to_key)
+    current_deal_ids = {pos["deal_id"] for pos in positions.values()}
+
+    vanished = last_known_deal_ids - current_deal_ids
+    if not vanished:
+        logger.info("[IG-CFD] [watch] No change since the last snapshot -- nothing to do.")
+        return
+
+    logger.warning(
+        f"[IG-CFD] [watch] {len(vanished)} position(s) closed since the last snapshot "
+        f"(deal_ids: {sorted(vanished)}) -- likely the resting take-profit or stop firing. "
+        f"Escalating to a full tick immediately instead of waiting for the next scheduled run."
+    )
+    run_cfd_tick()
+
+
 def run_cfd_tick():
     enabled = os.getenv("IG_LIVE_TRADING_ENABLED", "").lower() == "true"
     if not enabled:
@@ -1006,4 +1091,12 @@ if __name__ == "__main__":
         load_dotenv(Path(__file__).parent / ".env")
     except ImportError:
         pass
-    run_cfd_tick()
+    # CFD_EVENT_TYPE is set by the workflow from github.event.action, which is
+    # only populated for a repository_dispatch trigger -- a "schedule" or
+    # "workflow_dispatch" run leaves it unset, and anything other than exactly
+    # "watch" runs the normal full tick (fails toward "just run everything",
+    # today's existing behavior, rather than ever silently skipping a real tick).
+    if os.getenv("CFD_EVENT_TYPE") == "watch":
+        run_watch_check()
+    else:
+        run_cfd_tick()
