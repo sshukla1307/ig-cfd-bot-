@@ -259,13 +259,13 @@ def _check_orphaned_wti_mirror(broker, positions: dict) -> list:
     return []
 
 
-MARGIN_PROFIT_TAKE_PCT = 2.0  # Originally validated at 3.5% against real trade history
+MARGIN_PROFIT_TAKE_PCT = 1.5  # Originally validated at 3.5% against real trade history
 # (2026-08-21 to 2026-09-18): closing a position the moment its unrealized P&L reaches this
 # % of the margin originally committed to open it had a 93% win rate and a 23x profit factor
 # over 142 real closes -- dramatically better than the agent's own discretionary CLOSE
-# decisions over the same period (30% win rate, 0.07 profit factor). Lowered to 2.0% on
-# 2026-09-18 (user's own choice, for faster/more frequent profit-taking) -- same mechanism,
-# just a tighter target. Implemented as a REAL resting IG limit order (see
+# decisions over the same period (30% win rate, 0.07 profit factor). Lowered to 2.0% then
+# 1.5% on 2026-09-18 (user's own choice, for faster/more frequent profit-taking) -- same
+# mechanism, just a tighter target. Implemented as a REAL resting IG limit order (see
 # _margin_based_limit_distance), not a bot-side poll: this account's tick cadence is 30
 # minutes, and a resting order lets IG execute the instant price touches it, 24/7, rather
 # than only whenever the bot next happens to check.
