@@ -3,6 +3,20 @@
     "action": "CLOSE",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 330 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-18T18:32:28.896283+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 359 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-18T18:32:28.895903+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 300 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "logged_at": "2026-09-18T18:02:48.615437+00:00"
   },
@@ -3425,77 +3439,5 @@
     "status": "REJECTED",
     "reason": "Invalid action: HOLD",
     "logged_at": "2026-09-16T01:31:50.552937+00:00"
-  },
-  {
-    "action": "WTI_MIRROR_CLOSE",
-    "instrument": "WTI_OIL",
-    "deal_id": "DIAAAAR6L3YN7AW",
-    "original_direction": "SELL",
-    "reason": "Auto-closed: its BRENT_OIL mirror was closed this tick.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-16T01:31:50.353",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "6LEXUGFYBXWTYNV",
-      "dealId": "DIAAAAR6L3YN7AW",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR6L3YN7AW",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 10107.4,
-      "size": 0.9,
-      "direction": "BUY",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": -255.6,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-09-16T01:31:50.552693+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR6L4SV6A3",
-    "original_direction": "SELL",
-    "reason": "Brent oil is currently in an overbought condition with an RSI of 84.9, indicating a potential reversal or correction. The recent news of a Saudi pipeline outage has driven prices higher, but this may be a temporary spike. The current unrealized loss on the short position suggests that the market may continue to rise in the short term, making it prudent to close the position to prevent further losses.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-16T01:31:50.028",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "38AWEHJCDPJTYNV",
-      "dealId": "DIAAAAR6L4SV6A3",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR6L4SV6A3",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 10513.6,
-      "size": 0.8,
-      "direction": "BUY",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": -185.6,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-09-16T01:31:50.241673+00:00"
   }
 ]
