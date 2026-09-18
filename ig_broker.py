@@ -229,3 +229,24 @@ class IGBroker:
         except Exception as e:
             logger.error(f"[IG] close_position failed for {epic} (deal {deal_id}): {e}")
             return {"status": "rejected", "reason": str(e)}
+
+    def update_position(self, deal_id: str, limit_level: Optional[float] = None,
+                         stop_level: Optional[float] = None) -> dict:
+        """Amends an already-open position's stop and/or limit to an ABSOLUTE price
+        level -- unlike open_position, IG's update endpoint takes the exact level
+        directly, not a distance (confirmed against the installed trading_ig
+        library's update_open_position). Passing None for either leaves that side
+        completely untouched (the library only includes a param in the request if
+        it isn't None), so it's safe to update just one side without needing to
+        already know the other's current value."""
+        try:
+            result = self.ig.update_open_position(
+                limit_level=limit_level, stop_level=stop_level, deal_id=deal_id,
+            )
+            deal_status = result.get("dealStatus") if isinstance(result, dict) else None
+            if deal_status == "REJECTED":
+                return {"status": "rejected", "reason": result.get("reason", "IG rejected the update"), "raw": result}
+            return {"status": "submitted", "raw": result}
+        except Exception as e:
+            logger.error(f"[IG] update_position failed for deal {deal_id}: {e}")
+            return {"status": "rejected", "reason": str(e)}

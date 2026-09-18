@@ -5,11 +5,13 @@ Invoked roughly every 5 minutes by GitHub Actions (a nominal target -- GitHub
 doesn't guarantee precise cron timing; see cfd_trading.yml). Each tick:
   1. Kill-switch check.
   2. Connect to IG, fetch account state + our 4 tracked positions.
-  3. Margin-based take-profit: immediately close any position whose unrealized
-     P&L has reached MARGIN_PROFIT_TAKE_PCT of the margin used to open it (see
-     _check_margin_profit_takeout), same tier as the stop-breach backstop --
-     if this fires, the whole tick loops again immediately (see
-     MAX_IMMEDIATE_RETRIGGERS) instead of waiting for the next scheduled run.
+  3. Margin-based take-profit sync: every new position already gets a REAL resting
+     IG limit order at MARGIN_PROFIT_TAKE_PCT of its margin (see
+     _margin_based_limit_distance) -- IG's own engine executes it instantly,
+     independent of our tick cadence. This step just reconciles any position
+     whose live limit doesn't already match that target (predates the feature,
+     or drifted) by amending it in place (_sync_margin_based_limits) -- never
+     closes anything itself.
   4. Margin safety check: block ALL new opens account-wide if available
      margin has fallen below RULES.margin_safety_buffer_pct of balance.
   5. Per-instrument: skip any instrument whose market isn't currently
@@ -260,9 +262,22 @@ MARGIN_PROFIT_TAKE_PCT = 3.5  # Manually validated against real trade history (2
 # to 2026-09-18): closing a position the moment its unrealized P&L reaches this % of the
 # margin originally committed to open it had a 93% win rate and a 23x profit factor over
 # 142 real closes -- dramatically better than the agent's own discretionary CLOSE decisions
-# over the same period (30% win rate, 0.07 profit factor). Hardcoded here (rather than left
-# as a manual habit) so it fires around the clock instead of only when someone happens to
-# be online watching the account.
+# over the same period (30% win rate, 0.07 profit factor). Implemented as a REAL resting IG
+# limit order (see _margin_based_limit_distance), not a bot-side poll: this account's tick
+# cadence is 30 minutes, and a resting order lets IG execute the instant price touches it,
+# 24/7, rather than only whenever the bot next happens to check.
+
+
+def _margin_based_limit_distance(margin_allocated: float, size: float) -> float:
+    """Converts MARGIN_PROFIT_TAKE_PCT into a point DISTANCE from entry (not an absolute
+    level) -- the target $ profit (margin_allocated * PCT/100) divided by size, using the
+    exact same (current_price - entry_level) * size math _estimate_unrealized_pnl already
+    verifies against real IG fills. A pure distance, independent of entry/fill price, so it
+    can be passed straight into open_position's limit_distance -- IG computes the absolute
+    level itself from the live fill price, exactly like the agent's own stop/limit already
+    do (see open_position's docstring: this avoids pre-computing off a snapshot price that
+    may have moved by fill time)."""
+    return round(margin_allocated * (MARGIN_PROFIT_TAKE_PCT / 100) / size, 4)
 
 
 def _get_margin_allocated_by_deal(order_log_path: Path) -> dict:
@@ -270,7 +285,10 @@ def _get_margin_allocated_by_deal(order_log_path: Path) -> dict:
     read from the append-only audit log. IG's own position API (get_positions)
     doesn't return the margin we originally committed at open time -- only the
     position's current state -- so this log is the only place that number
-    survives past the opening tick."""
+    survives past the opening tick. Used only to reconcile positions that predate
+    a limit_distance change (see _sync_margin_based_limits) -- a position opened
+    going forward already gets the correct limit at open time and never needs
+    this lookup again."""
     margin_by_deal = {}
     if not order_log_path.exists():
         return margin_by_deal
@@ -294,81 +312,53 @@ def _get_margin_allocated_by_deal(order_log_path: Path) -> dict:
     return margin_by_deal
 
 
-def _check_margin_profit_takeout(broker, positions: dict, margin_by_deal: dict) -> list:
-    """Hardcodes the user's own manually-validated rule (see MARGIN_PROFIT_TAKE_PCT):
-    close any open position immediately once its unrealized P&L reaches
-    MARGIN_PROFIT_TAKE_PCT of the margin committed to open it. Runs every tick,
-    before the agent's turn, exactly like _check_stop_breach_backstop -- a hard
-    mechanical rule, not agent discretion, so it intentionally bypasses
-    RULES.min_hold_minutes_before_discretionary_close the same way that check does.
+MARGIN_LIMIT_SYNC_TOLERANCE = 0.5  # points -- skip amending a position whose live
+# limit_level is already within this of the target, so a tick doesn't keep firing a
+# no-op update_position call every 30 minutes once a position is already correct
+# (float rounding between our calc and IG's own stored level is expected).
 
-    Closing BRENT_OIL also closes its WTI_OIL mirror (same convention as every
-    other Brent-close path in this file, so Brent never ends up re-opening while
-    an old WTI mirror slot still looks occupied). WTI_OIL and NATURAL_GAS can
-    each independently trigger this rule on their own -- WTI closing early on
-    its own doesn't touch Brent (the orphan-cleanup check only ever protects
-    against the opposite case, WTI open with no Brent).
 
-    Returns the list of instrument keys force-closed this tick so the caller
-    can drop them from its in-memory positions dict."""
-    closed_keys = []
+def _sync_margin_based_limits(broker, positions: dict, margin_by_deal: dict) -> list:
+    """Ensures every open position's live limit_level on IG actually matches the
+    MARGIN_PROFIT_TAKE_PCT target, amending it (never closing) if it doesn't.
+    Positions opened going forward already get the correct limit_distance at open
+    time (see the OPEN_LONG/OPEN_SHORT/WTI_MIRROR_OPEN call sites) -- this only
+    matters for a position that predates that change, or where margin_allocated
+    couldn't be found for some reason (in which case it's left untouched: we'd
+    rather leave an old, looser limit in place than guess).
 
-    def _pct_of_margin(pos: dict):
+    Returns the list of instrument keys whose limit was amended this tick, purely
+    for logging/visibility -- callers don't need to treat this any differently."""
+    synced = []
+    for instrument, pos in positions.items():
         margin = margin_by_deal.get(pos["deal_id"])
-        pnl = _estimate_unrealized_pnl(pos)
-        if not margin or pnl is None:
-            return None
-        return (pnl / margin) * 100
+        entry_level = pos.get("entry_level")
+        current_limit = pos.get("limit_level")
+        size = pos.get("size")
+        if not margin or entry_level is None or not size:
+            continue
 
-    def _close_and_log(instrument: str, pos: dict, pct: float) -> bool:
-        result = broker.close_position(
-            deal_id=pos["deal_id"], direction=pos["direction"], epic=pos["epic"], size=pos["size"],
-        )
+        distance = _margin_based_limit_distance(margin, size)
+        is_long = pos["direction"] == "BUY"
+        target_limit = entry_level + distance if is_long else entry_level - distance
+
+        if current_limit is not None and abs(current_limit - target_limit) <= MARGIN_LIMIT_SYNC_TOLERANCE:
+            continue  # already correct -- nothing to do
+
+        result = broker.update_position(deal_id=pos["deal_id"], limit_level=round(target_limit, 4))
         _log_order_event({
-            "action": "MARGIN_PROFIT_TAKE", "instrument": instrument, "deal_id": pos["deal_id"],
-            "profit_pct_of_margin": round(pct, 2),
+            "action": "MARGIN_LIMIT_SYNC", "instrument": instrument, "deal_id": pos["deal_id"],
+            "old_limit_level": current_limit, "new_limit_level": round(target_limit, 4),
             "reason": (
-                f"Unrealized profit reached {pct:.1f}% of margin (threshold {MARGIN_PROFIT_TAKE_PCT}%) "
-                f"-- closing immediately."
+                f"Position's resting limit didn't match the {MARGIN_PROFIT_TAKE_PCT}%-of-margin "
+                f"target (predates this feature, or drifted) -- amending it on IG directly."
             ),
             **result,
         })
-        return result.get("status") == "submitted"
+        if result.get("status") == "submitted":
+            synced.append(instrument)
 
-    # Brent (and its WTI mirror) handled as one unit first, so the WTI_OIL loop
-    # below never acts on a mirror that's about to disappear anyway.
-    brent = positions.get("BRENT_OIL")
-    if brent is not None:
-        pct = _pct_of_margin(brent)
-        if pct is not None and pct >= MARGIN_PROFIT_TAKE_PCT:
-            if _close_and_log("BRENT_OIL", brent, pct):
-                closed_keys.append("BRENT_OIL")
-                wti = positions.get("WTI_OIL")
-                if wti is not None:
-                    wti_result = broker.close_position(
-                        deal_id=wti["deal_id"], direction=wti["direction"], epic=wti["epic"], size=wti["size"],
-                    )
-                    _log_order_event({
-                        "action": "WTI_MIRROR_CLOSE", "instrument": "WTI_OIL", "deal_id": wti["deal_id"],
-                        "original_direction": wti["direction"],
-                        "reason": "Auto-closed: its BRENT_OIL mirror hit the margin-based take-profit rule this tick.",
-                        **wti_result,
-                    })
-                    if wti_result.get("status") == "submitted":
-                        closed_keys.append("WTI_OIL")
-
-    for instrument in ("WTI_OIL", "NATURAL_GAS"):
-        if instrument in closed_keys:
-            continue  # WTI already closed above as Brent's mirror
-        pos = positions.get(instrument)
-        if pos is None:
-            continue
-        pct = _pct_of_margin(pos)
-        if pct is not None and pct >= MARGIN_PROFIT_TAKE_PCT:
-            if _close_and_log(instrument, pos, pct):
-                closed_keys.append(instrument)
-
-    return closed_keys
+    return synced
 
 
 def _validate_trade(trade: dict, account: dict, positions: dict, rules,
@@ -546,21 +536,16 @@ def _validate_spread_trade(trade: dict, account: dict, positions: dict, rules,
     return True, "OK"
 
 
-MAX_IMMEDIATE_RETRIGGERS = 3  # bounds worst-case runtime/cost per workflow invocation --
-# "immediately retrigger the tick" (user's own rule, see _check_margin_profit_takeout)
-# means don't idle until the next scheduled trigger once we've just taken profit, but an
-# unbounded loop risks one invocation looping indefinitely (e.g. repeatedly opening then
-# instantly profit-taking in a choppy market) and blowing through the workflow's
-# timeout-minutes / OpenAI budget in a single run.
-
-
 def run_cfd_tick():
     enabled = os.getenv("IG_LIVE_TRADING_ENABLED", "").lower() == "true"
     if not enabled:
         logger.info("[IG-CFD] IG_LIVE_TRADING_ENABLED is not 'true'. Doing nothing.")
         return
 
+    from config import RULES, INSTRUMENTS, PLAYBOOKS_DIR
     from ig_broker import IGBroker
+    from agent_runner import get_agent_trades, AgentCallFailed
+    from dashboard_exporter import export_for_dashboard
 
     live = os.getenv("IG_LIVE", "").lower() == "true"
     username = os.getenv("IG_USERNAME")
@@ -578,27 +563,6 @@ def run_cfd_tick():
         logger.error(f"[IG-CFD] Could not create IG session: {e}")
         return
 
-    for attempt in range(MAX_IMMEDIATE_RETRIGGERS + 1):
-        took_profit = _run_one_pass(broker)
-        if not took_profit:
-            break
-        logger.warning(
-            f"[IG-CFD] Margin-based take-profit fired this pass -- immediately retriggering "
-            f"the tick instead of waiting for the next scheduled run "
-            f"(retrigger {attempt + 1}/{MAX_IMMEDIATE_RETRIGGERS})."
-        )
-
-
-def _run_one_pass(broker) -> bool:
-    """One full tick pass: safety checks, agent decision, trade execution,
-    dashboard export. Returns True iff _check_margin_profit_takeout closed
-    anything this pass -- run_cfd_tick uses that to decide whether to
-    immediately loop into another pass rather than waiting for the next
-    scheduled trigger."""
-    from config import RULES, INSTRUMENTS, PLAYBOOKS_DIR
-    from agent_runner import get_agent_trades, AgentCallFailed
-    from dashboard_exporter import export_for_dashboard
-
     account = broker.get_account_state()
     logger.warning(
         f"[IG-CFD] Account: id={account['account_id']} currency={account['currency']} "
@@ -609,7 +573,7 @@ def _run_one_pass(broker) -> bool:
     epic_to_key = {inst.epic: key for key, inst in INSTRUMENTS.items() if inst.epic}
     if not epic_to_key:
         logger.error("[IG-CFD] No instrument epics configured in config.py yet. Nothing to trade. Aborting.")
-        return False
+        return
 
     positions = broker.get_positions(epic_to_key)
 
@@ -618,24 +582,23 @@ def _run_one_pass(broker) -> bool:
     # pattern as the Alpaca bot's profit-lock backstop.
     closed_keys = _check_stop_breach_backstop(broker, positions)
     closed_keys = closed_keys + _check_orphaned_wti_mirror(broker, positions)
-
-    # Hardcoded margin-based take-profit (see _check_margin_profit_takeout docstring
-    # above): a hard mechanical rule, not agent discretion, so it runs in this same
-    # pre-agent safety phase and bypasses RULES.min_hold_minutes_before_discretionary_close
-    # exactly like the two checks above.
-    margin_by_deal = _get_margin_allocated_by_deal(DATA_DIR / "order_log.jsonl")
-    profit_take_closed = _check_margin_profit_takeout(broker, positions, margin_by_deal)
-    closed_keys = closed_keys + profit_take_closed
-
     if closed_keys:
         for key in closed_keys:
             positions.pop(key, None)
         account = broker.get_account_state()  # margin/balance changed by the closes above
         logger.warning(
-            f"[IG-CFD] Refreshed account after stop-breach backstop / orphan cleanup / "
-            f"margin-profit-take closes ({closed_keys}): "
+            f"[IG-CFD] Refreshed account after stop-breach backstop / orphan cleanup closes ({closed_keys}): "
             f"balance={account['balance']:.2f} available={account['available']:.2f}"
         )
+
+    # Margin-based take-profit is now a REAL resting IG limit order, set at open
+    # time (see MARGIN_PROFIT_TAKE_PCT / _margin_based_limit_distance) -- IG's own
+    # engine executes it the instant price touches it, not on our tick cadence.
+    # This just reconciles any position whose live limit_level doesn't already
+    # match that target (e.g. it was opened before this feature existed) by
+    # amending it in place -- never closes anything itself.
+    margin_by_deal = _get_margin_allocated_by_deal(DATA_DIR / "order_log.jsonl")
+    _sync_margin_based_limits(broker, positions, margin_by_deal)
 
     # Per-instrument market status, read fresh every tick -- this is what
     # actually gates trading hours instead of a hardcoded calendar.
@@ -651,7 +614,7 @@ def _run_one_pass(broker) -> bool:
     tradeable_instruments = {k: s for k, s in snapshots.items() if broker.is_tradeable(s)}
     if not tradeable_instruments:
         logger.info("[IG-CFD] No tracked instrument's market is currently TRADEABLE. Skipping this tick.")
-        return bool(profit_take_closed)
+        return
 
     positions_with_pnl = {key: {**pos, "unrealized_pnl_usd": _estimate_unrealized_pnl(pos)}
                            for key, pos in positions.items()}
@@ -753,7 +716,7 @@ def _run_one_pass(broker) -> bool:
                 # Open the LONG leg first.
                 long_price = long_sizing["price"]
                 long_stop_distance = round(long_price * (trade["stop_loss_pct"] / 100), 4)
-                long_limit_distance = round(long_price * (trade["take_profit_pct"] / 100), 4)
+                long_limit_distance = _margin_based_limit_distance(long_sizing["margin_allocated"], long_sizing["size"])
                 long_result = broker.open_position(
                     epic=long_inst_cfg.epic, direction="BUY", size=long_sizing["size"],
                     stop_distance=long_stop_distance, limit_distance=long_limit_distance,
@@ -772,7 +735,7 @@ def _run_one_pass(broker) -> bool:
                 # Now the SHORT leg.
                 short_price = short_sizing["price"]
                 short_stop_distance = round(short_price * (trade["stop_loss_pct"] / 100), 4)
-                short_limit_distance = round(short_price * (trade["take_profit_pct"] / 100), 4)
+                short_limit_distance = _margin_based_limit_distance(short_sizing["margin_allocated"], short_sizing["size"])
                 short_result = broker.open_position(
                     epic=short_inst_cfg.epic, direction="SELL", size=short_sizing["size"],
                     stop_distance=short_stop_distance, limit_distance=short_limit_distance,
@@ -854,7 +817,7 @@ def _run_one_pass(broker) -> bool:
                 direction = "BUY" if action == "OPEN_LONG" else "SELL"
                 price = sizing["price"]
                 stop_distance = round(price * (trade["stop_loss_pct"] / 100), 4)
-                limit_distance = round(price * (trade["take_profit_pct"] / 100), 4)
+                limit_distance = _margin_based_limit_distance(sizing["margin_allocated"], sizing["size"])
 
                 result = broker.open_position(
                     epic=inst.epic, direction=direction, size=sizing["size"],
@@ -886,7 +849,7 @@ def _run_one_pass(broker) -> bool:
                         if wti_sizing and wti_margin_ok:
                             wti_price = wti_sizing["price"]
                             wti_stop_distance = round(wti_price * (trade["stop_loss_pct"] / 100), 4)
-                            wti_limit_distance = round(wti_price * (trade["take_profit_pct"] / 100), 4)
+                            wti_limit_distance = _margin_based_limit_distance(wti_sizing["margin_allocated"], wti_sizing["size"])
                             wti_result = broker.open_position(
                                 epic=wti_inst.epic, direction=direction, size=wti_sizing["size"],
                                 stop_distance=wti_stop_distance, limit_distance=wti_limit_distance,
@@ -956,8 +919,6 @@ def _run_one_pass(broker) -> bool:
         pos["unrealized_pnl_usd"] = _estimate_unrealized_pnl(pos)
     _record_snapshot(account, positions)
     export_for_dashboard(DATA_DIR, DATA_DIR / "dashboard")
-
-    return bool(profit_take_closed)
 
 
 def _record_snapshot(account: dict, positions: dict):

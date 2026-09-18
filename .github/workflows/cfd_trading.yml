@@ -40,9 +40,7 @@ concurrency:
 jobs:
   tick:
     runs-on: ubuntu-latest
-    timeout-minutes: 12  # bumped from 6 -- the margin-based take-profit rule can now
-    # immediately retrigger up to MAX_IMMEDIATE_RETRIGGERS extra passes in one run
-    # (cfd_runner.py), each with its own OpenAI retry backoff headroom
+    timeout-minutes: 6  # bumped from 4 -- OpenAI retry backoff (up to ~32s of sleep across 5 retries) needs room even on an occasional transient failure
     permissions:
       contents: write
 
