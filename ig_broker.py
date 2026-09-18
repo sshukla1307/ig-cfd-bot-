@@ -235,10 +235,18 @@ class IGBroker:
         """Amends an already-open position's stop and/or limit to an ABSOLUTE price
         level -- unlike open_position, IG's update endpoint takes the exact level
         directly, not a distance (confirmed against the installed trading_ig
-        library's update_open_position). Passing None for either leaves that side
-        completely untouched (the library only includes a param in the request if
-        it isn't None), so it's safe to update just one side without needing to
-        already know the other's current value."""
+        library's update_open_position).
+
+        *** CONFIRMED LIVE, 2026-09-18: passing None for one side does NOT leave
+        it untouched on IG's actual server, despite the underlying trading_ig
+        library's request-building code appearing to support that (it simply
+        omits a None param from the request body). In production, omitting
+        stop_level while setting limit_level DELETED the position's existing
+        stop entirely. ALWAYS pass both stop_level and limit_level explicitly
+        with their intended values (re-sending the current one unchanged if you
+        only mean to change the other) -- never rely on omission-as-untouched
+        for a position that's actually open. See cfd_runner._sync_margin_based_limits
+        for the incident this caused and the fix.***"""
         try:
             result = self.ig.update_open_position(
                 limit_level=limit_level, stop_level=stop_level, deal_id=deal_id,

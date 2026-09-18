@@ -318,7 +318,37 @@ MARGIN_LIMIT_SYNC_TOLERANCE = 0.5  # points -- skip amending a position whose li
 # (float rounding between our calc and IG's own stored level is expected).
 
 
-def _sync_margin_based_limits(broker, positions: dict, margin_by_deal: dict) -> list:
+def _get_stop_level_by_deal(order_log_path: Path) -> dict:
+    """Returns {deal_id: stop_level} for every successfully opened position, read
+    from the append-only audit log's OPEN event (raw.stopLevel). Fallback source
+    of truth for _sync_margin_based_limits if a position's LIVE stop_level is
+    ever missing when we need to re-send it -- see the incident note there for
+    why this must never be allowed to default to None."""
+    stop_by_deal = {}
+    if not order_log_path.exists():
+        return stop_by_deal
+    with open(order_log_path) as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                d = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if d.get("action") not in ("OPEN_LONG", "OPEN_SHORT", "WTI_MIRROR_OPEN"):
+                continue
+            if d.get("status") != "submitted":
+                continue
+            raw = d.get("raw") or {}
+            deal_id = raw.get("dealId") or d.get("deal_id")
+            stop_level = raw.get("stopLevel")
+            if deal_id and stop_level is not None:
+                stop_by_deal[deal_id] = stop_level
+    return stop_by_deal
+
+
+def _sync_margin_based_limits(broker, positions: dict, margin_by_deal: dict, stop_by_deal: dict) -> list:
     """Ensures every open position's live limit_level on IG actually matches the
     MARGIN_PROFIT_TAKE_PCT target, amending it (never closing) if it doesn't.
     Positions opened going forward already get the correct limit_distance at open
@@ -326,6 +356,18 @@ def _sync_margin_based_limits(broker, positions: dict, margin_by_deal: dict) -> 
     matters for a position that predates that change, or where margin_allocated
     couldn't be found for some reason (in which case it's left untouched: we'd
     rather leave an old, looser limit in place than guess).
+
+    *** INCIDENT (2026-09-18): a version of this function called
+    broker.update_position() with only limit_level set, leaving stop_level as
+    its default None -- IG's update endpoint does NOT preserve an omitted field
+    on an existing position the way the underlying trading_ig library's request-
+    building code suggests; it actually DELETED the stop entirely. The very next
+    tick's _check_stop_breach_backstop then correctly (by its own design) force-
+    closed all 3 affected positions as "no stop_level recorded", realizing a
+    real ~$614 loss. Every amend below now ALWAYS explicitly re-sends the
+    current stop_level alongside the new limit_level -- never omits it -- and
+    refuses to amend at all if no stop_level can be found anywhere (live
+    position data or the audit log), rather than risk repeating this. ***
 
     Returns the list of instrument keys whose limit was amended this tick, purely
     for logging/visibility -- callers don't need to treat this any differently."""
@@ -338,6 +380,15 @@ def _sync_margin_based_limits(broker, positions: dict, margin_by_deal: dict) -> 
         if not margin or entry_level is None or not size:
             continue
 
+        stop_level = pos.get("stop_level") or stop_by_deal.get(pos["deal_id"])
+        if stop_level is None:
+            logger.error(
+                f"[IG-CFD] {instrument} has no discoverable stop_level (live position data or "
+                f"the audit log) -- refusing to amend its limit rather than risk an update "
+                f"without a stop attached. Investigate this position manually."
+            )
+            continue
+
         distance = _margin_based_limit_distance(margin, size)
         is_long = pos["direction"] == "BUY"
         target_limit = entry_level + distance if is_long else entry_level - distance
@@ -345,13 +396,17 @@ def _sync_margin_based_limits(broker, positions: dict, margin_by_deal: dict) -> 
         if current_limit is not None and abs(current_limit - target_limit) <= MARGIN_LIMIT_SYNC_TOLERANCE:
             continue  # already correct -- nothing to do
 
-        result = broker.update_position(deal_id=pos["deal_id"], limit_level=round(target_limit, 4))
+        result = broker.update_position(
+            deal_id=pos["deal_id"], limit_level=round(target_limit, 4), stop_level=stop_level,
+        )
         _log_order_event({
             "action": "MARGIN_LIMIT_SYNC", "instrument": instrument, "deal_id": pos["deal_id"],
             "old_limit_level": current_limit, "new_limit_level": round(target_limit, 4),
+            "stop_level_reaffirmed": stop_level,
             "reason": (
                 f"Position's resting limit didn't match the {MARGIN_PROFIT_TAKE_PCT}%-of-margin "
-                f"target (predates this feature, or drifted) -- amending it on IG directly."
+                f"target (predates this feature, or drifted) -- amending it on IG directly. "
+                f"stop_level explicitly re-sent unchanged (see incident note above)."
             ),
             **result,
         })
@@ -598,7 +653,8 @@ def run_cfd_tick():
     # match that target (e.g. it was opened before this feature existed) by
     # amending it in place -- never closes anything itself.
     margin_by_deal = _get_margin_allocated_by_deal(DATA_DIR / "order_log.jsonl")
-    _sync_margin_based_limits(broker, positions, margin_by_deal)
+    stop_by_deal = _get_stop_level_by_deal(DATA_DIR / "order_log.jsonl")
+    _sync_margin_based_limits(broker, positions, margin_by_deal, stop_by_deal)
 
     # Per-instrument market status, read fresh every tick -- this is what
     # actually gates trading hours instead of a hardcoded calendar.
