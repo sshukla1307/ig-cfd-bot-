@@ -3,6 +3,20 @@
     "action": "CLOSE",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 61 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-21T21:03:21.469688+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 88 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-21T21:03:21.469334+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 4 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "logged_at": "2026-09-21T20:06:10.041726+00:00"
   },
@@ -3628,54 +3642,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-17T11:32:13.620257+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "direction": "BUY",
-    "size": 0.9,
-    "margin_allocated": 1857.64,
-    "effective_leverage": 5.0,
-    "notional": 9070.83,
-    "stop_distance": 503.935,
-    "limit_distance": 1007.87,
-    "reason": "Brent oil is currently in a short-term bullish trend with the SMA-20 above the SMA-50 and a neutral RSI. Recent news indicates supply disruptions in the Middle East, which could support higher prices. The term structure is flat, indicating no significant forward market pressure. Given these factors, a long position is justified.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR63R4J4AL",
-    "raw": {
-      "date": "2026-09-17T11:32:13.007",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "P84BUQ9SMLSTYNV",
-      "dealId": "DIAAAAR63R4J4AL",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR63R4J4AL",
-          "status": "OPENED"
-        }
-      ],
-      "level": 10081.2,
-      "size": 0.9,
-      "direction": "BUY",
-      "stopLevel": 9577.265,
-      "limitLevel": 11089.07,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-17T11:32:13.265765+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 625 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-17T09:32:18.324715+00:00"
   }
 ]
