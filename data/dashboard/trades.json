@@ -1,5 +1,95 @@
 [
   {
+    "action": "HOLD",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Invalid action: HOLD",
+    "logged_at": "2026-09-21T13:32:25.917460+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 85 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-21T13:32:25.917090+00:00"
+  },
+  {
+    "action": "MARGIN_LIMIT_SYNC",
+    "instrument": "BRENT_OIL",
+    "deal_id": "DIAAAAR7LEN9GAX",
+    "old_limit_level": 9713.3172,
+    "new_limit_level": 9712.774,
+    "stop_level_reaffirmed": 10229.22,
+    "reason": "Position's resting limit didn't match the 1.5%-of-margin target (predates this feature, or drifted) -- amending it on IG directly. stop_level explicitly re-sent unchanged (see incident note above).",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-09-21T13:31:27.717",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "MGV8KU833RNTYNV",
+      "dealId": "DIAAAAR7LEN9GAX",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR7LEN9GAX",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 9742.0,
+      "size": 1.7,
+      "direction": "SELL",
+      "stopLevel": 10229.22,
+      "limitLevel": 9712.774,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-21T13:31:27.957192+00:00"
+  },
+  {
+    "action": "MARGIN_LIMIT_SYNC",
+    "instrument": "WTI_OIL",
+    "deal_id": "DIAAAAR7LEH68AE",
+    "old_limit_level": 9233.3107,
+    "new_limit_level": 9232.6188,
+    "stop_level_reaffirmed": 9723.65,
+    "reason": "Position's resting limit didn't match the 1.5%-of-margin target (predates this feature, or drifted) -- amending it on IG directly. stop_level explicitly re-sent unchanged (see incident note above).",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-09-21T13:31:27.415",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "7YUATMFUDNTYNV",
+      "dealId": "DIAAAAR7LEH68AE",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR7LEH68AE",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 9260.4,
+      "size": 1.8,
+      "direction": "SELL",
+      "stopLevel": 9723.65,
+      "limitLevel": 9232.619,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-21T13:31:27.614054+00:00"
+  },
+  {
     "action": "WTI_MIRROR_OPEN",
     "instrument": "WTI_OIL",
     "direction": "SELL",
@@ -3354,33 +3444,5 @@
     "status": "REJECTED",
     "reason": "Invalid action: HOLD",
     "logged_at": "2026-09-16T19:02:13.629414+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 149 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-16T18:31:49.575064+00:00"
-  },
-  {
-    "action": "HOLD",
-    "instrument": "",
-    "status": "REJECTED",
-    "reason": "Invalid action: HOLD",
-    "logged_at": "2026-09-16T18:26:14.065166+00:00"
-  },
-  {
-    "action": "HOLD",
-    "instrument": "",
-    "status": "REJECTED",
-    "reason": "Invalid action: HOLD",
-    "logged_at": "2026-09-16T18:13:28.059446+00:00"
-  },
-  {
-    "action": "HOLD",
-    "instrument": "",
-    "status": "REJECTED",
-    "reason": "Invalid action: HOLD",
-    "logged_at": "2026-09-16T18:02:30.224209+00:00"
   }
 ]
