@@ -1,5 +1,43 @@
 [
   {
+    "action": "MARGIN_LIMIT_SYNC",
+    "instrument": "BRENT_OIL",
+    "deal_id": "DIAAAAR7NWG9JAA",
+    "old_limit_level": 9679.0412,
+    "new_limit_level": 9679.6736,
+    "stop_level_reaffirmed": 10194.425,
+    "reason": "Position's resting limit didn't match the 1.5%-of-margin target (predates this feature, or drifted) -- amending it on IG directly. stop_level explicitly re-sent unchanged (see incident note above).",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-09-21T19:01:32.815",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "JSY6D9W6TA6TYNV",
+      "dealId": "DIAAAAR7NWG9JAA",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR7NWG9JAA",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 9708.8,
+      "size": 1.7,
+      "direction": "SELL",
+      "stopLevel": 10194.425,
+      "limitLevel": 9679.674,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-21T19:01:33.041490+00:00"
+  },
+  {
     "action": "OPEN_SHORT",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
@@ -3472,47 +3510,5 @@
     "status": "REJECTED",
     "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 475 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "logged_at": "2026-09-17T07:02:54.517356+00:00"
-  },
-  {
-    "action": "WTI_MIRROR_OPEN",
-    "instrument": "WTI_OIL",
-    "direction": "SELL",
-    "size": 1.0,
-    "margin_allocated": 1840.98,
-    "effective_leverage": 5.0,
-    "notional": 9669.8,
-    "stop_distance": 483.49,
-    "limit_distance": 966.98,
-    "reason": "Auto-mirrored from BRENT_OIL: Brent oil is currently overbought with an RSI of 74.3, indicating a potential pullback. The market is in backwardation, suggesting tight supply, but the extreme managed-money net-long positioning in WTI (a contrarian bearish signal) and recent news of increased U.S. crude and fuel inventories provide a bearish catalyst. The technicals and news suggest a short-term correction is likely.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR6ZXDUCBA",
-    "raw": {
-      "date": "2026-09-17T06:32:00.642",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "R65SNSADU46TYNV",
-      "dealId": "DIAAAAR6ZXDUCBA",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR6ZXDUCBA",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9661.9,
-      "size": 1.0,
-      "direction": "SELL",
-      "stopLevel": 10145.39,
-      "limitLevel": 8694.92,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-17T06:32:00.839181+00:00"
   }
 ]
