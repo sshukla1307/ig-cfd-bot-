@@ -1,5 +1,95 @@
 [
   {
+    "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 21 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-22T09:02:50.747563+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 31 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-22T09:02:50.747373+00:00"
+  },
+  {
+    "action": "MARGIN_LIMIT_SYNC",
+    "instrument": "BRENT_OIL",
+    "deal_id": "DIAAAAR7R2ACQA3",
+    "old_limit_level": 9792.126,
+    "new_limit_level": 9791.4866,
+    "stop_level_reaffirmed": 9274.165,
+    "reason": "Position's resting limit didn't match the 1.5%-of-margin target (predates this feature, or drifted) -- amending it on IG directly. stop_level explicitly re-sent unchanged (see incident note above).",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-09-22T09:02:01.276",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "XB9GVEX9E8NTYNV",
+      "dealId": "DIAAAAR7R2ACQA3",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR7R2ACQA3",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 9762.2,
+      "size": 1.7,
+      "direction": "BUY",
+      "stopLevel": 9274.165,
+      "limitLevel": 9791.486,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-22T09:02:01.523338+00:00"
+  },
+  {
+    "action": "MARGIN_LIMIT_SYNC",
+    "instrument": "WTI_OIL",
+    "deal_id": "DIAAAAR7RZUT5AK",
+    "old_limit_level": 9248.2634,
+    "new_limit_level": 9247.66,
+    "stop_level_reaffirmed": 8759.065,
+    "reason": "Position's resting limit didn't match the 1.5%-of-margin target (predates this feature, or drifted) -- amending it on IG directly. stop_level explicitly re-sent unchanged (see incident note above).",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-09-22T09:02:00.914",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "H7Y3F6UPCNATYNV",
+      "dealId": "DIAAAAR7RZUT5AK",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR7RZUT5AK",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 9220.0,
+      "size": 1.8,
+      "direction": "BUY",
+      "stopLevel": 8759.065,
+      "limitLevel": 9247.66,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-22T09:02:01.177503+00:00"
+  },
+  {
     "action": "WTI_MIRROR_OPEN",
     "instrument": "WTI_OIL",
     "direction": "BUY",
@@ -3846,91 +3936,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-18T06:02:33.276723+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Same-direction cooldown: BRENT_OIL was closed at a loss 30 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
-    "logged_at": "2026-09-18T05:32:01.336132+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 510 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-18T05:01:56.004736+00:00"
-  },
-  {
-    "action": "WTI_MIRROR_CLOSE",
-    "instrument": "WTI_OIL",
-    "deal_id": "DIAAAAR66GFTEAT",
-    "original_direction": "SELL",
-    "reason": "Auto-closed: its BRENT_OIL mirror was closed this tick.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-18T05:01:55.872",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "JMRQPM5HQTATYNV",
-      "dealId": "DIAAAAR66GFTEAT",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR66GFTEAT",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 9681.6,
-      "size": 1.0,
-      "direction": "BUY",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": -13.7,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-09-18T05:01:56.004386+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR66GZ6XAC",
-    "original_direction": "SELL",
-    "reason": "Brent oil is currently overbought with an RSI of 73, indicating potential for a pullback. The recent news suggests a weakening momentum in the rally, and the current position is slightly against us. Closing to prevent further losses.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-18T05:01:55.65",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "DPW866GZ4ESTYNV",
-      "dealId": "DIAAAAR66GZ6XAC",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR66GZ6XAC",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 10045.5,
-      "size": 0.9,
-      "direction": "BUY",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": -18.99,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-09-18T05:01:55.783433+00:00"
   }
 ]
