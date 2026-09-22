@@ -259,28 +259,37 @@ def _check_orphaned_wti_mirror(broker, positions: dict) -> list:
     return []
 
 
-MARGIN_PROFIT_TAKE_PCT = 1.7  # Originally validated at 3.5% against real trade history
-# (2026-08-21 to 2026-09-18): closing a position the moment its unrealized P&L reaches this
-# % of the margin originally committed to open it had a 93% win rate and a 23x profit factor
-# over 142 real closes -- dramatically better than the agent's own discretionary CLOSE
-# decisions over the same period (30% win rate, 0.07 profit factor). Lowered to 2.0% then
-# 1.5% on 2026-09-18, then nudged up to 1.7% on 2026-09-22 (user's own choice each time) --
-# same mechanism throughout. Implemented as a REAL resting IG limit order (see
+MARGIN_PROFIT_TAKE_PCT = 3.0  # Set on 2026-09-22 from a price-path backtest (yfinance 1m
+# bars as a proxy for IG's own feed) replaying all 394 real trades in the account's full
+# history against a grid of profit/stop combinations: 3.0%/3.0% (symmetric) ranked #1 by a
+# clear margin, while the prior 1.7%/3.5% pairing ranked 40th of 49 -- the earlier pairing's
+# core flaw was capping profit BELOW the stop distance, which needs a win rate north of 70%
+# to break even; the real win rate observed (54-62% per instrument) was never going to clear
+# that bar regardless of directional skill. Implemented as a REAL resting IG limit order (see
 # _margin_based_limit_distance), not a bot-side poll: this account's tick cadence is 30
 # minutes, and a resting order lets IG execute the instant price touches it, 24/7, rather
 # than only whenever the bot next happens to check.
 
 
-MARGIN_STOP_LOSS_PCT = 3.5  # Widened from 1.6% on 2026-09-22 (user's own choice), after the
-# account's balance fell ~$1,223 (-8.9%) in the first ~4 hours the 1.6%/1.5% pairing was live
-# -- at that tight a band (~0.3% price move at 5x leverage), ordinary bid/ask spread and
-# short-term noise could trigger the stop nearly as often as a real directional move,
-# independent of any actual edge. Risking 3.5 to make MARGIN_PROFIT_TAKE_PCT's 1.5 is a much
-# worse-than-1:1 ratio on paper (needs ~70% win rate to break even before spread costs, vs
-# ~52% at 1.6%) -- but a wider stop can only make an existing position MORE tolerant, never
-# forces a premature close the way tightening did, and directly targets the noise-triggering
-# problem just diagnosed. Same mechanism as the profit side: a REAL resting IG stop order,
-# not a bot-side poll.
+MARGIN_STOP_LOSS_PCT = 3.0  # Set alongside MARGIN_PROFIT_TAKE_PCT on 2026-09-22 -- see that
+# constant's comment for the backtest that identified the symmetric 3.0%/3.0% pairing as the
+# top performer. This is the INITIAL stop distance at open; see BREAKEVEN_TRIGGER_PCT below
+# for how it later ratchets tighter once a position moves into profit, addressing the
+# original 3.5% stop's remaining risk (a trade could run to +2% unrealized, sit there, then
+# reverse all the way to a full -3% loss with nothing banked along the way).
+
+
+BREAKEVEN_TRIGGER_PCT = 1.6  # Once a position's unrealized profit reaches this % of margin,
+# its stop ratchets up (long) / down (short) to BREAKEVEN_LOCK_PCT below -- so a subsequent
+# reversal exits with a small locked-in gain instead of riding all the way back down to the
+# original MARGIN_STOP_LOSS_PCT loss. User's own choice, 2026-09-22, addressing exactly the
+# "runs to +2%, then reverses into a full loss" scenario a fixed (non-trailing) stop/limit
+# pair can't protect against on its own.
+
+BREAKEVEN_LOCK_PCT = 0.2  # The guaranteed minimum profit (as % of margin) the stop ratchets
+# to once BREAKEVEN_TRIGGER_PCT is reached -- see _ratchet_stop_target. Deliberately small:
+# the point isn't to bank a meaningful profit here, it's to guarantee SOME profit rather than
+# risk the full stop distance on a position that has already shown it can move favorably.
 
 
 def _margin_based_distance(pct: float, margin_allocated: float, size: float) -> float:
@@ -303,6 +312,25 @@ def _margin_based_limit_distance(margin_allocated: float, size: float) -> float:
 def _margin_based_stop_distance(margin_allocated: float, size: float) -> float:
     """Stop-loss side -- see _margin_based_distance and MARGIN_STOP_LOSS_PCT."""
     return _margin_based_distance(MARGIN_STOP_LOSS_PCT, margin_allocated, size)
+
+
+def _ratchet_stop_target(pos: dict, margin: float, entry_level: float, size: float, is_long: bool) -> float:
+    """Computes this tick's CANDIDATE stop level: the original MARGIN_STOP_LOSS_PCT
+    target, unless unrealized profit has reached BREAKEVEN_TRIGGER_PCT of margin, in
+    which case the candidate becomes the tighter BREAKEVEN_LOCK_PCT profit-lock level
+    instead. This is only a candidate -- _sync_margin_based_exits is what turns it into
+    a one-way ratchet, by only ever moving the LIVE stop in the more-protective
+    direction. That's also what makes the lock permanent with no state to track
+    anywhere: once the live stop has been moved to the lock level, a later dip back
+    below the trigger just produces a worse candidate (the original stop distance),
+    which the caller correctly ignores rather than loosening the stop back up."""
+    pnl = _estimate_unrealized_pnl(pos)
+    trigger_profit = margin * (BREAKEVEN_TRIGGER_PCT / 100)
+    if pnl is not None and pnl >= trigger_profit:
+        lock_distance = _margin_based_distance(BREAKEVEN_LOCK_PCT, margin, size)
+        return entry_level + lock_distance if is_long else entry_level - lock_distance
+    stop_distance = _margin_based_stop_distance(margin, size)
+    return entry_level - stop_distance if is_long else entry_level + stop_distance
 
 
 def _margin_allocated_for_position(pos: dict, snapshot: Optional[dict], max_leverage_multiple: float) -> Optional[float]:
@@ -341,13 +369,20 @@ MARGIN_LIMIT_SYNC_TOLERANCE = 0.5  # points -- skip amending a position whose li
 
 def _sync_margin_based_exits(broker, positions: dict, snapshots: dict, max_leverage_multiple: float) -> list:
     """Ensures every open position's live stop_level AND limit_level on IG actually
-    match the MARGIN_STOP_LOSS_PCT / MARGIN_PROFIT_TAKE_PCT targets, amending them
-    (never closing) if either doesn't. Positions opened going forward already get
-    both correct at open time (see the OPEN_LONG/OPEN_SHORT/WTI_MIRROR_OPEN call
-    sites) -- this mainly matters for a position that predates the current % values
-    (opened under an earlier target and needs retightening/loosening), or one whose
-    live margin/snapshot can't be determined for some reason (in which case it's
-    left fully untouched: we'd rather leave an old stop/limit in place than guess).
+    match their targets, amending them (never closing) if either doesn't:
+      - limit_level: MARGIN_PROFIT_TAKE_PCT of margin, always.
+      - stop_level: MARGIN_STOP_LOSS_PCT of margin initially, but RATCHETS to a
+        guaranteed BREAKEVEN_LOCK_PCT profit once unrealized profit has reached
+        BREAKEVEN_TRIGGER_PCT -- see _ratchet_stop_target. The ratchet is one-way:
+        the live stop is only ever moved in the more-protective direction versus
+        its current value, never loosened back, which is also what makes the lock
+        permanent without needing to track "has this already triggered" anywhere.
+    Positions opened going forward already get the initial stop/limit correct at
+    open time (see the OPEN_LONG/OPEN_SHORT/WTI_MIRROR_OPEN call sites) -- this
+    function is what applies the ratchet as profit develops, and also reconciles
+    a position that predates the current % values, or one whose live margin/
+    snapshot can't be determined for some reason (left fully untouched: we'd
+    rather leave an old stop/limit in place than guess).
 
     margin_allocated is recomputed live via _margin_allocated_for_position rather
     than read from the audit log -- see that function's docstring for why.
@@ -379,10 +414,20 @@ def _sync_margin_based_exits(broker, positions: dict, snapshots: dict, max_lever
             continue
 
         limit_distance = _margin_based_limit_distance(margin, size)
-        stop_distance = _margin_based_stop_distance(margin, size)
         is_long = pos["direction"] == "BUY"
         target_limit = round(entry_level + limit_distance if is_long else entry_level - limit_distance, 4)
-        target_stop = round(entry_level - stop_distance if is_long else entry_level + stop_distance, 4)
+
+        candidate_stop = _ratchet_stop_target(pos, margin, entry_level, size, is_long)
+        # One-way ratchet: only ever move the stop in the more-protective direction
+        # (higher for a long, lower for a short) than its current live value --
+        # this is what makes the breakeven-lock permanent once triggered, with no
+        # separate "has this already ratcheted" state to track anywhere.
+        if current_stop is None:
+            target_stop = round(candidate_stop, 4)
+        elif is_long:
+            target_stop = round(max(current_stop, candidate_stop), 4)
+        else:
+            target_stop = round(min(current_stop, candidate_stop), 4)
 
         limit_ok = current_limit is not None and abs(current_limit - target_limit) <= MARGIN_LIMIT_SYNC_TOLERANCE
         stop_ok = current_stop is not None and abs(current_stop - target_stop) <= MARGIN_LIMIT_SYNC_TOLERANCE
@@ -398,8 +443,9 @@ def _sync_margin_based_exits(broker, positions: dict, snapshots: dict, max_lever
             "old_stop_level": current_stop, "new_stop_level": target_stop,
             "reason": (
                 f"Position's resting stop and/or limit didn't match the "
-                f"{MARGIN_STOP_LOSS_PCT}%/{MARGIN_PROFIT_TAKE_PCT}%-of-margin targets "
-                f"(predates this feature/value, or drifted) -- amending both on IG directly "
+                f"{MARGIN_STOP_LOSS_PCT}%/{MARGIN_PROFIT_TAKE_PCT}%-of-margin targets, or the "
+                f"breakeven ratchet (trigger {BREAKEVEN_TRIGGER_PCT}%, lock {BREAKEVEN_LOCK_PCT}%) "
+                f"applied -- amending both on IG directly "
                 f"(both always sent together, see incident note above)."
             ),
             **result,
