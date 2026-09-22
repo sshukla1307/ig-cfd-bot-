@@ -1,5 +1,96 @@
 [
   {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "This trade's margin ($3114.80) would leave available at $3114.78, below the 30.0% safety buffer of balance $12459.18 -- rejected to avoid risking a forced closure on this or other open positions",
+    "logged_at": "2026-09-22T12:11:41.862900+00:00"
+  },
+  {
+    "action": "WTI_MIRROR_OPEN",
+    "instrument": "WTI_OIL",
+    "direction": "SELL",
+    "size": 1.7,
+    "margin_allocated": 3114.8,
+    "effective_leverage": 5.0,
+    "notional": 15373.44,
+    "stop_distance": 29.3158,
+    "limit_distance": 27.4835,
+    "reason": "Auto-mirrored from BRENT_OIL: Brent oil is currently in backwardation, indicating tight supply, which is typically bullish. However, managed-money positioning in WTI (a proxy for Brent) is at a multi-month extreme long, suggesting a contrarian bearish signal. Additionally, the recent price drop and the RSI being neutral suggest potential for further downside.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR7TF4QJAL",
+    "raw": {
+      "date": "2026-09-22T12:11:41.711",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "DDQCJH2PXHATYNV",
+      "dealId": "DIAAAAR7TF4QJAL",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR7TF4QJAL",
+          "status": "OPENED"
+        }
+      ],
+      "level": 9052.3,
+      "size": 1.7,
+      "direction": "SELL",
+      "stopLevel": 9081.616,
+      "limitLevel": 9024.816,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-22T12:11:41.862511+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "BRENT_OIL",
+    "direction": "SELL",
+    "size": 1.6,
+    "margin_allocated": 3114.8,
+    "effective_leverage": 5.0,
+    "notional": 15297.44,
+    "stop_distance": 31.148,
+    "limit_distance": 29.2012,
+    "reason": "Brent oil is currently in backwardation, indicating tight supply, which is typically bullish. However, managed-money positioning in WTI (a proxy for Brent) is at a multi-month extreme long, suggesting a contrarian bearish signal. Additionally, the recent price drop and the RSI being neutral suggest potential for further downside.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR7TF3Z5AS",
+    "raw": {
+      "date": "2026-09-22T12:11:41.477",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "4THZECEVW8ATYNV",
+      "dealId": "DIAAAAR7TF3Z5AS",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR7TF3Z5AS",
+          "status": "OPENED"
+        }
+      ],
+      "level": 9564.1,
+      "size": 1.6,
+      "direction": "SELL",
+      "stopLevel": 9595.248,
+      "limitLevel": 9534.898,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-22T12:11:41.631038+00:00"
+  },
+  {
     "action": "OPEN_LONG",
     "instrument": "NATURAL_GAS",
     "direction": "BUY",
@@ -4159,26 +4250,5 @@
     "status": "REJECTED",
     "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 181 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "logged_at": "2026-09-18T16:02:59.911792+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 209 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-18T16:02:59.911470+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 158 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-18T15:40:04.573173+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 186 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-18T15:40:04.572819+00:00"
   }
 ]
