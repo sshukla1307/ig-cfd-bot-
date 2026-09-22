@@ -1,5 +1,89 @@
 [
   {
+    "action": "WTI_MIRROR_OPEN",
+    "instrument": "WTI_OIL",
+    "direction": "SELL",
+    "size": 1.6,
+    "margin_allocated": 2931.73,
+    "effective_leverage": 5.0,
+    "notional": 14332.32,
+    "stop_distance": 54.9699,
+    "limit_distance": 54.9699,
+    "reason": "Auto-mirrored from BRENT_OIL: Brent oil is currently in backwardation, indicating tight supply, but the recent news suggests a de-escalation in geopolitical tensions, which has led to a decrease in prices. Additionally, the managed-money positioning in WTI, which mirrors Brent, is at a multi-month extreme long, suggesting a contrarian bearish signal. The technicals show a short-term bullish trend, but the geopolitical news and positioning data provide a stronger bearish catalyst.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR7WK3PGAH",
+    "raw": {
+      "date": "2026-09-22T19:58:07.945",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "RYQ7JP98GJWTYNV",
+      "dealId": "DIAAAAR7WK3PGAH",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR7WK3PGAH",
+          "status": "OPENED"
+        }
+      ],
+      "level": 8947.8,
+      "size": 1.6,
+      "direction": "SELL",
+      "stopLevel": 9002.77,
+      "limitLevel": 8892.83,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-22T19:58:08.285583+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "BRENT_OIL",
+    "direction": "SELL",
+    "size": 1.5,
+    "margin_allocated": 2931.73,
+    "effective_leverage": 5.0,
+    "notional": 14294.55,
+    "stop_distance": 58.6346,
+    "limit_distance": 58.6346,
+    "reason": "Brent oil is currently in backwardation, indicating tight supply, but the recent news suggests a de-escalation in geopolitical tensions, which has led to a decrease in prices. Additionally, the managed-money positioning in WTI, which mirrors Brent, is at a multi-month extreme long, suggesting a contrarian bearish signal. The technicals show a short-term bullish trend, but the geopolitical news and positioning data provide a stronger bearish catalyst.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR7WMQ6UAA",
+    "raw": {
+      "date": "2026-09-22T19:58:07.537",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "BL5MLR754XNTYNV",
+      "dealId": "DIAAAAR7WMQ6UAA",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR7WMQ6UAA",
+          "status": "OPENED"
+        }
+      ],
+      "level": 9521.6,
+      "size": 1.5,
+      "direction": "SELL",
+      "stopLevel": 9580.234,
+      "limitLevel": 9462.966,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-22T19:58:07.820142+00:00"
+  },
+  {
     "action": "OPEN_SHORT",
     "instrument": "NATURAL_GAS",
     "direction": "SELL",
@@ -5052,54 +5136,5 @@
     "status": "REJECTED",
     "reason": "Minimum hold time not met: BRENT_OIL has only been open for 130 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "logged_at": "2026-09-21T17:03:18.593468+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "direction": "SELL",
-    "size": 5.7,
-    "margin_allocated": 3363.82,
-    "effective_leverage": 5.0,
-    "notional": 16906.2,
-    "stop_distance": 148.3,
-    "limit_distance": 8.8522,
-    "reason": "Natural Gas is in a bearish seasonal phase with no strong weather-driven demand signals. The RSI is neutral, and managed-money positioning is not at an extreme, suggesting room for further downside. The technicals show a slight bearish bias with the price below the 20-day SMA.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR7NG5H7A2",
-    "raw": {
-      "date": "2026-09-21T16:55:21.472",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": "-",
-      "dealReference": "BYLTHYZ2NWNTYNV",
-      "dealId": "DIAAAAR7NG5H7A2",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR7NG5H7A2",
-          "status": "OPENED"
-        }
-      ],
-      "level": 2962.0,
-      "size": 5.7,
-      "direction": "SELL",
-      "stopLevel": 3110.3,
-      "limitLevel": 2953.1477,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-21T16:55:21.693261+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 99 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-21T16:32:18.445155+00:00"
   }
 ]
