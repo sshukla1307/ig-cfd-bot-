@@ -1,5 +1,44 @@
 [
   {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "BRENT_OIL",
+    "deal_id": "DIAAAAR7UJSH9AQ",
+    "old_limit_level": 9657.9463,
+    "new_limit_level": 9658.1879,
+    "old_stop_level": 9562.4585,
+    "new_stop_level": 9561.8949,
+    "reason": "Position's resting stop and/or limit didn't match the 3.5%/1.5%-of-margin targets (predates this feature/value, or drifted) -- amending both on IG directly (both always sent together, see incident note above).",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-09-22T14:14:47.672",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "MDZLKXJ8Y2TYNV",
+      "dealId": "DIAAAAR7UJSH9AQ",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR7UJSH9AQ",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 9629.3,
+      "size": 1.6,
+      "direction": "BUY",
+      "stopLevel": 9561.895,
+      "limitLevel": 9658.1875,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-22T14:14:47.839350+00:00"
+  },
+  {
     "action": "OPEN_SHORT",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
@@ -4816,12 +4855,5 @@
     "status": "REJECTED",
     "reason": "Invalid action: HOLD",
     "logged_at": "2026-09-21T04:32:02.809807+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 360 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-21T04:02:08.578077+00:00"
   }
 ]
