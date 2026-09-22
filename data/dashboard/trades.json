@@ -1,5 +1,54 @@
 [
   {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "direction": "SELL",
+    "size": 5.2,
+    "margin_allocated": 3127.2,
+    "effective_leverage": 5.0,
+    "notional": 15527.2,
+    "stop_distance": 21.0485,
+    "limit_distance": 9.0208,
+    "reason": "Natural Gas is in a contango structure, indicating ample supply, and the seasonality is bearish as it's the shoulder/injection season. The RSI is neutral, and the weather-driven demand is moderate with no strong signals. These factors suggest a bearish outlook, making it a good opportunity to open a short position.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR7TKBH3AE",
+    "raw": {
+      "date": "2026-09-22T12:32:19.116",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "SDXYJ379BRJTYNV",
+      "dealId": "DIAAAAR7TKBH3AE",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR7TKBH3AE",
+          "status": "OPENED"
+        }
+      ],
+      "level": 2980.0,
+      "size": 5.2,
+      "direction": "SELL",
+      "stopLevel": 3001.0486,
+      "limitLevel": 2970.9792,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-22T12:32:19.324893+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 21 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-22T12:32:19.010020+00:00"
+  },
+  {
     "action": "HOLD",
     "instrument": "",
     "status": "REJECTED",
@@ -4300,19 +4349,5 @@
     "status": "REJECTED",
     "reason": "Minimum hold time not met: BRENT_OIL has only been open for 269 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "logged_at": "2026-09-18T17:02:45.602840+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 210 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-18T16:32:13.310022+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 239 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-18T16:32:13.309722+00:00"
   }
 ]
