@@ -1,5 +1,51 @@
 [
   {
+    "action": "HOLD",
+    "instrument": "",
+    "status": "REJECTED",
+    "reason": "Invalid action: HOLD",
+    "logged_at": "2026-09-22T14:45:34.348011+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "BRENT_OIL",
+    "deal_id": "DIAAAAR7UYAUUAH",
+    "old_limit_level": 9662.8948,
+    "new_limit_level": 9662.3258,
+    "old_stop_level": 9757.9122,
+    "new_stop_level": 9759.2398,
+    "reason": "Position's resting stop and/or limit didn't match the 3.5%/1.5%-of-margin targets (predates this feature/value, or drifted) -- amending both on IG directly (both always sent together, see incident note above).",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-09-22T14:44:49.61",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "UYT4RAPRMHWTYNV",
+      "dealId": "DIAAAAR7UYAUUAH",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR7UYAUUAH",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 9691.4,
+      "size": 1.6,
+      "direction": "SELL",
+      "stopLevel": 9759.24,
+      "limitLevel": 9662.326,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-22T14:44:49.857795+00:00"
+  },
+  {
     "action": "OPEN_SHORT",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
@@ -4911,19 +4957,5 @@
     "status": "REJECTED",
     "reason": "Invalid action: HOLD",
     "logged_at": "2026-09-21T08:29:50.666079+00:00"
-  },
-  {
-    "action": "HOLD",
-    "instrument": "",
-    "status": "REJECTED",
-    "reason": "Invalid action: HOLD",
-    "logged_at": "2026-09-21T07:31:50.580144+00:00"
-  },
-  {
-    "action": "HOLD",
-    "instrument": "",
-    "status": "REJECTED",
-    "reason": "Invalid action: HOLD",
-    "logged_at": "2026-09-21T07:02:30.527208+00:00"
   }
 ]
