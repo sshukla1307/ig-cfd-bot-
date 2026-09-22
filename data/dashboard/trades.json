@@ -1,5 +1,96 @@
 [
   {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "This trade's margin ($3166.19) would leave available at $3166.18, below the 30.0% safety buffer of balance $12664.75 -- rejected to avoid risking a forced closure on this or other open positions",
+    "logged_at": "2026-09-22T11:02:30.493647+00:00"
+  },
+  {
+    "action": "WTI_MIRROR_OPEN",
+    "instrument": "WTI_OIL",
+    "direction": "SELL",
+    "size": 1.8,
+    "margin_allocated": 3166.19,
+    "effective_leverage": 5.0,
+    "notional": 16144.02,
+    "stop_distance": 28.1439,
+    "limit_distance": 26.3849,
+    "reason": "Auto-mirrored from BRENT_OIL: Brent oil is currently in a short-term bearish trend with the price below the 20-day SMA. Recent news indicates a potential resolution between the US and Iran, which could increase supply and put downward pressure on prices. The market is also in backwardation, suggesting tight supply, but the immediate technicals and news suggest a short opportunity.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR7S5XGDA7",
+    "raw": {
+      "date": "2026-09-22T11:02:30.347",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "6JXMRD6ULVATYNV",
+      "dealId": "DIAAAAR7S5XGDA7",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR7S5XGDA7",
+          "status": "OPENED"
+        }
+      ],
+      "level": 8970.7,
+      "size": 1.8,
+      "direction": "SELL",
+      "stopLevel": 8998.844,
+      "limitLevel": 8944.315,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-22T11:02:30.493311+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "BRENT_OIL",
+    "direction": "SELL",
+    "size": 1.7,
+    "margin_allocated": 3166.19,
+    "effective_leverage": 5.0,
+    "notional": 16138.95,
+    "stop_distance": 29.7994,
+    "limit_distance": 27.937,
+    "reason": "Brent oil is currently in a short-term bearish trend with the price below the 20-day SMA. Recent news indicates a potential resolution between the US and Iran, which could increase supply and put downward pressure on prices. The market is also in backwardation, suggesting tight supply, but the immediate technicals and news suggest a short opportunity.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR7S5HFGAE",
+    "raw": {
+      "date": "2026-09-22T11:02:30.074",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "L8SYWSFPRRATYNV",
+      "dealId": "DIAAAAR7S5HFGAE",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR7S5HFGAE",
+          "status": "OPENED"
+        }
+      ],
+      "level": 9496.1,
+      "size": 1.7,
+      "direction": "SELL",
+      "stopLevel": 9525.899,
+      "limitLevel": 9468.163,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-22T11:02:30.214788+00:00"
+  },
+  {
     "action": "HOLD",
     "instrument": "",
     "status": "REJECTED",
@@ -4024,87 +4115,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-18T13:01:44.469177+00:00"
-  },
-  {
-    "action": "MARGIN_LIMIT_SYNC",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR7B8H9MAT",
-    "old_limit_level": 9968.8294,
-    "new_limit_level": 9998.6448,
-    "stop_level_reaffirmed": 10540.735,
-    "reason": "Position's resting limit didn't match the 2.0%-of-margin target (predates this feature, or drifted) -- amending it on IG directly. stop_level explicitly re-sent unchanged (see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-18T13:01:43.932",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "8MSEK93JSFJTYNV",
-      "dealId": "DIAAAAR7B8H9MAT",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR7B8H9MAT",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 10038.8,
-      "size": 1.7,
-      "direction": "SELL",
-      "stopLevel": 10540.735,
-      "limitLevel": 9998.645,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-18T13:01:44.148900+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 42 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-18T12:32:04.512965+00:00"
-  },
-  {
-    "action": "MARGIN_LIMIT_SYNC",
-    "instrument": "NATURAL_GAS",
-    "deal_id": "DIAAAAR7BVDTUAT",
-    "old_limit_level": 2666.4,
-    "new_limit_level": 2942.2789,
-    "reason": "Position's resting limit didn't match the 3.5%-of-margin target (predates this feature, or drifted) -- amending it on IG directly.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-18T12:31:28.846",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": "-",
-      "dealReference": "YGL4XPVAVSNTYNV",
-      "dealId": "DIAAAAR7BVDTUAT",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR7BVDTUAT",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 2963.0,
-      "size": 6.0,
-      "direction": "SELL",
-      "stopLevel": null,
-      "limitLevel": 2942.2788,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-18T12:31:29.146459+00:00"
   }
 ]
