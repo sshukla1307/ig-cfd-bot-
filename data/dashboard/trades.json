@@ -1,5 +1,44 @@
 [
   {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "NATURAL_GAS",
+    "deal_id": "DIAAAAR7WVENVAG",
+    "old_limit_level": 3165.9407,
+    "new_limit_level": 3165.882,
+    "old_stop_level": 3128.0593,
+    "new_stop_level": 3148.2588,
+    "reason": "Position's resting stop and/or limit didn't match the 3.0%/3.0%-of-margin targets, or the breakeven ratchet (trigger 1.6%, lock 0.2%) applied -- amending both on IG directly (both always sent together, see incident note above).",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-09-22T22:31:07.777",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "YGN7JCCX2ZNTYNV",
+      "dealId": "DIAAAAR7WVENVAG",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR7WVENVAG",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 3147.0,
+      "size": 4.6,
+      "direction": "BUY",
+      "stopLevel": 3148.2588,
+      "limitLevel": 3165.882,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-22T22:31:08.026701+00:00"
+  },
+  {
     "action": "OPEN_LONG",
     "instrument": "NATURAL_GAS",
     "direction": "BUY",
@@ -5228,12 +5267,5 @@
     "status": "REJECTED",
     "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 97 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "logged_at": "2026-09-21T18:32:17.354710+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 219 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-21T18:32:17.354450+00:00"
   }
 ]
