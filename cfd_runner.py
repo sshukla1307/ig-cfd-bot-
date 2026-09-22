@@ -656,20 +656,29 @@ def _last_known_open_deal_ids() -> set:
 
 def run_watch_check():
     """Cheap, frequent check (see gh-cron-pinger's 2-min "watch" Cron Trigger,
-    distinct from the normal 30-min "tick" one): did any position open as of
-    the last recorded snapshot silently close since then -- most likely its
-    resting IG take-profit/stop firing between our scheduled ticks? If so,
-    escalate immediately into a full run_cfd_tick() pass rather than waiting
-    up to 30 min for the next one, so freed-up margin/a new opportunity isn't
-    left idle. No OpenAI calls, no IG orders placed here directly -- only an
-    IG session + a single get_positions() read, deliberately kept far cheaper
-    than a full tick since this runs 15x more often.
+    distinct from the normal 30-min "tick" one). Two things happen every
+    cycle, both far cheaper than a full tick (no OpenAI calls, no trade
+    validation/execution):
+      1. _sync_margin_based_exits runs on whatever's currently open -- this is
+         what makes the breakeven-lock ratchet (see BREAKEVEN_TRIGGER_PCT)
+         actually responsive to a fast intra-tick price move, rather than only
+         ever being checked once every 30 minutes. Observed median trade
+         duration on this account is ~15 min, comfortably short enough that a
+         position could round-trip from +2% back to a full loss entirely
+         between two scheduled ticks with nothing in between to catch it.
+      2. Did any position open as of the last recorded snapshot silently close
+         since then -- most likely its resting IG take-profit/stop firing? If
+         so, escalate immediately into a full run_cfd_tick() pass rather than
+         waiting up to 30 min for the next one. The full tick's own exit-sync
+         makes step 1 redundant in that case, so it's skipped here to avoid a
+         wasted extra IG call.
 
-    Writes NOTHING to disk when nothing has changed -- the calling workflow's
-    git-auto-commit-action step only commits if there's an actual diff under
-    data/, so a quiet watch cycle produces zero commit noise. Uses the same
-    two kill-switches as run_cfd_tick (a disabled account makes no IG calls
-    here either)."""
+    Writes NOTHING to disk when nothing needs to change -- the calling
+    workflow's git-auto-commit-action step only commits if there's an actual
+    diff under data/, so a quiet watch cycle (no ratchet fired, nothing
+    closed) still produces zero commit noise despite running 15x more often
+    than the full tick. Uses the same two kill-switches as run_cfd_tick (a
+    disabled account makes no IG calls here either)."""
     enabled = os.getenv("IG_LIVE_TRADING_ENABLED", "").lower() == "true"
     if not enabled:
         logger.info("[IG-CFD] [watch] IG_LIVE_TRADING_ENABLED is not 'true'. Doing nothing.")
@@ -680,7 +689,7 @@ def run_watch_check():
         logger.info("[IG-CFD] [watch] No open positions as of the last snapshot (or no snapshot yet) -- nothing to check.")
         return
 
-    from config import INSTRUMENTS
+    from config import RULES, INSTRUMENTS
     from ig_broker import IGBroker
 
     live = os.getenv("IG_LIVE", "").lower() == "true"
@@ -704,16 +713,32 @@ def run_watch_check():
     current_deal_ids = {pos["deal_id"] for pos in positions.values()}
 
     vanished = last_known_deal_ids - current_deal_ids
-    if not vanished:
+    if vanished:
+        logger.warning(
+            f"[IG-CFD] [watch] {len(vanished)} position(s) closed since the last snapshot "
+            f"(deal_ids: {sorted(vanished)}) -- likely the resting take-profit or stop firing. "
+            f"Escalating to a full tick immediately instead of waiting for the next scheduled run."
+        )
+        run_cfd_tick()
+        return
+
+    if not positions:
         logger.info("[IG-CFD] [watch] No change since the last snapshot -- nothing to do.")
         return
 
-    logger.warning(
-        f"[IG-CFD] [watch] {len(vanished)} position(s) closed since the last snapshot "
-        f"(deal_ids: {sorted(vanished)}) -- likely the resting take-profit or stop firing. "
-        f"Escalating to a full tick immediately instead of waiting for the next scheduled run."
-    )
-    run_cfd_tick()
+    # Nothing closed -- still run the cheap margin-based exit sync so the
+    # breakeven-lock ratchet (and any other stop/limit correction) is checked
+    # on this same 2-min cadence, not just once every 30 min.
+    snapshots = {}
+    for instrument in positions:
+        inst = INSTRUMENTS.get(instrument)
+        if inst and inst.epic:
+            snapshots[instrument] = broker.get_market_snapshot(inst.epic)
+    synced = _sync_margin_based_exits(broker, positions, snapshots, RULES.max_leverage_multiple)
+    if synced:
+        logger.warning(f"[IG-CFD] [watch] Margin-based exit sync updated: {synced}")
+    else:
+        logger.info("[IG-CFD] [watch] No change since the last snapshot -- nothing to do.")
 
 
 def run_cfd_tick():
