@@ -1,5 +1,51 @@
 [
   {
+    "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 7 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-22T11:09:26.338319+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "BRENT_OIL",
+    "deal_id": "DIAAAAR7S5HFGAE",
+    "old_limit_level": 9468.163,
+    "new_limit_level": 9467.6117,
+    "old_stop_level": 9525.8994,
+    "new_stop_level": 9526.4875,
+    "reason": "Position's resting stop and/or limit didn't match the 1.6%/1.5%-of-margin targets (predates this feature/value, or drifted) -- amending both on IG directly (both always sent together, see incident note above).",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-09-22T11:08:45.049",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "N2T3XHH6DSNTYNV",
+      "dealId": "DIAAAAR7S5HFGAE",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR7S5HFGAE",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 9496.1,
+      "size": 1.7,
+      "direction": "SELL",
+      "stopLevel": 9526.487,
+      "limitLevel": 9467.611,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-22T11:08:45.224634+00:00"
+  },
+  {
     "action": "OPEN_SHORT",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
@@ -4035,85 +4081,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-18T13:07:42.016342+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "direction": "SELL",
-    "size": 5.7,
-    "margin_allocated": 3398.57,
-    "effective_leverage": 5.0,
-    "notional": 17003.1,
-    "stop_distance": 149.15,
-    "limit_distance": 11.9248,
-    "reason": "Natural Gas is in a bearish seasonal phase with no strong weather-driven demand signals. Technicals show a neutral RSI and a slight bullish SMA crossover, but the lack of strong demand and bearish seasonality suggest a short opportunity.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR7CDXJAA4",
-    "raw": {
-      "date": "2026-09-18T13:02:25.877",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": "-",
-      "dealReference": "79PNGJ9JS2ETYNV",
-      "dealId": "DIAAAAR7CDXJAA4",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR7CDXJAA4",
-          "status": "OPENED"
-        }
-      ],
-      "level": 2981.0,
-      "size": 5.7,
-      "direction": "SELL",
-      "stopLevel": 3130.15,
-      "limitLevel": 2969.0752,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-18T13:02:26.083337+00:00"
-  },
-  {
-    "action": "MARGIN_LIMIT_SYNC",
-    "instrument": "WTI_OIL",
-    "deal_id": "DIAAAAR7B8LC6A5",
-    "old_limit_level": 9651.6294,
-    "new_limit_level": 9682.7136,
-    "stop_level_reaffirmed": 10207.7,
-    "reason": "Position's resting limit didn't match the 2.0%-of-margin target (predates this feature, or drifted) -- amending it on IG directly. stop_level explicitly re-sent unchanged (see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-18T13:01:44.275",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "BLXA82HVES2TYNV",
-      "dealId": "DIAAAAR7B8LC6A5",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR7B8LC6A5",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 9721.6,
-      "size": 1.7,
-      "direction": "SELL",
-      "stopLevel": 10207.7,
-      "limitLevel": 9682.714,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-18T13:01:44.469177+00:00"
   }
 ]
