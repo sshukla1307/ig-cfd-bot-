@@ -271,13 +271,16 @@ MARGIN_PROFIT_TAKE_PCT = 1.5  # Originally validated at 3.5% against real trade 
 # than only whenever the bot next happens to check.
 
 
-MARGIN_STOP_LOSS_PCT = 1.6  # Mirrors MARGIN_PROFIT_TAKE_PCT on the loss side (user's own
-# choice, 2026-09-22): close a position the instant its unrealized loss reaches this % of
-# the margin used to open it. Note this is numerically a slightly worse-than-1:1 risk/reward
-# on its own (risking 1.6 to make 1.5) -- it only nets positive if win rate stays high enough
-# to compensate, which is exactly the profile the user's own manually-validated take-profit
-# habit demonstrated (93% win rate at the original 3.5% target). Same mechanism as the
-# profit side: a REAL resting IG stop order, not a bot-side poll.
+MARGIN_STOP_LOSS_PCT = 3.5  # Widened from 1.6% on 2026-09-22 (user's own choice), after the
+# account's balance fell ~$1,223 (-8.9%) in the first ~4 hours the 1.6%/1.5% pairing was live
+# -- at that tight a band (~0.3% price move at 5x leverage), ordinary bid/ask spread and
+# short-term noise could trigger the stop nearly as often as a real directional move,
+# independent of any actual edge. Risking 3.5 to make MARGIN_PROFIT_TAKE_PCT's 1.5 is a much
+# worse-than-1:1 ratio on paper (needs ~70% win rate to break even before spread costs, vs
+# ~52% at 1.6%) -- but a wider stop can only make an existing position MORE tolerant, never
+# forces a premature close the way tightening did, and directly targets the noise-triggering
+# problem just diagnosed. Same mechanism as the profit side: a REAL resting IG stop order,
+# not a bot-side poll.
 
 
 def _margin_based_distance(pct: float, margin_allocated: float, size: float) -> float:
