@@ -1,5 +1,19 @@
 [
   {
+    "action": "CLOSE",
+    "instrument": "WTI_OIL",
+    "status": "REJECTED",
+    "reason": "WTI_OIL is auto-mirrored from BRENT_OIL and is never traded directly -- propose OPEN_LONG/OPEN_SHORT/CLOSE on BRENT_OIL instead, and the identical action is applied to WTI_OIL automatically",
+    "logged_at": "2026-09-22T17:29:51.452757+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 24 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-22T17:29:51.452420+00:00"
+  },
+  {
     "action": "OPEN_LONG",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
@@ -4912,85 +4926,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-21T13:02:04.831454+00:00"
-  },
-  {
-    "action": "MARGIN_LIMIT_SYNC",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR7K8S8SA8",
-    "old_limit_level": 9735.544,
-    "new_limit_level": 9734.708,
-    "stop_level_reaffirmed": 10251.435,
-    "reason": "Position's resting limit didn't match the 1.5%-of-margin target (predates this feature, or drifted) -- amending it on IG directly. stop_level explicitly re-sent unchanged (see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-21T13:02:04.245",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "KJBAAFQP7B2TYNV",
-      "dealId": "DIAAAAR7K8S8SA8",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR7K8S8SA8",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 9764.0,
-      "size": 1.7,
-      "direction": "SELL",
-      "stopLevel": 10251.435,
-      "limitLevel": 9734.708,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-21T13:02:04.473607+00:00"
-  },
-  {
-    "action": "WTI_MIRROR_OPEN",
-    "instrument": "WTI_OIL",
-    "direction": "SELL",
-    "size": 1.7,
-    "margin_allocated": 3225.01,
-    "effective_leverage": 5.0,
-    "notional": 15813.4,
-    "stop_distance": 465.1,
-    "limit_distance": 28.456,
-    "reason": "Auto-mirrored from BRENT_OIL: Brent Oil is currently in backwardation, indicating tight supply, which is typically bullish. However, the managed-money positioning in WTI (a mirror of Brent) is at a multi-month extreme long, which is a contrarian bearish signal. Additionally, recent news suggests a recovery in Saudi supply, which could ease the tight supply situation. The RSI is also nearing overbought levels, suggesting a potential pullback.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR7K8U7GAJ",
-    "raw": {
-      "date": "2026-09-21T12:45:34.374",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "ZWB2FBS79ASTYNV",
-      "dealId": "DIAAAAR7K8U7GAJ",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR7K8U7GAJ",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9312.7,
-      "size": 1.7,
-      "direction": "SELL",
-      "stopLevel": 9777.8,
-      "limitLevel": 9284.244,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-21T12:45:34.606342+00:00"
   }
 ]
