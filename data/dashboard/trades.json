@@ -4,6 +4,126 @@
     "instrument": "WTI_OIL",
     "direction": "SELL",
     "size": 1.8,
+    "margin_allocated": 3256.38,
+    "effective_leverage": 5.0,
+    "notional": 16107.12,
+    "stop_distance": 28.9456,
+    "limit_distance": 27.1365,
+    "reason": "Auto-mirrored from BRENT_OIL: Brent Oil is currently in backwardation, indicating tight supply, which is typically bullish. However, the recent news suggests a bearish sentiment due to geopolitical developments and a crowded long positioning in WTI, which is a contrarian bearish signal. The technicals show a short-term bullish trend, but the RSI is neutral, providing room for a downside move. Given these mixed signals, the contrarian bearish signals from positioning and geopolitical news outweigh the technicals, suggesting a short position.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR7SUTDLAV",
+    "raw": {
+      "date": "2026-09-22T10:11:23.339",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "HRJ48XR9566TYNV",
+      "dealId": "DIAAAAR7SUTDLAV",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR7SUTDLAV",
+          "status": "OPENED"
+        }
+      ],
+      "level": 8935.6,
+      "size": 1.8,
+      "direction": "SELL",
+      "stopLevel": 8964.546,
+      "limitLevel": 8908.464,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-22T10:11:23.478069+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "BRENT_OIL",
+    "direction": "SELL",
+    "size": 1.7,
+    "margin_allocated": 3256.38,
+    "effective_leverage": 5.0,
+    "notional": 16104.27,
+    "stop_distance": 30.6483,
+    "limit_distance": 28.7328,
+    "reason": "Brent Oil is currently in backwardation, indicating tight supply, which is typically bullish. However, the recent news suggests a bearish sentiment due to geopolitical developments and a crowded long positioning in WTI, which is a contrarian bearish signal. The technicals show a short-term bullish trend, but the RSI is neutral, providing room for a downside move. Given these mixed signals, the contrarian bearish signals from positioning and geopolitical news outweigh the technicals, suggesting a short position.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR7SUAKYAX",
+    "raw": {
+      "date": "2026-09-22T10:11:23.127",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "8RY4S7SMMWTYNV",
+      "dealId": "DIAAAAR7SUAKYAX",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR7SUAKYAX",
+          "status": "OPENED"
+        }
+      ],
+      "level": 9460.6,
+      "size": 1.7,
+      "direction": "SELL",
+      "stopLevel": 9491.248,
+      "limitLevel": 9431.867,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-22T10:11:23.266586+00:00"
+  },
+  {
+    "action": "ORPHANED_WTI_CLEANUP",
+    "instrument": "WTI_OIL",
+    "deal_id": "DIAAAAR7SQ33DAW",
+    "original_direction": "SELL",
+    "reason": "WTI_OIL was open with no corresponding BRENT_OIL position -- WTI is a pure mirror and should never be open on its own (Brent likely closed via its own native stop/limit, or this predates the mirroring feature). Closing it automatically so Brent can trade again.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-09-22T10:10:44.543",
+      "status": "CLOSED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "CSZXJ7MWXJATYNV",
+      "dealId": "DIAAAAR7SQ33DAW",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR7SQ33DAW",
+          "status": "FULLY_CLOSED"
+        }
+      ],
+      "level": 8949.8,
+      "size": 1.8,
+      "direction": "BUY",
+      "stopLevel": null,
+      "limitLevel": null,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": -14.04,
+      "profitCurrency": "USD"
+    },
+    "logged_at": "2026-09-22T10:10:44.703813+00:00"
+  },
+  {
+    "action": "WTI_MIRROR_OPEN",
+    "instrument": "WTI_OIL",
+    "direction": "SELL",
+    "size": 1.8,
     "margin_allocated": 3247.48,
     "effective_leverage": 5.0,
     "notional": 16124.76,
@@ -3877,96 +3997,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-18T09:01:21.555186+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "BRENT_OIL",
-    "direction": "SELL",
-    "size": 1.8,
-    "margin_allocated": 3547.76,
-    "effective_leverage": 5.0,
-    "notional": 17962.56,
-    "stop_distance": 498.96,
-    "limit_distance": 997.92,
-    "reason": "Brent oil is showing a short-term bullish signal with SMA-20 above SMA-50, but recent news indicates a decline in prices due to supply concerns. The term structure is flat, suggesting no strong forward demand. This presents an opportunity to short Brent oil, expecting further price declines.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR7AULJ6AW",
-    "raw": {
-      "date": "2026-09-18T09:01:21.138",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "HE6VH5A49FATYNV",
-      "dealId": "DIAAAAR7AULJ6AW",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR7AULJ6AW",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9972.9,
-      "size": 1.8,
-      "direction": "SELL",
-      "stopLevel": 10471.86,
-      "limitLevel": 8974.98,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-18T09:01:21.310748+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "direction": "SELL",
-    "size": 5.9,
-    "margin_allocated": 3520.31,
-    "effective_leverage": 5.0,
-    "notional": 17487.6,
-    "stop_distance": 148.2,
-    "limit_distance": 296.4,
-    "reason": "Natural Gas is in contango, indicating ample supply. Recent EIA data shows a larger than expected inventory build, suggesting bearish sentiment. Technicals show a neutral RSI and a slight bullish SMA crossover, but the fundamental supply signals outweigh this.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR7AP2GEA5",
-    "raw": {
-      "date": "2026-09-18T08:31:47.07",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": "-",
-      "dealReference": "LQQYVU7ACDWTYNV",
-      "dealId": "DIAAAAR7AP2GEA5",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR7AP2GEA5",
-          "status": "OPENED"
-        }
-      ],
-      "level": 2960.0,
-      "size": 5.9,
-      "direction": "SELL",
-      "stopLevel": 3108.2,
-      "limitLevel": 2663.6,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-18T08:31:47.215516+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "This trade's margin ($3520.31) would leave available at $3520.31, below the 30.0% safety buffer of balance $14081.24 -- rejected to avoid risking a forced closure on this or other open positions",
-    "logged_at": "2026-09-18T08:30:45.211180+00:00"
   }
 ]
