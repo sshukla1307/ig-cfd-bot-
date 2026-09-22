@@ -5,13 +5,13 @@ Invoked roughly every 5 minutes by GitHub Actions (a nominal target -- GitHub
 doesn't guarantee precise cron timing; see cfd_trading.yml). Each tick:
   1. Kill-switch check.
   2. Connect to IG, fetch account state + our 4 tracked positions.
-  3. Margin-based take-profit sync: every new position already gets a REAL resting
-     IG limit order at MARGIN_PROFIT_TAKE_PCT of its margin (see
-     _margin_based_limit_distance) -- IG's own engine executes it instantly,
-     independent of our tick cadence. This step just reconciles any position
-     whose live limit doesn't already match that target (predates the feature,
-     or drifted) by amending it in place (_sync_margin_based_limits) -- never
-     closes anything itself.
+  3. Margin-based exit sync: every new position already gets REAL resting IG stop
+     and limit orders at MARGIN_STOP_LOSS_PCT/MARGIN_PROFIT_TAKE_PCT of its margin
+     (see _margin_based_stop_distance/_margin_based_limit_distance) -- IG's own
+     engine executes either instantly, independent of our tick cadence. This step
+     just reconciles any position whose live stop/limit doesn't already match
+     those targets (predates the feature/value, or drifted) by amending them in
+     place (_sync_margin_based_exits) -- never closes anything itself.
   4. Margin safety check: block ALL new opens account-wide if available
      margin has fallen below RULES.margin_safety_buffer_pct of balance.
   5. Per-instrument: skip any instrument whose market isn't currently
@@ -271,16 +271,35 @@ MARGIN_PROFIT_TAKE_PCT = 1.5  # Originally validated at 3.5% against real trade 
 # than only whenever the bot next happens to check.
 
 
+MARGIN_STOP_LOSS_PCT = 1.6  # Mirrors MARGIN_PROFIT_TAKE_PCT on the loss side (user's own
+# choice, 2026-09-22): close a position the instant its unrealized loss reaches this % of
+# the margin used to open it. Note this is numerically a slightly worse-than-1:1 risk/reward
+# on its own (risking 1.6 to make 1.5) -- it only nets positive if win rate stays high enough
+# to compensate, which is exactly the profile the user's own manually-validated take-profit
+# habit demonstrated (93% win rate at the original 3.5% target). Same mechanism as the
+# profit side: a REAL resting IG stop order, not a bot-side poll.
+
+
+def _margin_based_distance(pct: float, margin_allocated: float, size: float) -> float:
+    """Shared math for both the profit and loss margin-based distances: converts a target
+    % of margin into a point DISTANCE from entry (not an absolute level) -- the target $
+    P&L (margin_allocated * pct/100) divided by size, using the exact same
+    (current_price - entry_level) * size math _estimate_unrealized_pnl already verifies
+    against real IG fills. A pure distance, independent of entry/fill price, so it can be
+    passed straight into open_position's stop_distance/limit_distance -- IG computes the
+    absolute level itself from the live fill price (see open_position's docstring: this
+    avoids pre-computing off a snapshot price that may have moved by fill time)."""
+    return round(margin_allocated * (pct / 100) / size, 4)
+
+
 def _margin_based_limit_distance(margin_allocated: float, size: float) -> float:
-    """Converts MARGIN_PROFIT_TAKE_PCT into a point DISTANCE from entry (not an absolute
-    level) -- the target $ profit (margin_allocated * PCT/100) divided by size, using the
-    exact same (current_price - entry_level) * size math _estimate_unrealized_pnl already
-    verifies against real IG fills. A pure distance, independent of entry/fill price, so it
-    can be passed straight into open_position's limit_distance -- IG computes the absolute
-    level itself from the live fill price, exactly like the agent's own stop/limit already
-    do (see open_position's docstring: this avoids pre-computing off a snapshot price that
-    may have moved by fill time)."""
-    return round(margin_allocated * (MARGIN_PROFIT_TAKE_PCT / 100) / size, 4)
+    """Take-profit side -- see _margin_based_distance and MARGIN_PROFIT_TAKE_PCT."""
+    return _margin_based_distance(MARGIN_PROFIT_TAKE_PCT, margin_allocated, size)
+
+
+def _margin_based_stop_distance(margin_allocated: float, size: float) -> float:
+    """Stop-loss side -- see _margin_based_distance and MARGIN_STOP_LOSS_PCT."""
+    return _margin_based_distance(MARGIN_STOP_LOSS_PCT, margin_allocated, size)
 
 
 def _margin_allocated_for_position(pos: dict, snapshot: Optional[dict], max_leverage_multiple: float) -> Optional[float]:
@@ -295,8 +314,8 @@ def _margin_allocated_for_position(pos: dict, snapshot: Optional[dict], max_leve
     a since-removed _get_margin_allocated_by_deal) -- a real 2026-09-18 incident
     involved a workflow run whose audit-log commit failed to push, silently
     losing that run's OPEN_LONG/WTI_MIRROR_OPEN entries. Recomputing live means
-    _sync_margin_based_limits can still correct a position's limit even when its
-    own opening record never made it into the log."""
+    _sync_margin_based_exits can still correct a position's stop/limit even when
+    its own opening record never made it into the log."""
     if not snapshot:
         return None
     entry_level = pos.get("entry_level")
@@ -317,101 +336,68 @@ MARGIN_LIMIT_SYNC_TOLERANCE = 0.5  # points -- skip amending a position whose li
 # (float rounding between our calc and IG's own stored level is expected).
 
 
-def _get_stop_level_by_deal(order_log_path: Path) -> dict:
-    """Returns {deal_id: stop_level} for every successfully opened position, read
-    from the append-only audit log's OPEN event (raw.stopLevel). Fallback source
-    of truth for _sync_margin_based_limits if a position's LIVE stop_level is
-    ever missing when we need to re-send it -- see the incident note there for
-    why this must never be allowed to default to None."""
-    stop_by_deal = {}
-    if not order_log_path.exists():
-        return stop_by_deal
-    with open(order_log_path) as f:
-        for line in f:
-            line = line.strip()
-            if not line:
-                continue
-            try:
-                d = json.loads(line)
-            except json.JSONDecodeError:
-                continue
-            if d.get("action") not in ("OPEN_LONG", "OPEN_SHORT", "WTI_MIRROR_OPEN"):
-                continue
-            if d.get("status") != "submitted":
-                continue
-            raw = d.get("raw") or {}
-            deal_id = raw.get("dealId") or d.get("deal_id")
-            stop_level = raw.get("stopLevel")
-            if deal_id and stop_level is not None:
-                stop_by_deal[deal_id] = stop_level
-    return stop_by_deal
-
-
-def _sync_margin_based_limits(broker, positions: dict, snapshots: dict, max_leverage_multiple: float,
-                               stop_by_deal: dict) -> list:
-    """Ensures every open position's live limit_level on IG actually matches the
-    MARGIN_PROFIT_TAKE_PCT target, amending it (never closing) if it doesn't.
-    Positions opened going forward already get the correct limit_distance at open
-    time (see the OPEN_LONG/OPEN_SHORT/WTI_MIRROR_OPEN call sites) -- this mainly
-    matters for a position that predates the current MARGIN_PROFIT_TAKE_PCT value
-    (e.g. it was opened under an earlier % and needs retightening/loosening), or
-    one whose live margin/snapshot can't be determined for some reason (in which
-    case it's left untouched: we'd rather leave an old limit in place than guess).
+def _sync_margin_based_exits(broker, positions: dict, snapshots: dict, max_leverage_multiple: float) -> list:
+    """Ensures every open position's live stop_level AND limit_level on IG actually
+    match the MARGIN_STOP_LOSS_PCT / MARGIN_PROFIT_TAKE_PCT targets, amending them
+    (never closing) if either doesn't. Positions opened going forward already get
+    both correct at open time (see the OPEN_LONG/OPEN_SHORT/WTI_MIRROR_OPEN call
+    sites) -- this mainly matters for a position that predates the current % values
+    (opened under an earlier target and needs retightening/loosening), or one whose
+    live margin/snapshot can't be determined for some reason (in which case it's
+    left fully untouched: we'd rather leave an old stop/limit in place than guess).
 
     margin_allocated is recomputed live via _margin_allocated_for_position rather
     than read from the audit log -- see that function's docstring for why.
 
-    *** INCIDENT (2026-09-18): a version of this function called
-    broker.update_position() with only limit_level set, leaving stop_level as
-    its default None -- IG's update endpoint does NOT preserve an omitted field
-    on an existing position the way the underlying trading_ig library's request-
-    building code suggests; it actually DELETED the stop entirely. The very next
-    tick's _check_stop_breach_backstop then correctly (by its own design) force-
-    closed all 3 affected positions as "no stop_level recorded", realizing a
-    real ~$614 loss. Every amend below now ALWAYS explicitly re-sends the
-    current stop_level alongside the new limit_level -- never omits it -- and
-    refuses to amend at all if no stop_level can be found anywhere (live
-    position data or the audit log), rather than risk repeating this. ***
+    *** INCIDENT (2026-09-18): an earlier version of this function called
+    broker.update_position() with only limit_level set, leaving stop_level as its
+    default None -- IG's update endpoint does NOT preserve an omitted field on an
+    existing position the way the underlying trading_ig library's request-building
+    code suggests; it actually DELETED the stop entirely, and the next tick's
+    _check_stop_breach_backstop then correctly force-closed the affected positions
+    as "no stop_level recorded", realizing a real ~$614 loss. This version doesn't
+    just avoid that mistake -- it removes the whole class of it: both stop_level
+    and limit_level are ALWAYS freshly computed from the current margin/size/entry
+    every time, and whenever either needs to change, BOTH are sent explicitly in
+    the same call. There is no more "value we're not touching" to accidentally
+    omit -- there's nothing left to preserve, only two targets to (re)assert. ***
 
-    Returns the list of instrument keys whose limit was amended this tick, purely
-    for logging/visibility -- callers don't need to treat this any differently."""
+    Returns the list of instrument keys amended this tick, purely for
+    logging/visibility -- callers don't need to treat this any differently."""
     synced = []
     for instrument, pos in positions.items():
         snapshot = snapshots.get(instrument)
         margin = _margin_allocated_for_position(pos, snapshot, max_leverage_multiple)
         entry_level = pos.get("entry_level")
         current_limit = pos.get("limit_level")
+        current_stop = pos.get("stop_level")
         size = pos.get("size")
         if not margin or entry_level is None or not size:
             continue
 
-        stop_level = pos.get("stop_level") or stop_by_deal.get(pos["deal_id"])
-        if stop_level is None:
-            logger.error(
-                f"[IG-CFD] {instrument} has no discoverable stop_level (live position data or "
-                f"the audit log) -- refusing to amend its limit rather than risk an update "
-                f"without a stop attached. Investigate this position manually."
-            )
-            continue
-
-        distance = _margin_based_limit_distance(margin, size)
+        limit_distance = _margin_based_limit_distance(margin, size)
+        stop_distance = _margin_based_stop_distance(margin, size)
         is_long = pos["direction"] == "BUY"
-        target_limit = entry_level + distance if is_long else entry_level - distance
+        target_limit = round(entry_level + limit_distance if is_long else entry_level - limit_distance, 4)
+        target_stop = round(entry_level - stop_distance if is_long else entry_level + stop_distance, 4)
 
-        if current_limit is not None and abs(current_limit - target_limit) <= MARGIN_LIMIT_SYNC_TOLERANCE:
-            continue  # already correct -- nothing to do
+        limit_ok = current_limit is not None and abs(current_limit - target_limit) <= MARGIN_LIMIT_SYNC_TOLERANCE
+        stop_ok = current_stop is not None and abs(current_stop - target_stop) <= MARGIN_LIMIT_SYNC_TOLERANCE
+        if limit_ok and stop_ok:
+            continue  # both already correct -- nothing to do
 
         result = broker.update_position(
-            deal_id=pos["deal_id"], limit_level=round(target_limit, 4), stop_level=stop_level,
+            deal_id=pos["deal_id"], limit_level=target_limit, stop_level=target_stop,
         )
         _log_order_event({
-            "action": "MARGIN_LIMIT_SYNC", "instrument": instrument, "deal_id": pos["deal_id"],
-            "old_limit_level": current_limit, "new_limit_level": round(target_limit, 4),
-            "stop_level_reaffirmed": stop_level,
+            "action": "MARGIN_EXIT_SYNC", "instrument": instrument, "deal_id": pos["deal_id"],
+            "old_limit_level": current_limit, "new_limit_level": target_limit,
+            "old_stop_level": current_stop, "new_stop_level": target_stop,
             "reason": (
-                f"Position's resting limit didn't match the {MARGIN_PROFIT_TAKE_PCT}%-of-margin "
-                f"target (predates this feature, or drifted) -- amending it on IG directly. "
-                f"stop_level explicitly re-sent unchanged (see incident note above)."
+                f"Position's resting stop and/or limit didn't match the "
+                f"{MARGIN_STOP_LOSS_PCT}%/{MARGIN_PROFIT_TAKE_PCT}%-of-margin targets "
+                f"(predates this feature/value, or drifted) -- amending both on IG directly "
+                f"(both always sent together, see incident note above)."
             ),
             **result,
         })
@@ -748,14 +734,13 @@ def run_cfd_tick():
         status = snap.get("market_status") if snap else "UNKNOWN"
         logger.info(f"[IG-CFD] {key} ({inst.display_name}): market_status={status}")
 
-    # Margin-based take-profit is now a REAL resting IG limit order, set at open
-    # time (see MARGIN_PROFIT_TAKE_PCT / _margin_based_limit_distance) -- IG's own
-    # engine executes it the instant price touches it, not on our tick cadence.
-    # This just reconciles any position whose live limit_level doesn't already
-    # match that target (e.g. it predates the current MARGIN_PROFIT_TAKE_PCT
-    # value) by amending it in place -- never closes anything itself.
-    stop_by_deal = _get_stop_level_by_deal(DATA_DIR / "order_log.jsonl")
-    _sync_margin_based_limits(broker, positions, snapshots, RULES.max_leverage_multiple, stop_by_deal)
+    # Margin-based take-profit AND stop-loss are now REAL resting IG orders, set at
+    # open time (see MARGIN_PROFIT_TAKE_PCT/MARGIN_STOP_LOSS_PCT) -- IG's own engine
+    # executes either instantly the moment price touches it, not on our tick cadence.
+    # This just reconciles any position whose live stop/limit doesn't already match
+    # those targets (e.g. it predates the current % values) by amending them in
+    # place -- never closes anything itself.
+    _sync_margin_based_exits(broker, positions, snapshots, RULES.max_leverage_multiple)
 
     tradeable_instruments = {k: s for k, s in snapshots.items() if broker.is_tradeable(s)}
     if not tradeable_instruments:
@@ -860,8 +845,7 @@ def run_cfd_tick():
                     continue
 
                 # Open the LONG leg first.
-                long_price = long_sizing["price"]
-                long_stop_distance = round(long_price * (trade["stop_loss_pct"] / 100), 4)
+                long_stop_distance = _margin_based_stop_distance(long_sizing["margin_allocated"], long_sizing["size"])
                 long_limit_distance = _margin_based_limit_distance(long_sizing["margin_allocated"], long_sizing["size"])
                 long_result = broker.open_position(
                     epic=long_inst_cfg.epic, direction="BUY", size=long_sizing["size"],
@@ -879,8 +863,7 @@ def run_cfd_tick():
                     continue
 
                 # Now the SHORT leg.
-                short_price = short_sizing["price"]
-                short_stop_distance = round(short_price * (trade["stop_loss_pct"] / 100), 4)
+                short_stop_distance = _margin_based_stop_distance(short_sizing["margin_allocated"], short_sizing["size"])
                 short_limit_distance = _margin_based_limit_distance(short_sizing["margin_allocated"], short_sizing["size"])
                 short_result = broker.open_position(
                     epic=short_inst_cfg.epic, direction="SELL", size=short_sizing["size"],
@@ -961,8 +944,7 @@ def run_cfd_tick():
                     continue
 
                 direction = "BUY" if action == "OPEN_LONG" else "SELL"
-                price = sizing["price"]
-                stop_distance = round(price * (trade["stop_loss_pct"] / 100), 4)
+                stop_distance = _margin_based_stop_distance(sizing["margin_allocated"], sizing["size"])
                 limit_distance = _margin_based_limit_distance(sizing["margin_allocated"], sizing["size"])
 
                 result = broker.open_position(
@@ -993,8 +975,7 @@ def run_cfd_tick():
                             running_available - wti_sizing["margin_allocated"], account["balance"], RULES,
                         )
                         if wti_sizing and wti_margin_ok:
-                            wti_price = wti_sizing["price"]
-                            wti_stop_distance = round(wti_price * (trade["stop_loss_pct"] / 100), 4)
+                            wti_stop_distance = _margin_based_stop_distance(wti_sizing["margin_allocated"], wti_sizing["size"])
                             wti_limit_distance = _margin_based_limit_distance(wti_sizing["margin_allocated"], wti_sizing["size"])
                             wti_result = broker.open_position(
                                 epic=wti_inst.epic, direction=direction, size=wti_sizing["size"],
