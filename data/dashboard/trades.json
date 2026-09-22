@@ -1,5 +1,19 @@
 [
   {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 21 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-22T19:23:49.999713+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 52 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-22T19:23:49.999312+00:00"
+  },
+  {
     "action": "OPEN_SHORT",
     "instrument": "NATURAL_GAS",
     "direction": "SELL",
@@ -4953,89 +4967,5 @@
     "status": "REJECTED",
     "reason": "This trade's margin ($3313.09) would leave available at $3313.11, below the 30.0% safety buffer of balance $13252.38 -- rejected to avoid risking a forced closure on this or other open positions",
     "logged_at": "2026-09-21T14:29:31.986108+00:00"
-  },
-  {
-    "action": "WTI_MIRROR_OPEN",
-    "instrument": "WTI_OIL",
-    "direction": "BUY",
-    "size": 1.8,
-    "margin_allocated": 3313.09,
-    "effective_leverage": 5.0,
-    "notional": 16514.64,
-    "stop_distance": 275.244,
-    "limit_distance": 27.6091,
-    "reason": "Auto-mirrored from BRENT_OIL: Brent oil is in a short-term bullish trend with the SMA-20 above SMA-50 and a backwardation in the term structure indicating tight supply. Despite recent geopolitical tensions, the technicals and term structure suggest a bullish outlook.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR7MEABHAR",
-    "raw": {
-      "date": "2026-09-21T14:29:31.646",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "44YHE5DMHXNTYNV",
-      "dealId": "DIAAAAR7MEABHAR",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR7MEABHAR",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9179.0,
-      "size": 1.8,
-      "direction": "BUY",
-      "stopLevel": 8903.756,
-      "limitLevel": 9206.609,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-21T14:29:31.985819+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "direction": "BUY",
-    "size": 1.7,
-    "margin_allocated": 3313.09,
-    "effective_leverage": 5.0,
-    "notional": 16435.09,
-    "stop_distance": 290.031,
-    "limit_distance": 29.2331,
-    "reason": "Brent oil is in a short-term bullish trend with the SMA-20 above SMA-50 and a backwardation in the term structure indicating tight supply. Despite recent geopolitical tensions, the technicals and term structure suggest a bullish outlook.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR7MEU7VBB",
-    "raw": {
-      "date": "2026-09-21T14:29:31.126",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "VAM5MMW4GG2TYNV",
-      "dealId": "DIAAAAR7MEU7VBB",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR7MEU7VBB",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9670.4,
-      "size": 1.7,
-      "direction": "BUY",
-      "stopLevel": 9380.369,
-      "limitLevel": 9699.633,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-21T14:29:31.491894+00:00"
   }
 ]
