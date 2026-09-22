@@ -4,6 +4,126 @@
     "instrument": "WTI_OIL",
     "direction": "SELL",
     "size": 1.8,
+    "margin_allocated": 3208.91,
+    "effective_leverage": 5.0,
+    "notional": 16159.5,
+    "stop_distance": 28.5236,
+    "limit_distance": 26.7409,
+    "reason": "Auto-mirrored from BRENT_OIL: Brent Oil is currently in backwardation, indicating tight supply, but the recent news of potential diplomatic talks with Iran and the extreme long positioning in WTI suggest a potential pullback. The technicals show a short-term bullish trend, but the RSI is neutral, providing room for a downside move.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR7SWW4LAL",
+    "raw": {
+      "date": "2026-09-22T10:21:20.68",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "9TW6FHVD9SSTYNV",
+      "dealId": "DIAAAAR7SWW4LAL",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR7SWW4LAL",
+          "status": "OPENED"
+        }
+      ],
+      "level": 8967.5,
+      "size": 1.8,
+      "direction": "SELL",
+      "stopLevel": 8996.023,
+      "limitLevel": 8940.759,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-22T10:21:20.869810+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "BRENT_OIL",
+    "direction": "SELL",
+    "size": 1.7,
+    "margin_allocated": 3208.91,
+    "effective_leverage": 5.0,
+    "notional": 16176.86,
+    "stop_distance": 30.2015,
+    "limit_distance": 28.3139,
+    "reason": "Brent Oil is currently in backwardation, indicating tight supply, but the recent news of potential diplomatic talks with Iran and the extreme long positioning in WTI suggest a potential pullback. The technicals show a short-term bullish trend, but the RSI is neutral, providing room for a downside move.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR7SXALDAG",
+    "raw": {
+      "date": "2026-09-22T10:21:20.371",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "DZ4ECNUFHHATYNV",
+      "dealId": "DIAAAAR7SXALDAG",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR7SXALDAG",
+          "status": "OPENED"
+        }
+      ],
+      "level": 9501.2,
+      "size": 1.7,
+      "direction": "SELL",
+      "stopLevel": 9531.401,
+      "limitLevel": 9472.886,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-22T10:21:20.579043+00:00"
+  },
+  {
+    "action": "ORPHANED_WTI_CLEANUP",
+    "instrument": "WTI_OIL",
+    "deal_id": "DIAAAAR7SVHX7AC",
+    "original_direction": "SELL",
+    "reason": "WTI_OIL was open with no corresponding BRENT_OIL position -- WTI is a pure mirror and should never be open on its own (Brent likely closed via its own native stop/limit, or this predates the mirroring feature). Closing it automatically so Brent can trade again.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-09-22T10:20:49.244",
+      "status": "CLOSED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "DBYXSMD5LM2TYNV",
+      "dealId": "DIAAAAR7SVHX7AC",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR7SVHX7AC",
+          "status": "FULLY_CLOSED"
+        }
+      ],
+      "level": 8977.3,
+      "size": 1.8,
+      "direction": "BUY",
+      "stopLevel": null,
+      "limitLevel": null,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": -30.24,
+      "profitCurrency": "USD"
+    },
+    "logged_at": "2026-09-22T10:20:49.445743+00:00"
+  },
+  {
+    "action": "WTI_MIRROR_OPEN",
+    "instrument": "WTI_OIL",
+    "direction": "SELL",
+    "size": 1.8,
     "margin_allocated": 3229.43,
     "effective_leverage": 5.0,
     "notional": 16130.52,
@@ -4011,26 +4131,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-18T11:50:23.725392+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 121 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-18T11:02:14.296970+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 150 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-18T11:02:14.296595+00:00"
-  },
-  {
-    "action": "HOLD",
-    "instrument": "",
-    "status": "REJECTED",
-    "reason": "Invalid action: HOLD",
-    "logged_at": "2026-09-18T10:03:13.115019+00:00"
   }
 ]
