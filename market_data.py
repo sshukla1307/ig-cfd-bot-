@@ -211,8 +211,10 @@ def get_technicals(yf_ticker: str) -> dict:
         return {"ticker": yf_ticker, "error": str(e)}
 
 
-def get_commodity_news(query: str, count: int = 5, freshness: str = "pd") -> dict:
-    """Brave web search, scoped by the caller to a specific commodity catalyst query."""
+def _brave_search(query: str, count: int, freshness: str) -> dict:
+    """Shared Brave Search API call -- get_commodity_news and
+    get_named_market_commentary both go through this, so the request/error
+    shape can never drift between the two."""
     api_key = os.getenv("BRAVE_API_KEY")
     if not api_key:
         return {"error": "BRAVE_API_KEY not set. Get one free at https://brave.com/search/api/"}
@@ -235,8 +237,43 @@ def get_commodity_news(query: str, count: int = 5, freshness: str = "pd") -> dic
             ],
         }
     except Exception as e:
-        logger.warning(f"get_commodity_news({query!r}) failed: {e}")
+        logger.warning(f"_brave_search({query!r}) failed: {e}")
         return {"query": query, "error": str(e)}
+
+
+def get_commodity_news(query: str, count: int = 5, freshness: str = "pd") -> dict:
+    """Brave web search, scoped by the caller to a specific commodity catalyst query."""
+    return _brave_search(query, count, freshness)
+
+
+# User-requested watchlist of named market-commentary sources (2026-09-23).
+# Fetched via Brave's own site: search operator rather than scraping these
+# domains directly: investing.com and cmegroup.com both actively block
+# direct automated fetches -- cmegroup.com's block page explicitly states
+# scraping is "strictly prohibited by CME Group's website Data Terms of
+# Use" (confirmed live: a plain GET returns HTTP 403 with that exact
+# message), and investing.com returns a blanket 403 including on its own
+# robots.txt. cnbc.com's edge/WAF also denies even a robots.txt fetch,
+# suggesting the same posture. Rather than a fragile, ToS-risky per-site
+# scraper (that would also need separate HTML-parsing logic per site, and
+# break silently whenever any one of them changes their markup), a single
+# site-scoped Brave query gets legitimate, already-licensed coverage of
+# exactly these 5 domains' own indexed content in one call -- the same
+# thing a human doing "site:investing.com crude oil" in a search bar gets.
+_NAMED_MARKET_SOURCE_DOMAINS = [
+    "investing.com", "tradingeconomics.com", "cmegroup.com", "oilprice.com", "cnbc.com",
+]
+
+
+def get_named_market_commentary(query: str, count: int = 5, freshness: str = "pd") -> dict:
+    """Search specifically within investing.com, tradingeconomics.com,
+    cmegroup.com, oilprice.com and cnbc.com for commentary on a given topic
+    -- the trader's own requested watchlist of market-commentary sources,
+    as a scoped Brave search rather than direct scraping (see module note
+    above for why)."""
+    site_filter = " OR ".join(f"site:{d}" for d in _NAMED_MARKET_SOURCE_DOMAINS)
+    scoped_query = f"{query} ({site_filter})"
+    return _brave_search(scoped_query, count, freshness)
 
 
 def get_macro() -> dict:

@@ -60,6 +60,18 @@ TOOLS = [
         },
     },
     {
+        "name": "get_named_market_commentary",
+        "description": "Search specifically within investing.com, tradingeconomics.com, cmegroup.com, oilprice.com and cnbc.com for commentary on a topic -- the trader's own requested watchlist of market-commentary sources, distinct from get_commodity_news's general web search.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "query": {"type": "string", "description": "e.g. 'crude oil price outlook', 'natural gas storage forecast'"},
+                "count": {"type": "integer", "minimum": 3, "maximum": 10, "default": 5},
+            },
+            "required": ["query"],
+        },
+    },
+    {
         "name": "get_macro",
         "description": "Get US dollar index, VIX, and 10Y Treasury yield -- macro context that moves commodity prices.",
         "parameters": {"type": "object", "properties": {}},
@@ -241,7 +253,10 @@ def build_system_prompt(playbook: str) -> str:
         "positioning vs its trailing-year range for WTI/Natural Gas only, not Brent -- extreme crowding "
         "is a real contrarian signal), and get_weather_demand (real, current heating/cooling degree-day "
         "data for Natural Gas -- prefer this over get_seasonality's static calendar proxy when deciding "
-        "on NG, it's the actual current weather driving demand, not just what month it is). "
+        "on NG, it's the actual current weather driving demand, not just what month it is), and "
+        "get_named_market_commentary (searches specifically within investing.com, tradingeconomics.com, "
+        "cmegroup.com, oilprice.com and cnbc.com -- use this alongside or instead of get_commodity_news "
+        "when you want commentary from those specific outlets rather than the open web). "
         "Be efficient: you have a limited number of tool calls "
         "per check-in -- don't exhaustively check every tool for every instrument if you're not seriously "
         "considering a trade there. Focus deep research on the 1-2 instruments you're actually weighing, "
