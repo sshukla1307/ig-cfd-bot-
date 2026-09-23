@@ -286,10 +286,11 @@ BREAKEVEN_TRIGGER_PCT = 1.6  # Once a position's unrealized profit reaches this 
 # "runs to +2%, then reverses into a full loss" scenario a fixed (non-trailing) stop/limit
 # pair can't protect against on its own.
 
-BREAKEVEN_LOCK_PCT = 0.2  # The guaranteed minimum profit (as % of margin) the stop ratchets
-# to once BREAKEVEN_TRIGGER_PCT is reached -- see _ratchet_stop_target. Deliberately small:
-# the point isn't to bank a meaningful profit here, it's to guarantee SOME profit rather than
-# risk the full stop distance on a position that has already shown it can move favorably.
+BREAKEVEN_LOCK_PCT = 1.4  # The guaranteed minimum profit (as % of margin) the stop ratchets
+# to once BREAKEVEN_TRIGGER_PCT is reached -- see _ratchet_stop_target. Raised from 0.2% to
+# 1.4% on 2026-09-23 (user's own choice): locks in nearly all of the gain already shown by the
+# time the 1.6% trigger fires, rather than a bare sliver, while still sitting strictly below
+# the 1.6% trigger level so the ratchet doesn't fire exactly at the current price.
 
 
 def _margin_based_distance(pct: float, margin_allocated: float, size: float) -> float:
