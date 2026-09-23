@@ -292,6 +292,26 @@ BREAKEVEN_LOCK_PCT = 1.4  # The guaranteed minimum profit (as % of margin) the s
 # time the 1.6% trigger fires, rather than a bare sliver, while still sitting strictly below
 # the 1.6% trigger level so the ratchet doesn't fire exactly at the current price.
 
+BREAKEVEN_RATCHET_ENABLED = False  # Disabled 2026-09-23 after tr.csv showed sustained losses
+# despite a 55-59% win rate -- a replay of 193 real live trades against real 1-minute price
+# data (yfinance, per-trade entry-anchored scale calibration, same methodology as the
+# MARGIN_PROFIT_TAKE_PCT backtest) showed the ratchet ITSELF is the problem, regardless of
+# where the trigger is set: with it enabled (trigger 1.6/lock 1.4), only 2 of 193 replayed
+# trades ever actually reached the 3% target -- 113 were clipped by the ratchet lock at
+# ~1.4% instead. Every alternative trigger/lock pairing tested (2.2/1.8, 2.5/2.0, 2.8/2.3,
+# 2.9/2.7, and trigger==lock) was ALSO worse than no ratchet at all -- this account's real
+# intraday price action wobbles through almost any given profit threshold on the way to
+# either the real target or the real stop, so ANY ratchet mostly just converts would-be
+# winners into small premature ones without meaningfully reducing how often the stop is
+# eventually hit (100-101 stop-outs in every config tested, ratcheted or not). Replaying the
+# same 193 trades with the ratchet off roughly HALVED the net loss (-35% vs -68% of margin,
+# summed) versus every ratcheted configuration. This reintroduces the original risk the
+# ratchet was built for (a position swinging into profit then fully reversing to the stop
+# with nothing banked) -- the data says that risk is real but smaller than the ratchet's own
+# cost. _ratchet_stop_target still exists in full below (constants included) rather than
+# being deleted, so this can be re-enabled and re-tuned if the account's price behavior
+# changes and a future replay against fresh data supports it.
+
 
 def _margin_based_distance(pct: float, margin_allocated: float, size: float) -> float:
     """Shared math for both the profit and loss margin-based distances: converts a target
@@ -325,13 +345,17 @@ def _ratchet_stop_target(pos: dict, margin: float, entry_level: float, size: flo
     anywhere: once the live stop has been moved to the lock level, a later dip back
     below the trigger just produces a worse candidate (the original stop distance),
     which the caller correctly ignores rather than loosening the stop back up."""
+    stop_distance = _margin_based_stop_distance(margin, size)
+    plain_stop = entry_level - stop_distance if is_long else entry_level + stop_distance
+    if not BREAKEVEN_RATCHET_ENABLED:
+        return plain_stop
+
     pnl = _estimate_unrealized_pnl(pos)
     trigger_profit = margin * (BREAKEVEN_TRIGGER_PCT / 100)
     if pnl is not None and pnl >= trigger_profit:
         lock_distance = _margin_based_distance(BREAKEVEN_LOCK_PCT, margin, size)
         return entry_level + lock_distance if is_long else entry_level - lock_distance
-    stop_distance = _margin_based_stop_distance(margin, size)
-    return entry_level - stop_distance if is_long else entry_level + stop_distance
+    return plain_stop
 
 
 def _margin_allocated_for_position(pos: dict, snapshot: Optional[dict], max_leverage_multiple: float) -> Optional[float]:
