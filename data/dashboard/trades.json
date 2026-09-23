@@ -1,5 +1,55 @@
 [
   {
+    "action": "OPEN_SHORT",
+    "instrument": "GOLD",
+    "direction": "SELL",
+    "size": 3.2,
+    "margin_allocated": 2731.4,
+    "effective_leverage": 5.0,
+    "notional": 13723.84,
+    "stop_distance": 25.6069,
+    "limit_distance": 25.6069,
+    "confluence_detail": "get_term_structure agrees with bearish",
+    "reason": "Gold is currently under pressure with a bearish technical setup, including a bearish SMA crossover and a neutral RSI. The term structure is in contango, indicating ample supply, and recent commentary suggests pressure from high Treasury yields. The independent price check confirms the current price level, supporting a short position.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR75Q8GCA5",
+    "raw": {
+      "date": "2026-09-23T22:32:13.861",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDGOLD.DBI.IP",
+      "expiry": "-",
+      "dealReference": "NU5XZ2AHYTETYNV",
+      "dealId": "DIAAAAR75Q8GCA5",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR75Q8GCA5",
+          "status": "OPENED"
+        }
+      ],
+      "level": 4288.09,
+      "size": 3.2,
+      "direction": "SELL",
+      "stopLevel": 4313.697,
+      "limitLevel": 4262.483,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-23T22:32:14.001097+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "WTI_OIL",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: WTI_OIL has only been open for 173 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-23T22:32:13.785281+00:00"
+  },
+  {
     "action": "CLOSE",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
@@ -12,6 +62,49 @@
     "status": "REJECTED",
     "reason": "Minimum hold time not met: WTI_OIL has only been open for 144 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "logged_at": "2026-09-23T22:03:59.353000+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "direction": "SELL",
+    "size": 4.32,
+    "margin_allocated": 2727.16,
+    "effective_leverage": 5.0,
+    "notional": 13664.16,
+    "stop_distance": 18.9386,
+    "limit_distance": 18.9386,
+    "confluence_detail": "get_term_structure agrees with bearish",
+    "reason": "Natural Gas is in contango, indicating ample supply, and recent inventory data shows a build larger than the trailing 8-week average. Technicals show a neutral RSI and a slight bullish SMA crossover, but the fundamental supply signals are bearish. Additionally, the independent price check confirms the current price is consistent across sources.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR75PHBSBD",
+    "raw": {
+      "date": "2026-09-23T22:01:54.845",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "QFXY4JTRS3ETYNV",
+      "dealId": "DIAAAAR75PHBSBD",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR75PHBSBD",
+          "status": "OPENED"
+        }
+      ],
+      "level": 3157.0,
+      "size": 4.32,
+      "direction": "SELL",
+      "stopLevel": 3175.9387,
+      "limitLevel": 3138.0613,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-23T22:01:54.991657+00:00"
   },
   {
     "action": "OPEN_LONG",
@@ -4866,93 +4959,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-22T19:01:38.291242+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "WTI_OIL",
-    "deal_id": "DIAAAAR7V9F9EA4",
-    "old_limit_level": 9014.0635,
-    "new_limit_level": 9013.3501,
-    "old_stop_level": 9105.9399,
-    "new_stop_level": 9107.4087,
-    "reason": "Position's resting stop and/or limit didn't match the 3.5%/1.7%-of-margin targets (predates this feature/value, or drifted) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-22T19:01:37.685",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "8WXTN869UQSTYNV",
-      "dealId": "DIAAAAR7V9F9EA4",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR7V9F9EA4",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 9044.1,
-      "size": 1.7,
-      "direction": "SELL",
-      "stopLevel": 9107.409,
-      "limitLevel": 9013.351,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-22T19:01:37.929691+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "This trade's margin ($3003.65) would leave available at $3003.64, below the 30.0% safety buffer of balance $12014.59 -- rejected to avoid risking a forced closure on this or other open positions",
-    "logged_at": "2026-09-22T18:32:09.801779+00:00"
-  },
-  {
-    "action": "WTI_MIRROR_OPEN",
-    "instrument": "WTI_OIL",
-    "direction": "SELL",
-    "size": 1.7,
-    "margin_allocated": 3003.65,
-    "effective_leverage": 5.0,
-    "notional": 15377.52,
-    "stop_distance": 61.8399,
-    "limit_distance": 30.0365,
-    "reason": "Auto-mirrored from BRENT_OIL: Brent oil is currently experiencing a pullback due to easing geopolitical tensions between the US and Iran, as indicated by recent news. The price is below the 20-day SMA, and the RSI is neutral, suggesting potential for further downside. The geopolitical risk premium is unwinding, which could lead to further price declines.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR7V9F9EA4",
-    "raw": {
-      "date": "2026-09-22T18:32:09.665",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "5NX7H96H6DETYNV",
-      "dealId": "DIAAAAR7V9F9EA4",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR7V9F9EA4",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9044.1,
-      "size": 1.7,
-      "direction": "SELL",
-      "stopLevel": 9105.939,
-      "limitLevel": 9014.063,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-22T18:32:09.801532+00:00"
   }
 ]
