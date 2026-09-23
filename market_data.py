@@ -14,7 +14,7 @@ used. Just deep, focused context on these three:
 
 import logging
 import os
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 import httpx
 
@@ -239,6 +239,86 @@ def _brave_search(query: str, count: int, freshness: str) -> dict:
     except Exception as e:
         logger.warning(f"_brave_search({query!r}) failed: {e}")
         return {"query": query, "error": str(e)}
+
+
+# SiftingIO (sifting.io) -- a separate, licensed multi-venue market data
+# aggregator, added 2026-09-23 as an INDEPENDENT price cross-check distinct
+# from yfinance (used by get_technicals/get_term_structure) -- catches a
+# stale or diverging single-provider feed rather than trusting yfinance
+# blindly. Symbols verified live against a real key before writing this:
+# WTIUSD (WTI), UKOUSD (Brent -- "UK Oil"), NATGAS (Henry Hub natural gas).
+# NGASUSD and BRENTUSD do NOT exist on this API (confirmed via a live 404)
+# despite being the more "obvious" guesses -- use the mapping below, not
+# those. Requires "Accept-Encoding: gzip" on every request or the API
+# rejects it outright with a "gzip_required" error (also confirmed live).
+#
+# Live gap observed 2026-09-23: WTIUSD's own feed was running ~19h stale
+# (its most recent bar was from the prior day) while UKOUSD/NATGAS were
+# current to the last hour -- i.e. SiftingIO's own per-symbol freshness
+# isn't uniform. A narrow lookback window (e.g. "last few hours") can
+# spuriously 404 for a symbol with a gap like this even though older data
+# exists, so this deliberately requests a wide 48h window and reports the
+# actual bar's age explicitly (is_stale) rather than assuming freshness.
+_SIFTING_SYMBOLS = {"BRENT_OIL": "UKOUSD", "WTI_OIL": "WTIUSD", "NATURAL_GAS": "NATGAS"}
+_SIFTING_STALE_THRESHOLD_HOURS = 4.0
+
+
+def get_independent_price_check(instrument: str) -> dict:
+    """Independent real-time/recent price cross-check via SiftingIO, a
+    separate multi-venue data aggregator from yfinance -- use this to sanity
+    -check the current_price and short-term direction get_technicals already
+    showed you, not to replace it. A large disagreement between the two, or
+    is_stale=True here, is itself useful information (a possible feed
+    problem on one side), not just redundant confirmation."""
+    api_key = os.getenv("SIFTING_API_KEY")
+    if not api_key:
+        return {"error": "SIFTING_API_KEY not set. Get one at https://sifting.io"}
+
+    symbol = _SIFTING_SYMBOLS.get(instrument)
+    if not symbol:
+        return {"instrument": instrument, "error": f"No SiftingIO symbol mapped for {instrument}"}
+
+    try:
+        now = datetime.now(timezone.utc)
+        start = now - timedelta(hours=48)
+        with httpx.Client(timeout=15.0) as client:
+            resp = client.get(
+                f"https://api.sifting.io/v1/hist/commodities/{symbol}/bars",
+                headers={"X-API-Key": api_key, "Accept-Encoding": "gzip"},
+                params={
+                    "start": start.strftime("%Y-%m-%dT%H:%M:%SZ"),
+                    "interval": "1h", "order": "desc", "limit": 48,
+                },
+            )
+        if resp.status_code == 404:
+            return {"instrument": instrument, "symbol": symbol,
+                    "error": "SiftingIO has no recent bars for this symbol right now (provider gap)"}
+        resp.raise_for_status()
+        rows = resp.json().get("data", [])
+        if not rows:
+            return {"instrument": instrument, "symbol": symbol, "error": "No bars returned"}
+
+        latest = rows[0]
+        latest_time = datetime.fromtimestamp(latest["t"] / 1000, tz=timezone.utc)
+        age_hours = (now - latest_time).total_seconds() / 3600
+
+        oldest = rows[-1]
+        change_pct = (
+            (latest["c"] - oldest["o"]) / oldest["o"] * 100 if oldest.get("o") else None
+        )
+
+        return {
+            "instrument": instrument, "symbol": symbol, "source": "SiftingIO",
+            "current_price": round(latest["c"], 4),
+            "as_of": latest_time.strftime("%Y-%m-%d %H:%M UTC"),
+            "age_hours": round(age_hours, 1),
+            "is_stale": age_hours > _SIFTING_STALE_THRESHOLD_HOURS,
+            "trailing_window_change_pct": round(change_pct, 3) if change_pct is not None else None,
+            "bars_in_window": len(rows),
+        }
+    except Exception as e:
+        logger.warning(f"get_independent_price_check({instrument}) failed: {e}")
+        return {"instrument": instrument, "symbol": symbol, "error": str(e)}
 
 
 def get_commodity_news(query: str, count: int = 5, freshness: str = "pd") -> dict:

@@ -24,7 +24,8 @@ def execute_tool(name: str, args: dict) -> dict:
     adding/changing a tool can never accidentally update only one provider."""
     from market_data import (get_technicals, get_commodity_news, get_macro,
                               get_seasonality, get_term_structure, get_inventory_data,
-                              get_positioning_data, get_weather_demand, get_named_market_commentary)
+                              get_positioning_data, get_weather_demand, get_named_market_commentary,
+                              get_independent_price_check)
     from config import YFINANCE_TICKERS
 
     if name == "get_technicals":
@@ -33,6 +34,8 @@ def execute_tool(name: str, args: dict) -> dict:
         if not yf_ticker:
             return {"error": f"Unknown instrument: {instrument}"}
         return get_technicals(yf_ticker)
+    if name == "get_independent_price_check":
+        return get_independent_price_check(args.get("instrument"))
     if name == "get_commodity_news":
         return get_commodity_news(args.get("query", ""), count=args.get("count", 5))
     if name == "get_named_market_commentary":
