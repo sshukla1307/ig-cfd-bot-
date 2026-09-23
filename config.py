@@ -12,9 +12,17 @@ from dataclasses import dataclass
 # ─────────────────────────────────────────────
 #
 # Epics resolved via a live search_markets() call against the real IG demo
-# account (2026-08-20). Each of these is IG's non-expiring "rolling" CFD
-# (expiry "-") for its commodity, at the smaller $1-per-point contract size
-# (vs. the $10 "UNC" variant) for finer position-sizing control.
+# account (2026-08-20; GOLD/SILVER added 2026-09-23, resolved live against
+# the real account's own dealing platform network calls -- markets/summary/
+# <epic> -- rather than guessed). Each of these is IG's non-expiring
+# "rolling" CFD (expiry "-") for its commodity, at the smaller $1-per-point
+# contract size (vs. the $10 "UNC" variant) for finer position-sizing
+# control.
+#
+# min_deal_size: verified live 2026-09-23 for ALL FIVE instruments via the
+# platform's own "Minimum size" field (Brent/WTI/NG were previously
+# defaulting to 0.1 unverified -- the real minimum for every one of them,
+# metals included, is 0.04. Corrected here instead of left wrong.).
 #
 # Palladium is deliberately EXCLUDED: this account has no rolling/perpetual
 # Palladium CFD, only dated futures-tracking contracts (Sep-26 / Dec-26).
@@ -27,13 +35,15 @@ from dataclasses import dataclass
 class Instrument:
     epic: str  # "" means excluded -- cfd_runner.py's validation rejects trades on it cleanly
     display_name: str
-    min_deal_size: float = 0.1  # IG's minimum tradable size for this instrument; verify per-instrument
+    min_deal_size: float = 0.04  # IG's minimum tradable size -- verified live per-instrument, see note above
 
 
 INSTRUMENTS = {
     "BRENT_OIL": Instrument(epic="CC.D.LCO.DBI.IP", display_name="Brent Crude Oil"),
     "WTI_OIL": Instrument(epic="CC.D.CL.DBI.IP", display_name="WTI Crude Oil"),
     "NATURAL_GAS": Instrument(epic="CC.D.NG.DBI.IP", display_name="Natural Gas"),
+    "GOLD": Instrument(epic="CS.D.CFDGOLD.DBI.IP", display_name="Spot Gold"),
+    "SILVER": Instrument(epic="CS.D.CFDSILVER.DBI.IP", display_name="Spot Silver"),
     "PALLADIUM": Instrument(epic="", display_name="Palladium (excluded -- no rolling contract, see note above)"),
 }
 
@@ -43,6 +53,8 @@ YFINANCE_TICKERS = {
     "BRENT_OIL": "BZ=F",
     "WTI_OIL": "CL=F",
     "NATURAL_GAS": "NG=F",
+    "GOLD": "GC=F",
+    "SILVER": "SI=F",
     "PALLADIUM": "PA=F",
 }
 
@@ -56,7 +68,12 @@ class SystemRules:
     the agent proposes."""
     min_allocation_pct: float = 20.0   # % of account equity allocated as margin, per position
     max_allocation_pct: float = 25.0   # % of account equity allocated as margin, per position
-    max_positions: int = 3             # one per instrument -- 3 active (Palladium excluded, see INSTRUMENTS)
+    max_positions: int = 5             # one per instrument -- 5 active (Brent, WTI, NG, Gold, Silver;
+                                        # Palladium excluded, see INSTRUMENTS). Raised from 3 on 2026-09-23
+                                        # when Gold/Silver were added -- the margin_safety_buffer_pct check
+                                        # below already blocks new opens once ~4 positions are open at the
+                                        # 20-25% allocation band regardless, so this is a soft ceiling in
+                                        # practice, not a number that actually gets reached often.
     max_leverage_multiple: float = 5.0 # HARD CAP: notional exposure <= margin_allocated * this,
                                         # even if IG's own marginFactor would permit more leverage
     stop_loss_required: bool = True
@@ -159,6 +176,20 @@ PERSONA_PROMPT = (
     "shift, credible news) -- a technical setup alone that would justify a "
     "Brent or NG trade is NOT sufficient reason to trade WTI, and HOLD is a "
     "perfectly good outcome for WTI far more often than for the other two.\n"
+    "- GOLD AND SILVER (added 2026-09-23) -- backed by the same 2-year hourly "
+    "backtest methodology: GOLD gets a real trend-following lean, nearly as "
+    "strong as Brent's (+38% net over 156 trades, 51% win rate, vs fading RSI's "
+    "weak +7%) -- trade WITH the SMA-confirmed trend by default, same as Brent. "
+    "SILVER also leans trend-following, but MUCH more thinly than Gold or Brent "
+    "(+9% net over 151 trades, 47% win rate -- barely positive, while fading RSI "
+    "on Silver loses badly at -60%). Treat Silver like a weaker version of the "
+    "WTI caution: a technical trend read alone is a real but WEAK reason to "
+    "trade it, and you should lean much more heavily on a genuine non-technical "
+    "catalyst (positioning extreme, credible news, a term-structure shift) "
+    "before sizing a Silver trade at the top of your allocation band. Gold and "
+    "Silver are NOT available for get_weather_demand or get_inventory_data "
+    "(no EIA coverage for metals) -- get_positioning_data (CFTC COMEX gold/"
+    "silver) and get_term_structure both are.\n"
     "- A fresh, specific, credible catalyst (a real news event, positioning "
     "at a genuine historical extreme, a term-structure shift) can override "
     "the instrument's default lean in either direction -- conflicting signals "
@@ -167,7 +198,7 @@ PERSONA_PROMPT = (
     "conviction. A fast-moving news event that hasn't been technically "
     "'confirmed' yet by a lagging indicator is still real information -- "
     "don't wait for the SMA to catch up to the news before acting on it.\n"
-    "- Both directions are equally valid on all three instruments -- OPEN_SHORT "
+    "- Both directions are equally valid on every instrument -- OPEN_SHORT "
     "is not a fallback, treat a high-conviction bearish read as just as "
     "actionable as a bullish one. Don't repeat the identical trade tick "
     "after tick out of habit; every check-in, reconsider each instrument "

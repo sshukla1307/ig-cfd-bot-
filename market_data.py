@@ -1,10 +1,10 @@
 """
 IG CFD Trading Bot — Market Data
 
-Deliberately narrow: this bot trades exactly 3 instruments (Brent, WTI,
-Natural Gas -- Palladium excluded, see config.py), not a scanned universe, so
-there's no need for the broad watchlist-scanning engine the Alpaca project
-used. Just deep, focused context on these three:
+Deliberately narrow: this bot trades a fixed instrument list (Brent, WTI,
+Natural Gas, Gold, Silver -- Palladium excluded, see config.py), not a
+scanned universe, so there's no need for the broad watchlist-scanning engine
+the Alpaca project used. Just deep, focused context on each:
   - Technicals via yfinance continuous futures tickers (independent of IG's
     epics -- used only for RSI/SMA/price-history context, never execution).
   - Commodity-specific news/catalysts via Brave Search (inventory reports,
@@ -23,28 +23,35 @@ logger = logging.getLogger(__name__)
 # NYMEX/futures month codes: Jan=F Feb=G Mar=H Apr=J May=K Jun=M Jul=N Aug=Q Sep=U Oct=V Nov=X Dec=Z
 _MONTH_CODES = "FGHJKMNQUVXZ"
 
-# Root symbols for dated futures contracts (front-month continuous ticker is
-# in config.YFINANCE_TICKERS -- this is the SAME underlying, just for
-# constructing a specific expiry's ticker for term-structure comparison).
+# Root symbols + exchange suffix for dated futures contracts (front-month
+# continuous ticker is in config.YFINANCE_TICKERS -- this is the SAME
+# underlying, just for constructing a specific expiry's ticker for
+# term-structure comparison). Exchange suffix matters: NYMEX products
+# (oil/gas) use .NYM, but COMEX products (gold/silver, added 2026-09-23)
+# use .CMX on Yahoo Finance -- confirmed live (.NYM 404s outright for
+# GC/SI, .CMX works) before writing this, not assumed from the oil pattern.
 _DATED_CONTRACT_ROOT = {
-    "BRENT_OIL": "BZ",
-    "WTI_OIL": "CL",
-    "NATURAL_GAS": "NG",
+    "BRENT_OIL": ("BZ", "NYM"),
+    "WTI_OIL": ("CL", "NYM"),
+    "NATURAL_GAS": ("NG", "NYM"),
+    "GOLD": ("GC", "CMX"),
+    "SILVER": ("SI", "CMX"),
 }
 
 
-def _dated_futures_ticker(root: str, months_out: int) -> str:
-    """Builds a Yahoo Finance dated-contract ticker N months out (e.g. CLX26.NYM).
-    Empirically verified against yfinance -- the near-term month can occasionally
-    already be expired/delisted close to roll dates, so callers should use a
-    few months out (3+) for reliability, not the very next calendar month."""
+def _dated_futures_ticker(root: str, months_out: int, exchange_suffix: str = "NYM") -> str:
+    """Builds a Yahoo Finance dated-contract ticker N months out (e.g. CLX26.NYM,
+    GCZ26.CMX). Empirically verified against yfinance -- the near-term month can
+    occasionally already be expired/delisted close to roll dates, so callers
+    should use a few months out (3+) for reliability, not the very next
+    calendar month."""
     now = datetime.now()
     total_month_index = (now.year * 12 + (now.month - 1)) + months_out
     year = total_month_index // 12
     month_idx = total_month_index % 12  # 0-11
     code = _MONTH_CODES[month_idx]
     yy = str(year)[-2:]
-    return f"{root}{code}{yy}.NYM"
+    return f"{root}{code}{yy}.{exchange_suffix}"
 
 
 def get_seasonality(instrument: str) -> dict:
@@ -100,12 +107,13 @@ def get_term_structure(instrument: str) -> dict:
     from config import YFINANCE_TICKERS
     import yfinance as yf
 
-    root = _DATED_CONTRACT_ROOT.get(instrument)
+    root_info = _DATED_CONTRACT_ROOT.get(instrument)
     front_ticker = YFINANCE_TICKERS.get(instrument)
-    if not root or not front_ticker:
+    if not root_info or not front_ticker:
         return {"instrument": instrument, "error": f"No term-structure mapping for {instrument}"}
+    root, exchange_suffix = root_info
 
-    far_ticker = _dated_futures_ticker(root, months_out=3)
+    far_ticker = _dated_futures_ticker(root, months_out=3, exchange_suffix=exchange_suffix)
     try:
         front_hist = yf.Ticker(front_ticker).history(period="5d")
         far_hist = yf.Ticker(far_ticker).history(period="5d")
@@ -259,7 +267,10 @@ def _brave_search(query: str, count: int, freshness: str) -> dict:
 # spuriously 404 for a symbol with a gap like this even though older data
 # exists, so this deliberately requests a wide 48h window and reports the
 # actual bar's age explicitly (is_stale) rather than assuming freshness.
-_SIFTING_SYMBOLS = {"BRENT_OIL": "UKOUSD", "WTI_OIL": "WTIUSD", "NATURAL_GAS": "NATGAS"}
+_SIFTING_SYMBOLS = {
+    "BRENT_OIL": "UKOUSD", "WTI_OIL": "WTIUSD", "NATURAL_GAS": "NATGAS",
+    "GOLD": "XAUUSD", "SILVER": "XAGUSD",  # both verified live 2026-09-23
+}
 _SIFTING_STALE_THRESHOLD_HOURS = 4.0
 
 
@@ -326,7 +337,11 @@ def _sifting_price_check(instrument: str) -> dict:
 # folded into the SAME get_independent_price_check call as SiftingIO
 # (one combined tool call per instrument) rather than its own separate
 # tool, to avoid burning through the daily cap across repeated ticks.
-_OILPRICEAPI_CODES = {"BRENT_OIL": "BRENT_CRUDE_USD", "WTI_OIL": "WTI_USD", "NATURAL_GAS": "NATURAL_GAS_USD"}
+_OILPRICEAPI_CODES = {
+    "BRENT_OIL": "BRENT_CRUDE_USD", "WTI_OIL": "WTI_USD", "NATURAL_GAS": "NATURAL_GAS_USD",
+    "GOLD": "GOLD_USD", "SILVER": "SILVER_USD",  # both verified live 2026-09-23 -- despite the API's
+    # oil-focused name, it does cover metals.
+}
 
 
 def _oilpriceapi_price_check(instrument: str) -> dict:
@@ -563,6 +578,8 @@ _COT_ENDPOINT = "https://publicreporting.cftc.gov/resource/72hh-3qpy.json"
 _COT_CONTRACT_CODES = {
     "WTI_OIL": ("067651", "WTI-PHYSICAL - NYMEX"),
     "NATURAL_GAS": ("023651", "NATURAL GAS - NYMEX"),
+    "GOLD": ("088691", "GOLD - COMMODITY EXCHANGE INC."),      # verified live 2026-09-23
+    "SILVER": ("084691", "SILVER - COMMODITY EXCHANGE INC."),  # verified live 2026-09-23
 }
 
 

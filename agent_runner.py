@@ -112,11 +112,11 @@ TOOLS = [
     },
     {
         "name": "get_inventory_data",
-        "description": "Get the real weekly EIA inventory print (crude oil commercial stocks for BRENT_OIL/WTI_OIL, natural gas storage for NATURAL_GAS) -- the exact build/draw size vs its trailing 8-week average, not just a news headline saying a report happened. This is usually the single most market-moving weekly data point for these instruments.",
+        "description": "Get the real weekly EIA inventory print (crude oil commercial stocks for BRENT_OIL/WTI_OIL, natural gas storage for NATURAL_GAS) -- the exact build/draw size vs its trailing 8-week average, not just a news headline saying a report happened. This is usually the single most market-moving weekly data point for these instruments. NOT available for GOLD/SILVER (EIA doesn't cover metals) -- use get_positioning_data instead for those.",
         "parameters": {
             "type": "object",
             "properties": {
-                "instrument": {"type": "string", "enum": RESEARCH_INSTRUMENT_KEYS},
+                "instrument": {"type": "string", "enum": ["BRENT_OIL", "WTI_OIL", "NATURAL_GAS"]},
             },
             "required": ["instrument"],
         },
@@ -127,7 +127,7 @@ TOOLS = [
         "parameters": {
             "type": "object",
             "properties": {
-                "instrument": {"type": "string", "enum": ["WTI_OIL", "NATURAL_GAS"]},
+                "instrument": {"type": "string", "enum": ["WTI_OIL", "NATURAL_GAS", "GOLD", "SILVER"]},
             },
             "required": ["instrument"],
         },
@@ -165,8 +165,8 @@ PROPOSE_TRADES_SCHEMA = {
                             "enum": ["OPEN_LONG", "OPEN_SHORT", "CLOSE"],
                             "description": "OPEN_LONG/OPEN_SHORT open a new single-instrument position (rejected if one is already open on that instrument). CLOSE fully closes an existing position on one instrument, whichever direction it is.",
                         },
-                        "instrument": {"type": "string", "enum": ["BRENT_OIL", "NATURAL_GAS", "WTI_OIL"],
-                                       "description": "Required for OPEN_LONG/OPEN_SHORT/CLOSE. Each of the three instruments is decided and traded independently."},
+                        "instrument": {"type": "string", "enum": ["BRENT_OIL", "NATURAL_GAS", "WTI_OIL", "GOLD", "SILVER"],
+                                       "description": "Required for OPEN_LONG/OPEN_SHORT/CLOSE. Each instrument is decided and traded independently."},
                         "allocation_pct": {
                             "type": "number",
                             "minimum": RULES.min_allocation_pct,
@@ -257,8 +257,9 @@ def build_system_prompt(playbook: str) -> str:
         "You also have get_seasonality (deterministic calendar-based demand bias), get_term_structure "
         "(contango/backwardation -- the market's own forward supply/demand expectation, a genuinely "
         "different signal from spot technicals), get_positioning_data (CFTC managed-money "
-        "positioning vs its trailing-year range for WTI/Natural Gas only, not Brent -- extreme crowding "
-        "is a real contrarian signal), and get_weather_demand (real, current heating/cooling degree-day "
+        "positioning vs its trailing-year range for WTI/Natural Gas/Gold/Silver, not Brent (ICE-listed, "
+        "outside CFTC jurisdiction) -- extreme crowding is a real contrarian signal), get_inventory_data "
+        "(weekly EIA print, oil/gas only -- not available for Gold/Silver), and get_weather_demand (real, current heating/cooling degree-day "
         "data for Natural Gas -- prefer this over get_seasonality's static calendar proxy when deciding "
         "on NG, it's the actual current weather driving demand, not just what month it is), and "
         "get_named_market_commentary (searches specifically within investing.com, tradingeconomics.com, "
@@ -419,7 +420,11 @@ def get_agent_trades(playbook: str, portfolio_state: dict, now_str: str) -> tupl
         # and 5 research tools x 3 instruments potentially relevant, 10 was
         # observed live to run out before the agent ever reached
         # propose_trades (logged as AGENT_CALL_FAILED, no decision made at
-        # all that tick -- for every instrument, not just one).
+        # all that tick -- for every instrument, not just one). Now 10
+        # research tools x 5 instruments (Gold/Silver added 2026-09-23) --
+        # watch for AGENT_CALL_FAILED recurring; if it does, this cap likely
+        # needs raising again rather than the persona telling the agent to
+        # research less (the whole point of confluence is genuine research).
         result_json = client.generate(sys_prompt, user_prompt, tools, max_tool_calls=20,
                                        tool_call_tracker=tool_call_log)
     except Exception as e:

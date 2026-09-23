@@ -31,7 +31,7 @@ import yfinance as yf
 logging.basicConfig(level=logging.WARNING)
 logger = logging.getLogger(__name__)
 
-TICKERS = {"BRENT_OIL": "BZ=F", "WTI_OIL": "CL=F", "NATURAL_GAS": "NG=F"}
+TICKERS = {"BRENT_OIL": "BZ=F", "WTI_OIL": "CL=F", "NATURAL_GAS": "NG=F", "GOLD": "GC=F", "SILVER": "SI=F"}
 
 # Matches the real bot's rules firewall shape (RULES in config.py): mandatory
 # stop-loss AND take-profit on every trade, roughly the same order of

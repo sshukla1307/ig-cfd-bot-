@@ -28,9 +28,10 @@ Two independent switches must BOTH be explicitly true for any order to fire:
 
 *** MARGIN SIZING MATH STILL UNVERIFIED AGAINST A REAL FILL ***
 Session/login and epic resolution ARE confirmed working (2026-08-20, demo
-account SNDPM) -- see config.py for the resolved epics. Trades exactly 3
-instruments: Brent Crude Oil, WTI Crude Oil, Natural Gas. Palladium is
-deliberately excluded (no rolling contract available -- see config.py).
+account SNDPM; Gold/Silver epics added 2026-09-23) -- see config.py for the
+resolved epics. Trades 5 instruments: Brent Crude Oil, WTI Crude Oil,
+Natural Gas, Spot Gold, Spot Silver. Palladium is deliberately excluded
+(no rolling contract available -- see config.py).
 
 The margin/leverage sizing math in _compute_position_size uses IG's
 marginFactor + lotSize fields, which is the officially documented mechanism,
