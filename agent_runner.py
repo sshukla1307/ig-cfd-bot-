@@ -61,7 +61,7 @@ TOOLS = [
     },
     {
         "name": "get_independent_price_check",
-        "description": "Get an independent current price and short-term (48h) trend from SiftingIO, a separate multi-venue market data aggregator distinct from the yfinance feed get_technicals uses -- a cross-check for feed staleness/disagreement, not a replacement for get_technicals. Response includes is_stale (True if SiftingIO's own data for this symbol is more than a few hours old).",
+        "description": "Get TWO independent current prices (SiftingIO and OilPriceAPI, both distinct from the yfinance feed get_technicals uses) for a cross-check on feed staleness/disagreement -- not a replacement for get_technicals. Response includes each source's own is_stale flag and, when both are usable, sources_agree (whether the two independent prices are within 1% of each other).",
         "parameters": {
             "type": "object",
             "properties": {
@@ -268,9 +268,10 @@ def build_system_prompt(playbook: str) -> str:
         "get_named_market_commentary (searches specifically within investing.com, tradingeconomics.com, "
         "cmegroup.com, oilprice.com and cnbc.com -- use this alongside or instead of get_commodity_news "
         "when you want commentary from those specific outlets rather than the open web), and "
-        "get_independent_price_check (a second, separate price feed from SiftingIO -- use it as a "
-        "sanity check against get_technicals' price, not a primary signal; if it disagrees sharply or "
-        "comes back is_stale=True, treat that as a data-quality flag rather than a trading signal). "
+        "get_independent_price_check (two more separate price feeds, SiftingIO and OilPriceAPI -- use "
+        "it as a sanity check against get_technicals' price, not a primary signal; if the sources "
+        "disagree sharply or come back is_stale=True, treat that as a data-quality flag rather than a "
+        "trading signal). "
         "Be efficient: you have a limited number of tool calls "
         "per check-in -- don't exhaustively check every tool for every instrument if you're not seriously "
         "considering a trade there. Focus deep research on the 1-2 instruments you're actually weighing, "

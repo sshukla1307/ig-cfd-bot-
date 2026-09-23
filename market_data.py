@@ -263,13 +263,7 @@ _SIFTING_SYMBOLS = {"BRENT_OIL": "UKOUSD", "WTI_OIL": "WTIUSD", "NATURAL_GAS": "
 _SIFTING_STALE_THRESHOLD_HOURS = 4.0
 
 
-def get_independent_price_check(instrument: str) -> dict:
-    """Independent real-time/recent price cross-check via SiftingIO, a
-    separate multi-venue data aggregator from yfinance -- use this to sanity
-    -check the current_price and short-term direction get_technicals already
-    showed you, not to replace it. A large disagreement between the two, or
-    is_stale=True here, is itself useful information (a possible feed
-    problem on one side), not just redundant confirmation."""
+def _sifting_price_check(instrument: str) -> dict:
     api_key = os.getenv("SIFTING_API_KEY")
     if not api_key:
         return {"error": "SIFTING_API_KEY not set. Get one at https://sifting.io"}
@@ -317,8 +311,85 @@ def get_independent_price_check(instrument: str) -> dict:
             "bars_in_window": len(rows),
         }
     except Exception as e:
-        logger.warning(f"get_independent_price_check({instrument}) failed: {e}")
+        logger.warning(f"_sifting_price_check({instrument}) failed: {e}")
         return {"instrument": instrument, "symbol": symbol, "error": str(e)}
+
+
+# OilPriceAPI (oilpriceapi.com) -- a second, INDEPENDENT price source from
+# both yfinance and SiftingIO, added 2026-09-23. Symbols verified live
+# against a real key before writing this: WTI_USD, BRENT_CRUDE_USD,
+# NATURAL_GAS_USD. Unlike SiftingIO, this API reports its own staleness
+# directly (data.stale, data.freshness.age_seconds) and a ready-made 24h %
+# change (data.changes["24h"].percent) -- no need to compute either
+# ourselves. Free plan is capped at 50 requests/day (confirmed in their
+# docs) -- meaningfully tighter than the other sources here, so this is
+# folded into the SAME get_independent_price_check call as SiftingIO
+# (one combined tool call per instrument) rather than its own separate
+# tool, to avoid burning through the daily cap across repeated ticks.
+_OILPRICEAPI_CODES = {"BRENT_OIL": "BRENT_CRUDE_USD", "WTI_OIL": "WTI_USD", "NATURAL_GAS": "NATURAL_GAS_USD"}
+
+
+def _oilpriceapi_price_check(instrument: str) -> dict:
+    api_key = os.getenv("OILPRICEAPI_KEY")
+    if not api_key:
+        return {"error": "OILPRICEAPI_KEY not set. Get one at https://www.oilpriceapi.com"}
+
+    code = _OILPRICEAPI_CODES.get(instrument)
+    if not code:
+        return {"instrument": instrument, "error": f"No OilPriceAPI code mapped for {instrument}"}
+
+    try:
+        with httpx.Client(timeout=15.0) as client:
+            resp = client.get(
+                "https://api.oilpriceapi.com/v1/prices/latest",
+                headers={"Authorization": f"Token {api_key}"},
+                params={"by_code": code},
+            )
+        resp.raise_for_status()
+        data = resp.json().get("data", {})
+        if not data:
+            return {"instrument": instrument, "code": code, "error": "No data returned"}
+
+        change_24h = data.get("changes", {}).get("24h", {})
+        return {
+            "instrument": instrument, "code": code, "source": "OilPriceAPI",
+            "current_price": data.get("price"),
+            "as_of": data.get("as_of"),
+            "is_stale": bool(data.get("stale")),
+            "age_seconds": data.get("freshness", {}).get("age_seconds"),
+            "change_24h_pct": change_24h.get("percent"),
+        }
+    except Exception as e:
+        logger.warning(f"_oilpriceapi_price_check({instrument}) failed: {e}")
+        return {"instrument": instrument, "code": code, "error": str(e)}
+
+
+def get_independent_price_check(instrument: str) -> dict:
+    """Two independent real-time price cross-checks (SiftingIO and
+    OilPriceAPI), neither the same as the yfinance feed get_technicals uses
+    -- use this to sanity-check the price/direction get_technicals already
+    showed you, not to replace it. If both agree closely with each other and
+    with get_technicals, that's a real confidence boost; if any of the three
+    disagree sharply, or either source here reports is_stale=True, treat
+    that as a data-quality flag worth noting, not just redundant
+    confirmation. sources_agree is only set when BOTH sources returned a
+    usable, non-stale price -- absent otherwise rather than guessed at."""
+    sifting = _sifting_price_check(instrument)
+    oilpriceapi = _oilpriceapi_price_check(instrument)
+
+    result = {"instrument": instrument, "sifting_io": sifting, "oilpriceapi": oilpriceapi}
+
+    sifting_price = sifting.get("current_price")
+    oilpriceapi_price = oilpriceapi.get("current_price")
+    if (
+        sifting_price and oilpriceapi_price
+        and not sifting.get("is_stale") and not oilpriceapi.get("is_stale")
+    ):
+        diff_pct = abs(sifting_price - oilpriceapi_price) / oilpriceapi_price * 100
+        result["price_diff_pct"] = round(diff_pct, 3)
+        result["sources_agree"] = diff_pct < 1.0
+
+    return result
 
 
 def get_commodity_news(query: str, count: int = 5, freshness: str = "pd") -> dict:
