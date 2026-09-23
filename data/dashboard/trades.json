@@ -1,5 +1,19 @@
 [
   {
+    "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 11 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-23T10:32:22.140421+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 46 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-23T10:32:22.140153+00:00"
+  },
+  {
     "action": "WTI_MIRROR_OPEN",
     "instrument": "WTI_OIL",
     "direction": "SELL",
@@ -5597,50 +5611,5 @@
     "status": "REJECTED",
     "reason": "Minimum hold time not met: BRENT_OIL has only been open for 21 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "logged_at": "2026-09-22T09:02:50.747563+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 31 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-22T09:02:50.747373+00:00"
-  },
-  {
-    "action": "MARGIN_LIMIT_SYNC",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR7R2ACQA3",
-    "old_limit_level": 9792.126,
-    "new_limit_level": 9791.4866,
-    "stop_level_reaffirmed": 9274.165,
-    "reason": "Position's resting limit didn't match the 1.5%-of-margin target (predates this feature, or drifted) -- amending it on IG directly. stop_level explicitly re-sent unchanged (see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-22T09:02:01.276",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "XB9GVEX9E8NTYNV",
-      "dealId": "DIAAAAR7R2ACQA3",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR7R2ACQA3",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 9762.2,
-      "size": 1.7,
-      "direction": "BUY",
-      "stopLevel": 9274.165,
-      "limitLevel": 9791.486,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-22T09:02:01.523338+00:00"
   }
 ]
