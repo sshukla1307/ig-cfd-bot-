@@ -3,6 +3,98 @@
     "action": "CLOSE",
     "instrument": "BRENT_OIL",
     "status": "REJECTED",
+    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 31 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-23T06:03:16.119873+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 301 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-23T06:03:16.119556+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "BRENT_OIL",
+    "deal_id": "DIAAAAR7X2QJGAK",
+    "old_limit_level": 9594.4914,
+    "new_limit_level": 9595.3286,
+    "old_stop_level": 9481.7086,
+    "new_stop_level": 9481.7086,
+    "reason": "Position's resting stop and/or limit didn't match the 3.0%/3.0%-of-margin targets, or the breakeven ratchet (trigger 1.6%, lock 0.2%) applied -- amending both on IG directly (both always sent together, see incident note above).",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-09-23T05:33:03.776",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "VHSYTYNZ3GNTYNV",
+      "dealId": "DIAAAAR7X2QJGAK",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR7X2QJGAK",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 9538.1,
+      "size": 1.5,
+      "direction": "BUY",
+      "stopLevel": 9481.709,
+      "limitLevel": 9595.328,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-23T05:33:03.957426+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "WTI_OIL",
+    "deal_id": "DIAAAAR7X3TBVAR",
+    "old_limit_level": 8982.2669,
+    "new_limit_level": 8982.9764,
+    "old_stop_level": 8876.5331,
+    "new_stop_level": 8876.5331,
+    "reason": "Position's resting stop and/or limit didn't match the 3.0%/3.0%-of-margin targets, or the breakeven ratchet (trigger 1.6%, lock 0.2%) applied -- amending both on IG directly (both always sent together, see incident note above).",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-09-23T05:33:03.498",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "QR9GVGNESYWTYNV",
+      "dealId": "DIAAAAR7X3TBVAR",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR7X3TBVAR",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 8929.4,
+      "size": 1.6,
+      "direction": "BUY",
+      "stopLevel": 8876.533,
+      "limitLevel": 8982.977,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-23T05:33:03.674061+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
     "reason": "Minimum hold time not met: BRENT_OIL has only been open for 32 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "logged_at": "2026-09-23T05:31:37.593305+00:00"
   },
@@ -4990,165 +5082,5 @@
     "status": "REJECTED",
     "reason": "Invalid action: HOLD",
     "logged_at": "2026-09-22T01:32:03.546508+00:00"
-  },
-  {
-    "action": "MARGIN_LIMIT_SYNC",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR7PVKX7A3",
-    "old_limit_level": 9687.4845,
-    "new_limit_level": 9686.9517,
-    "stop_level_reaffirmed": 10202.16,
-    "reason": "Position's resting limit didn't match the 1.5%-of-margin target (predates this feature, or drifted) -- amending it on IG directly. stop_level explicitly re-sent unchanged (see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-22T00:31:22.563",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "GSSLMBFLKFJTYNV",
-      "dealId": "DIAAAAR7PVKX7A3",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR7PVKX7A3",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 9716.1,
-      "size": 1.8,
-      "direction": "SELL",
-      "stopLevel": 10202.16,
-      "limitLevel": 9686.952,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-22T00:31:22.819970+00:00"
-  },
-  {
-    "action": "MARGIN_LIMIT_SYNC",
-    "instrument": "WTI_OIL",
-    "deal_id": "DIAAAAR7PVMDUA7",
-    "old_limit_level": 9199.9906,
-    "new_limit_level": 9199.4187,
-    "stop_level_reaffirmed": 9688.685,
-    "reason": "Position's resting limit didn't match the 1.5%-of-margin target (predates this feature, or drifted) -- amending it on IG directly. stop_level explicitly re-sent unchanged (see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-22T00:31:22.24",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "H9EN5BKCNXWTYNV",
-      "dealId": "DIAAAAR7PVMDUA7",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR7PVMDUA7",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 9227.1,
-      "size": 1.9,
-      "direction": "SELL",
-      "stopLevel": 9688.685,
-      "limitLevel": 9199.419,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-22T00:31:22.454752+00:00"
-  },
-  {
-    "action": "WTI_MIRROR_OPEN",
-    "instrument": "WTI_OIL",
-    "direction": "SELL",
-    "size": 1.9,
-    "margin_allocated": 3433.86,
-    "effective_leverage": 5.0,
-    "notional": 17540.23,
-    "stop_distance": 461.585,
-    "limit_distance": 27.1094,
-    "reason": "Auto-mirrored from BRENT_OIL: Brent Oil is currently in a flat term structure, indicating no strong forward demand. Additionally, WTI positioning is extremely crowded on the long side, suggesting a contrarian short opportunity. The recent news of potential easing of tensions with Iran could also weigh on prices.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR7PVMDUA7",
-    "raw": {
-      "date": "2026-09-22T00:19:19.875",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "S24ST4JRRUJTYNV",
-      "dealId": "DIAAAAR7PVMDUA7",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR7PVMDUA7",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9227.1,
-      "size": 1.9,
-      "direction": "SELL",
-      "stopLevel": 9688.685,
-      "limitLevel": 9199.99,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-22T00:19:20.011498+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "BRENT_OIL",
-    "direction": "SELL",
-    "size": 1.8,
-    "margin_allocated": 3433.86,
-    "effective_leverage": 5.0,
-    "notional": 17498.16,
-    "stop_distance": 486.06,
-    "limit_distance": 28.6155,
-    "reason": "Brent Oil is currently in a flat term structure, indicating no strong forward demand. Additionally, WTI positioning is extremely crowded on the long side, suggesting a contrarian short opportunity. The recent news of potential easing of tensions with Iran could also weigh on prices.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR7PVKX7A3",
-    "raw": {
-      "date": "2026-09-22T00:19:19.664",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "REFAG2X888JTYNV",
-      "dealId": "DIAAAAR7PVKX7A3",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR7PVKX7A3",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9716.1,
-      "size": 1.8,
-      "direction": "SELL",
-      "stopLevel": 10202.16,
-      "limitLevel": 9687.484,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-22T00:19:19.802253+00:00"
   }
 ]
