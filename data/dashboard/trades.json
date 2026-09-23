@@ -1,6 +1,56 @@
 [
   {
     "action": "OPEN_SHORT",
+    "instrument": "BRENT_OIL",
+    "direction": "SELL",
+    "size": 1.4,
+    "margin_allocated": 2793.78,
+    "effective_leverage": 5.0,
+    "notional": 13857.76,
+    "stop_distance": 59.8667,
+    "limit_distance": 59.8667,
+    "confluence_detail": "get_term_structure agrees with bearish",
+    "reason": "Brent oil is in contango, indicating ample supply, and recent news suggests a retreat in prices due to unwinding geopolitical risk premiums. The technicals show a neutral RSI, but the contango and news sentiment support a short position.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR75BDGXAL",
+    "raw": {
+      "date": "2026-09-23T19:01:33.631",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "7G66J2VYH4ETYNV",
+      "dealId": "DIAAAAR75BDGXAL",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR75BDGXAL",
+          "status": "OPENED"
+        }
+      ],
+      "level": 9891.1,
+      "size": 1.4,
+      "direction": "SELL",
+      "stopLevel": 9950.967,
+      "limitLevel": 9831.233,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-23T19:01:33.814921+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "WTI_OIL",
+    "status": "REJECTED",
+    "reason": "Confluence requirement not met: WTI_OIL's independent signal(s) checked this tick (get_term_structure=bullish) do not support a bearish thesis -- a technical read alone, or signals pointing the other way, aren't enough to open",
+    "logged_at": "2026-09-23T19:01:33.484645+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
     "instrument": "NATURAL_GAS",
     "direction": "SELL",
     "size": 4.44,
@@ -5048,89 +5098,5 @@
     "status": "REJECTED",
     "reason": "This trade's margin ($3088.22) would leave available at $3088.24, below the 30.0% safety buffer of balance $12352.90 -- rejected to avoid risking a forced closure on this or other open positions",
     "logged_at": "2026-09-22T16:57:58.269826+00:00"
-  },
-  {
-    "action": "WTI_MIRROR_OPEN",
-    "instrument": "WTI_OIL",
-    "direction": "SELL",
-    "size": 1.7,
-    "margin_allocated": 3088.22,
-    "effective_leverage": 5.0,
-    "notional": 15531.54,
-    "stop_distance": 63.581,
-    "limit_distance": 27.249,
-    "reason": "Auto-mirrored from BRENT_OIL: Brent oil is currently trading at $100.13, below its recent highs and showing a short-term bearish trend with the SMA-20 above SMA-50. The RSI is neutral at 59.5, and recent news indicates a focus on diplomatic efforts to de-escalate the US-Iran conflict, which could lead to a decrease in geopolitical risk premium. Additionally, the shoulder season provides no strong seasonal demand driver, supporting a bearish outlook.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR7VTVY2AV",
-    "raw": {
-      "date": "2026-09-22T16:57:58.072",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "FLSYYCNUQYNTYNV",
-      "dealId": "DIAAAAR7VTVY2AV",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR7VTVY2AV",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9132.7,
-      "size": 1.7,
-      "direction": "SELL",
-      "stopLevel": 9196.281,
-      "limitLevel": 9105.451,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-22T16:57:58.269395+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "BRENT_OIL",
-    "direction": "SELL",
-    "size": 1.6,
-    "margin_allocated": 3088.22,
-    "effective_leverage": 5.0,
-    "notional": 15493.44,
-    "stop_distance": 67.5548,
-    "limit_distance": 28.9521,
-    "reason": "Brent oil is currently trading at $100.13, below its recent highs and showing a short-term bearish trend with the SMA-20 above SMA-50. The RSI is neutral at 59.5, and recent news indicates a focus on diplomatic efforts to de-escalate the US-Iran conflict, which could lead to a decrease in geopolitical risk premium. Additionally, the shoulder season provides no strong seasonal demand driver, supporting a bearish outlook.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR7VT6KMA8",
-    "raw": {
-      "date": "2026-09-22T16:57:57.845",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "MW4RL79VD96TYNV",
-      "dealId": "DIAAAAR7VT6KMA8",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR7VT6KMA8",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9679.9,
-      "size": 1.6,
-      "direction": "SELL",
-      "stopLevel": 9747.455,
-      "limitLevel": 9650.948,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-22T16:57:57.994602+00:00"
   }
 ]
