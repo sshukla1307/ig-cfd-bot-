@@ -3,6 +3,20 @@
     "action": "CLOSE",
     "instrument": "BRENT_OIL",
     "status": "REJECTED",
+    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 16 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-23T11:31:39.618927+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 29 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-23T11:31:39.618561+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
     "reason": "Minimum hold time not met: BRENT_OIL has only been open for 14 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "logged_at": "2026-09-23T11:29:32.814845+00:00"
   },
@@ -5460,89 +5474,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-22T09:58:18.863457+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "BRENT_OIL",
-    "direction": "SELL",
-    "size": 1.7,
-    "margin_allocated": 3223.11,
-    "effective_leverage": 5.0,
-    "notional": 16280.73,
-    "stop_distance": 30.3352,
-    "limit_distance": 28.4392,
-    "reason": "Brent Oil is currently in backwardation, indicating tight supply, but the recent news of potential talks between the US and Iran has led to a significant drop in prices. Additionally, WTI positioning is extremely crowded on the long side, suggesting a contrarian bearish signal. The technicals show a short-term bullish trend, but the macro and news catalysts suggest a potential for further downside.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR7SP9M7AH",
-    "raw": {
-      "date": "2026-09-22T09:58:18.423",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "4B26LH826PNTYNV",
-      "dealId": "DIAAAAR7SP9M7AH",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR7SP9M7AH",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9546.5,
-      "size": 1.7,
-      "direction": "SELL",
-      "stopLevel": 9576.835,
-      "limitLevel": 9518.061,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-22T09:58:18.587363+00:00"
-  },
-  {
-    "action": "WTI_MIRROR_OPEN",
-    "instrument": "WTI_OIL",
-    "direction": "BUY",
-    "size": 1.8,
-    "margin_allocated": 3249.86,
-    "effective_leverage": 5.0,
-    "notional": 16367.22,
-    "stop_distance": 28.8876,
-    "limit_distance": 27.0822,
-    "reason": "Auto-mirrored from BRENT_OIL: Brent Oil is in a short-term bullish trend with SMA-20 above SMA-50 and RSI at 58.5, indicating potential for further upside. The market is in backwardation, signaling tight supply, which supports a bullish outlook. Despite recent price declines, the fundamental supply constraints and technical indicators suggest a potential rebound.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR7SH576AC",
-    "raw": {
-      "date": "2026-09-22T09:37:20.728",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "2MBN4VYQ3CATYNV",
-      "dealId": "DIAAAAR7SH576AC",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR7SH576AC",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9084.7,
-      "size": 1.8,
-      "direction": "BUY",
-      "stopLevel": 9055.8125,
-      "limitLevel": 9111.782,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-22T09:37:20.910508+00:00"
   }
 ]
