@@ -1,5 +1,44 @@
 [
   {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "WTI_OIL",
+    "deal_id": "DIAAAAR7YLCLKAE",
+    "old_limit_level": 8933.7218,
+    "new_limit_level": 8933.4756,
+    "old_stop_level": 9041.0782,
+    "new_stop_level": 8983.805,
+    "reason": "Position's resting stop and/or limit didn't match the 3.0%/3.0%-of-margin targets, or the breakeven ratchet (trigger 1.6%, lock 0.2%) applied -- amending both on IG directly (both always sent together, see incident note above).",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-09-23T07:31:32.635",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "UV6F9EDMB32TYNV",
+      "dealId": "DIAAAAR7YLCLKAE",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR7YLCLKAE",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 8987.4,
+      "size": 1.6,
+      "direction": "SELL",
+      "stopLevel": 8983.805,
+      "limitLevel": 8933.476,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-23T07:31:32.788426+00:00"
+  },
+  {
     "action": "WTI_MIRROR_OPEN",
     "instrument": "WTI_OIL",
     "direction": "SELL",
@@ -5209,12 +5248,5 @@
     "status": "REJECTED",
     "reason": "Invalid action: HOLD",
     "logged_at": "2026-09-22T03:32:05.111704+00:00"
-  },
-  {
-    "action": "HOLD",
-    "instrument": "",
-    "status": "REJECTED",
-    "reason": "Invalid action: HOLD",
-    "logged_at": "2026-09-22T03:02:19.622790+00:00"
   }
 ]
