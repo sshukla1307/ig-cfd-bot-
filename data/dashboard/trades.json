@@ -1,5 +1,55 @@
 [
   {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
+    "logged_at": "2026-09-23T18:45:41.492255+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "WTI_OIL",
+    "direction": "SELL",
+    "size": 1.5,
+    "margin_allocated": 2781.7,
+    "effective_leverage": 5.0,
+    "notional": 13870.35,
+    "stop_distance": 55.634,
+    "limit_distance": 55.634,
+    "confluence_detail": "get_positioning_data agrees with bearish",
+    "reason": "WTI is currently overbought with an RSI of 74.9, indicating a potential pullback. The term structure shows backwardation, suggesting tight supply, but the managed-money positioning is at a multi-month extreme net-long, which is a contrarian bearish signal. Additionally, recent news suggests a potential easing of supply constraints with talks involving Iran, which could further pressure prices downward.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR749KSHAQ",
+    "raw": {
+      "date": "2026-09-23T18:45:41.335",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "SANH8U2G6B2TYNV",
+      "dealId": "DIAAAAR749KSHAQ",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR749KSHAQ",
+          "status": "OPENED"
+        }
+      ],
+      "level": 9244.0,
+      "size": 1.5,
+      "direction": "SELL",
+      "stopLevel": 9299.634,
+      "limitLevel": 9188.366,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-23T18:45:41.491886+00:00"
+  },
+  {
     "action": "WTI_MIRROR_OPEN",
     "instrument": "WTI_OIL",
     "direction": "BUY",
@@ -5042,17 +5092,5 @@
     "status": "ERROR",
     "reason": "LLM call crashed (openai): Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}",
     "logged_at": "2026-09-22T15:34:12.260544+00:00"
-  },
-  {
-    "action": "AGENT_CALL_FAILED",
-    "status": "ERROR",
-    "reason": "LLM call crashed (openai): Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}",
-    "logged_at": "2026-09-22T15:31:36.260813+00:00"
-  },
-  {
-    "action": "AGENT_CALL_FAILED",
-    "status": "ERROR",
-    "reason": "LLM call crashed (openai): Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}",
-    "logged_at": "2026-09-22T15:02:30.994486+00:00"
   }
 ]
