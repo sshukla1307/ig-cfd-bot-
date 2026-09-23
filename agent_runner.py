@@ -28,17 +28,18 @@ logger = logging.getLogger(__name__)
 # and always rejected, which would just waste tool-call budget each tick.
 INSTRUMENT_KEYS = [key for key, inst in INSTRUMENTS.items() if inst.epic]
 
-# WTI_OIL is deliberately excluded here: per explicit user request, WTI no
-# longer gets independent research or an independent trading decision -- it's
-# now a pure auto-mirror of BRENT_OIL (see cfd_runner.py's mirroring logic).
-# No point spending tool-call budget on WTI's own technicals/seasonality/term
-# structure when its direction and size are dictated entirely by Brent.
-RESEARCH_INSTRUMENT_KEYS = [k for k in INSTRUMENT_KEYS if k != "WTI_OIL"]
+# WTI_OIL traded as a pure auto-mirror of BRENT_OIL for a while (no
+# independent research) -- reverted 2026-09-23 per explicit request, so
+# every instrument with a resolved epic gets full independent research
+# again. Kept as its own name (rather than inlining INSTRUMENT_KEYS
+# everywhere below) in case an instrument is ever added that has an epic
+# but shouldn't be independently researched for some other reason.
+RESEARCH_INSTRUMENT_KEYS = list(INSTRUMENT_KEYS)
 
 TOOLS = [
     {
         "name": "get_technicals",
-        "description": "Get RSI-14, SMA-20/50, and recent price history for an instrument. WTI_OIL is not offered here -- it's an auto-mirror of BRENT_OIL, not independently researched.",
+        "description": "Get RSI-14, SMA-20/50, and recent price history for an instrument.",
         "parameters": {
             "type": "object",
             "properties": {
@@ -89,7 +90,7 @@ TOOLS = [
     },
     {
         "name": "get_seasonality",
-        "description": "Get the calendar-based seasonal demand bias for an instrument (e.g. NG winter heating withdrawal season vs summer injection season). Deterministic, always available. WTI_OIL is not offered here -- it's an auto-mirror of BRENT_OIL.",
+        "description": "Get the calendar-based seasonal demand bias for an instrument (e.g. NG winter heating withdrawal season vs summer injection season). Deterministic, always available.",
         "parameters": {
             "type": "object",
             "properties": {
@@ -100,7 +101,7 @@ TOOLS = [
     },
     {
         "name": "get_term_structure",
-        "description": "Get the futures term structure (contango vs backwardation) for an instrument -- compares the near-month price to a dated contract ~3 months out. Reflects the market's own forward supply/demand expectation, a different signal from spot technicals. WTI_OIL is not offered here -- it's an auto-mirror of BRENT_OIL.",
+        "description": "Get the futures term structure (contango vs backwardation) for an instrument -- compares the near-month price to a dated contract ~3 months out. Reflects the market's own forward supply/demand expectation, a different signal from spot technicals.",
         "parameters": {
             "type": "object",
             "properties": {
@@ -162,15 +163,15 @@ PROPOSE_TRADES_SCHEMA = {
                         "action": {
                             "type": "string",
                             "enum": ["OPEN_LONG", "OPEN_SHORT", "CLOSE"],
-                            "description": "OPEN_LONG/OPEN_SHORT open a new single-instrument position (rejected if one is already open on that instrument, and rejected outright for WTI_OIL -- see the WTI mirroring rule). CLOSE fully closes an existing position on one instrument, whichever direction it is.",
+                            "description": "OPEN_LONG/OPEN_SHORT open a new single-instrument position (rejected if one is already open on that instrument). CLOSE fully closes an existing position on one instrument, whichever direction it is.",
                         },
                         "instrument": {"type": "string", "enum": ["BRENT_OIL", "NATURAL_GAS", "WTI_OIL"],
-                                       "description": "Required for OPEN_LONG/OPEN_SHORT/CLOSE. Only propose OPEN_LONG/OPEN_SHORT on BRENT_OIL or NATURAL_GAS -- WTI_OIL positions are opened/closed automatically as a mirror of BRENT_OIL, never propose them directly (CLOSE on WTI_OIL will just be rejected as unnecessary since the mirror handles it)."},
+                                       "description": "Required for OPEN_LONG/OPEN_SHORT/CLOSE. Each of the three instruments is decided and traded independently."},
                         "allocation_pct": {
                             "type": "number",
                             "minimum": RULES.min_allocation_pct,
                             "maximum": RULES.max_allocation_pct,
-                            "description": "For OPEN_LONG/OPEN_SHORT: % of account equity to allocate as margin for BRENT_OIL/NATURAL_GAS. When you open BRENT_OIL, the exact same allocation_pct is automatically mirrored onto WTI_OIL too.",
+                            "description": "For OPEN_LONG/OPEN_SHORT: % of account equity to allocate as margin for this instrument.",
                         },
                         "stop_loss_pct": {
                             "type": "number",
@@ -198,19 +199,14 @@ def build_system_prompt(playbook: str) -> str:
     prompt = f"YOU ARE A LIVE IG CFD TRADING AGENT.\n\n"
     prompt += "=== SYSTEM RULES (enforced by code, not by you) ===\n"
     prompt += f"- Position sizing: {RULES.min_allocation_pct}-{RULES.max_allocation_pct}% of account equity (as margin) per position\n"
-    prompt += f"- Max {RULES.max_positions} concurrent positions (one per instrument, {RULES.max_positions} instruments total). A Brent open uses 2 of these 3 slots (Brent + its WTI mirror).\n"
+    prompt += f"- Max {RULES.max_positions} concurrent positions (one per instrument, {RULES.max_positions} instruments total).\n"
     prompt += f"- Hard leverage cap: {RULES.max_leverage_multiple}x notional exposure per unit of margin allocated, regardless of what IG's own margin factor for the instrument would otherwise permit\n"
     prompt += "- Every OPEN_LONG/OPEN_SHORT MUST include both stop_loss_pct and take_profit_pct -- both mandatory, no exceptions\n"
     prompt += (
-        "- WTI_OIL IS A PURE MIRROR OF BRENT_OIL, not an independently-traded instrument anymore. "
-        "You only ever decide on BRENT_OIL and NATURAL_GAS. Whenever you OPEN_LONG or OPEN_SHORT "
-        "BRENT_OIL, the exact same direction and allocation_pct is automatically opened on WTI_OIL "
-        "too, atomically -- if the WTI leg fails after Brent already opened, Brent is immediately "
-        "closed back out rather than leaving you with an unintended naked Brent-only position. When "
-        "you CLOSE BRENT_OIL, its WTI mirror is closed automatically at the same time. Never propose "
-        "OPEN_LONG/OPEN_SHORT/CLOSE on WTI_OIL yourself -- it will simply be rejected. Don't research "
-        "WTI's own technicals/term structure either; its direction and size are fully determined by "
-        "your Brent decision, not by anything WTI-specific.\n"
+        "- BRENT_OIL, WTI_OIL and NATURAL_GAS are each decided and traded fully independently -- "
+        "there is no mirroring between any of them. Research and propose trades on each instrument "
+        "on its own merits; see your house style below for how their default strategy leans differ "
+        "(WTI in particular does NOT get the same default technical lean Brent and NG do).\n"
     )
     prompt += f"- If available margin drops below {RULES.margin_safety_buffer_pct}% of account balance, ALL new opens are blocked account-wide until it recovers\n"
     if RULES.require_confluence:
