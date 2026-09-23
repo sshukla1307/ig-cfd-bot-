@@ -1,5 +1,96 @@
 [
   {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "This trade's margin ($2821.56) would leave available at $2821.55, below the 30.0% safety buffer of balance $11286.23 -- rejected to avoid risking a forced closure on this or other open positions",
+    "logged_at": "2026-09-23T13:29:37.182906+00:00"
+  },
+  {
+    "action": "WTI_MIRROR_OPEN",
+    "instrument": "WTI_OIL",
+    "direction": "SELL",
+    "size": 1.5,
+    "margin_allocated": 2821.56,
+    "effective_leverage": 5.0,
+    "notional": 13662.6,
+    "stop_distance": 56.4312,
+    "limit_distance": 56.4312,
+    "reason": "Auto-mirrored from BRENT_OIL: Brent Oil is currently experiencing a retreat due to geopolitical risk premium unwinding, with credible diplomatic signals from the US-Iran situation. The technicals show a short-term bearish trend with the current price below the SMA-20. Additionally, WTI positioning is extremely crowded on the long side, which is a contrarian bearish signal. The term structure is flat, indicating no strong forward demand expectations.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR72JNXKAB",
+    "raw": {
+      "date": "2026-09-23T13:29:36.968",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "VRYRXCJCJ5ATYNV",
+      "dealId": "DIAAAAR72JNXKAB",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR72JNXKAB",
+          "status": "OPENED"
+        }
+      ],
+      "level": 9119.7,
+      "size": 1.5,
+      "direction": "SELL",
+      "stopLevel": 9176.131,
+      "limitLevel": 9063.269,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-23T13:29:37.182303+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "BRENT_OIL",
+    "direction": "SELL",
+    "size": 1.5,
+    "margin_allocated": 2821.56,
+    "effective_leverage": 5.0,
+    "notional": 14571.3,
+    "stop_distance": 56.4312,
+    "limit_distance": 56.4312,
+    "reason": "Brent Oil is currently experiencing a retreat due to geopolitical risk premium unwinding, with credible diplomatic signals from the US-Iran situation. The technicals show a short-term bearish trend with the current price below the SMA-20. Additionally, WTI positioning is extremely crowded on the long side, which is a contrarian bearish signal. The term structure is flat, indicating no strong forward demand expectations.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR72JQ4SAM",
+    "raw": {
+      "date": "2026-09-23T13:29:36.607",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "D4K9MAY4CQWTYNV",
+      "dealId": "DIAAAAR72JQ4SAM",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR72JQ4SAM",
+          "status": "OPENED"
+        }
+      ],
+      "level": 9729.2,
+      "size": 1.5,
+      "direction": "SELL",
+      "stopLevel": 9785.631,
+      "limitLevel": 9672.769,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-23T13:29:36.871480+00:00"
+  },
+  {
     "action": "HOLD",
     "instrument": "",
     "status": "REJECTED",
@@ -5301,84 +5392,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-22T12:11:41.631038+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "NATURAL_GAS",
-    "direction": "BUY",
-    "size": 5.2,
-    "margin_allocated": 3127.99,
-    "effective_leverage": 5.0,
-    "notional": 15522.0,
-    "stop_distance": 9.6246,
-    "limit_distance": 9.023,
-    "reason": "ATTACHED_ORDER_LEVEL_ERROR",
-    "status": "rejected",
-    "raw": {
-      "date": "2026-09-22T12:09:21.093",
-      "status": null,
-      "reason": "ATTACHED_ORDER_LEVEL_ERROR",
-      "dealStatus": "REJECTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": null,
-      "dealReference": "CZXGJYSQ7GNTYNV",
-      "dealId": "DIAAAAR7TET8FAA",
-      "affectedDeals": [],
-      "level": null,
-      "size": null,
-      "direction": "BUY",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-22T12:09:21.305295+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 37 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-22T12:09:21.018175+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "direction": "SELL",
-    "size": 5.3,
-    "margin_allocated": 3140.45,
-    "effective_leverage": 5.0,
-    "notional": 15767.5,
-    "stop_distance": 9.4806,
-    "limit_distance": 8.8881,
-    "reason": "ATTACHED_ORDER_LEVEL_ERROR",
-    "status": "rejected",
-    "raw": {
-      "date": "2026-09-22T12:02:47.537",
-      "status": null,
-      "reason": "ATTACHED_ORDER_LEVEL_ERROR",
-      "dealStatus": "REJECTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": null,
-      "dealReference": "TB57CKDJKA2TYNV",
-      "dealId": "DIAAAAR7TDX39AD",
-      "affectedDeals": [],
-      "level": null,
-      "size": null,
-      "direction": "SELL",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-22T12:02:47.770526+00:00"
   }
 ]
