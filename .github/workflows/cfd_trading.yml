@@ -98,11 +98,23 @@ jobs:
         # taking that commit with it. This does the same fetch+rebase+retry a
         # human operator would do by hand on a rejected push, instead of
         # giving up after one attempt.
+        #
+        # A real workflow_dispatch-vs-watch race (2026-09-23) showed the
+        # rebase itself can still hit a conflict, and the original version of
+        # this step just aborted -- losing that tick's audit commit, exactly
+        # what this step exists to prevent. Every conflict data/ can actually
+        # produce is one of two harmless kinds (data/order_log.jsonl and
+        # data/equity_history.jsonl are pure append-only logs; data/dashboard/
+        # *.json are fully-regenerated snapshots, never real history), so
+        # resolve_data_conflicts.py auto-resolves those specifically before
+        # falling back to the same abort-rather-than-guess behavior for
+        # anything else.
         env:
           GIT_AUTHOR_NAME: github-actions[bot]
           GIT_AUTHOR_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
           GIT_COMMITTER_NAME: github-actions[bot]
           GIT_COMMITTER_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
+          GIT_EDITOR: "true"  # non-interactive `git rebase --continue` after auto-resolving conflicts below
         run: |
           set -e
           COMMIT_MSG="Live CFD tick: ${{ github.event.schedule || github.event.action || github.event_name }}"
@@ -121,10 +133,17 @@ jobs:
             fi
             echo "Push rejected on attempt $attempt/5 -- fetching and rebasing onto the latest origin/main before retrying."
             git fetch origin main
-            if ! git rebase origin/main; then
-              echo "Rebase onto origin/main failed (real conflict, not just a race) -- aborting rather than force through a bad state."
-              git rebase --abort || true
-              exit 1
+            if git rebase origin/main; then
+              echo "Rebase succeeded cleanly."
+            else
+              echo "Rebase hit conflicts -- attempting automatic resolution of known-safe data files (append-only logs, regenerated dashboard snapshots) before giving up."
+              if python3 resolve_data_conflicts.py && git rebase --continue; then
+                echo "Conflicts were all known-safe data files -- auto-resolved and rebase continued."
+              else
+                echo "Rebase onto origin/main failed with a real, unresolvable conflict -- aborting rather than force through a bad state."
+                git rebase --abort || true
+                exit 1
+              fi
             fi
             sleep $((attempt * 2))
           done
