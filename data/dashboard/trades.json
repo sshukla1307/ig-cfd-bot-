@@ -1,5 +1,58 @@
 [
   {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 32 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-23T19:31:57.210120+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 30 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-23T19:31:57.209790+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "BRENT_OIL",
+    "deal_id": "DIAAAAR75BDGXAL",
+    "old_limit_level": 9831.2333,
+    "new_limit_level": 9831.7534,
+    "old_stop_level": 9950.9667,
+    "new_stop_level": 9950.4466,
+    "reason": "Position's resting stop and/or limit didn't match the 3.0%/3.0%-of-margin targets, or the breakeven ratchet (trigger 1.6%, lock 1.4%) applied -- amending both on IG directly (both always sent together, see incident note above).",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-09-23T19:02:04.727",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "ZM9XNYY6TBJTYNV",
+      "dealId": "DIAAAAR75BDGXAL",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR75BDGXAL",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 9891.1,
+      "size": 1.4,
+      "direction": "SELL",
+      "stopLevel": 9950.446,
+      "limitLevel": 9831.753,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-23T19:02:04.952503+00:00"
+  },
+  {
     "action": "OPEN_SHORT",
     "instrument": "BRENT_OIL",
     "direction": "SELL",
@@ -5007,96 +5060,5 @@
     "status": "REJECTED",
     "reason": "This trade's margin ($3096.09) would leave available at $3096.10, below the 30.0% safety buffer of balance $12384.37 -- rejected to avoid risking a forced closure on this or other open positions",
     "logged_at": "2026-09-22T17:05:29.003408+00:00"
-  },
-  {
-    "action": "WTI_MIRROR_OPEN",
-    "instrument": "WTI_OIL",
-    "direction": "SELL",
-    "size": 1.7,
-    "margin_allocated": 3096.09,
-    "effective_leverage": 5.0,
-    "notional": 15497.37,
-    "stop_distance": 63.743,
-    "limit_distance": 30.9609,
-    "reason": "Auto-mirrored from BRENT_OIL: Brent oil is currently trading above its 20-day and 50-day SMAs, indicating a short-term bullish trend. However, recent news suggests internal strains within OPEC+ and a significant drop in crude oil prices recently, which could lead to a bearish correction. The RSI is neutral, providing room for a downward move. Given these factors, a short position is warranted to capitalize on potential downside.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR7VUTA6AL",
-    "raw": {
-      "date": "2026-09-22T17:05:28.753",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "KKERF6A6WRATYNV",
-      "dealId": "DIAAAAR7VUTA6AL",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR7VUTA6AL",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9114.9,
-      "size": 1.7,
-      "direction": "SELL",
-      "stopLevel": 9178.643,
-      "limitLevel": 9083.939,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-22T17:05:29.003162+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "BRENT_OIL",
-    "direction": "SELL",
-    "size": 1.6,
-    "margin_allocated": 3096.09,
-    "effective_leverage": 5.0,
-    "notional": 15457.6,
-    "stop_distance": 67.727,
-    "limit_distance": 32.896,
-    "reason": "Brent oil is currently trading above its 20-day and 50-day SMAs, indicating a short-term bullish trend. However, recent news suggests internal strains within OPEC+ and a significant drop in crude oil prices recently, which could lead to a bearish correction. The RSI is neutral, providing room for a downward move. Given these factors, a short position is warranted to capitalize on potential downside.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR7VU7NSAN",
-    "raw": {
-      "date": "2026-09-22T17:05:28.407",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "PVGG3DTY3QJTYNV",
-      "dealId": "DIAAAAR7VU7NSAN",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR7VU7NSAN",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9661.2,
-      "size": 1.6,
-      "direction": "SELL",
-      "stopLevel": 9728.927,
-      "limitLevel": 9628.304,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-22T17:05:28.612373+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "This trade's margin ($3088.22) would leave available at $3088.24, below the 30.0% safety buffer of balance $12352.90 -- rejected to avoid risking a forced closure on this or other open positions",
-    "logged_at": "2026-09-22T16:57:58.269826+00:00"
   }
 ]
