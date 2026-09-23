@@ -141,12 +141,22 @@ def get_term_structure(instrument: str) -> dict:
 
 
 def get_technicals(yf_ticker: str) -> dict:
-    """RSI-14, SMA-20/50, and recent price action for a continuous futures ticker."""
+    """RSI-14, SMA-20/50, and recent price action for a continuous futures
+    ticker, computed on HOURLY bars. Deliberately NOT daily bars: the
+    trend-following (Brent) / mean-reversion (NG) edge this account trades
+    on was validated by backtest.py against 2 years of HOURLY data (see
+    config.py's PERSONA_PROMPT), and the live tick cadence itself is hourly
+    (RULES.min_tick_interval_minutes). A daily RSI-14/SMA-20/50 measures a
+    materially different, multi-week momentum/reversion state than what was
+    actually backtested -- feeding the live agent a different indicator than
+    the one its own strategy was validated on. 60 days of 1h bars gives a
+    stable RSI-14/SMA-50 while staying well inside yfinance's 730-day cap
+    for intraday intervals."""
     try:
         import yfinance as yf
         import pandas as pd
 
-        hist = yf.Ticker(yf_ticker).history(period="6mo")
+        hist = yf.Ticker(yf_ticker).history(period="60d", interval="1h")
         if hist.empty:
             return {"ticker": yf_ticker, "error": "No price history returned"}
 
@@ -164,7 +174,7 @@ def get_technicals(yf_ticker: str) -> dict:
         recent = hist.tail(10)
         price_history = [
             {
-                "date": idx.strftime("%Y-%m-%d"),
+                "time": idx.strftime("%Y-%m-%d %H:%M"),
                 "open": round(float(r["Open"]), 4),
                 "high": round(float(r["High"]), 4),
                 "low": round(float(r["Low"]), 4),
@@ -176,23 +186,24 @@ def get_technicals(yf_ticker: str) -> dict:
 
         signals = []
         if sma_20 and sma_50:
-            signals.append("SMA-20 above SMA-50 (short-term bullish)" if sma_20 > sma_50
-                            else "SMA-20 below SMA-50 (short-term bearish)")
+            signals.append("SMA-20 above SMA-50 on hourly bars (short-term bullish)" if sma_20 > sma_50
+                            else "SMA-20 below SMA-50 on hourly bars (short-term bearish)")
         if rsi_14:
             if rsi_14 > 70:
-                signals.append(f"RSI {rsi_14:.1f} — overbought")
+                signals.append(f"Hourly RSI {rsi_14:.1f} — overbought")
             elif rsi_14 < 30:
-                signals.append(f"RSI {rsi_14:.1f} — oversold")
+                signals.append(f"Hourly RSI {rsi_14:.1f} — oversold")
             else:
-                signals.append(f"RSI {rsi_14:.1f} — neutral")
+                signals.append(f"Hourly RSI {rsi_14:.1f} — neutral")
 
         return {
             "ticker": yf_ticker,
+            "timeframe": "1h bars, last 60 days -- matches the backtest's validated timeframe, not daily bars",
             "current_price": round(current_price, 4),
             "sma_20": round(sma_20, 4) if sma_20 else None,
             "sma_50": round(sma_50, 4) if sma_50 else None,
             "rsi_14": round(rsi_14, 1) if rsi_14 else None,
-            "price_history_last_10d": price_history,
+            "price_history_last_10_bars": price_history,
             "signals": signals,
         }
     except Exception as e:
@@ -257,53 +268,86 @@ def get_macro() -> dict:
         return {"error": str(e)}
 
 
-# FRED series IDs for weekly EIA inventory data. WCESTUS1 (crude oil ending
-# stocks) is a well-established, frequently-cited FRED series. The natural
-# gas storage series ID here has NOT been verified against a live FRED key
-# (no key available in this environment) -- if it's wrong, this fails
-# gracefully (same try/except pattern as get_macro) and just returns an
-# "error" field the agent can see, it will not crash the tick. Treat this
-# the same as the margin-sizing-math disclaimer elsewhere in this repo:
-# confirm against a real key before trusting it blindly.
-_INVENTORY_SERIES = {
-    "BRENT_OIL": ("WCESTUS1", "U.S. Ending Stocks of Crude Oil (thousand barrels)"),
-    "WTI_OIL": ("WCESTUS1", "U.S. Ending Stocks of Crude Oil (thousand barrels)"),
-    "NATURAL_GAS": ("NGWSTUS", "U.S. Natural Gas Storage (billion cubic feet) -- UNVERIFIED series ID"),
+# EIA's own API (api.eia.gov/v2), NOT FRED -- confirmed live in production
+# that FRED simply doesn't carry weekly EIA petroleum/natural-gas inventory
+# series at all (every FRED-based call failed with "the series does not
+# exist"). Both routes/facets below were curl-verified directly against a
+# real EIA key before writing this:
+#   - Crude (Brent + WTI both trade off the same US commercial crude stock
+#     print -- there's no separate "Brent inventory", it's a global-priced
+#     benchmark): /v2/petroleum/stoc/wstk/data/, product=EPC0 (Crude Oil),
+#     duoarea=NUS (U.S.), process=SAX (Ending Stocks Excluding SPR) --
+#     series WCESTUS1, the actual headline "commercial crude stocks" number
+#     the weekly EIA report moves markets on (process=SAE would include the
+#     Strategic Petroleum Reserve, which isn't the market-moving figure).
+#   - Natural gas: /v2/natural-gas/stor/wkly/data/, duoarea=R48 (Lower 48
+#     States), process=SWO (Underground Storage - Working Gas) -- series
+#     NW2_EPG0_SWO_R48_BCF, the headline weekly storage print.
+_EIA_INVENTORY_CONFIG = {
+    "BRENT_OIL": {
+        "url": "https://api.eia.gov/v2/petroleum/stoc/wstk/data/",
+        "facets": {"product": "EPC0", "duoarea": "NUS", "process": "SAX"},
+        "label": "U.S. Commercial Crude Oil Stocks Excluding SPR (thousand barrels)",
+        "units": "MBBL",
+    },
+    "WTI_OIL": {
+        "url": "https://api.eia.gov/v2/petroleum/stoc/wstk/data/",
+        "facets": {"product": "EPC0", "duoarea": "NUS", "process": "SAX"},
+        "label": "U.S. Commercial Crude Oil Stocks Excluding SPR (thousand barrels)",
+        "units": "MBBL",
+    },
+    "NATURAL_GAS": {
+        "url": "https://api.eia.gov/v2/natural-gas/stor/wkly/data/",
+        "facets": {"duoarea": "R48", "process": "SWO"},
+        "label": "Lower 48 States Natural Gas Working Underground Storage (billion cubic feet)",
+        "units": "BCF",
+    },
 }
 
 
 def get_inventory_data(instrument: str) -> dict:
-    """Real, structured week-over-week inventory change (a build or a draw),
-    compared against the trailing-8-week average change -- a genuinely
-    different signal from a generic news-headline search, which only tells
-    you a report existed, not its actual magnitude relative to what's typical.
-    Not the same as a true consensus-surprise figure (that needs a paid
+    """Real, structured week-over-week EIA inventory change (a build or a
+    draw), compared against the trailing-8-week average change -- a
+    genuinely different signal from a generic news-headline search, which
+    only tells you a report existed, not its actual magnitude relative to
+    what's typical. This is the same weekly print (crude stocks Wed, NG
+    storage Thu) that headline commodity news search coverage is usually
+    reporting on, but as an exact structured number instead of prose. Not
+    the same as a true consensus-surprise figure (that needs a paid
     Street-estimates feed we don't have) -- this is the real print's size
     relative to recent history, which is still meaningfully more structured
     than a headline search."""
-    api_key = os.getenv("FRED_API_KEY")
+    api_key = os.getenv("EIA_API_KEY")
     if not api_key:
-        return {"error": "FRED_API_KEY not set. Get one free at https://fred.stlouisfed.org/docs/api/api_key.html"}
+        return {"error": "EIA_API_KEY not set. Get one free at https://www.eia.gov/opendata/register.php"}
 
-    series_info = _INVENTORY_SERIES.get(instrument)
-    if not series_info:
+    cfg = _EIA_INVENTORY_CONFIG.get(instrument)
+    if not cfg:
         return {"instrument": instrument, "error": f"No inventory series configured for {instrument}"}
-    series_id, label = series_info
 
     try:
-        from fredapi import Fred
-        fred = Fred(api_key=api_key)
+        params = {
+            "api_key": api_key, "frequency": "weekly", "data[0]": "value",
+            "sort[0][column]": "period", "sort[0][direction]": "desc", "length": 10,
+        }
+        for facet, value in cfg["facets"].items():
+            params[f"facets[{facet}][]"] = value
 
-        data = fred.get_series(series_id).dropna()
-        if len(data) < 2:
-            return {"instrument": instrument, "series_id": series_id, "error": "Not enough history returned"}
+        with httpx.Client(timeout=15.0) as client:
+            resp = client.get(cfg["url"], params=params)
+        resp.raise_for_status()
+        rows = resp.json().get("response", {}).get("data", [])
+        if len(rows) < 2:
+            return {"instrument": instrument, "label": cfg["label"], "error": "Not enough history returned"}
 
-        latest = float(data.iloc[-1])
-        latest_date = data.index[-1].strftime("%Y-%m-%d")
-        change = latest - float(data.iloc[-2])
+        # EIA returns most-recent-first (sort desc above).
+        values = [float(r["value"]) for r in rows]
+        latest, prior = values[0], values[1]
+        latest_date = rows[0]["period"]
+        change = latest - prior
 
-        trailing = data.diff().dropna().tail(8)
-        avg_change = float(trailing.mean()) if not trailing.empty else None
+        trailing_changes = [values[i] - values[i + 1] for i in range(min(8, len(values) - 1))]
+        avg_change = sum(trailing_changes) / len(trailing_changes) if trailing_changes else None
 
         direction = "build" if change > 0 else ("draw" if change < 0 else "flat")
         larger_than_typical = (
@@ -311,8 +355,8 @@ def get_inventory_data(instrument: str) -> dict:
         )
 
         return {
-            "instrument": instrument, "series_id": series_id, "label": label,
-            "latest_value": round(latest, 1), "latest_date": latest_date,
+            "instrument": instrument, "series_id": rows[0].get("series"), "label": cfg["label"],
+            "latest_value": round(latest, 1), "latest_date": latest_date, "units": cfg["units"],
             "week_over_week_change": round(change, 1),
             "direction": direction,
             "trailing_8wk_avg_change": round(avg_change, 1) if avg_change is not None else None,
@@ -320,7 +364,7 @@ def get_inventory_data(instrument: str) -> dict:
         }
     except Exception as e:
         logger.warning(f"get_inventory_data({instrument}) failed: {e}")
-        return {"instrument": instrument, "series_id": series_id, "error": str(e)}
+        return {"instrument": instrument, "error": str(e)}
 
 
 # CFTC's public Commitment of Traders API (Socrata) -- free, no API key

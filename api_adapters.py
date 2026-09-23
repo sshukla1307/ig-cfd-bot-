@@ -127,11 +127,12 @@ class OpenAIClient:
         return openai.OpenAI(api_key=self.api_key, http_client=http_client)
 
     def generate(self, system_prompt: str, user_prompt: str, tools: list, max_tool_calls: int = 10,
-                 tool_call_tracker: set = None) -> str:
-        """tool_call_tracker: if provided, every non-propose_trades tool name
-        called during this turn is added to it -- lets the caller verify e.g.
-        "did the agent actually check news/macro before opening" objectively,
-        rather than trusting the agent's own account of what it considered."""
+                 tool_call_tracker: list = None) -> str:
+        """tool_call_tracker: if provided, every non-propose_trades tool call
+        made during this turn is appended to it as {"tool", "args", "result"}
+        -- lets the caller verify e.g. real signal agreement (agent_runner.
+        check_confluence), not just "was some tool called", independent of
+        whatever the agent itself claims it considered."""
         client = self._client()
         messages = [
             {"role": "system", "content": system_prompt},
@@ -217,10 +218,10 @@ class OpenAIClient:
                 args = {}
 
             call_count += 1
-            if tool_call_tracker is not None:
-                tool_call_tracker.add(func_name)
             logger.info(f"Agent called {func_name}({args})")
             result = execute_tool_capped(func_name, args, tool_call_counts)
+            if tool_call_tracker is not None:
+                tool_call_tracker.append({"tool": func_name, "args": args, "result": result})
             messages.append({
                 "role": "tool",
                 "tool_call_id": tool_call.id,
@@ -265,7 +266,7 @@ class AnthropicClient:
         ]
 
     def generate(self, system_prompt: str, user_prompt: str, tools: list, max_tool_calls: int = 10,
-                 tool_call_tracker: set = None) -> str:
+                 tool_call_tracker: list = None) -> str:
         client = self._client()
         messages = [{"role": "user", "content": user_prompt}]
 
@@ -333,10 +334,10 @@ class AnthropicClient:
                     propose_trades_input = block.input
                     continue  # concluding call -- nothing to execute or respond to
                 call_count += 1
-                if tool_call_tracker is not None:
-                    tool_call_tracker.add(block.name)
                 logger.info(f"Agent called {block.name}({block.input})")
                 result = execute_tool_capped(block.name, block.input, tool_call_counts)
+                if tool_call_tracker is not None:
+                    tool_call_tracker.append({"tool": block.name, "args": block.input, "result": result})
                 tool_results.append({
                     "type": "tool_result", "tool_use_id": block.id,
                     "content": json.dumps(result, default=str),

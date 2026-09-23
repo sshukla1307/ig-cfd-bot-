@@ -86,13 +86,17 @@ TOOLS = [
             "required": ["instrument"],
         },
     },
-    # get_inventory_data is intentionally NOT exposed here -- confirmed live in
-    # production that FRED doesn't carry weekly EIA petroleum/gas inventory
-    # data at all (it only has price series like WTI spot/futures), so every
-    # call failed with "the series does not exist" while still burning a slot
-    # from the tool-call budget. The function still exists in market_data.py;
-    # re-enable this schema entry once it's switched to EIA's own API
-    # (api.eia.gov, needs a separate EIA_API_KEY -- see market_data.py).
+    {
+        "name": "get_inventory_data",
+        "description": "Get the real weekly EIA inventory print (crude oil commercial stocks for BRENT_OIL/WTI_OIL, natural gas storage for NATURAL_GAS) -- the exact build/draw size vs its trailing 8-week average, not just a news headline saying a report happened. This is usually the single most market-moving weekly data point for these instruments.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "instrument": {"type": "string", "enum": RESEARCH_INSTRUMENT_KEYS},
+            },
+            "required": ["instrument"],
+        },
+    },
     {
         "name": "get_positioning_data",
         "description": "Get managed-money (speculator/hedge fund) net futures positioning from CFTC's weekly Commitment of Traders report, and how extreme it is vs the trailing year -- crowded positioning is a real contrarian signal. NOT available for BRENT_OIL (ICE-listed, outside CFTC jurisdiction).",
@@ -188,9 +192,16 @@ def build_system_prompt(playbook: str) -> str:
     prompt += f"- If available margin drops below {RULES.margin_safety_buffer_pct}% of account balance, ALL new opens are blocked account-wide until it recovers\n"
     if RULES.require_confluence:
         prompt += (
-            "- Opening a position requires having called at least one of get_commodity_news/get_macro/"
-            "get_seasonality/get_term_structure/get_positioning_data this check-in, in addition to "
-            "technicals -- a technical signal with zero other tool calls this tick will be rejected.\n"
+            "- Opening a position requires a REAL independent signal agreeing with your direction, "
+            "not just having called another tool: at least one of get_seasonality/get_term_structure/"
+            "get_positioning_data/get_weather_demand/get_inventory_data, called THIS check-in FOR THIS "
+            "INSTRUMENT, must itself lean the same way you're proposing (e.g. backwardation or a "
+            "bullish seasonal/weather/inventory read to open long). Calling a tool that comes back "
+            "neutral, or that disagrees with your direction, does NOT satisfy this -- and "
+            "get_commodity_news/get_macro never satisfy it on their own, since their signal isn't "
+            "structured enough for the code to verify agreement. If nothing you checked actually "
+            "backs your direction, that's real information: reconsider the trade or HOLD, don't just "
+            "check one more source hoping it agrees.\n"
         )
     prompt += f"- Re-opening the same direction on an instrument is blocked for {RULES.same_direction_cooldown_minutes} min after a losing close there.\n"
     prompt += (
@@ -259,6 +270,102 @@ def build_user_prompt(portfolio_state: dict, now_str: str) -> str:
     return prompt
 
 
+# Maps a tool's own result dict to a directional lean ("bullish"/"bearish")
+# for the SPECIFIC instrument it was called on, or None when the tool
+# returned nothing directionally usable (an error, or a genuinely neutral
+# read). Deliberately excludes get_technicals (that's the baseline signal
+# confluence is supposed to be checked AGAINST, not confluence itself) and
+# get_commodity_news/get_macro (free-text/no per-instrument direction field
+# to parse reliably -- still useful context for the agent, just not
+# something the code can verify agreement on). Field names below are read
+# directly from market_data.py's real return values, not guessed.
+def _signal_direction(tool_name: str, result: dict):
+    if not isinstance(result, dict) or result.get("error"):
+        return None
+
+    if tool_name == "get_seasonality":
+        bias = (result.get("historical_bias") or "").lower()
+        if "bullish" in bias:
+            return "bullish"
+        if "bearish" in bias:
+            return "bearish"
+        return None
+
+    if tool_name == "get_term_structure":
+        structure = result.get("structure")
+        if structure == "backwardation":
+            return "bullish"
+        if structure == "contango":
+            return "bearish"
+        return None
+
+    if tool_name == "get_positioning_data":
+        interp = (result.get("interpretation") or "").lower()
+        if "contrarian bullish" in interp:
+            return "bullish"
+        if "contrarian bearish" in interp:
+            return "bearish"
+        return None
+
+    if tool_name == "get_weather_demand":
+        interp = (result.get("interpretation") or "").lower()
+        if "bullish" in interp:
+            return "bullish"
+        if "bearish" in interp:
+            return "bearish"
+        return None
+
+    if tool_name == "get_inventory_data":
+        if not result.get("larger_than_typical_move"):
+            return None  # a typical/expected seasonal build or draw isn't a real signal
+        direction = result.get("direction")
+        if direction == "draw":
+            return "bullish"
+        if direction == "build":
+            return "bearish"
+        return None
+
+    return None
+
+
+def check_confluence(tool_call_log: list, instrument: str, action: str) -> tuple:
+    """Replaces the old procedural 'did it call ANY other tool' confluence
+    check with a real one: at least one INDEPENDENT, direction-bearing signal
+    (seasonality/term-structure/positioning/weather/inventory -- never
+    technicals, which is the baseline being confirmed) called THIS tick FOR
+    THIS INSTRUMENT must actually point the same way as the proposed trade.
+    The old check only verified the agent looked at more than one source,
+    never whether those sources agreed -- an agent could get one bullish and
+    one bearish read, call it 'checked multiple sources', and open anyway.
+    Only gates OPEN_LONG/OPEN_SHORT; CLOSE never needs this."""
+    direction_needed = "bullish" if action == "OPEN_LONG" else "bearish"
+
+    matching = [c for c in tool_call_log if (c.get("args") or {}).get("instrument") == instrument]
+    signals_seen = []
+    for call in matching:
+        direction = _signal_direction(call["tool"], call.get("result") or {})
+        if direction:
+            signals_seen.append((call["tool"], direction))
+
+    agreeing = [t for t, d in signals_seen if d == direction_needed]
+    if agreeing:
+        return True, f"{', '.join(agreeing)} agrees with {direction_needed}"
+
+    if signals_seen:
+        opposing = ", ".join(f"{t}={d}" for t, d in signals_seen)
+        return False, (
+            f"Confluence requirement not met: {instrument}'s independent signal(s) checked this "
+            f"tick ({opposing}) do not support a {direction_needed} thesis -- a technical read "
+            f"alone, or signals pointing the other way, aren't enough to open"
+        )
+
+    return False, (
+        f"Confluence requirement not met: no independent, direction-bearing signal "
+        f"(seasonality/term-structure/positioning/weather/inventory) was checked for {instrument} "
+        f"this tick -- a technical read or a generic news search alone can't open a position"
+    )
+
+
 class AgentCallFailed(Exception):
     """Raised when the LLM call itself failed or didn't produce a usable
     decision -- distinct from the agent successfully deciding to hold. The
@@ -270,16 +377,16 @@ class AgentCallFailed(Exception):
 
 
 def get_agent_trades(playbook: str, portfolio_state: dict, now_str: str) -> tuple:
-    """Returns (trades, checked_multiple_sources). checked_multiple_sources is
-    True iff the agent called get_commodity_news and/or get_macro this turn --
-    an objective, code-verifiable minimum for the confluence requirement (see
-    RULES.require_confluence in config.py), independent of whatever the agent
-    itself claims it considered."""
+    """Returns (trades, tool_call_log). tool_call_log is a list of
+    {"tool", "args", "result"} for every non-propose_trades tool call made
+    this turn -- lets the caller run check_confluence() per proposed trade
+    (real signal agreement, not just "was some other tool called"),
+    independent of whatever the agent itself claims it considered."""
     client = _make_llm_client()
     sys_prompt = build_system_prompt(playbook)
     user_prompt = build_user_prompt(portfolio_state, now_str)
     tools = TOOLS + [PROPOSE_TRADES_SCHEMA]
-    tools_called = set()
+    tool_call_log = []
 
     try:
         # 20, not 10: with tool_choice="required" forcing a call every turn
@@ -288,22 +395,17 @@ def get_agent_trades(playbook: str, portfolio_state: dict, now_str: str) -> tupl
         # propose_trades (logged as AGENT_CALL_FAILED, no decision made at
         # all that tick -- for every instrument, not just one).
         result_json = client.generate(sys_prompt, user_prompt, tools, max_tool_calls=20,
-                                       tool_call_tracker=tools_called)
+                                       tool_call_tracker=tool_call_log)
     except Exception as e:
         raise AgentCallFailed(f"LLM call crashed ({LLM_PROVIDER}): {e}") from e
 
     if not result_json:
         raise AgentCallFailed("Agent responded without ever calling propose_trades (hit max tool calls or returned nothing)")
 
-    checked_multiple_sources = bool(tools_called & {
-        "get_commodity_news", "get_macro", "get_seasonality", "get_term_structure",
-        "get_positioning_data", "get_weather_demand",
-    })
-
     try:
         data = json.loads(result_json)
         trades = data.get("trades", [])
         logger.info(f"Agent proposed {len(trades)} trades. Notes: {data.get('notes', '')}")
-        return trades, checked_multiple_sources
+        return trades, tool_call_log
     except json.JSONDecodeError:
         raise AgentCallFailed(f"Agent returned invalid JSON: {result_json}")

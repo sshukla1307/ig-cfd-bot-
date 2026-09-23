@@ -459,7 +459,7 @@ def _sync_margin_based_exits(broker, positions: dict, snapshots: dict, max_lever
 
 def _validate_trade(trade: dict, account: dict, positions: dict, rules,
                      running_available: float = None, checked_multiple_sources: bool = True,
-                     last_close_info: dict = None) -> tuple:
+                     confluence_reason: str = "", last_close_info: dict = None) -> tuple:
     """running_available: the margin-safety check's source of truth for
     'available margin right now'. Pass this explicitly (rather than reading
     account['available'] directly) so the caller can track it as a running
@@ -468,11 +468,13 @@ def _validate_trade(trade: dict, account: dict, positions: dict, rules,
     snapshot, and several individually-fine-looking opens could collectively
     breach the safety buffer. Defaults to account['available'] if omitted.
 
-    checked_multiple_sources: whether the agent called get_commodity_news
-    and/or get_macro THIS tick (see agent_runner.get_agent_trades) -- only a
-    procedural minimum for RULES.require_confluence, not a check that the
-    sources actually agree (that's a judgment call left to the agent's own
-    prompt). Only gates OPENs -- closing a position never needs new research.
+    checked_multiple_sources: result of agent_runner.check_confluence for
+    THIS specific trade's instrument+direction -- True iff a real independent
+    signal (seasonality/term-structure/positioning/weather/inventory) called
+    this tick for this instrument actually agrees with the proposed
+    direction, not just "was some other tool called". confluence_reason
+    carries check_confluence's specific explanation for the rejection
+    message. Only gates OPENs -- closing a position never needs new research.
 
     last_close_info: {instrument: {direction, logged_at, is_loss}} from
     _get_last_close_info -- blocks re-opening the SAME direction on an
@@ -522,9 +524,10 @@ def _validate_trade(trade: dict, account: dict, positions: dict, rules,
         if not trade.get("take_profit_pct"):
             return False, "take_profit_pct is mandatory"
         if rules.require_confluence and not checked_multiple_sources:
-            return False, (
-                "Confluence requirement not met: no news/macro was checked this tick -- "
-                "opening on a technical signal alone is blocked (see RULES.require_confluence)"
+            return False, confluence_reason or (
+                "Confluence requirement not met: no independent signal agreeing with this "
+                "direction was checked this tick -- opening on a technical signal alone is "
+                "blocked (see RULES.require_confluence)"
             )
         if last_close_info and instrument in last_close_info:
             lc = last_close_info[instrument]
@@ -750,7 +753,7 @@ def run_cfd_tick():
 
     from config import RULES, INSTRUMENTS, PLAYBOOKS_DIR
     from ig_broker import IGBroker
-    from agent_runner import get_agent_trades, AgentCallFailed
+    from agent_runner import get_agent_trades, AgentCallFailed, check_confluence
     from dashboard_exporter import export_for_dashboard
 
     live = os.getenv("IG_LIVE", "").lower() == "true"
@@ -840,9 +843,9 @@ def run_cfd_tick():
     playbook = playbook_path.read_text(encoding="utf-8") if playbook_path.exists() else "Default strategy: maximize risk-adjusted returns on momentum and catalyst-driven moves."
 
     now_str = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
-    checked_multiple_sources = False
+    tool_call_log = []
     try:
-        trades, checked_multiple_sources = get_agent_trades(playbook, portfolio_state, now_str)
+        trades, tool_call_log = get_agent_trades(playbook, portfolio_state, now_str)
     except AgentCallFailed as e:
         # Fails SAFE (no trades this tick, same as a real HOLD would), but
         # logged loudly and distinctly in the audit trail/dashboard -- an
@@ -877,7 +880,10 @@ def run_cfd_tick():
                 short_instrument = (trade.get("short_instrument") or "").upper()
 
                 ok, reason = _validate_spread_trade(trade, account, positions, RULES, running_available=running_available,
-                                                     checked_multiple_sources=checked_multiple_sources,
+                                                     checked_multiple_sources=True,  # unreachable path -- OPEN_SPREAD
+                                                     # was removed from PROPOSE_TRADES_SCHEMA's action enum once WTI
+                                                     # became a pure Brent mirror (see comment above); left permissive
+                                                     # in case spread trading is reintroduced independently.
                                                      last_close_info=last_close_info)
                 if not ok:
                     _log_order_event({"action": action, "long_instrument": long_instrument, "short_instrument": short_instrument,
@@ -976,8 +982,13 @@ def run_cfd_tick():
 
             instrument = trade.get("instrument", "").upper()
 
+            if action in ("OPEN_LONG", "OPEN_SHORT"):
+                confluence_ok, confluence_reason = check_confluence(tool_call_log, instrument, action)
+            else:
+                confluence_ok, confluence_reason = True, ""
+
             ok, reason = _validate_trade(trade, account, positions, RULES, running_available=running_available,
-                                          checked_multiple_sources=checked_multiple_sources,
+                                          checked_multiple_sources=confluence_ok, confluence_reason=confluence_reason,
                                           last_close_info=last_close_info)
             if not ok:
                 _log_order_event({"action": action, "instrument": instrument, "status": "REJECTED", "reason": reason})
@@ -1032,6 +1043,10 @@ def run_cfd_tick():
                     "size": sizing["size"], "margin_allocated": sizing["margin_allocated"],
                     "effective_leverage": sizing["effective_leverage"], "notional": sizing["notional"],
                     "stop_distance": stop_distance, "limit_distance": limit_distance,
+                    # Persisted so a future pass over order_log.jsonl can actually correlate
+                    # confluence agreement against real outcomes -- checked_multiple_sources
+                    # was never logged before this, only used transiently to gate the open.
+                    "confluence_detail": confluence_reason,
                     "reason": trade.get("reason", ""), **result,
                 })
                 if result["status"] == "submitted":
