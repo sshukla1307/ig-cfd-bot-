@@ -1,6 +1,20 @@
 [
   {
     "action": "CLOSE",
+    "instrument": "GOLD",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: GOLD has only been open for 56 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-23T23:28:15.063571+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "WTI_OIL",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: WTI_OIL has only been open for 37 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-23T23:28:15.063258+00:00"
+  },
+  {
+    "action": "CLOSE",
     "instrument": "WTI_OIL",
     "status": "REJECTED",
     "reason": "Minimum hold time not met: WTI_OIL has only been open for 10 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
@@ -4844,86 +4858,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-22T19:31:31.278797+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "WTI_OIL",
-    "deal_id": "DIAAAAR7WETGLAD",
-    "old_limit_level": 9037.2244,
-    "new_limit_level": 9037.5235,
-    "old_stop_level": 8944.4674,
-    "new_stop_level": 8943.8517,
-    "reason": "Position's resting stop and/or limit didn't match the 3.5%/1.7%-of-margin targets (predates this feature/value, or drifted) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-22T19:31:30.59",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "BE3HQ9VR7HATYNV",
-      "dealId": "DIAAAAR7WETGLAD",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR7WETGLAD",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 9006.9,
-      "size": 1.7,
-      "direction": "BUY",
-      "stopLevel": 8943.852,
-      "limitLevel": 9037.523,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-22T19:31:30.864951+00:00"
-  },
-  {
-    "action": "WTI_MIRROR_OPEN",
-    "instrument": "WTI_OIL",
-    "direction": "BUY",
-    "size": 1.7,
-    "margin_allocated": 3032.44,
-    "effective_leverage": 5.0,
-    "notional": 15321.76,
-    "stop_distance": 62.4326,
-    "limit_distance": 30.3244,
-    "reason": "Auto-mirrored from BRENT_OIL: Brent oil is in backwardation, indicating tight supply, and the recent price drop is attributed to geopolitical risk unwinding, which may be temporary. The technicals show a short-term bullish trend with the SMA-20 above SMA-50. Managed-money positioning in WTI, which mirrors Brent, is extremely crowded long, suggesting a contrarian bearish signal, but the backwardation and technicals outweigh this for a short-term long position.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR7WETGLAD",
-    "raw": {
-      "date": "2026-09-22T19:25:22.887",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "4MXKDUAVN6ATYNV",
-      "dealId": "DIAAAAR7WETGLAD",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR7WETGLAD",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9006.9,
-      "size": 1.7,
-      "direction": "BUY",
-      "stopLevel": 8944.468,
-      "limitLevel": 9037.225,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-22T19:25:23.156298+00:00"
   }
 ]
