@@ -1056,7 +1056,7 @@ def _log_broker_closes(vanished_deal_ids: set, last_known_positions: dict) -> No
     string of ordinary stop-outs (the dominant way positions actually close
     on this account) was invisible to both cooldowns the whole time.
     win/loss is estimated from the LAST KNOWN unrealized_pnl_usd (as of the
-    prior ~2-minute watch snapshot) since we don't have the exact realized
+    prior ~1-minute watch snapshot) since we don't have the exact realized
     fill after the fact without an extra IG activity-history call -- close
     enough to classify the SIGN correctly, which is all the cooldowns need."""
     for deal_id in vanished_deal_ids:
@@ -1079,7 +1079,10 @@ def _log_broker_closes(vanished_deal_ids: set, last_known_positions: dict) -> No
 
 
 def run_watch_check():
-    """Cheap, frequent check (see gh-cron-pinger's 2-min "watch" Cron Trigger,
+    """Cheap, frequent check (see gh-cron-pinger's 60-second "watch" Cron
+    Trigger -- was every 2 min until 2026-09-24, user's own choice for
+    tighter trailing-stop responsiveness; cron's finest granularity is 1
+    minute, so this is as fast as it gets without abandoning cron entirely -
     distinct from the normal 30-min "tick" one). Two things happen every
     cycle, both far cheaper than a full tick (no OpenAI calls, no trade
     validation/execution):
@@ -1100,9 +1103,18 @@ def run_watch_check():
     Writes NOTHING to disk when nothing needs to change -- the calling
     workflow's git-auto-commit-action step only commits if there's an actual
     diff under data/, so a quiet watch cycle (no ratchet fired, nothing
-    closed) still produces zero commit noise despite running 15x more often
-    than the full tick. Uses the same two kill-switches as run_cfd_tick (a
-    disabled account makes no IG calls here either)."""
+    closed) still produces zero commit noise despite running roughly 30x more
+    often than the full tick. Uses the same two kill-switches as run_cfd_tick
+    (a disabled account makes no IG calls here either).
+
+    *** OPERATIONAL NOTE (2026-09-24): cfd_trading.yml's concurrency group
+    (live-cfd-trading-loop, cancel-in-progress: false) is shared with the
+    tick job and queues rather than runs in parallel -- if a single watch
+    run (GitHub Actions checkout + setup + pip install + this script, not
+    just this function) takes longer than 60s end to end, fires queue up
+    back-to-back rather than landing every 60s on the wall clock. Also
+    roughly doubles GitHub Actions minutes usage versus the previous 2-min
+    cadence. ***"""
     enabled = os.getenv("IG_LIVE_TRADING_ENABLED", "").lower() == "true"
     if not enabled:
         logger.info("[IG-CFD] [watch] IG_LIVE_TRADING_ENABLED is not 'true'. Doing nothing.")
@@ -1154,7 +1166,7 @@ def run_watch_check():
 
     # Nothing closed -- still run the cheap margin-based exit sync so the
     # breakeven-lock ratchet (and any other stop/limit correction) is checked
-    # on this same 2-min cadence, not just once every 30 min.
+    # on this same 60-second cadence, not just once every 30 min.
     snapshots = {}
     for instrument in positions:
         inst = INSTRUMENTS.get(instrument)
