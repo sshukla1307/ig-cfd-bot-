@@ -3,6 +3,20 @@
     "action": "OPEN_LONG",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for NATURAL_GAS this tick -- a technical read or a generic news search alone can't open a position",
+    "logged_at": "2026-09-24T11:32:27.657410+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Consecutive-loss circuit breaker: BRENT_OIL has lost 2 times in a row going BUY (most recently 83 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
+    "logged_at": "2026-09-24T11:32:27.657176+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "Confluence requirement not met: NATURAL_GAS's independent signal(s) checked this tick (get_term_structure=bearish) do not support a bullish thesis -- a technical read alone, or signals pointing the other way, aren't enough to open",
     "logged_at": "2026-09-24T11:09:35.676300+00:00"
   },
@@ -3756,89 +3770,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-23T13:46:11.389908+00:00"
-  },
-  {
-    "action": "WTI_MIRROR_OPEN",
-    "instrument": "WTI_OIL",
-    "direction": "SELL",
-    "size": 1.5,
-    "margin_allocated": 2814.37,
-    "effective_leverage": 5.0,
-    "notional": 13718.85,
-    "stop_distance": 56.2874,
-    "limit_distance": 56.2874,
-    "reason": "Auto-mirrored from BRENT_OIL: Brent Oil is experiencing a significant pullback due to geopolitical developments, specifically the potential reopening of the Strait of Hormuz by Iran, which is reducing the geopolitical risk premium. Additionally, the managed-money positioning in WTI, which mirrors Brent, is at a multi-month extreme long, suggesting a contrarian bearish signal. The technicals show a short-term bearish trend with the current price below the 20-day SMA.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR72UU55AG",
-    "raw": {
-      "date": "2026-09-23T13:46:10.805",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "GPS5GNYFDJ2TYNV",
-      "dealId": "DIAAAAR72UU55AG",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR72UU55AG",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9156.6,
-      "size": 1.5,
-      "direction": "SELL",
-      "stopLevel": 9212.888,
-      "limitLevel": 9100.3125,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-23T13:46:11.036189+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "BRENT_OIL",
-    "direction": "SELL",
-    "size": 1.4,
-    "margin_allocated": 2814.37,
-    "effective_leverage": 5.0,
-    "notional": 13672.12,
-    "stop_distance": 60.3079,
-    "limit_distance": 60.3079,
-    "reason": "Brent Oil is experiencing a significant pullback due to geopolitical developments, specifically the potential reopening of the Strait of Hormuz by Iran, which is reducing the geopolitical risk premium. Additionally, the managed-money positioning in WTI, which mirrors Brent, is at a multi-month extreme long, suggesting a contrarian bearish signal. The technicals show a short-term bearish trend with the current price below the 20-day SMA.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR72UEKPA2",
-    "raw": {
-      "date": "2026-09-23T13:46:10.452",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "7G8PF53GUESTYNV",
-      "dealId": "DIAAAAR72UEKPA2",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR72UEKPA2",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9777.9,
-      "size": 1.4,
-      "direction": "SELL",
-      "stopLevel": 9838.208,
-      "limitLevel": 9717.592,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-23T13:46:10.690909+00:00"
   }
 ]
