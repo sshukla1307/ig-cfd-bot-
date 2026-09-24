@@ -95,13 +95,17 @@ class SystemRules:
                                       # THIS tick too before opening. Left in place (not deleted) in
                                       # case a future win-rate regression makes re-enabling it worth
                                       # revisiting -- see _validate_trade's require_confluence check.
-    same_direction_cooldown_minutes: int = 60  # after a real, observed pattern of re-shorting Brent/
+    same_direction_cooldown_minutes: int = 0  # DISABLED 2026-09-24 (user's own choice, after also
+                                                # disabling the circuit breaker below) -- was 60. Originally
+                                                # added after a real, observed pattern of re-shorting Brent/
                                                 # WTI into a strong uptrend 3 times in ~90 minutes right
                                                 # after each stop-out, using a vague "news suggests a
                                                 # decline" headline to satisfy confluence each time --
-                                                # blocks re-opening the SAME direction on an instrument
-                                                # within this many minutes of a LOSING close there. A
-                                                # different direction, or enough elapsed time, is fine.
+                                                # blocked re-opening the SAME direction on an instrument
+                                                # within this many minutes of a LOSING close there. 0 means
+                                                # the check (minutes_since < this) is never true, i.e. never
+                                                # blocks. Left in place, not deleted, in case a future
+                                                # re-shorting pattern makes re-enabling it worth revisiting.
     min_hold_minutes_before_discretionary_close: int = 720  # real trade data (76 matched
                                                 # trades in one day) showed a ~30min median hold time,
                                                 # while the backtest that validated the trend-following/
@@ -118,23 +122,28 @@ class SystemRules:
                                                 # validated edge actually develop; the real stop/limit and
                                                 # the stop-breach backstop still protect capital
                                                 # independently of this rule the whole time.
-    max_consecutive_same_direction_losses: int = 2  # after a real, observed overnight incident
-                                                # (2026-09-23/24: the agent re-shorted Natural Gas 8
-                                                # times in ~13 hours into a persistent rally, losing 7,
-                                                # each re-entry allowed because the 60-min
-                                                # same_direction_cooldown above had already expired by
-                                                # the time the next attempt came around) -- a single
-                                                # fixed-length cooldown can't survive a trend that
-                                                # outlasts it. This counts the streak directly instead:
-                                                # once an instrument has lost this many times in a row
-                                                # in the SAME direction, that direction is blocked for
-                                                # consecutive_loss_cooldown_minutes below, regardless of
-                                                # how much time has passed since the last one. A win, or
-                                                # a loss in the OTHER direction, resets the streak to 0/1.
-    consecutive_loss_cooldown_minutes: int = 480  # 8h -- deliberately much longer than
-                                                # same_direction_cooldown_minutes (60min), since the
-                                                # whole point is surviving a trend that a 60min cooldown
-                                                # already proved doesn't survive.
+    max_consecutive_same_direction_losses: int = 999999  # DISABLED 2026-09-24 (user's own
+                                                # choice) -- was 2. Set effectively unreachable rather
+                                                # than 0, since the check is (streak >= this value): 0
+                                                # would instead block after every single loss, the
+                                                # opposite of disabled. Originally added after a real,
+                                                # observed overnight incident (2026-09-23/24: the agent
+                                                # re-shorted Natural Gas 8 times in ~13 hours into a
+                                                # persistent rally, losing 7, each re-entry allowed
+                                                # because the 60-min same_direction_cooldown above had
+                                                # already expired by the time the next attempt came
+                                                # around) -- a single fixed-length cooldown can't survive
+                                                # a trend that outlasts it. This counted the streak
+                                                # directly instead: once an instrument lost this many
+                                                # times in a row in the SAME direction, that direction was
+                                                # blocked for consecutive_loss_cooldown_minutes below,
+                                                # regardless of elapsed time. Left in place, not deleted,
+                                                # in case a future losing streak makes re-enabling it
+                                                # worth revisiting.
+    consecutive_loss_cooldown_minutes: int = 480  # 8h -- moot while max_consecutive_same_direction_losses
+                                                # is disabled above (the streak check that would trigger
+                                                # this can never fire), left unchanged in case that's
+                                                # re-enabled later.
 
 
 RULES = SystemRules()
