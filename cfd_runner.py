@@ -761,6 +761,31 @@ def _sync_margin_based_exits(broker, positions: dict, snapshots: dict, max_lever
             target_limit = round(entry_level + limit_distance if is_long else entry_level - limit_distance, 4)
             candidate_stop = _ratchet_stop_target(pos, margin, entry_level, size, is_long, min_stop_distance, instrument)
 
+        # *** BUG FOUND 2026-09-24 (real live incident, NATURAL_GAS): every candidate_stop
+        # above is computed as a distance from ENTRY, and min_stop_distance only clamped
+        # that entry-relative distance -- but IG's update_position validates the requested
+        # stop_level against the CURRENT market price, not entry. As a trailing lock tightens
+        # toward a profitable price, the entry-anchored level can end up closer to the live
+        # price than IG's real minNormalStopOrLimitDistance allows, and IG rejects the amend
+        # with ATTACHED_ORDER_LEVEL_ERROR -- silently, repeatedly (38 occurrences already,
+        # across multiple positions), leaving the stop stuck at its last successfully-applied
+        # (wider, less protective) level indefinitely while the position sits in real profit.
+        # Fix: clamp candidate_stop to also respect min_stop_distance from the CURRENT price
+        # (current_bid for a long -- the price it actually closes at; current_offer for a
+        # short) before the one-way ratchet below, so what gets submitted is always something
+        # IG can actually accept right now. ***
+        if min_stop_distance:
+            current_price_for_stop = pos.get("current_bid") if is_long else pos.get("current_offer")
+            if current_price_for_stop is not None:
+                if is_long:
+                    max_allowed_stop = current_price_for_stop - min_stop_distance
+                    if candidate_stop > max_allowed_stop:
+                        candidate_stop = max_allowed_stop
+                else:
+                    min_allowed_stop = current_price_for_stop + min_stop_distance
+                    if candidate_stop < min_allowed_stop:
+                        candidate_stop = min_allowed_stop
+
         # One-way ratchet: only ever move the stop in the more-protective direction
         # (higher for a long, lower for a short) than its current live value --
         # this is what makes the breakeven-lock (and the trailing-stop lock)
