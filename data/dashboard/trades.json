@@ -3,6 +3,20 @@
     "action": "OPEN_SHORT",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 3 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
+    "logged_at": "2026-09-24T08:31:59.005461+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
+    "logged_at": "2026-09-24T08:31:59.005098+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 0 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
     "logged_at": "2026-09-24T08:29:39.744855+00:00"
   },
@@ -4253,83 +4267,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-23T11:49:57.007189+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "NATURAL_GAS",
-    "deal_id": "DIAAAAR7ZLY4CAC",
-    "old_limit_level": 3165.0138,
-    "new_limit_level": 3164.896,
-    "old_stop_level": 3202.9862,
-    "new_stop_level": 3182.7264,
-    "reason": "Position's resting stop and/or limit didn't match the 3.0%/3.0%-of-margin targets, or the breakeven ratchet (trigger 1.6%, lock 0.2%) applied -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-23T11:45:06.899",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": "-",
-      "dealReference": "4YNSDY32E4NTYNV",
-      "dealId": "DIAAAAR7ZLY4CAC",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR7ZLY4CAC",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 3184.0,
-      "size": 4.5,
-      "direction": "SELL",
-      "stopLevel": 3182.7263,
-      "limitLevel": 3164.896,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-23T11:45:07.108707+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "WTI_OIL",
-    "deal_id": "DIAAAAR7ZURRFA8",
-    "old_limit_level": 9011.773,
-    "new_limit_level": 9012.598,
-    "old_stop_level": 9122.227,
-    "new_stop_level": 9121.402,
-    "reason": "Position's resting stop and/or limit didn't match the 3.0%/3.0%-of-margin targets, or the breakeven ratchet (trigger 1.6%, lock 0.2%) applied -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-23T11:39:04.806",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "VSFM85M3HVWTYNV",
-      "dealId": "DIAAAAR7ZURRFA8",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR7ZURRFA8",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 9067.0,
-      "size": 1.5,
-      "direction": "SELL",
-      "stopLevel": 9121.402,
-      "limitLevel": 9012.598,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-23T11:39:05.036517+00:00"
   }
 ]
