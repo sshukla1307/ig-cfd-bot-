@@ -70,6 +70,43 @@ def _log_order_event(event: dict):
     logger.warning(f"[IG-CFD] {event}")
 
 
+def _cooldown_reset_marker_path(order_log_path: Path) -> Path:
+    return order_log_path.parent / "cooldown_reset_at.json"
+
+
+def _get_cooldown_reset_at(order_log_path: Path) -> str:
+    """ISO timestamp of the last manual cooldown reset (see reset_cooldowns_now),
+    or "" if one has never been requested. Any close event at/before this
+    timestamp is ignored by _iter_close_events for cooldown/circuit-breaker
+    purposes ONLY -- it does not touch, edit, or hide the real trade record
+    anywhere else (dashboard, P&L, audit log all still show it exactly as it
+    happened)."""
+    path = _cooldown_reset_marker_path(order_log_path)
+    if not path.exists():
+        return ""
+    try:
+        return json.loads(path.read_text()).get("reset_at", "")
+    except (json.JSONDecodeError, OSError):
+        return ""
+
+
+def reset_cooldowns_now(order_log_path: Path = None) -> str:
+    """Manually clears every currently-active same-direction cooldown and
+    consecutive-loss circuit breaker by recording 'now' as a cutoff: every
+    real close logged at/before this moment stops counting toward either
+    check, on every instrument/direction at once. Deliberately does NOT edit
+    or delete anything in order_log.jsonl -- the real trade history stays
+    exactly as it happened; only the cooldown/circuit-breaker LOOKUP ignores
+    it from here on. A genuine new loss after this point still starts a
+    fresh cooldown/streak normally -- this is a one-time clear, not a
+    disable. Returns the reset timestamp actually written."""
+    order_log_path = order_log_path or (DATA_DIR / "order_log.jsonl")
+    now = datetime.now(timezone.utc).isoformat()
+    order_log_path.parent.mkdir(parents=True, exist_ok=True)
+    _cooldown_reset_marker_path(order_log_path).write_text(json.dumps({"reset_at": now}))
+    return now
+
+
 def _iter_close_events(order_log_path: Path):
     """Yields {"instrument", "direction", "logged_at", "is_loss"} for every
     real close in the audit log, in file order -- both agent-initiated CLOSE
@@ -84,9 +121,15 @@ def _iter_close_events(order_log_path: Path):
     the OLD deal-id-diff-only vanish detection ever wrote anything either
     cooldown could see. Missing/older entries (logged before
     "original_direction" was added) are simply skipped -- fails permissive,
-    not unsafe, since the worst case is just not cooling down."""
+    not unsafe, since the worst case is just not cooling down.
+
+    Events at/before the last reset_cooldowns_now() cutoff (see
+    _get_cooldown_reset_at) are skipped entirely -- a manual, one-time clear
+    of every currently-active cooldown/circuit-breaker without touching the
+    underlying trade record."""
     if not order_log_path.exists():
         return
+    reset_at = _get_cooldown_reset_at(order_log_path)
     with open(order_log_path) as f:
         for line in f:
             line = line.strip()
@@ -101,6 +144,8 @@ def _iter_close_events(order_log_path: Path):
             direction = d.get("original_direction")
             logged_at = d.get("logged_at")
             if not (instrument and direction and logged_at):
+                continue
+            if reset_at and logged_at <= reset_at:
                 continue
             if action == "CLOSE" and d.get("status") == "submitted":
                 profit = d.get("raw", {}).get("profit")
