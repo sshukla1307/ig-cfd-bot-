@@ -1,5 +1,91 @@
 [
   {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "direction": "BUY",
+    "size": 1.28,
+    "margin_allocated": 2628.64,
+    "effective_leverage": 5.0,
+    "notional": 12974.21,
+    "stop_distance": 58.5283,
+    "limit_distance": 410.725,
+    "confluence_detail": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
+    "reason": "Brent Oil is in a strong uptrend with the SMA-20 above the SMA-50 and a current price significantly above both. The market is in backwardation, indicating tight supply, which supports a bullish outlook.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR8CG8LGA2",
+    "raw": {
+      "date": "2026-09-24T18:07:40.286",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "42BCK5FNFNTYNV",
+      "dealId": "DIAAAAR8CG8LGA2",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR8CG8LGA2",
+          "status": "OPENED"
+        }
+      ],
+      "level": 10133.3,
+      "size": 1.28,
+      "direction": "BUY",
+      "stopLevel": 10074.771,
+      "limitLevel": 10544.025,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-24T18:07:40.508864+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "direction": "SELL",
+    "size": 3.92,
+    "margin_allocated": 2628.64,
+    "effective_leverage": 5.0,
+    "notional": 13179.04,
+    "stop_distance": 19.1113,
+    "limit_distance": 134.1143,
+    "confluence_detail": "get_term_structure, get_inventory_data agrees with bearish",
+    "reason": "Natural Gas is currently overbought with an RSI of 78.4, and the term structure is in contango, indicating ample supply. The recent EIA inventory report showed a larger-than-typical build, which is bearish. Despite the recent price rally, these factors suggest a potential pullback.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR8CGT5NBD",
+    "raw": {
+      "date": "2026-09-24T18:07:39.919",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "U3DZB9WYK3ATYNV",
+      "dealId": "DIAAAAR8CGT5NBD",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR8CGT5NBD",
+          "status": "OPENED"
+        }
+      ],
+      "level": 3345.0,
+      "size": 3.92,
+      "direction": "SELL",
+      "stopLevel": 3364.1113,
+      "limitLevel": 3210.8857,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-24T18:07:40.159262+00:00"
+  },
+  {
     "action": "OPEN_SHORT",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
@@ -3826,55 +3912,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-24T04:23:40.963760+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
-    "logged_at": "2026-09-24T04:23:40.752735+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "SILVER",
-    "direction": "SELL",
-    "size": 1.72,
-    "margin_allocated": 2201.68,
-    "effective_leverage": 5.0,
-    "notional": 11031.91,
-    "stop_distance": 38.4014,
-    "limit_distance": 38.4014,
-    "confluence_detail": "get_term_structure agrees with bearish",
-    "reason": "Silver is in contango, indicating ample supply, and the technicals show a bearish trend with the price below both the 20 and 50 SMA. The RSI is neutral, but the overall setup suggests a bearish outlook.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR76TNT6A8",
-    "raw": {
-      "date": "2026-09-24T04:02:30.988",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDSILVER.DBI.IP",
-      "expiry": "-",
-      "dealReference": "HQVUPF8SY6STYNV",
-      "dealId": "DIAAAAR76TNT6A8",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR76TNT6A8",
-          "status": "OPENED"
-        }
-      ],
-      "level": 6409.3,
-      "size": 1.72,
-      "direction": "SELL",
-      "stopLevel": 6447.701,
-      "limitLevel": 6370.8984,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-24T04:02:31.221104+00:00"
   }
 ]
