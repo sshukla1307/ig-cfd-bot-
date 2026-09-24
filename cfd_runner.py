@@ -304,6 +304,32 @@ MARGIN_STOP_LOSS_PCT = 0.5  # Changed 2026-09-24 alongside MARGIN_PROFIT_TAKE_PC
 # (currently disabled, see BREAKEVEN_RATCHET_ENABLED) ratchet mechanism that once
 # existed to tighten it further once a position moved into profit.
 
+# Per-instrument override of MARGIN_STOP_LOSS_PCT/MARGIN_PROFIT_TAKE_PCT above --
+# missing entries just use the global default. Added 2026-09-24 for NATURAL_GAS:
+# at its current price (~3150), the global 0.5%/0.8% BOTH compute to a distance
+# under IG's own ~10pt minimum stop/limit distance, so NG was silently being
+# clamped to a de facto ~1.59% symmetric setup rather than the intended tight
+# asymmetric one -- accidental, not chosen. A dedicated backtest (44 real NG
+# trades, same yfinance-1m-bar methodology) tried to find a better NG-specific
+# pairing and came up empty: EVERY wider combination tested (up to 5%/8%) lost
+# more than running near the floor, several dramatically worse (e.g. 5%/6% lost
+# -51%). The least-bad, trustworthy option in that search was symmetric 1.6%/1.6%
+# -- close to where NG already sits via clamping, now made explicit and
+# intentional instead of an accidental side effect. The real lesson from that
+# search: NG's problem right now is entry quality (see the same-direction
+# consecutive-loss circuit breaker), not exit shape -- no stop/target choice
+# fixes a bad entry, and widening NG's exits only made its real losses bigger.
+INSTRUMENT_STOP_LOSS_PCT_OVERRIDE = {"NATURAL_GAS": 1.6}
+INSTRUMENT_PROFIT_TAKE_PCT_OVERRIDE = {"NATURAL_GAS": 1.6}
+
+
+def _stop_loss_pct_for(instrument: str) -> float:
+    return INSTRUMENT_STOP_LOSS_PCT_OVERRIDE.get(instrument, MARGIN_STOP_LOSS_PCT)
+
+
+def _profit_take_pct_for(instrument: str) -> float:
+    return INSTRUMENT_PROFIT_TAKE_PCT_OVERRIDE.get(instrument, MARGIN_PROFIT_TAKE_PCT)
+
 
 BREAKEVEN_TRIGGER_PCT = 1.6  # Once a position's unrealized profit reaches this % of margin,
 # its stop ratchets up (long) / down (short) to BREAKEVEN_LOCK_PCT below -- so a subsequent
@@ -364,18 +390,24 @@ def _margin_based_distance(pct: float, margin_allocated: float, size: float, min
     return distance
 
 
-def _margin_based_limit_distance(margin_allocated: float, size: float, min_distance: float = None) -> float:
-    """Take-profit side -- see _margin_based_distance and MARGIN_PROFIT_TAKE_PCT."""
-    return _margin_based_distance(MARGIN_PROFIT_TAKE_PCT, margin_allocated, size, min_distance)
+def _margin_based_limit_distance(margin_allocated: float, size: float, min_distance: float = None,
+                                  instrument: str = None) -> float:
+    """Take-profit side -- see _margin_based_distance and MARGIN_PROFIT_TAKE_PCT.
+    instrument: looks up INSTRUMENT_PROFIT_TAKE_PCT_OVERRIDE (e.g. NATURAL_GAS),
+    falling back to the global MARGIN_PROFIT_TAKE_PCT when None/not overridden."""
+    return _margin_based_distance(_profit_take_pct_for(instrument), margin_allocated, size, min_distance)
 
 
-def _margin_based_stop_distance(margin_allocated: float, size: float, min_distance: float = None) -> float:
-    """Stop-loss side -- see _margin_based_distance and MARGIN_STOP_LOSS_PCT."""
-    return _margin_based_distance(MARGIN_STOP_LOSS_PCT, margin_allocated, size, min_distance)
+def _margin_based_stop_distance(margin_allocated: float, size: float, min_distance: float = None,
+                                 instrument: str = None) -> float:
+    """Stop-loss side -- see _margin_based_distance and MARGIN_STOP_LOSS_PCT.
+    instrument: looks up INSTRUMENT_STOP_LOSS_PCT_OVERRIDE (e.g. NATURAL_GAS),
+    falling back to the global MARGIN_STOP_LOSS_PCT when None/not overridden."""
+    return _margin_based_distance(_stop_loss_pct_for(instrument), margin_allocated, size, min_distance)
 
 
 def _ratchet_stop_target(pos: dict, margin: float, entry_level: float, size: float, is_long: bool,
-                          min_stop_distance: float = None) -> float:
+                          min_stop_distance: float = None, instrument: str = None) -> float:
     """Computes this tick's CANDIDATE stop level: the original MARGIN_STOP_LOSS_PCT
     target, unless unrealized profit has reached BREAKEVEN_TRIGGER_PCT of margin, in
     which case the candidate becomes the tighter BREAKEVEN_LOCK_PCT profit-lock level
@@ -385,7 +417,7 @@ def _ratchet_stop_target(pos: dict, margin: float, entry_level: float, size: flo
     anywhere: once the live stop has been moved to the lock level, a later dip back
     below the trigger just produces a worse candidate (the original stop distance),
     which the caller correctly ignores rather than loosening the stop back up."""
-    stop_distance = _margin_based_stop_distance(margin, size, min_stop_distance)
+    stop_distance = _margin_based_stop_distance(margin, size, min_stop_distance, instrument)
     plain_stop = entry_level - stop_distance if is_long else entry_level + stop_distance
     if not BREAKEVEN_RATCHET_ENABLED:
         return plain_stop
@@ -485,11 +517,11 @@ def _sync_margin_based_exits(broker, positions: dict, snapshots: dict, max_lever
             continue
 
         min_stop_distance = (snapshot or {}).get("min_stop_distance")
-        limit_distance = _margin_based_limit_distance(margin, size, min_stop_distance)
+        limit_distance = _margin_based_limit_distance(margin, size, min_stop_distance, instrument)
         is_long = pos["direction"] == "BUY"
         target_limit = round(entry_level + limit_distance if is_long else entry_level - limit_distance, 4)
 
-        candidate_stop = _ratchet_stop_target(pos, margin, entry_level, size, is_long, min_stop_distance)
+        candidate_stop = _ratchet_stop_target(pos, margin, entry_level, size, is_long, min_stop_distance, instrument)
         # One-way ratchet: only ever move the stop in the more-protective direction
         # (higher for a long, lower for a short) than its current live value --
         # this is what makes the breakeven-lock permanent once triggered, with no
@@ -515,7 +547,8 @@ def _sync_margin_based_exits(broker, positions: dict, snapshots: dict, max_lever
             "old_stop_level": current_stop, "new_stop_level": target_stop,
             "reason": (
                 f"Position's resting stop and/or limit didn't match the "
-                f"{MARGIN_STOP_LOSS_PCT}%/{MARGIN_PROFIT_TAKE_PCT}%-of-margin targets, or the "
+                f"{_stop_loss_pct_for(instrument)}%/{_profit_take_pct_for(instrument)}%-of-margin targets "
+                f"(instrument-specific override if one exists, else the global default), or the "
                 f"breakeven ratchet (trigger {BREAKEVEN_TRIGGER_PCT}%, lock {BREAKEVEN_LOCK_PCT}%) "
                 f"applied -- amending both on IG directly "
                 f"(both always sent together, see incident note above)."
@@ -1147,8 +1180,8 @@ def run_cfd_tick():
 
                 direction = "BUY" if action == "OPEN_LONG" else "SELL"
                 min_stop_distance = (snapshot or {}).get("min_stop_distance")
-                stop_distance = _margin_based_stop_distance(sizing["margin_allocated"], sizing["size"], min_stop_distance)
-                limit_distance = _margin_based_limit_distance(sizing["margin_allocated"], sizing["size"], min_stop_distance)
+                stop_distance = _margin_based_stop_distance(sizing["margin_allocated"], sizing["size"], min_stop_distance, instrument)
+                limit_distance = _margin_based_limit_distance(sizing["margin_allocated"], sizing["size"], min_stop_distance, instrument)
 
                 result = broker.open_position(
                     epic=inst.epic, direction=direction, size=sizing["size"],
