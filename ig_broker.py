@@ -130,6 +130,7 @@ class IGBroker:
 
         snapshot = data.get("snapshot", {}) if isinstance(data, dict) else {}
         instrument = data.get("instrument", {}) if isinstance(data, dict) else {}
+        dealing_rules = data.get("dealingRules", {}) if isinstance(data, dict) else {}
 
         return {
             "epic": epic,
@@ -141,6 +142,12 @@ class IGBroker:
             "margin_factor_unit": instrument.get("marginFactorUnit"),
             "lot_size": instrument.get("lotSize"),
             "currencies": instrument.get("currencies", []),
+            # IG's own real minimum stop/limit distance for this instrument (points) --
+            # added 2026-09-24 so a margin-%-based distance that computes tighter than
+            # this can be clamped up rather than submitted and rejected outright. Read
+            # defensively: if IG ever renames/removes this field, this is just None and
+            # callers fall back to their old un-clamped behavior rather than crashing.
+            "min_stop_distance": (dealing_rules.get("minNormalStopOrLimitDistance") or {}).get("value"),
         }
 
     def is_tradeable(self, market_snapshot: Optional[dict]) -> bool:

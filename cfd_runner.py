@@ -276,24 +276,32 @@ def _check_stop_breach_backstop(broker, positions: dict) -> list:
 
 
 
-MARGIN_PROFIT_TAKE_PCT = 3.0  # Set on 2026-09-22 from a price-path backtest (yfinance 1m
-# bars as a proxy for IG's own feed) replaying all 394 real trades in the account's full
-# history against a grid of profit/stop combinations: 3.0%/3.0% (symmetric) ranked #1 by a
-# clear margin, while the prior 1.7%/3.5% pairing ranked 40th of 49 -- the earlier pairing's
-# core flaw was capping profit BELOW the stop distance, which needs a win rate north of 70%
-# to break even; the real win rate observed (54-62% per instrument) was never going to clear
-# that bar regardless of directional skill. Implemented as a REAL resting IG limit order (see
-# _margin_based_limit_distance), not a bot-side poll: this account's tick cadence is 30
-# minutes, and a resting order lets IG execute the instant price touches it, 24/7, rather
-# than only whenever the bot next happens to check.
+MARGIN_PROFIT_TAKE_PCT = 1.0  # Changed 2026-09-24 (user's own choice) from the prior 3.0%,
+# which was itself set 2026-09-22 from a price-path backtest replaying 394 real trades:
+# 3.0%/3.0% (symmetric) ranked #1 of 49 combinations at the time. A FRESH replay on
+# 2026-09-24 (191 real trades from the most recent 7 days, same yfinance-1m-bar
+# methodology) showed the picture had shifted: on this account's more recent price
+# action, tighter distances on BOTH sides substantially outperformed 3.0%/3.0% (which
+# lost -94.9% margin summed over the sample) -- a grid search found 0.4%/1.0% as the
+# best-performing cell in that grid (+14.6%). Deployed as requested, but flagged
+# explicitly at the time: this specific cell is likely partly overfit to the one week
+# it was found on (nearby cells swing wildly, e.g. 0.4%/1.25% dropped to +12.7% and
+# 1.0%/1.25% was already -31.25%), and at this tightness the % math computes a stop
+# distance for Natural Gas (~2.5pts) well below IG's real ~10pt minimum -- see
+# min_stop_distance in _margin_based_distance, which clamps up to IG's real floor
+# rather than submitting a distance IG would reject. Watch results closely and be
+# ready to revisit if this doesn't hold up on fresh data the way the replay suggested.
+# Implemented as a REAL resting IG limit order (see _margin_based_limit_distance), not
+# a bot-side poll: this account's tick cadence is 30-60 minutes, and a resting order
+# lets IG execute the instant price touches it, 24/7, rather than only whenever the
+# bot next happens to check.
 
 
-MARGIN_STOP_LOSS_PCT = 3.0  # Set alongside MARGIN_PROFIT_TAKE_PCT on 2026-09-22 -- see that
-# constant's comment for the backtest that identified the symmetric 3.0%/3.0% pairing as the
-# top performer. This is the INITIAL stop distance at open; see BREAKEVEN_TRIGGER_PCT below
-# for how it later ratchets tighter once a position moves into profit, addressing the
-# original 3.5% stop's remaining risk (a trade could run to +2% unrealized, sit there, then
-# reverse all the way to a full -3% loss with nothing banked along the way).
+MARGIN_STOP_LOSS_PCT = 0.4  # Changed 2026-09-24 alongside MARGIN_PROFIT_TAKE_PCT -- see
+# that constant's comment for the full replay context. This is the INITIAL stop distance
+# at open; see BREAKEVEN_TRIGGER_PCT below for the (currently disabled, see
+# BREAKEVEN_RATCHET_ENABLED) ratchet mechanism that once existed to tighten it further
+# once a position moved into profit.
 
 
 BREAKEVEN_TRIGGER_PCT = 1.6  # Once a position's unrealized profit reaches this % of margin,
@@ -330,7 +338,7 @@ BREAKEVEN_RATCHET_ENABLED = False  # Disabled 2026-09-23 after tr.csv showed sus
 # changes and a future replay against fresh data supports it.
 
 
-def _margin_based_distance(pct: float, margin_allocated: float, size: float) -> float:
+def _margin_based_distance(pct: float, margin_allocated: float, size: float, min_distance: float = None) -> float:
     """Shared math for both the profit and loss margin-based distances: converts a target
     % of margin into a point DISTANCE from entry (not an absolute level) -- the target $
     P&L (margin_allocated * pct/100) divided by size, using the exact same
@@ -338,21 +346,35 @@ def _margin_based_distance(pct: float, margin_allocated: float, size: float) -> 
     against real IG fills. A pure distance, independent of entry/fill price, so it can be
     passed straight into open_position's stop_distance/limit_distance -- IG computes the
     absolute level itself from the live fill price (see open_position's docstring: this
-    avoids pre-computing off a snapshot price that may have moved by fill time)."""
-    return round(margin_allocated * (pct / 100) / size, 4)
+    avoids pre-computing off a snapshot price that may have moved by fill time).
+
+    min_distance: IG's own minNormalStopOrLimitDistance for this instrument (see
+    ig_broker.get_market_snapshot), clamped up to if the % computation comes out
+    tighter -- added 2026-09-24 when MARGIN_STOP_LOSS_PCT dropped to 0.4%: at that
+    tightness, Natural Gas's computed stop distance (~2.5pts at typical levels) falls
+    well below IG's real ~10pt minimum for it, which would otherwise get every NG
+    order rejected outright. Silently widening to the real minimum, rather than
+    submitting a distance IG will reject, is the same fail-safe philosophy used
+    throughout this file (e.g. MARGIN_LIMIT_SYNC_TOLERANCE) -- IG's own risk floor
+    always wins over a requested distance that's tighter than it allows."""
+    distance = round(margin_allocated * (pct / 100) / size, 4)
+    if min_distance and distance < min_distance:
+        return round(min_distance, 4)
+    return distance
 
 
-def _margin_based_limit_distance(margin_allocated: float, size: float) -> float:
+def _margin_based_limit_distance(margin_allocated: float, size: float, min_distance: float = None) -> float:
     """Take-profit side -- see _margin_based_distance and MARGIN_PROFIT_TAKE_PCT."""
-    return _margin_based_distance(MARGIN_PROFIT_TAKE_PCT, margin_allocated, size)
+    return _margin_based_distance(MARGIN_PROFIT_TAKE_PCT, margin_allocated, size, min_distance)
 
 
-def _margin_based_stop_distance(margin_allocated: float, size: float) -> float:
+def _margin_based_stop_distance(margin_allocated: float, size: float, min_distance: float = None) -> float:
     """Stop-loss side -- see _margin_based_distance and MARGIN_STOP_LOSS_PCT."""
-    return _margin_based_distance(MARGIN_STOP_LOSS_PCT, margin_allocated, size)
+    return _margin_based_distance(MARGIN_STOP_LOSS_PCT, margin_allocated, size, min_distance)
 
 
-def _ratchet_stop_target(pos: dict, margin: float, entry_level: float, size: float, is_long: bool) -> float:
+def _ratchet_stop_target(pos: dict, margin: float, entry_level: float, size: float, is_long: bool,
+                          min_stop_distance: float = None) -> float:
     """Computes this tick's CANDIDATE stop level: the original MARGIN_STOP_LOSS_PCT
     target, unless unrealized profit has reached BREAKEVEN_TRIGGER_PCT of margin, in
     which case the candidate becomes the tighter BREAKEVEN_LOCK_PCT profit-lock level
@@ -362,7 +384,7 @@ def _ratchet_stop_target(pos: dict, margin: float, entry_level: float, size: flo
     anywhere: once the live stop has been moved to the lock level, a later dip back
     below the trigger just produces a worse candidate (the original stop distance),
     which the caller correctly ignores rather than loosening the stop back up."""
-    stop_distance = _margin_based_stop_distance(margin, size)
+    stop_distance = _margin_based_stop_distance(margin, size, min_stop_distance)
     plain_stop = entry_level - stop_distance if is_long else entry_level + stop_distance
     if not BREAKEVEN_RATCHET_ENABLED:
         return plain_stop
@@ -403,10 +425,16 @@ def _margin_allocated_for_position(pos: dict, snapshot: Optional[dict], max_leve
     return notional / effective_leverage
 
 
-MARGIN_LIMIT_SYNC_TOLERANCE = 0.5  # points -- skip amending a position whose live
+MARGIN_LIMIT_SYNC_TOLERANCE = 0.02  # points -- skip amending a position whose live
 # limit_level is already within this of the target, so a tick doesn't keep firing a
 # no-op update_position call every 30 minutes once a position is already correct
-# (float rounding between our calc and IG's own stored level is expected).
+# (float rounding between our calc and IG's own stored level is expected). Lowered
+# from 0.5 on 2026-09-24 when MARGIN_STOP_LOSS_PCT dropped to 0.4%: at that tightness,
+# a real, intended stop/limit correction can itself be well under a point (e.g. a
+# ratchet lock movement of a few tenths of a point) -- the old 0.5pt tolerance would
+# have silently swallowed exactly that kind of legitimate small correction, not just
+# genuine float noise. 0.02 still comfortably absorbs rounding (levels are rounded to
+# 4 decimal places) without masking any real movement at the current tight distances.
 
 
 def _sync_margin_based_exits(broker, positions: dict, snapshots: dict, max_leverage_multiple: float) -> list:
@@ -455,11 +483,12 @@ def _sync_margin_based_exits(broker, positions: dict, snapshots: dict, max_lever
         if not margin or entry_level is None or not size:
             continue
 
-        limit_distance = _margin_based_limit_distance(margin, size)
+        min_stop_distance = (snapshot or {}).get("min_stop_distance")
+        limit_distance = _margin_based_limit_distance(margin, size, min_stop_distance)
         is_long = pos["direction"] == "BUY"
         target_limit = round(entry_level + limit_distance if is_long else entry_level - limit_distance, 4)
 
-        candidate_stop = _ratchet_stop_target(pos, margin, entry_level, size, is_long)
+        candidate_stop = _ratchet_stop_target(pos, margin, entry_level, size, is_long, min_stop_distance)
         # One-way ratchet: only ever move the stop in the more-protective direction
         # (higher for a long, lower for a short) than its current live value --
         # this is what makes the breakeven-lock permanent once triggered, with no
@@ -1116,8 +1145,9 @@ def run_cfd_tick():
                     continue
 
                 direction = "BUY" if action == "OPEN_LONG" else "SELL"
-                stop_distance = _margin_based_stop_distance(sizing["margin_allocated"], sizing["size"])
-                limit_distance = _margin_based_limit_distance(sizing["margin_allocated"], sizing["size"])
+                min_stop_distance = (snapshot or {}).get("min_stop_distance")
+                stop_distance = _margin_based_stop_distance(sizing["margin_allocated"], sizing["size"], min_stop_distance)
+                limit_distance = _margin_based_limit_distance(sizing["margin_allocated"], sizing["size"], min_stop_distance)
 
                 result = broker.open_position(
                     epic=inst.epic, direction=direction, size=sizing["size"],
