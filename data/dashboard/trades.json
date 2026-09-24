@@ -3,6 +3,30 @@
     "action": "OPEN_SHORT",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "Consecutive-loss circuit breaker: NATURAL_GAS has lost 2 times in a row going SELL (most recently 283 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
+    "logged_at": "2026-09-24T14:34:00.614736+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "WTI_OIL",
+    "status": "REJECTED",
+    "reason": "Same-direction cooldown: WTI_OIL was closed at a loss 1 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
+    "logged_at": "2026-09-24T14:34:00.614517+00:00"
+  },
+  {
+    "action": "BROKER_CLOSE",
+    "instrument": "WTI_OIL",
+    "deal_id": "DIAAAAR8ANEZVAR",
+    "original_direction": "SELL",
+    "estimated_pnl": -2.88,
+    "status": "detected",
+    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
+    "logged_at": "2026-09-24T14:33:12.069774+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "Consecutive-loss circuit breaker: NATURAL_GAS has lost 2 times in a row going SELL (most recently 281 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
     "logged_at": "2026-09-24T14:31:46.857990+00:00"
   },
@@ -3532,133 +3556,5 @@
     "status": "REJECTED",
     "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
     "logged_at": "2026-09-23T18:45:41.492255+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "WTI_OIL",
-    "direction": "SELL",
-    "size": 1.5,
-    "margin_allocated": 2781.7,
-    "effective_leverage": 5.0,
-    "notional": 13870.35,
-    "stop_distance": 55.634,
-    "limit_distance": 55.634,
-    "confluence_detail": "get_positioning_data agrees with bearish",
-    "reason": "WTI is currently overbought with an RSI of 74.9, indicating a potential pullback. The term structure shows backwardation, suggesting tight supply, but the managed-money positioning is at a multi-month extreme net-long, which is a contrarian bearish signal. Additionally, recent news suggests a potential easing of supply constraints with talks involving Iran, which could further pressure prices downward.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR749KSHAQ",
-    "raw": {
-      "date": "2026-09-23T18:45:41.335",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "SANH8U2G6B2TYNV",
-      "dealId": "DIAAAAR749KSHAQ",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR749KSHAQ",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9244.0,
-      "size": 1.5,
-      "direction": "SELL",
-      "stopLevel": 9299.634,
-      "limitLevel": 9188.366,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-23T18:45:41.491886+00:00"
-  },
-  {
-    "action": "WTI_MIRROR_OPEN",
-    "instrument": "WTI_OIL",
-    "direction": "BUY",
-    "size": 1.5,
-    "margin_allocated": 2760.14,
-    "effective_leverage": 5.0,
-    "notional": 13838.7,
-    "stop_distance": 55.2028,
-    "limit_distance": 55.2028,
-    "reason": "Auto-mirrored from BRENT_OIL: Brent is in backwardation, indicating tight supply, and recent commentary suggests a bullish outlook with prices rising significantly over the past month. Despite a recent inventory build, the market structure and price momentum support a long position.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR747M6TAP",
-    "raw": {
-      "date": "2026-09-23T18:31:54.477",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "8EXGSXV3MATYNV",
-      "dealId": "DIAAAAR747M6TAP",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR747M6TAP",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9221.3,
-      "size": 1.5,
-      "direction": "BUY",
-      "stopLevel": 9166.098,
-      "limitLevel": 9276.503,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-23T18:31:54.609380+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "direction": "BUY",
-    "size": 1.4,
-    "margin_allocated": 2760.14,
-    "effective_leverage": 5.0,
-    "notional": 13890.1,
-    "stop_distance": 59.1459,
-    "limit_distance": 59.1459,
-    "confluence_detail": "get_term_structure agrees with bullish",
-    "reason": "Brent is in backwardation, indicating tight supply, and recent commentary suggests a bullish outlook with prices rising significantly over the past month. Despite a recent inventory build, the market structure and price momentum support a long position.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR74732XBC",
-    "raw": {
-      "date": "2026-09-23T18:31:54.264",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "DF9QY47398NTYNV",
-      "dealId": "DIAAAAR74732XBC",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR74732XBC",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9916.1,
-      "size": 1.4,
-      "direction": "BUY",
-      "stopLevel": 9856.954,
-      "limitLevel": 9975.246,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-23T18:31:54.401263+00:00"
   }
 ]
