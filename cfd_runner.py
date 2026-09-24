@@ -410,9 +410,15 @@ def _profit_take_pct_for(instrument: str) -> float:
 # they've been separately validated.
 TRAILING_STOP_INSTRUMENTS = {"BRENT_OIL", "WTI_OIL", "NATURAL_GAS", "GOLD", "SILVER"}
 TRAILING_STOP_FLOOR_PCT = 2.85  # hard worst-case stop, as % of margin -- never breached
-TRAILING_STOP_GAP_PCT = 0.20  # stop trails to (peak favorable % - this), from the very first favorable tick,
-# with NO arm/threshold gate -- see the module comment above for why a gate of any kind
-# (gated-continuous, or stepped) underperformed this on every real-trade test run this session.
+TRAILING_STOP_ARM_PCT = 0.5  # RE-INTRODUCED 2026-09-24 (user's own choice) -- no lock at all
+# (stop stays at the plain floor) until peak favorable reaches this. *** KNOWN CONFLICT: every
+# arm-gated design tested this session so far underperformed the no-arm continuous version --
+# "arm at 1%, 0.3% gap" lost -25.82% vs -1.12%; stepped arm=1.0% lost -$126.49 vs continuous's
+# +$1,045.74 over the full history; stepped arm=0.5% made it WORSE still (-$257.42). This is a
+# fourth variant (continuous, not stepped, arm lowered to 0.5%, gap widened to 0.30%) -- see the
+# follow-up backtest run right after this change for the actual verdict, not assumed safe. ***
+TRAILING_STOP_GAP_PCT = 0.30  # stop trails to (peak favorable % - this) ONCE ARMED (peak >= TRAILING_STOP_ARM_PCT) --
+# widened from 0.20 to 0.30 alongside the arm re-introduction, both the user's own choice.
 TRAILING_STOP_STALE_LOSS_MINUTES = 120  # force-close if never favorable and still negative after this long
 TRAILING_STOP_CEILING_BUFFER_PCT = 20.0  # limit_level kept this far beyond the peak favorable level --
 # IG's open_position/update_position both require a real limit_level (see ig_broker.py), so this can't
@@ -563,23 +569,17 @@ def _trailing_stale_loss_due(pos: dict, peak_state: dict) -> bool:
 
 def _trailing_stop_and_limit(pos: dict, margin: float, entry_level: float, size: float, is_long: bool,
                               min_stop_distance: float, peak_state: dict) -> tuple:
-    """Core of the continuous trailing-stop scheme (see TRAILING_STOP_INSTRUMENTS):
-    tracks each position's peak favorable excursion (as % of margin) across
-    ticks in peak_state (mutated in place, keyed by deal_id -- persisted to
-    disk by the caller), then returns:
-      - stop_price: stays at the plain -TRAILING_STOP_FLOOR_PCT floor until the
-        position has shown a REAL favorable excursion (peak_fav_pct > 0) at
-        least once; only then does it start trailing to
-        (peak_fav_pct - TRAILING_STOP_GAP_PCT) of margin, active from that
-        very first favorable tick with NO arm-threshold gate -- see the module
-        comment above TRAILING_STOP_INSTRUMENTS for why every gated/stepped
-        alternative tested underperformed this on real trade data.
-        *** peak_fav_pct must NOT be floored at 0 before this comparison --
-        doing so made every position ratchet from the real -2.85% floor to a
-        bare -TRAILING_STOP_GAP_PCT (e.g. -0.20%) on its very first sync, even
-        with zero favorable movement, silently replacing the validated
-        strategy with an untested hair-trigger one. Caught 2026-09-24 by a
-        user question asking how the floor is actually implemented. ***
+    """Core of the trailing-stop scheme (see TRAILING_STOP_INSTRUMENTS): tracks
+    each position's peak favorable excursion (as % of margin) across ticks in
+    peak_state (mutated in place, keyed by deal_id -- persisted to disk by the
+    caller), then returns:
+      - stop_price: stays at the plain -TRAILING_STOP_FLOOR_PCT floor until
+        peak_fav_pct reaches TRAILING_STOP_ARM_PCT; once armed, trails
+        CONTINUOUSLY (re-evaluated on every new peak, not at fixed steps) to
+        (peak_fav_pct - TRAILING_STOP_GAP_PCT) of margin. See the module
+        comment above TRAILING_STOP_ARM_PCT for the known conflict: every
+        arm-gated variant tested earlier this session underperformed the
+        no-arm version on real trade data.
       - limit_price: entry adjusted by (max(peak_fav_pct, 0) + TRAILING_STOP_CEILING_BUFFER_PCT)
         of margin -- always recomputed past the current peak so it stays out
         of the way; the trailing stop is the real exit, this only exists
@@ -593,7 +593,7 @@ def _trailing_stop_and_limit(pos: dict, margin: float, entry_level: float, size:
     peak_fav_pct = max(peak_state.get(deal_id, 0.0), current_fav_pct)
     peak_state[deal_id] = peak_fav_pct
 
-    if peak_fav_pct > 0:
+    if peak_fav_pct >= TRAILING_STOP_ARM_PCT:
         lock_pct = max(-TRAILING_STOP_FLOOR_PCT, peak_fav_pct - TRAILING_STOP_GAP_PCT)
     else:
         lock_pct = -TRAILING_STOP_FLOOR_PCT
@@ -811,8 +811,8 @@ def _sync_margin_based_exits(broker, positions: dict, snapshots: dict, max_lever
             "old_limit_level": current_limit, "new_limit_level": target_limit,
             "old_stop_level": current_stop, "new_stop_level": target_stop,
             "reason": (
-                f"Trailing-stop reconciliation (floor {TRAILING_STOP_FLOOR_PCT}%, gap {TRAILING_STOP_GAP_PCT}%, "
-                f"continuous from the first favorable tick, no arm gate)"
+                f"Trailing-stop reconciliation (floor {TRAILING_STOP_FLOOR_PCT}%, arm {TRAILING_STOP_ARM_PCT}%, "
+                f"gap {TRAILING_STOP_GAP_PCT}% once armed, continuous not stepped)"
                 if trailing else (
                     f"Position's resting stop and/or limit didn't match the "
                     f"{_stop_loss_pct_for(instrument)}%/{_profit_take_pct_for(instrument)}%-of-margin targets "
