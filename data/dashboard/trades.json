@@ -1,5 +1,55 @@
 [
   {
+    "action": "OPEN_LONG",
+    "instrument": "WTI_OIL",
+    "direction": "BUY",
+    "size": 1.44,
+    "margin_allocated": 2699.01,
+    "effective_leverage": 5.0,
+    "notional": 13527.5,
+    "stop_distance": 9.3716,
+    "limit_distance": 14.9945,
+    "confluence_detail": "get_term_structure agrees with bullish",
+    "reason": "WTI Oil is in backwardation, indicating tight supply, and the technicals show a short-term bullish trend with the SMA-20 above SMA-50. Despite the recent inventory build, the backwardation suggests a bullish tilt.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR78JB29BB",
+    "raw": {
+      "date": "2026-09-24T09:02:15.694",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "HY6EYMHLMRETYNV",
+      "dealId": "DIAAAAR78JB29BB",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR78JB29BB",
+          "status": "OPENED"
+        }
+      ],
+      "level": 9381.7,
+      "size": 1.44,
+      "direction": "BUY",
+      "stopLevel": 9372.328,
+      "limitLevel": 9396.694,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-24T09:02:15.922023+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 33 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
+    "logged_at": "2026-09-24T09:02:15.588272+00:00"
+  },
+  {
     "action": "OPEN_SHORT",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
@@ -4183,89 +4233,5 @@
     "status": "REJECTED",
     "reason": "This trade's margin ($2795.68) would leave available at $2795.70, below the 30.0% safety buffer of balance $11182.74 -- rejected to avoid risking a forced closure on this or other open positions",
     "logged_at": "2026-09-23T11:49:57.265268+00:00"
-  },
-  {
-    "action": "WTI_MIRROR_OPEN",
-    "instrument": "WTI_OIL",
-    "direction": "SELL",
-    "size": 1.5,
-    "margin_allocated": 2795.68,
-    "effective_leverage": 5.0,
-    "notional": 13566.15,
-    "stop_distance": 55.9136,
-    "limit_distance": 55.9136,
-    "reason": "Auto-mirrored from BRENT_OIL: Brent Oil is currently experiencing a pullback from recent highs, driven by geopolitical developments such as the potential reopening of the Strait of Hormuz, which could ease supply concerns. The technicals show a short-term bearish trend with the current price below the SMA-20. Additionally, WTI positioning is extremely crowded on the long side, suggesting a contrarian bearish opportunity.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR7ZYQD8AW",
-    "raw": {
-      "date": "2026-09-23T11:49:57.111",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "3N32H9WNZKATYNV",
-      "dealId": "DIAAAAR7ZYQD8AW",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR7ZYQD8AW",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9036.9,
-      "size": 1.5,
-      "direction": "SELL",
-      "stopLevel": 9092.813,
-      "limitLevel": 8980.986,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-23T11:49:57.264943+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "BRENT_OIL",
-    "direction": "SELL",
-    "size": 1.4,
-    "margin_allocated": 2795.68,
-    "effective_leverage": 5.0,
-    "notional": 13552.7,
-    "stop_distance": 59.9074,
-    "limit_distance": 59.9074,
-    "reason": "Brent Oil is currently experiencing a pullback from recent highs, driven by geopolitical developments such as the potential reopening of the Strait of Hormuz, which could ease supply concerns. The technicals show a short-term bearish trend with the current price below the SMA-20. Additionally, WTI positioning is extremely crowded on the long side, suggesting a contrarian bearish opportunity.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR7ZYB6UA4",
-    "raw": {
-      "date": "2026-09-23T11:49:56.787",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "EBUGL8NWSUATYNV",
-      "dealId": "DIAAAAR7ZYB6UA4",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR7ZYB6UA4",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9670.1,
-      "size": 1.4,
-      "direction": "SELL",
-      "stopLevel": 9730.008,
-      "limitLevel": 9610.192,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-23T11:49:57.007189+00:00"
   }
 ]
