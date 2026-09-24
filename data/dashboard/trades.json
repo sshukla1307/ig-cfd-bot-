@@ -1,5 +1,19 @@
 [
   {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Consecutive-loss circuit breaker: NATURAL_GAS has lost 2 times in a row going SELL (most recently 341 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
+    "logged_at": "2026-09-24T15:32:18.287828+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "WTI_OIL",
+    "status": "REJECTED",
+    "reason": "Same-direction cooldown: WTI_OIL was closed at a loss 59 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
+    "logged_at": "2026-09-24T15:32:18.287618+00:00"
+  },
+  {
     "action": "OPEN_LONG",
     "instrument": "BRENT_OIL",
     "status": "REJECTED",
@@ -3506,55 +3520,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-23T19:01:33.814921+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "WTI_OIL",
-    "status": "REJECTED",
-    "reason": "Confluence requirement not met: WTI_OIL's independent signal(s) checked this tick (get_term_structure=bullish) do not support a bearish thesis -- a technical read alone, or signals pointing the other way, aren't enough to open",
-    "logged_at": "2026-09-23T19:01:33.484645+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "direction": "SELL",
-    "size": 4.44,
-    "margin_allocated": 2793.78,
-    "effective_leverage": 5.0,
-    "notional": 13946.04,
-    "stop_distance": 18.8769,
-    "limit_distance": 18.8769,
-    "confluence_detail": "get_term_structure agrees with bearish",
-    "reason": "Natural Gas is in contango, indicating ample supply, and the recent inventory build supports this. The RSI is neutral, but the technicals show a slight bearish bias with the price below the SMA-20. The market commentary suggests potential for a pullback despite recent price increases.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR7497WNA4",
-    "raw": {
-      "date": "2026-09-23T18:59:55.765",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": "-",
-      "dealReference": "NX54K5YEVLWTYNV",
-      "dealId": "DIAAAAR7497WNA4",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR7497WNA4",
-          "status": "OPENED"
-        }
-      ],
-      "level": 3137.0,
-      "size": 4.44,
-      "direction": "SELL",
-      "stopLevel": 3155.877,
-      "limitLevel": 3118.123,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-23T18:59:55.987126+00:00"
   }
 ]
