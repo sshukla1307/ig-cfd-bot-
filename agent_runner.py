@@ -28,18 +28,23 @@ logger = logging.getLogger(__name__)
 # and always rejected, which would just waste tool-call budget each tick.
 INSTRUMENT_KEYS = [key for key, inst in INSTRUMENTS.items() if inst.epic]
 
-# WTI_OIL traded as a pure auto-mirror of BRENT_OIL for a while (no
-# independent research) -- reverted 2026-09-23 per explicit request, so
-# every instrument with a resolved epic gets full independent research
-# again. Kept as its own name (rather than inlining INSTRUMENT_KEYS
-# everywhere below) in case an instrument is ever added that has an epic
-# but shouldn't be independently researched for some other reason.
-RESEARCH_INSTRUMENT_KEYS = list(INSTRUMENT_KEYS)
+# WTI_OIL is deliberately excluded here again: RE-REVERTED 2026-09-24 (user's
+# own choice) back to a pure auto-mirror of BRENT_OIL (see cfd_runner.py's
+# mirroring logic) -- WTI had briefly traded independently (2026-09-23 to
+# 2026-09-24), but its CFTC positioning data (a signal Brent structurally
+# never gets, since Brent is ICE-listed and outside CFTC jurisdiction) kept
+# producing trade proposals in the OPPOSITE direction from Brent despite the
+# two benchmarks' technicals usually agreeing and their daily returns being
+# ~0.94 correlated historically -- an unwanted outcome, not a bug, but not
+# what's wanted here. No point spending tool-call budget on WTI's own
+# technicals/seasonality/term-structure/positioning when its direction and
+# size are dictated entirely by Brent again.
+RESEARCH_INSTRUMENT_KEYS = [k for k in INSTRUMENT_KEYS if k != "WTI_OIL"]
 
 TOOLS = [
     {
         "name": "get_technicals",
-        "description": "Get RSI-14, SMA-20/50, and recent price history for an instrument.",
+        "description": "Get RSI-14, SMA-20/50, and recent price history for an instrument. WTI_OIL is not offered here -- it's an auto-mirror of BRENT_OIL, not independently researched.",
         "parameters": {
             "type": "object",
             "properties": {
@@ -90,7 +95,7 @@ TOOLS = [
     },
     {
         "name": "get_seasonality",
-        "description": "Get the calendar-based seasonal demand bias for an instrument (e.g. NG winter heating withdrawal season vs summer injection season). Deterministic, always available.",
+        "description": "Get the calendar-based seasonal demand bias for an instrument (e.g. NG winter heating withdrawal season vs summer injection season). Deterministic, always available. WTI_OIL is not offered here -- it's an auto-mirror of BRENT_OIL.",
         "parameters": {
             "type": "object",
             "properties": {
@@ -101,7 +106,7 @@ TOOLS = [
     },
     {
         "name": "get_term_structure",
-        "description": "Get the futures term structure (contango vs backwardation) for an instrument -- compares the near-month price to a dated contract ~3 months out. Reflects the market's own forward supply/demand expectation, a different signal from spot technicals.",
+        "description": "Get the futures term structure (contango vs backwardation) for an instrument -- compares the near-month price to a dated contract ~3 months out. Reflects the market's own forward supply/demand expectation, a different signal from spot technicals. WTI_OIL is not offered here -- it's an auto-mirror of BRENT_OIL.",
         "parameters": {
             "type": "object",
             "properties": {
@@ -123,11 +128,11 @@ TOOLS = [
     },
     {
         "name": "get_positioning_data",
-        "description": "Get managed-money (speculator/hedge fund) net futures positioning from CFTC's weekly Commitment of Traders report, and how extreme it is vs the trailing year -- crowded positioning is a real contrarian signal. NOT available for BRENT_OIL (ICE-listed, outside CFTC jurisdiction).",
+        "description": "Get managed-money (speculator/hedge fund) net futures positioning from CFTC's weekly Commitment of Traders report, and how extreme it is vs the trailing year -- crowded positioning is a real contrarian signal. NOT available for BRENT_OIL (ICE-listed, outside CFTC jurisdiction) or WTI_OIL (auto-mirror of BRENT_OIL -- its own positioning data was the exact reason WTI used to propose trades in the OPPOSITE direction from Brent despite the two benchmarks' technicals usually agreeing).",
         "parameters": {
             "type": "object",
             "properties": {
-                "instrument": {"type": "string", "enum": ["WTI_OIL", "NATURAL_GAS", "GOLD", "SILVER"]},
+                "instrument": {"type": "string", "enum": ["NATURAL_GAS", "GOLD", "SILVER"]},
             },
             "required": ["instrument"],
         },
@@ -163,15 +168,15 @@ PROPOSE_TRADES_SCHEMA = {
                         "action": {
                             "type": "string",
                             "enum": ["OPEN_LONG", "OPEN_SHORT", "CLOSE"],
-                            "description": "OPEN_LONG/OPEN_SHORT open a new single-instrument position (rejected if one is already open on that instrument). CLOSE fully closes an existing position on one instrument, whichever direction it is.",
+                            "description": "OPEN_LONG/OPEN_SHORT open a new single-instrument position (rejected if one is already open on that instrument, and rejected outright for WTI_OIL -- see the WTI mirroring rule). CLOSE fully closes an existing position on one instrument, whichever direction it is.",
                         },
                         "instrument": {"type": "string", "enum": ["BRENT_OIL", "NATURAL_GAS", "WTI_OIL", "GOLD", "SILVER"],
-                                       "description": "Required for OPEN_LONG/OPEN_SHORT/CLOSE. Each instrument is decided and traded independently."},
+                                       "description": "Required for OPEN_LONG/OPEN_SHORT/CLOSE. Only propose OPEN_LONG/OPEN_SHORT on BRENT_OIL, NATURAL_GAS, GOLD, or SILVER -- WTI_OIL positions are opened/closed automatically as a mirror of BRENT_OIL, never propose them directly (CLOSE on WTI_OIL will just be rejected as unnecessary since the mirror handles it)."},
                         "allocation_pct": {
                             "type": "number",
                             "minimum": RULES.min_allocation_pct,
                             "maximum": RULES.max_allocation_pct,
-                            "description": "For OPEN_LONG/OPEN_SHORT: % of account equity to allocate as margin for this instrument.",
+                            "description": "For OPEN_LONG/OPEN_SHORT: % of account equity to allocate as margin for this instrument. When you open BRENT_OIL, the exact same allocation_pct is automatically mirrored onto WTI_OIL too.",
                         },
                         "stop_loss_pct": {
                             "type": "number",
@@ -199,14 +204,19 @@ def build_system_prompt(playbook: str) -> str:
     prompt = f"YOU ARE A LIVE IG CFD TRADING AGENT.\n\n"
     prompt += "=== SYSTEM RULES (enforced by code, not by you) ===\n"
     prompt += f"- Position sizing: {RULES.min_allocation_pct}-{RULES.max_allocation_pct}% of account equity (as margin) per position\n"
-    prompt += f"- Max {RULES.max_positions} concurrent positions (one per instrument, {RULES.max_positions} instruments total).\n"
+    prompt += f"- Max {RULES.max_positions} concurrent positions (one per instrument, {RULES.max_positions} instruments total). A Brent open uses 2 of these slots (Brent + its WTI mirror).\n"
     prompt += f"- Hard leverage cap: {RULES.max_leverage_multiple}x notional exposure per unit of margin allocated, regardless of what IG's own margin factor for the instrument would otherwise permit\n"
     prompt += "- Every OPEN_LONG/OPEN_SHORT MUST include both stop_loss_pct and take_profit_pct -- both mandatory, no exceptions\n"
     prompt += (
-        "- BRENT_OIL, WTI_OIL and NATURAL_GAS are each decided and traded fully independently -- "
-        "there is no mirroring between any of them. Research and propose trades on each instrument "
-        "on its own merits; see your house style below for how their default strategy leans differ "
-        "(WTI in particular does NOT get the same default technical lean Brent and NG do).\n"
+        "- WTI_OIL IS A PURE MIRROR OF BRENT_OIL, not an independently-traded instrument. "
+        "You only ever decide on BRENT_OIL, NATURAL_GAS, GOLD, and SILVER. Whenever you OPEN_LONG or "
+        "OPEN_SHORT BRENT_OIL, the exact same direction and allocation_pct is automatically opened on "
+        "WTI_OIL too, atomically -- if the WTI leg fails after Brent already opened, Brent is "
+        "immediately closed back out rather than leaving you with an unintended naked Brent-only "
+        "position. When you CLOSE BRENT_OIL, its WTI mirror is closed automatically at the same time. "
+        "Never propose OPEN_LONG/OPEN_SHORT/CLOSE on WTI_OIL yourself -- it will simply be rejected. "
+        "Don't research WTI's own technicals/term structure/positioning either; its direction and size "
+        "are fully determined by your Brent decision, not by anything WTI-specific.\n"
     )
     prompt += f"- If available margin drops below {RULES.margin_safety_buffer_pct}% of account balance, ALL new opens are blocked account-wide until it recovers\n"
     if RULES.require_confluence:
@@ -257,8 +267,9 @@ def build_system_prompt(playbook: str) -> str:
         "You also have get_seasonality (deterministic calendar-based demand bias), get_term_structure "
         "(contango/backwardation -- the market's own forward supply/demand expectation, a genuinely "
         "different signal from spot technicals), get_positioning_data (CFTC managed-money "
-        "positioning vs its trailing-year range for WTI/Natural Gas/Gold/Silver, not Brent (ICE-listed, "
-        "outside CFTC jurisdiction) -- extreme crowding is a real contrarian signal), get_inventory_data "
+        "positioning vs its trailing-year range for Natural Gas/Gold/Silver only -- not Brent (ICE-"
+        "listed, outside CFTC jurisdiction) or WTI (auto-mirror of Brent, not independently researched) "
+        "-- extreme crowding is a real contrarian signal), get_inventory_data "
         "(weekly EIA print, oil/gas only -- not available for Gold/Silver), and get_weather_demand (real, current heating/cooling degree-day "
         "data for Natural Gas -- prefer this over get_seasonality's static calendar proxy when deciding "
         "on NG, it's the actual current weather driving demand, not just what month it is), and "

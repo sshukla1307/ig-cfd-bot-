@@ -322,6 +322,40 @@ def _check_stop_breach_backstop(broker, positions: dict) -> list:
     return closed_keys
 
 
+def _check_orphaned_wti_mirror(broker, positions: dict) -> list:
+    """RE-INTRODUCED 2026-09-24 (user's own choice, reverting the 2026-09-23
+    independent-WTI change) -- WTI_OIL should only ever be open ALONGSIDE an
+    open BRENT_OIL position (it's a pure mirror -- see _validate_trade's WTI
+    rejection and the mirror open/close logic in run_cfd_tick). If WTI_OIL is
+    open with no corresponding BRENT_OIL position, that's an invariant
+    violation, not a valid state: either Brent closed via IG's own native
+    stop/limit (not our CLOSE action, so the same-tick mirror-close never
+    fired), WTI's own trailing-stop stale-loss timeout closed it
+    independently, or a stray WTI position predates this mirroring feature
+    entirely. Either way, the agent can never manually close WTI directly and
+    Brent can never reopen while WTI's mirror slot looks occupied, so this
+    must be cleaned up automatically each tick rather than waiting on WTI's
+    own stop/limit to eventually resolve it, which could take a very long
+    time and blocks all Brent trading in the meantime."""
+    if "WTI_OIL" in positions and "BRENT_OIL" not in positions:
+        pos = positions["WTI_OIL"]
+        result = broker.close_position(
+            deal_id=pos["deal_id"], direction=pos["direction"], epic=pos["epic"], size=pos["size"],
+        )
+        _log_order_event({
+            "action": "ORPHANED_WTI_CLEANUP", "instrument": "WTI_OIL", "deal_id": pos["deal_id"],
+            "original_direction": pos["direction"],
+            "reason": (
+                "WTI_OIL was open with no corresponding BRENT_OIL position -- WTI is a pure mirror "
+                "and should never be open on its own (Brent likely closed via its own native stop/"
+                "limit, WTI's own trailing-stop timeout fired independently, or this predates the "
+                "mirroring feature). Closing it automatically so Brent can trade again."
+            ),
+            **result,
+        })
+        if result.get("status") == "submitted":
+            return ["WTI_OIL"]
+    return []
 
 
 MARGIN_PROFIT_TAKE_PCT = 1.0  # Changed 2026-09-24, nudged up from a same-day 0.8% --
@@ -878,6 +912,12 @@ def _validate_trade(trade: dict, account: dict, positions: dict, rules,
         return False, f"Unknown instrument: {instrument}"
     if not INSTRUMENTS[instrument].epic:
         return False, f"{instrument}'s epic is not configured yet -- see config.py instructions"
+    if instrument == "WTI_OIL":
+        return False, (
+            "WTI_OIL is auto-mirrored from BRENT_OIL and is never traded directly -- "
+            "propose OPEN_LONG/OPEN_SHORT/CLOSE on BRENT_OIL instead, and the identical "
+            "action is applied to WTI_OIL automatically"
+        )
 
     existing = positions.get(instrument)
     opening = action in ("OPEN_LONG", "OPEN_SHORT")
@@ -885,6 +925,12 @@ def _validate_trade(trade: dict, account: dict, positions: dict, rules,
     if opening:
         if existing:
             return False, f"{instrument} already has an open position -- CLOSE it first"
+        if instrument == "BRENT_OIL" and positions.get("WTI_OIL"):
+            return False, (
+                "Cannot open BRENT_OIL -- its WTI_OIL mirror slot is already occupied by an "
+                "existing WTI position (shouldn't happen in normal operation; investigate "
+                "if this recurs)"
+            )
         if len(positions) >= rules.max_positions:
             return False, f"Max positions ({rules.max_positions}) reached"
         allocation_pct = trade.get("allocation_pct", 0)
@@ -1224,6 +1270,7 @@ def run_cfd_tick():
     # always sees already-resolved, accurate position state -- same timing
     # pattern as the Alpaca bot's profit-lock backstop.
     closed_keys = _check_stop_breach_backstop(broker, positions)
+    closed_keys = closed_keys + _check_orphaned_wti_mirror(broker, positions)
     if closed_keys:
         for key in closed_keys:
             positions.pop(key, None)
@@ -1486,6 +1533,60 @@ def run_cfd_tick():
                 if result["status"] == "submitted":
                     running_available -= sizing["margin_allocated"]
 
+                    # WTI_OIL auto-mirror: RE-INTRODUCED 2026-09-24 (user's own choice) --
+                    # WTI is never traded independently again; every Brent open is
+                    # automatically mirrored onto WTI with the same direction and
+                    # allocation_pct. Uses _initial_stop_and_limit_distance (not the
+                    # raw margin-pct helpers) so the WTI leg gets the same -2.85%
+                    # trailing-stop floor treatment as Brent -- both are still in
+                    # TRAILING_STOP_INSTRUMENTS, only the OPEN/CLOSE DECISION is
+                    # mirrored, not the exit management.
+                    if instrument == "BRENT_OIL":
+                        wti_inst = INSTRUMENTS["WTI_OIL"]
+                        wti_snapshot = snapshots.get("WTI_OIL")
+                        wti_sizing, wti_err = (None, "WTI market not tradeable") if not broker.is_tradeable(wti_snapshot) else _compute_position_size(
+                            account["balance"], trade["allocation_pct"], wti_snapshot, RULES.max_leverage_multiple, wti_inst.min_deal_size,
+                        )
+                        wti_margin_ok = wti_sizing is not None and _margin_headroom_ok(
+                            running_available - wti_sizing["margin_allocated"], account["balance"], RULES,
+                        )
+                        if wti_sizing and wti_margin_ok:
+                            wti_min_stop_distance = (wti_snapshot or {}).get("min_stop_distance")
+                            wti_stop_distance, wti_limit_distance = _initial_stop_and_limit_distance(
+                                wti_sizing["margin_allocated"], wti_sizing["size"], wti_min_stop_distance, "WTI_OIL",
+                            )
+                            wti_result = broker.open_position(
+                                epic=wti_inst.epic, direction=direction, size=wti_sizing["size"],
+                                stop_distance=wti_stop_distance, limit_distance=wti_limit_distance,
+                                currency_code=account["currency"], expiry=wti_snapshot.get("expiry", "-"),
+                            )
+                            _log_order_event({
+                                "action": "WTI_MIRROR_OPEN", "instrument": "WTI_OIL", "direction": direction,
+                                "size": wti_sizing["size"], "margin_allocated": wti_sizing["margin_allocated"],
+                                "effective_leverage": wti_sizing["effective_leverage"], "notional": wti_sizing["notional"],
+                                "stop_distance": wti_stop_distance, "limit_distance": wti_limit_distance,
+                                "reason": f"Auto-mirrored from BRENT_OIL: {trade.get('reason', '')}", **wti_result,
+                            })
+                        else:
+                            wti_result = {"status": "rejected", "reason": wti_err or "Insufficient margin headroom for the WTI mirror leg"}
+                            _log_order_event({"action": "WTI_MIRROR_OPEN", "instrument": "WTI_OIL", "status": "rejected", "reason": wti_result["reason"]})
+
+                        if wti_result["status"] == "submitted":
+                            running_available -= wti_sizing["margin_allocated"]
+                        else:
+                            # WTI mirror failed -- roll Brent back rather than leave
+                            # an unintended Brent-only position (same principle as
+                            # the spread-trade rollback safety).
+                            rollback = broker.close_position(
+                                deal_id=result["deal_id"], direction=direction, epic=inst.epic,
+                                size=sizing["size"], expiry=snapshot.get("expiry", "-"),
+                            )
+                            _log_order_event({
+                                "action": "MIRROR_ROLLBACK", "instrument": "BRENT_OIL",
+                                "reason": f"WTI mirror leg failed ({wti_result['reason']}) -- closing Brent back out.",
+                                **rollback,
+                            })
+
             else:  # CLOSE
                 pos = positions[instrument]
                 result = broker.close_position(
@@ -1500,6 +1601,21 @@ def run_cfd_tick():
                     "original_direction": pos["direction"],
                     "reason": trade.get("reason", ""), **result,
                 })
+
+                # WTI_OIL auto-mirror: closing Brent closes its WTI mirror too.
+                if instrument == "BRENT_OIL" and result["status"] == "submitted" and positions.get("WTI_OIL"):
+                    wti_pos = positions["WTI_OIL"]
+                    wti_snapshot = snapshots.get("WTI_OIL")
+                    wti_result = broker.close_position(
+                        deal_id=wti_pos["deal_id"], direction=wti_pos["direction"], epic=wti_pos["epic"],
+                        size=wti_pos["size"], expiry=wti_snapshot.get("expiry", "-") if wti_snapshot else "-",
+                    )
+                    _log_order_event({
+                        "action": "WTI_MIRROR_CLOSE", "instrument": "WTI_OIL", "deal_id": wti_pos["deal_id"],
+                        "original_direction": wti_pos["direction"],
+                        "reason": "Auto-closed: its BRENT_OIL mirror was closed this tick.",
+                        **wti_result,
+                    })
 
     # Refresh + snapshot final state for the dashboard.
     account = broker.get_account_state()
