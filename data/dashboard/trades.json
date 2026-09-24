@@ -3,6 +3,20 @@
     "action": "OPEN_LONG",
     "instrument": "WTI_OIL",
     "status": "REJECTED",
+    "reason": "Same-direction cooldown: WTI_OIL was closed at a loss 23 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
+    "logged_at": "2026-09-24T12:31:39.416632+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Consecutive-loss circuit breaker: BRENT_OIL has lost 2 times in a row going BUY (most recently 143 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
+    "logged_at": "2026-09-24T12:31:39.416280+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "WTI_OIL",
+    "status": "REJECTED",
     "reason": "Same-direction cooldown: WTI_OIL was closed at a loss 1 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
     "logged_at": "2026-09-24T12:09:31.913735+00:00"
   },
@@ -3677,48 +3691,5 @@
     "status": "REJECTED",
     "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
     "logged_at": "2026-09-23T14:46:02.247274+00:00"
-  },
-  {
-    "action": "ORPHANED_WTI_CLEANUP",
-    "instrument": "WTI_OIL",
-    "deal_id": "DIAAAAR72UU55AG",
-    "original_direction": "SELL",
-    "reason": "WTI_OIL was open with no corresponding BRENT_OIL position -- WTI is a pure mirror and should never be open on its own (Brent likely closed via its own native stop/limit, or this predates the mirroring feature). Closing it automatically so Brent can trade again.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-23T14:45:06.205",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "4H4L3GERALATYNV",
-      "dealId": "DIAAAAR72UU55AG",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR72UU55AG",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 9198.3,
-      "size": 1.5,
-      "direction": "BUY",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": -62.55,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-09-23T14:45:06.527840+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "WTI_OIL",
-    "status": "REJECTED",
-    "reason": "WTI_OIL is auto-mirrored from BRENT_OIL and is never traded directly -- propose OPEN_LONG/OPEN_SHORT/CLOSE on BRENT_OIL instead, and the identical action is applied to WTI_OIL automatically",
-    "logged_at": "2026-09-23T14:33:15.232426+00:00"
   }
 ]
