@@ -1,5 +1,133 @@
 [
   {
+    "action": "OPEN_LONG",
+    "instrument": "GOLD",
+    "status": "REJECTED",
+    "reason": "This trade's margin ($2655.20) would leave available at $2625.66, below the 30.0% safety buffer of balance $10620.81 -- rejected to avoid risking a forced closure on this or other open positions",
+    "logged_at": "2026-09-24T17:31:50.232002+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "WTI_OIL",
+    "direction": "SELL",
+    "size": 1.4,
+    "margin_allocated": 2655.2,
+    "effective_leverage": 5.0,
+    "notional": 13212.36,
+    "stop_distance": 54.0523,
+    "limit_distance": 379.3143,
+    "confluence_detail": "get_positioning_data agrees with bearish",
+    "reason": "WTI is showing a short-term bullish technical setup with SMA-20 above SMA-50 and RSI at 67, indicating potential overbought conditions. However, managed-money positioning is at a multi-month extreme long, which is a contrarian bearish signal. Additionally, the term structure is in backwardation, suggesting tight supply, but the extreme long positioning outweighs this. The macro environment with a strong dollar and high Treasury yields also supports a bearish outlook.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR8CBFCRAL",
+    "raw": {
+      "date": "2026-09-24T17:31:50.028",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "FV73APJM79STYNV",
+      "dealId": "DIAAAAR8CBFCRAL",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR8CBFCRAL",
+          "status": "OPENED"
+        }
+      ],
+      "level": 9432.0,
+      "size": 1.4,
+      "direction": "SELL",
+      "stopLevel": 9486.053,
+      "limitLevel": 9052.686,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-24T17:31:50.231663+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "NATURAL_GAS",
+    "deal_id": "DIAAAAR8B9ATFA2",
+    "old_limit_level": 3224.5306,
+    "new_limit_level": 3225.6,
+    "old_stop_level": 3379.3044,
+    "new_stop_level": 3379.152,
+    "reason": "Trailing-stop reconciliation (floor 2.85%, gap 0.2%, continuous from the first favorable tick, no arm gate) -- amending both on IG directly (both always sent together, see incident note above).",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-09-24T17:27:02.516",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "ERNANF9NTKETYNV",
+      "dealId": "DIAAAAR8B9ATFA2",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR8B9ATFA2",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 3360.0,
+      "size": 3.92,
+      "direction": "SELL",
+      "stopLevel": 3379.152,
+      "limitLevel": 3225.6,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-24T17:27:02.750025+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "BRENT_OIL",
+    "deal_id": "DIAAAAR8B8WZKAE",
+    "old_limit_level": 10533.703,
+    "new_limit_level": 10536.656,
+    "old_stop_level": 10074.0718,
+    "new_stop_level": 10074.0718,
+    "reason": "Trailing-stop reconciliation (floor 2.85%, gap 0.2%, continuous from the first favorable tick, no arm gate) -- amending both on IG directly (both always sent together, see incident note above).",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-09-24T17:27:02.157",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "Q43SSBE34SWTYNV",
+      "dealId": "DIAAAAR8B8WZKAE",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR8B8WZKAE",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 10131.4,
+      "size": 1.32,
+      "direction": "BUY",
+      "stopLevel": 10074.072,
+      "limitLevel": 10536.656,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-24T17:27:02.409094+00:00"
+  },
+  {
     "action": "OPEN_SHORT",
     "instrument": "NATURAL_GAS",
     "direction": "SELL",
@@ -3475,33 +3603,5 @@
     "status": "REJECTED",
     "reason": "Minimum hold time not met: GOLD has only been open for 59 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "logged_at": "2026-09-23T23:31:36.544263+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "WTI_OIL",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: WTI_OIL has only been open for 40 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-23T23:31:36.543919+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "GOLD",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: GOLD has only been open for 56 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-23T23:28:15.063571+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "WTI_OIL",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: WTI_OIL has only been open for 37 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-23T23:28:15.063258+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "WTI_OIL",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: WTI_OIL has only been open for 10 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-23T23:01:41.899883+00:00"
   }
 ]
