@@ -1,5 +1,55 @@
 [
   {
+    "action": "OPEN_SHORT",
+    "instrument": "SILVER",
+    "direction": "SELL",
+    "size": 1.72,
+    "margin_allocated": 2201.68,
+    "effective_leverage": 5.0,
+    "notional": 11031.91,
+    "stop_distance": 38.4014,
+    "limit_distance": 38.4014,
+    "confluence_detail": "get_term_structure agrees with bearish",
+    "reason": "Silver is in contango, indicating ample supply, and the technicals show a bearish trend with the price below both the 20 and 50 SMA. The RSI is neutral, but the overall setup suggests a bearish outlook.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR76TNT6A8",
+    "raw": {
+      "date": "2026-09-24T04:02:30.988",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDSILVER.DBI.IP",
+      "expiry": "-",
+      "dealReference": "HQVUPF8SY6STYNV",
+      "dealId": "DIAAAAR76TNT6A8",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR76TNT6A8",
+          "status": "OPENED"
+        }
+      ],
+      "level": 6409.3,
+      "size": 1.72,
+      "direction": "SELL",
+      "stopLevel": 6447.701,
+      "limitLevel": 6370.8984,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-24T04:02:31.221104+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
+    "logged_at": "2026-09-24T04:02:30.861849+00:00"
+  },
+  {
     "action": "OPEN_LONG",
     "instrument": "SILVER",
     "status": "REJECTED",
@@ -4473,54 +4523,5 @@
     "status": "REJECTED",
     "reason": "Minimum hold time not met: BRENT_OIL has only been open for 60 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "logged_at": "2026-09-23T01:38:21.165811+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "direction": "SELL",
-    "size": 4.6,
-    "margin_allocated": 2890.39,
-    "effective_leverage": 5.0,
-    "notional": 14522.2,
-    "stop_distance": 18.8504,
-    "limit_distance": 18.8504,
-    "reason": "Natural Gas is in a contango structure, indicating ample supply. The RSI is elevated at 65.1, suggesting potential overbought conditions. Seasonality is bearish, and weather-driven demand is moderate with no strong signal. Managed-money positioning is within a normal range, providing no extreme crowding signal. Overall, the evidence suggests a bearish tilt.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR7XBRGDAG",
-    "raw": {
-      "date": "2026-09-23T01:01:59.247",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": "-",
-      "dealReference": "53ECH67Q3AATYNV",
-      "dealId": "DIAAAAR7XBRGDAG",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR7XBRGDAG",
-          "status": "OPENED"
-        }
-      ],
-      "level": 3155.0,
-      "size": 4.6,
-      "direction": "SELL",
-      "stopLevel": 3173.8503,
-      "limitLevel": 3136.1497,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-23T01:01:59.390761+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "This trade's margin ($2890.39) would leave available at $2890.39, below the 30.0% safety buffer of balance $11561.56 -- rejected to avoid risking a forced closure on this or other open positions",
-    "logged_at": "2026-09-23T00:38:02.468938+00:00"
   }
 ]
