@@ -1,5 +1,19 @@
 [
   {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Consecutive-loss circuit breaker: NATURAL_GAS has lost 2 times in a row going SELL (most recently 401 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
+    "logged_at": "2026-09-24T16:31:54.654572+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Consecutive-loss circuit breaker: BRENT_OIL has lost 2 times in a row going BUY (most recently 383 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
+    "logged_at": "2026-09-24T16:31:54.654154+00:00"
+  },
+  {
     "action": "OPEN_LONG",
     "instrument": "BRENT_OIL",
     "status": "REJECTED",
@@ -3521,19 +3535,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-23T22:32:14.001097+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "WTI_OIL",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: WTI_OIL has only been open for 173 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-23T22:32:13.785281+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 2 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-23T22:03:59.353233+00:00"
   }
 ]
