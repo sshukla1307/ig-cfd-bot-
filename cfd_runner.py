@@ -276,32 +276,33 @@ def _check_stop_breach_backstop(broker, positions: dict) -> list:
 
 
 
-MARGIN_PROFIT_TAKE_PCT = 1.0  # Changed 2026-09-24 (user's own choice) from the prior 3.0%,
-# which was itself set 2026-09-22 from a price-path backtest replaying 394 real trades:
-# 3.0%/3.0% (symmetric) ranked #1 of 49 combinations at the time. A FRESH replay on
-# 2026-09-24 (191 real trades from the most recent 7 days, same yfinance-1m-bar
-# methodology) showed the picture had shifted: on this account's more recent price
-# action, tighter distances on BOTH sides substantially outperformed 3.0%/3.0% (which
-# lost -94.9% margin summed over the sample) -- a grid search found 0.4%/1.0% as the
-# best-performing cell in that grid (+14.6%). Deployed as requested, but flagged
-# explicitly at the time: this specific cell is likely partly overfit to the one week
-# it was found on (nearby cells swing wildly, e.g. 0.4%/1.25% dropped to +12.7% and
-# 1.0%/1.25% was already -31.25%), and at this tightness the % math computes a stop
-# distance for Natural Gas (~2.5pts) well below IG's real ~10pt minimum -- see
-# min_stop_distance in _margin_based_distance, which clamps up to IG's real floor
-# rather than submitting a distance IG would reject. Watch results closely and be
-# ready to revisit if this doesn't hold up on fresh data the way the replay suggested.
+MARGIN_PROFIT_TAKE_PCT = 0.8  # Changed 2026-09-24 (user's own choice), superseding a
+# same-day 0.4%/1.0% pairing that was live only briefly. That pairing's own replay
+# (191 real trades, most recent 7 days, yfinance-1m-bar entry-anchored methodology) had
+# NOT applied IG's real per-instrument minimum stop/limit distance (see min_stop_distance
+# below) when grid-searching -- re-running the comparison WITH the clamp applied showed
+# 0.5%/0.8% actually beats 0.4%/1.0% on every measure: higher win rate (49.2% vs 39.3%),
+# higher net (+10.90% vs +9.02% margin summed), AND ~25% more raw stop distance on
+# average (8.07pts vs 6.46pts) -- meaningfully more room against ordinary bid-ask/spread
+# noise before a real move is even required to trigger the stop, which is exactly why
+# stop count dropped (97 vs 116) despite the wider distance. Natural Gas is a wash
+# between the two pairings specifically because its stop is clamped to IG's ~10pt
+# minimum under BOTH (0.4% and 0.5% both compute below that floor), so the only real
+# difference for NG is the slightly smaller target. Same caveats as before still apply:
+# this is one week of real data, nearby cells are not smooth, and spread/slippage still
+# aren't modeled -- watch results and be ready to revisit.
 # Implemented as a REAL resting IG limit order (see _margin_based_limit_distance), not
 # a bot-side poll: this account's tick cadence is 30-60 minutes, and a resting order
 # lets IG execute the instant price touches it, 24/7, rather than only whenever the
 # bot next happens to check.
 
 
-MARGIN_STOP_LOSS_PCT = 0.4  # Changed 2026-09-24 alongside MARGIN_PROFIT_TAKE_PCT -- see
-# that constant's comment for the full replay context. This is the INITIAL stop distance
-# at open; see BREAKEVEN_TRIGGER_PCT below for the (currently disabled, see
-# BREAKEVEN_RATCHET_ENABLED) ratchet mechanism that once existed to tighten it further
-# once a position moved into profit.
+MARGIN_STOP_LOSS_PCT = 0.5  # Changed 2026-09-24 alongside MARGIN_PROFIT_TAKE_PCT -- see
+# that constant's comment for the full replay context (0.5%/0.8% beating the
+# briefly-live 0.4%/1.0% once IG's real minimum-distance clamp was applied to both).
+# This is the INITIAL stop distance at open; see BREAKEVEN_TRIGGER_PCT below for the
+# (currently disabled, see BREAKEVEN_RATCHET_ENABLED) ratchet mechanism that once
+# existed to tighten it further once a position moved into profit.
 
 
 BREAKEVEN_TRIGGER_PCT = 1.6  # Once a position's unrealized profit reaches this % of margin,
