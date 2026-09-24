@@ -1,5 +1,65 @@
 [
   {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "direction": "SELL",
+    "size": 3.4,
+    "margin_allocated": 2156.37,
+    "effective_leverage": 5.0,
+    "notional": 10812.0,
+    "stop_distance": 19.0268,
+    "limit_distance": 19.0268,
+    "confluence_detail": "get_term_structure agrees with bearish",
+    "reason": "Natural gas is in contango, indicating ample supply. The weather-driven demand is moderate with no strong signal, and the positioning data shows no extreme crowding. The technicals suggest a bearish trend, and the news indicates a short-term bearish outlook.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR77J5N5BF",
+    "raw": {
+      "date": "2026-09-24T07:05:24.24",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "J8CURBVHBNWTYNV",
+      "dealId": "DIAAAAR77J5N5BF",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR77J5N5BF",
+          "status": "OPENED"
+        }
+      ],
+      "level": 3177.0,
+      "size": 3.4,
+      "direction": "SELL",
+      "stopLevel": 3196.0269,
+      "limitLevel": 3157.9731,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-24T07:05:24.368729+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
+    "logged_at": "2026-09-24T07:05:24.165731+00:00"
+  },
+  {
+    "action": "BROKER_CLOSE",
+    "instrument": "NATURAL_GAS",
+    "deal_id": "DIAAAAR768W4XAM",
+    "original_direction": "SELL",
+    "estimated_pnl": 50.88,
+    "status": "detected",
+    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
+    "logged_at": "2026-09-24T07:05:01.014232+00:00"
+  },
+  {
     "action": "OPEN_LONG",
     "instrument": "BRENT_OIL",
     "status": "REJECTED",
@@ -4482,58 +4542,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-23T07:23:07.018946+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR7X2QJGAK",
-    "old_limit_level": 9595.3286,
-    "new_limit_level": 9595.3286,
-    "old_stop_level": 9481.7086,
-    "new_stop_level": 9541.9152,
-    "reason": "Position's resting stop and/or limit didn't match the 3.0%/3.0%-of-margin targets, or the breakeven ratchet (trigger 1.6%, lock 0.2%) applied -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-23T07:19:01.058",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "GASBDRU79XSTYNV",
-      "dealId": "DIAAAAR7X2QJGAK",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR7X2QJGAK",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 9538.1,
-      "size": 1.5,
-      "direction": "BUY",
-      "stopLevel": 9541.915,
-      "limitLevel": 9595.328,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-23T07:19:01.210628+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 90 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-23T07:02:21.944365+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 360 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-23T07:02:21.944113+00:00"
   }
 ]
