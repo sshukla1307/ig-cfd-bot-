@@ -1,5 +1,19 @@
 [
   {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Consecutive-loss circuit breaker: BRENT_OIL has lost 7 times in a row going BUY (most recently 43 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
+    "logged_at": "2026-09-24T19:32:25.263200+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "WTI_OIL",
+    "status": "REJECTED",
+    "reason": "Consecutive-loss circuit breaker: WTI_OIL has lost 2 times in a row going SELL (most recently 17 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
+    "logged_at": "2026-09-24T19:32:25.262881+00:00"
+  },
+  {
     "action": "OPEN_SHORT",
     "instrument": "WTI_OIL",
     "status": "REJECTED",
@@ -4432,54 +4446,5 @@
     "status": "REJECTED",
     "reason": "Same-direction cooldown: BRENT_OIL was closed at a loss 1 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
     "logged_at": "2026-09-24T10:09:38.413689+00:00"
-  },
-  {
-    "action": "BROKER_CLOSE",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR78VBSQBF",
-    "original_direction": "BUY",
-    "estimated_pnl": -4.36,
-    "status": "detected",
-    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-09-24T10:09:04.072804+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR78VBSQBF",
-    "old_limit_level": 10096.8186,
-    "new_limit_level": 10096.6288,
-    "old_stop_level": 10070.3009,
-    "new_stop_level": 10070.4195,
-    "reason": "Position's resting stop and/or limit didn't match the 0.5%/0.8%-of-margin targets, or the breakeven ratchet (trigger 1.6%, lock 1.4%) applied -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-24T10:03:03.713",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "JK6CMS2NXF6TYNV",
-      "dealId": "DIAAAAR78VBSQBF",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR78VBSQBF",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 10080.5,
-      "size": 1.32,
-      "direction": "BUY",
-      "stopLevel": 10070.42,
-      "limitLevel": 10096.629,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-24T10:03:03.948879+00:00"
   }
 ]
