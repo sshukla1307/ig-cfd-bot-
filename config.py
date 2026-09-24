@@ -86,12 +86,15 @@ class SystemRules:
                                          # doesn't guarantee precise firing -- see cfd_trading.yml's
                                          # comment. Treat this as the target/nominal cadence, not a
                                          # hard guarantee.
-    require_confluence: bool = True  # after 49 real trades showed a 37% win rate, block any
-                                      # OPEN_LONG/OPEN_SHORT proposed on technicals alone -- the
-                                      # agent must have checked news or macro THIS tick too before
-                                      # opening. Only a procedural minimum (did it look at more than
-                                      # one source) -- whether the sources genuinely agree is a
-                                      # judgment call the code can't verify, left to PERSONA_PROMPT.
+    require_confluence: bool = False  # DISABLED 2026-09-24 (user's own choice) -- was blocking ~60%
+                                      # of all proposed trades (82 of 136 rejections in the preceding
+                                      # 24h alone), cutting trade frequency far more aggressively than
+                                      # intended. Originally added after 49 real trades showed a 37%
+                                      # win rate, to block any OPEN_LONG/OPEN_SHORT proposed on
+                                      # technicals alone -- the agent had to have checked news or macro
+                                      # THIS tick too before opening. Left in place (not deleted) in
+                                      # case a future win-rate regression makes re-enabling it worth
+                                      # revisiting -- see _validate_trade's require_confluence check.
     same_direction_cooldown_minutes: int = 60  # after a real, observed pattern of re-shorting Brent/
                                                 # WTI into a strong uptrend 3 times in ~90 minutes right
                                                 # after each stop-out, using a vague "news suggests a
