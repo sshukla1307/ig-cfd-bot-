@@ -3,6 +3,56 @@
     "action": "OPEN_SHORT",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "Consecutive-loss circuit breaker: NATURAL_GAS has lost 2 times in a row going SELL (most recently 281 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
+    "logged_at": "2026-09-24T14:31:46.857990+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "WTI_OIL",
+    "direction": "SELL",
+    "size": 1.44,
+    "margin_allocated": 2685.8,
+    "effective_leverage": 5.0,
+    "notional": 13585.1,
+    "stop_distance": 9.3257,
+    "limit_distance": 18.6514,
+    "confluence_detail": "get_positioning_data agrees with bearish",
+    "reason": "WTI is currently overbought with an RSI of 72.3, indicating a potential pullback. Additionally, managed-money net-long positioning is near a multi-month extreme, which is a contrarian bearish signal. Despite the backwardation in the term structure, the recent EIA report showed a crude inventory build of 3 million barrels, which could pressure prices downward.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR8ANEZVAR",
+    "raw": {
+      "date": "2026-09-24T14:31:46.623",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "VSAAHRMCU5JTYNV",
+      "dealId": "DIAAAAR8ANEZVAR",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR8ANEZVAR",
+          "status": "OPENED"
+        }
+      ],
+      "level": 9433.1,
+      "size": 1.44,
+      "direction": "SELL",
+      "stopLevel": 9442.426,
+      "limitLevel": 9414.448,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-24T14:31:46.857585+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for NATURAL_GAS this tick -- a technical read or a generic news search alone can't open a position",
     "logged_at": "2026-09-24T14:06:27.550675+00:00"
   },
@@ -3610,55 +3660,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-23T18:31:54.401263+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "direction": "SELL",
-    "size": 4.4,
-    "margin_allocated": 2760.14,
-    "effective_leverage": 5.0,
-    "notional": 13838.0,
-    "stop_distance": 18.8191,
-    "limit_distance": 18.8191,
-    "confluence_detail": "get_term_structure agrees with bearish",
-    "reason": "Natural gas is in contango, indicating ample supply, and the RSI is neutral. The weather-driven demand is moderate with no strong signals, and the positioning data shows no extreme crowding. The recent news suggests a potential decline in production, but the overall supply dynamics and seasonal shifts are not strongly bullish. Therefore, a short position is justified.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR747GPKBF",
-    "raw": {
-      "date": "2026-09-23T18:29:43.861",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": "-",
-      "dealReference": "Q5H66AXP9LETYNV",
-      "dealId": "DIAAAAR747GPKBF",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR747GPKBF",
-          "status": "OPENED"
-        }
-      ],
-      "level": 3140.0,
-      "size": 4.4,
-      "direction": "SELL",
-      "stopLevel": 3158.819,
-      "limitLevel": 3121.181,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-23T18:29:44.032333+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
-    "logged_at": "2026-09-23T18:29:43.742889+00:00"
   }
 ]
