@@ -3,6 +3,30 @@
     "action": "OPEN_SHORT",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 45 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
+    "logged_at": "2026-09-24T10:35:52.400140+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
+    "logged_at": "2026-09-24T10:35:52.399755+00:00"
+  },
+  {
+    "action": "BROKER_CLOSE",
+    "instrument": "WTI_OIL",
+    "deal_id": "DIAAAAR783JK2AX",
+    "original_direction": "BUY",
+    "estimated_pnl": -5.34,
+    "status": "detected",
+    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
+    "logged_at": "2026-09-24T10:35:03.860498+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 41 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
     "logged_at": "2026-09-24T10:32:15.294635+00:00"
   },
@@ -3873,96 +3897,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-23T13:35:39.718301+00:00"
-  },
-  {
-    "action": "WTI_MIRROR_OPEN",
-    "instrument": "WTI_OIL",
-    "direction": "SELL",
-    "size": 1.6,
-    "margin_allocated": 2841.38,
-    "effective_leverage": 5.0,
-    "notional": 14550.4,
-    "stop_distance": 53.2759,
-    "limit_distance": 53.2759,
-    "reason": "Auto-mirrored from BRENT_OIL: Brent Oil is currently trading below its 20-day SMA, indicating a potential bearish trend. Additionally, the geopolitical risk premium is unwinding, and managed-money positioning in WTI (a mirror of Brent) is at a multi-month extreme long, suggesting a contrarian bearish signal.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR72M978AB",
-    "raw": {
-      "date": "2026-09-23T13:35:39.367",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "RC9UHSK46F2TYNV",
-      "dealId": "DIAAAAR72M978AB",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR72M978AB",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9106.0,
-      "size": 1.6,
-      "direction": "SELL",
-      "stopLevel": 9159.276,
-      "limitLevel": 9052.724,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-23T13:35:39.501090+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "BRENT_OIL",
-    "direction": "SELL",
-    "size": 1.5,
-    "margin_allocated": 2841.38,
-    "effective_leverage": 5.0,
-    "notional": 14556.6,
-    "stop_distance": 56.8276,
-    "limit_distance": 56.8276,
-    "reason": "Brent Oil is currently trading below its 20-day SMA, indicating a potential bearish trend. Additionally, the geopolitical risk premium is unwinding, and managed-money positioning in WTI (a mirror of Brent) is at a multi-month extreme long, suggesting a contrarian bearish signal.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR72MSWSA5",
-    "raw": {
-      "date": "2026-09-23T13:35:39.154",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "C36QCH6D7GJTYNV",
-      "dealId": "DIAAAAR72MSWSA5",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR72MSWSA5",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9708.6,
-      "size": 1.5,
-      "direction": "SELL",
-      "stopLevel": 9765.428,
-      "limitLevel": 9651.772,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-23T13:35:39.290963+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "This trade's margin ($2832.02) would leave available at $2832.02, below the 30.0% safety buffer of balance $11328.08 -- rejected to avoid risking a forced closure on this or other open positions",
-    "logged_at": "2026-09-23T13:33:56.236957+00:00"
   }
 ]
