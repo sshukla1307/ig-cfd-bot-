@@ -67,18 +67,23 @@ def _log_order_event(event: dict):
     logger.warning(f"[IG-CFD] {event}")
 
 
-def _get_last_close_info(order_log_path: Path) -> dict:
-    """Returns {instrument: {"direction": original_direction, "logged_at": iso_str,
-    "is_loss": bool}} for the most recent submitted CLOSE per instrument, read
-    from the append-only audit log (no separate state file needed). Used by
-    the same-direction cooldown: a real, observed pattern of re-shorting an
-    instrument into a strong trend immediately after being stopped out on the
-    exact same thesis, repeatedly. Missing/older entries (logged before
+def _iter_close_events(order_log_path: Path):
+    """Yields {"instrument", "direction", "logged_at", "is_loss"} for every
+    real close in the audit log, in file order -- both agent-initiated CLOSE
+    (action="CLOSE", status="submitted", profit read from raw.profit) AND
+    broker-side fills (action="BROKER_CLOSE", status="detected", profit read
+    from estimated_pnl -- see _log_broker_closes). Both feed the
+    same-direction cooldown and the consecutive-loss circuit breaker; missing
+    BROKER_CLOSE logging for ordinary stop/limit fills (the dominant way
+    positions actually close on this account) is exactly what let a real
+    losing streak (2026-09-23/24, Natural Gas re-shorted 8 times in ~13
+    hours) go completely uncounted by both cooldowns -- neither a CLOSE nor
+    the OLD deal-id-diff-only vanish detection ever wrote anything either
+    cooldown could see. Missing/older entries (logged before
     "original_direction" was added) are simply skipped -- fails permissive,
     not unsafe, since the worst case is just not cooling down."""
-    last_close = {}
     if not order_log_path.exists():
-        return last_close
+        return
     with open(order_log_path) as f:
         for line in f:
             line = line.strip()
@@ -88,20 +93,64 @@ def _get_last_close_info(order_log_path: Path) -> dict:
                 d = json.loads(line)
             except json.JSONDecodeError:
                 continue
-            if d.get("action") != "CLOSE" or d.get("status") != "submitted":
-                continue
+            action = d.get("action")
             instrument = d.get("instrument")
             direction = d.get("original_direction")
             logged_at = d.get("logged_at")
             if not (instrument and direction and logged_at):
                 continue
-            profit = d.get("raw", {}).get("profit")
-            last_close[instrument] = {
-                "direction": direction,
-                "logged_at": logged_at,
+            if action == "CLOSE" and d.get("status") == "submitted":
+                profit = d.get("raw", {}).get("profit")
+            elif action == "BROKER_CLOSE" and d.get("status") == "detected":
+                profit = d.get("estimated_pnl")
+            else:
+                continue
+            yield {
+                "instrument": instrument, "direction": direction, "logged_at": logged_at,
                 "is_loss": (profit is not None and profit <= 0),
             }
+
+
+def _get_last_close_info(order_log_path: Path) -> dict:
+    """Returns {instrument: {"direction": original_direction, "logged_at": iso_str,
+    "is_loss": bool}} for the most recent close per instrument (agent-initiated
+    or broker-side, see _iter_close_events), read from the append-only audit
+    log (no separate state file needed). Used by the same-direction cooldown:
+    a real, observed pattern of re-shorting an instrument into a strong trend
+    immediately after being stopped out on the exact same thesis, repeatedly."""
+    last_close = {}
+    for event in _iter_close_events(order_log_path):
+        last_close[event["instrument"]] = {
+            "direction": event["direction"], "logged_at": event["logged_at"], "is_loss": event["is_loss"],
+        }
     return last_close
+
+
+def _get_same_direction_loss_streak(order_log_path: Path) -> dict:
+    """Returns {instrument: {"direction", "streak", "logged_at"}} -- streak is
+    how many CONSECUTIVE closes in a row (agent-initiated or broker-side, see
+    _iter_close_events), in the same direction, were losses (any win resets
+    to 0; a loss in a NEW direction resets to 1). Feeds the consecutive-loss
+    circuit breaker (see RULES.max_consecutive_same_direction_losses): a real
+    incident (2026-09-23/24) showed the single time-based
+    same_direction_cooldown isn't enough on its own -- it survives a quick
+    re-test, not a trend that outlasts its 60min window. Counting the streak
+    directly, independent of elapsed time, catches "the agent keeps
+    re-trying the identical losing bet" regardless of how long it waits
+    between attempts."""
+    streaks = {}
+    for event in _iter_close_events(order_log_path):
+        instrument, direction, logged_at, is_loss = (
+            event["instrument"], event["direction"], event["logged_at"], event["is_loss"],
+        )
+        current = streaks.get(instrument)
+        if is_loss and current and current["direction"] == direction:
+            streaks[instrument] = {"direction": direction, "streak": current["streak"] + 1, "logged_at": logged_at}
+        elif is_loss:
+            streaks[instrument] = {"direction": direction, "streak": 1, "logged_at": logged_at}
+        else:
+            streaks[instrument] = {"direction": direction, "streak": 0, "logged_at": logged_at}
+    return streaks
 
 
 def _compute_position_size(equity: float, allocation_pct: float, snapshot: dict,
@@ -451,7 +500,8 @@ def _sync_margin_based_exits(broker, positions: dict, snapshots: dict, max_lever
 
 def _validate_trade(trade: dict, account: dict, positions: dict, rules,
                      running_available: float = None, checked_multiple_sources: bool = True,
-                     confluence_reason: str = "", last_close_info: dict = None) -> tuple:
+                     confluence_reason: str = "", last_close_info: dict = None,
+                     loss_streak_info: dict = None) -> tuple:
     """running_available: the margin-safety check's source of truth for
     'available margin right now'. Pass this explicitly (rather than reading
     account['available'] directly) so the caller can track it as a running
@@ -472,7 +522,14 @@ def _validate_trade(trade: dict, account: dict, positions: dict, rules,
     _get_last_close_info -- blocks re-opening the SAME direction on an
     instrument within RULES.same_direction_cooldown_minutes of a LOSING close
     there (a real, observed pattern: re-shorting into a strong uptrend
-    immediately after each stop-out, 3 times in ~90 minutes)."""
+    immediately after each stop-out, 3 times in ~90 minutes).
+
+    loss_streak_info: {instrument: {direction, streak, logged_at}} from
+    _get_same_direction_loss_streak -- once an instrument has lost
+    RULES.max_consecutive_same_direction_losses times in a row in the same
+    direction, blocks that direction for RULES.consecutive_loss_cooldown_minutes
+    regardless of how much time has passed (unlike same_direction_cooldown_minutes
+    above, which only looks at the single most recent close)."""
     if running_available is None:
         running_available = account["available"]
 
@@ -520,6 +577,19 @@ def _validate_trade(trade: dict, account: dict, positions: dict, rules,
                         f"{minutes_since:.0f} min ago in this same direction ({proposed_direction}) -- "
                         f"blocked for {rules.same_direction_cooldown_minutes} min to avoid immediately "
                         f"re-entering a thesis that just failed"
+                    )
+        if loss_streak_info and instrument in loss_streak_info:
+            streak_info = loss_streak_info[instrument]
+            proposed_direction = "BUY" if action == "OPEN_LONG" else "SELL"
+            if streak_info["direction"] == proposed_direction and streak_info["streak"] >= rules.max_consecutive_same_direction_losses:
+                minutes_since = (datetime.now(timezone.utc) - datetime.fromisoformat(streak_info["logged_at"])).total_seconds() / 60
+                if minutes_since < rules.consecutive_loss_cooldown_minutes:
+                    return False, (
+                        f"Consecutive-loss circuit breaker: {instrument} has lost "
+                        f"{streak_info['streak']} times in a row going {proposed_direction} (most recently "
+                        f"{minutes_since:.0f} min ago) -- blocked for {rules.consecutive_loss_cooldown_minutes} "
+                        f"min regardless of the shorter same-direction cooldown, to avoid repeating a thesis "
+                        f"that keeps failing against what may be a persistent trend"
                     )
         if not _margin_headroom_ok(running_available, account["balance"], rules):
             return False, (
@@ -615,14 +685,17 @@ def _validate_spread_trade(trade: dict, account: dict, positions: dict, rules,
     return True, "OK"
 
 
-def _last_known_open_deal_ids() -> set:
-    """Returns the set of deal_ids open as of the most recent equity_history.jsonl
+def _last_known_positions_by_deal_id() -> dict:
+    """Returns {deal_id: position_dict} as of the most recent equity_history.jsonl
     snapshot (written at the end of every real run_cfd_tick pass) -- the cheapest
     available 'last known state' to diff a fresh get_positions() call against in
-    run_watch_check, with no need for its own separate state file."""
+    run_watch_check, with no need for its own separate state file. Each
+    position_dict includes "instrument", "direction" and the last-known
+    "unrealized_pnl_usd" -- everything needed to log a reasonable win/loss
+    classification for a position that vanishes (see _log_broker_closes)."""
     path = DATA_DIR / "equity_history.jsonl"
     if not path.exists():
-        return set()
+        return {}
     last_line = None
     with open(path) as f:
         for line in f:
@@ -630,12 +703,45 @@ def _last_known_open_deal_ids() -> set:
             if line:
                 last_line = line
     if not last_line:
-        return set()
+        return {}
     try:
         snapshot = json.loads(last_line)
     except json.JSONDecodeError:
-        return set()
-    return {p.get("deal_id") for p in snapshot.get("positions", []) if p.get("deal_id")}
+        return {}
+    return {p["deal_id"]: p for p in snapshot.get("positions", []) if p.get("deal_id")}
+
+
+def _log_broker_closes(vanished_deal_ids: set, last_known_positions: dict) -> None:
+    """Logs a BROKER_CLOSE event for each position that vanished between
+    snapshots -- almost always IG's own resting stop or take-profit firing,
+    which (unlike an agent-initiated CLOSE) previously produced NO audit-log
+    entry at all. A real incident (2026-09-23/24: the agent re-shorted
+    Natural Gas 8 times in ~13 hours into a persistent rally) traced back to
+    exactly this gap -- same_direction_cooldown_minutes and the consecutive-
+    loss circuit breaker both only ever looked at "CLOSE" actions, so a
+    string of ordinary stop-outs (the dominant way positions actually close
+    on this account) was invisible to both cooldowns the whole time.
+    win/loss is estimated from the LAST KNOWN unrealized_pnl_usd (as of the
+    prior ~2-minute watch snapshot) since we don't have the exact realized
+    fill after the fact without an extra IG activity-history call -- close
+    enough to classify the SIGN correctly, which is all the cooldowns need."""
+    for deal_id in vanished_deal_ids:
+        pos = last_known_positions.get(deal_id)
+        if not pos:
+            continue
+        estimated_pnl = pos.get("unrealized_pnl_usd")
+        _log_order_event({
+            "action": "BROKER_CLOSE", "instrument": pos.get("instrument"), "deal_id": deal_id,
+            "original_direction": pos.get("direction"),
+            "estimated_pnl": estimated_pnl,
+            "status": "detected",
+            "reason": (
+                "Position vanished between watch snapshots -- its own resting stop or "
+                "take-profit almost certainly fired. estimated_pnl is the last known "
+                "unrealized_pnl_usd (from the prior watch cycle), not an exact realized "
+                "fill, but reliable enough to classify win/loss for the cooldown rules."
+            ),
+        })
 
 
 def run_watch_check():
@@ -668,7 +774,8 @@ def run_watch_check():
         logger.info("[IG-CFD] [watch] IG_LIVE_TRADING_ENABLED is not 'true'. Doing nothing.")
         return
 
-    last_known_deal_ids = _last_known_open_deal_ids()
+    last_known_positions = _last_known_positions_by_deal_id()
+    last_known_deal_ids = set(last_known_positions.keys())
     if not last_known_deal_ids:
         logger.info("[IG-CFD] [watch] No open positions as of the last snapshot (or no snapshot yet) -- nothing to check.")
         return
@@ -703,6 +810,7 @@ def run_watch_check():
             f"(deal_ids: {sorted(vanished)}) -- likely the resting take-profit or stop firing. "
             f"Escalating to a full tick immediately instead of waiting for the next scheduled run."
         )
+        _log_broker_closes(vanished, last_known_positions)
         run_cfd_tick()
         return
 
@@ -844,6 +952,7 @@ def run_cfd_tick():
         # actively encouraged) -- see _validate_trade's docstring.
         running_available = account["available"]
         last_close_info = _get_last_close_info(DATA_DIR / "order_log.jsonl")
+        loss_streak_info = _get_same_direction_loss_streak(DATA_DIR / "order_log.jsonl")
 
         for trade in trades:
             action = trade.get("action", "").upper()
@@ -966,7 +1075,7 @@ def run_cfd_tick():
 
             ok, reason = _validate_trade(trade, account, positions, RULES, running_available=running_available,
                                           checked_multiple_sources=confluence_ok, confluence_reason=confluence_reason,
-                                          last_close_info=last_close_info)
+                                          last_close_info=last_close_info, loss_streak_info=loss_streak_info)
             if not ok:
                 _log_order_event({"action": action, "instrument": instrument, "status": "REJECTED", "reason": reason})
                 continue

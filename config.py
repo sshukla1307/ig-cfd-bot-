@@ -115,6 +115,23 @@ class SystemRules:
                                                 # validated edge actually develop; the real stop/limit and
                                                 # the stop-breach backstop still protect capital
                                                 # independently of this rule the whole time.
+    max_consecutive_same_direction_losses: int = 2  # after a real, observed overnight incident
+                                                # (2026-09-23/24: the agent re-shorted Natural Gas 8
+                                                # times in ~13 hours into a persistent rally, losing 7,
+                                                # each re-entry allowed because the 60-min
+                                                # same_direction_cooldown above had already expired by
+                                                # the time the next attempt came around) -- a single
+                                                # fixed-length cooldown can't survive a trend that
+                                                # outlasts it. This counts the streak directly instead:
+                                                # once an instrument has lost this many times in a row
+                                                # in the SAME direction, that direction is blocked for
+                                                # consecutive_loss_cooldown_minutes below, regardless of
+                                                # how much time has passed since the last one. A win, or
+                                                # a loss in the OTHER direction, resets the streak to 0/1.
+    consecutive_loss_cooldown_minutes: int = 480  # 8h -- deliberately much longer than
+                                                # same_direction_cooldown_minutes (60min), since the
+                                                # whole point is surviving a trend that a 60min cooldown
+                                                # already proved doesn't survive.
 
 
 RULES = SystemRules()
