@@ -1,5 +1,48 @@
 [
   {
+    "action": "OPEN_SHORT",
+    "instrument": "WTI_OIL",
+    "direction": "SELL",
+    "size": 1.52,
+    "margin_allocated": 2752.09,
+    "effective_leverage": 5.0,
+    "notional": 13887.02,
+    "stop_distance": 54.3176,
+    "limit_distance": 54.3176,
+    "confluence_detail": "get_positioning_data agrees with bearish",
+    "reason": "WTI oil has a crowded long positioning near a multi-month extreme, which is a contrarian bearish signal. Despite the backwardation in the term structure indicating tight supply, the extreme long positioning suggests a potential for a downside correction.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR752J97A2",
+    "raw": {
+      "date": "2026-09-24T00:27:33.106",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "XS6MHPBESFJTYNV",
+      "dealId": "DIAAAAR752J97A2",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR752J97A2",
+          "status": "OPENED"
+        }
+      ],
+      "level": 9132.7,
+      "size": 1.52,
+      "direction": "SELL",
+      "stopLevel": 9187.018,
+      "limitLevel": 9078.383,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-24T00:27:33.264463+00:00"
+  },
+  {
     "action": "OPEN_LONG",
     "instrument": "SILVER",
     "status": "REJECTED",
@@ -4648,44 +4691,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-22T20:01:03.724548+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "WTI_OIL",
-    "deal_id": "DIAAAAR7WK3PGAH",
-    "old_limit_level": 8892.8301,
-    "new_limit_level": 8894.1132,
-    "old_stop_level": 9002.7699,
-    "new_stop_level": 9001.4868,
-    "reason": "Position's resting stop and/or limit didn't match the 3.0%/3.0%-of-margin targets, or the breakeven ratchet (trigger 1.6%, lock 0.2%) applied -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-22T20:01:03.29",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "9C9C6NZ9JE2TYNV",
-      "dealId": "DIAAAAR7WK3PGAH",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR7WK3PGAH",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 8947.8,
-      "size": 1.6,
-      "direction": "SELL",
-      "stopLevel": 9001.486,
-      "limitLevel": 8894.113,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-22T20:01:03.455707+00:00"
   }
 ]
