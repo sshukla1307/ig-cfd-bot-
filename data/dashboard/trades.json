@@ -2,16 +2,45 @@
   {
     "action": "OPEN_SHORT",
     "instrument": "WTI_OIL",
-    "status": "REJECTED",
-    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for WTI_OIL this tick -- a technical read or a generic news search alone can't open a position",
-    "logged_at": "2026-09-24T06:31:36.871927+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
-    "logged_at": "2026-09-24T06:31:36.871675+00:00"
+    "direction": "SELL",
+    "size": 1.44,
+    "margin_allocated": 2682.74,
+    "effective_leverage": 5.0,
+    "notional": 13295.38,
+    "stop_distance": 55.8904,
+    "limit_distance": 55.8904,
+    "confluence_detail": "get_positioning_data agrees with bearish",
+    "reason": "Managed-money net-long positioning is near a multi-month extreme, indicating a contrarian bearish signal. Despite the backwardation in the term structure, the crowded long positioning suggests a potential pullback.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR77C9ETAM",
+    "raw": {
+      "date": "2026-09-24T06:32:43.229",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "5GZYZKG6G66TYNV",
+      "dealId": "DIAAAAR77C9ETAM",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR77C9ETAM",
+          "status": "OPENED"
+        }
+      ],
+      "level": 9229.9,
+      "size": 1.44,
+      "direction": "SELL",
+      "stopLevel": 9285.79,
+      "limitLevel": 9174.01,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-24T06:32:43.468348+00:00"
   },
   {
     "action": "OPEN_LONG",
@@ -4531,5 +4560,12 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-23T05:33:03.674061+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 32 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-23T05:31:37.593305+00:00"
   }
 ]
