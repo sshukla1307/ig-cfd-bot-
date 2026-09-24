@@ -11,7 +11,10 @@ doesn't guarantee precise cron timing; see cfd_trading.yml). Each tick:
      engine executes either instantly, independent of our tick cadence. This step
      just reconciles any position whose live stop/limit doesn't already match
      those targets (predates the feature/value, or drifted) by amending them in
-     place (_sync_margin_based_exits) -- never closes anything itself.
+     place (_sync_margin_based_exits) -- never closes anything itself, EXCEPT for
+     TRAILING_STOP_INSTRUMENTS positions stuck at a loss past the trailing-stop
+     scheme's stale-loss timeout (see TRAILING_STOP_INSTRUMENTS), which it does
+     force-close.
   4. Margin safety check: block ALL new opens account-wide if available
      margin has fallen below RULES.margin_safety_buffer_pct of balance.
   5. Per-instrument: skip any instrument whose market isn't currently
@@ -303,22 +306,17 @@ MARGIN_STOP_LOSS_PCT = 0.5  # Unchanged 2026-09-24 alongside the MARGIN_PROFIT_T
 # once a position moved into profit.
 
 # Per-instrument override of MARGIN_STOP_LOSS_PCT/MARGIN_PROFIT_TAKE_PCT above --
-# missing entries just use the global default. Added 2026-09-24 for NATURAL_GAS:
-# at its current price (~3150), the global 0.5%/0.8% BOTH compute to a distance
-# under IG's own ~10pt minimum stop/limit distance, so NG was silently being
-# clamped to a de facto ~1.59% symmetric setup rather than the intended tight
-# asymmetric one -- accidental, not chosen. A dedicated backtest (44 real NG
-# trades, same yfinance-1m-bar methodology) tried to find a better NG-specific
-# pairing and came up empty: EVERY wider combination tested (up to 5%/8%) lost
-# more than running near the floor, several dramatically worse (e.g. 5%/6% lost
-# -51%). The least-bad, trustworthy option in that search was symmetric 1.6%/1.6%
-# -- close to where NG already sits via clamping, now made explicit and
-# intentional instead of an accidental side effect. The real lesson from that
-# search: NG's problem right now is entry quality (see the same-direction
-# consecutive-loss circuit breaker), not exit shape -- no stop/target choice
-# fixes a bad entry, and widening NG's exits only made its real losses bigger.
-INSTRUMENT_STOP_LOSS_PCT_OVERRIDE = {"NATURAL_GAS": 1.6}
-INSTRUMENT_PROFIT_TAKE_PCT_OVERRIDE = {"NATURAL_GAS": 1.6}
+# missing entries just use the global default. NATURAL_GAS previously had a
+# fixed 1.6%/1.6% override here (added 2026-09-24, after the global 0.5%/0.8%
+# was found to silently clamp to IG's ~10pt minimum for NG). That override is
+# now SUPERSEDED: NG moved to the trailing-stop scheme below (see
+# TRAILING_STOP_INSTRUMENTS), which a fresh 200-trade replay found meaningfully
+# better for NG (+10.10 points of margin vs the fixed 1.6%/1.6%, turning NG
+# from -9.92% to +0.17% over the sample) -- so this dict is currently empty,
+# not deleted, in case a future instrument needs a fixed (non-trailing)
+# override again.
+INSTRUMENT_STOP_LOSS_PCT_OVERRIDE = {}
+INSTRUMENT_PROFIT_TAKE_PCT_OVERRIDE = {}
 
 
 def _stop_loss_pct_for(instrument: str) -> float:
@@ -327,6 +325,55 @@ def _stop_loss_pct_for(instrument: str) -> float:
 
 def _profit_take_pct_for(instrument: str) -> float:
     return INSTRUMENT_PROFIT_TAKE_PCT_OVERRIDE.get(instrument, MARGIN_PROFIT_TAKE_PCT)
+
+
+# Continuous trailing-stop scheme -- 2026-09-24, replacing the fixed
+# stop/target pair for all 5 instruments. Built from the user's own proposed
+# strategy ("-2.85% max stop, wait up to 2h, trail stop to current-profit% -
+# 0.25% at every threshold"), landed on CONTINUOUS (no arm gate, updates on
+# every new favorable tick) after this session tried and real-trade-tested
+# several alternatives along the way:
+#
+#   - Continuous, no arm, 0.20% gap (THIS, currently active): validated twice --
+#     +8.48% (of margin) on an early 200-trade sample, then against the FULL
+#     484-trade / 34-day account history (yfinance 1m bars for the last ~8
+#     days, 5m bars further back) at the dollar level:
+#         ACTUAL (real, mixed strategies over time):    -$2,640.44
+#         ALL 5 continuous (this scheme):               +$1,045.74
+#     The only variant tested that turned the whole period net POSITIVE.
+#   - Continuous, arm-gated at 1% ("arm at 1%, 0.3% gap, 2.82% floor"):
+#     REJECTED -- -25.82% vs the then-current -1.12% on 193 trades. A gap
+#     between 0% and the arm level left positions fully unprotected there.
+#   - Stepped (arm 1.0%, then 1.5%, 2.0%... each locking threshold-0.25%):
+#     REJECTED -- -$126.49 over the full history (still a net loss, despite a
+#     higher win rate than continuous). Reintroduces the same dead-zone below
+#     the arm as the gated design above, just less severely.
+#   - Stepped, arm lowered to 0.5% (attempt to shrink the dead zone): made it
+#     WORSE, not better -- -$257.42 over the full history. Confirms the
+#     problem is the existence of any gap/step discretization at all, not its
+#     exact threshold: a lower arm clips winning trades earlier (locking a
+#     small gain sooner) more than it rescues losers, on this account's actual
+#     price action.
+#   - BRENT_OIL specifically ran slightly negative in one earlier (200-trade,
+#     no-arm) continuous test (-9.50pp vs its own fixed 0.5%/1.0%), but on the
+#     full 484-trade history it came back positive (+$197.98 vs actual
+#     -$923.19) -- the earlier result was a smaller-sample artifact, not a
+#     durable Brent-specific problem.
+# GOLD/SILVER still have only 1 real trade each in the entire history -- not
+# enough data to draw a real conclusion for them either way; included here
+# because the user asked for uniform treatment across all 5, not because
+# they've been separately validated.
+TRAILING_STOP_INSTRUMENTS = {"BRENT_OIL", "WTI_OIL", "NATURAL_GAS", "GOLD", "SILVER"}
+TRAILING_STOP_FLOOR_PCT = 2.85  # hard worst-case stop, as % of margin -- never breached
+TRAILING_STOP_GAP_PCT = 0.20  # stop trails to (peak favorable % - this), from the very first favorable tick,
+# with NO arm/threshold gate -- see the module comment above for why a gate of any kind
+# (gated-continuous, or stepped) underperformed this on every real-trade test run this session.
+TRAILING_STOP_STALE_LOSS_MINUTES = 120  # force-close if never favorable and still negative after this long
+TRAILING_STOP_CEILING_BUFFER_PCT = 20.0  # limit_level kept this far beyond the peak favorable level --
+# IG's open_position/update_position both require a real limit_level (see ig_broker.py), so this can't
+# actually be uncapped; instead the "limit" is recomputed every sync to always sit far past the highest
+# profit reached so far, making it a formality that should realistically never fire -- the trailing stop
+# above is the real exit mechanism for all 5 instruments.
 
 
 BREAKEVEN_TRIGGER_PCT = 1.6  # Once a position's unrealized profit reaches this % of margin,
@@ -402,6 +449,119 @@ def _margin_based_stop_distance(margin_allocated: float, size: float, min_distan
     instrument: looks up INSTRUMENT_STOP_LOSS_PCT_OVERRIDE (e.g. NATURAL_GAS),
     falling back to the global MARGIN_STOP_LOSS_PCT when None/not overridden."""
     return _margin_based_distance(_stop_loss_pct_for(instrument), margin_allocated, size, min_distance)
+
+
+def _initial_stop_and_limit_distance(margin_allocated: float, size: float, min_distance: float = None,
+                                      instrument: str = None) -> tuple:
+    """Used only at OPEN time. For TRAILING_STOP_INSTRUMENTS, the initial resting
+    stop is the wide TRAILING_STOP_FLOOR_PCT (the worst case the trailing scheme
+    ever allows) and the initial limit is a generous, effectively-out-of-the-way
+    ceiling (TRAILING_STOP_CEILING_BUFFER_PCT past zero profit) -- both get
+    reconciled to the real trailing levels on the very next sync once the
+    position shows a live P&L (see _trailing_stop_and_limit). Every other
+    instrument keeps the plain fixed pair from _margin_based_stop_distance/
+    _margin_based_limit_distance."""
+    if instrument in TRAILING_STOP_INSTRUMENTS:
+        stop_distance = _margin_based_distance(TRAILING_STOP_FLOOR_PCT, margin_allocated, size, min_distance)
+        limit_distance = _margin_based_distance(TRAILING_STOP_CEILING_BUFFER_PCT, margin_allocated, size, min_distance)
+        return stop_distance, limit_distance
+    return (
+        _margin_based_stop_distance(margin_allocated, size, min_distance, instrument),
+        _margin_based_limit_distance(margin_allocated, size, min_distance, instrument),
+    )
+
+
+def _trailing_peaks_path() -> Path:
+    return DATA_DIR / "trailing_peaks.json"
+
+
+def _load_trailing_peaks() -> dict:
+    path = _trailing_peaks_path()
+    if not path.exists():
+        return {}
+    try:
+        return json.loads(path.read_text())
+    except (json.JSONDecodeError, OSError):
+        return {}
+
+
+def _save_trailing_peaks(peaks: dict) -> None:
+    _trailing_peaks_path().write_text(json.dumps(peaks))
+
+
+def _trailing_stale_loss_due(pos: dict, peak_state: dict) -> bool:
+    """True if this position has NEVER shown a favorable excursion (peak stayed
+    at/below 0) and has been open at least TRAILING_STOP_STALE_LOSS_MINUTES and
+    is still at a loss right now -- matches the user's own proposed "wait up to
+    2 hours" rule: a trade that never even ticks into profit within that window
+    is force-closed rather than left to ride all the way down to the -2.85%
+    floor. A trade that DID go favorable at some point, even briefly, is left
+    alone here -- the trailing stop already has a real, tighter lock in place
+    for it (see _trailing_stop_and_limit)."""
+    if peak_state.get(pos.get("deal_id"), 0.0) > 0:
+        return False
+    opened_at = pos.get("opened_at")
+    if not opened_at:
+        return False
+    try:
+        open_time = datetime.fromisoformat(opened_at)
+        if open_time.tzinfo is None:
+            open_time = open_time.replace(tzinfo=timezone.utc)
+    except (ValueError, TypeError):
+        return False
+    minutes_open = (datetime.now(timezone.utc) - open_time).total_seconds() / 60
+    if minutes_open < TRAILING_STOP_STALE_LOSS_MINUTES:
+        return False
+    pnl = _estimate_unrealized_pnl(pos)
+    return pnl is not None and pnl <= 0
+
+
+def _trailing_stop_and_limit(pos: dict, margin: float, entry_level: float, size: float, is_long: bool,
+                              min_stop_distance: float, peak_state: dict) -> tuple:
+    """Core of the continuous trailing-stop scheme (see TRAILING_STOP_INSTRUMENTS):
+    tracks each position's peak favorable excursion (as % of margin) across
+    ticks in peak_state (mutated in place, keyed by deal_id -- persisted to
+    disk by the caller), then returns:
+      - stop_price: stays at the plain -TRAILING_STOP_FLOOR_PCT floor until the
+        position has shown a REAL favorable excursion (peak_fav_pct > 0) at
+        least once; only then does it start trailing to
+        (peak_fav_pct - TRAILING_STOP_GAP_PCT) of margin, active from that
+        very first favorable tick with NO arm-threshold gate -- see the module
+        comment above TRAILING_STOP_INSTRUMENTS for why every gated/stepped
+        alternative tested underperformed this on real trade data.
+        *** peak_fav_pct must NOT be floored at 0 before this comparison --
+        doing so made every position ratchet from the real -2.85% floor to a
+        bare -TRAILING_STOP_GAP_PCT (e.g. -0.20%) on its very first sync, even
+        with zero favorable movement, silently replacing the validated
+        strategy with an untested hair-trigger one. Caught 2026-09-24 by a
+        user question asking how the floor is actually implemented. ***
+      - limit_price: entry adjusted by (max(peak_fav_pct, 0) + TRAILING_STOP_CEILING_BUFFER_PCT)
+        of margin -- always recomputed past the current peak so it stays out
+        of the way; the trailing stop is the real exit, this only exists
+        because IG requires a real limit_level on every open/update call.
+    _sync_margin_based_exits still applies its own one-way ratchet on top of
+    the returned stop_price, so a transient dip in peak_state (shouldn't
+    happen since peak_state only ever grows) can never loosen a live stop."""
+    deal_id = pos.get("deal_id")
+    pnl = _estimate_unrealized_pnl(pos)
+    current_fav_pct = (pnl / margin * 100) if pnl is not None else 0.0
+    peak_fav_pct = max(peak_state.get(deal_id, 0.0), current_fav_pct)
+    peak_state[deal_id] = peak_fav_pct
+
+    if peak_fav_pct > 0:
+        lock_pct = max(-TRAILING_STOP_FLOOR_PCT, peak_fav_pct - TRAILING_STOP_GAP_PCT)
+    else:
+        lock_pct = -TRAILING_STOP_FLOOR_PCT
+    lock_distance = margin * lock_pct / 100 / size
+    if min_stop_distance and abs(lock_distance) < min_stop_distance:
+        lock_distance = min_stop_distance if lock_distance >= 0 else -min_stop_distance
+    stop_price = entry_level + lock_distance if is_long else entry_level - lock_distance
+
+    ceiling_pct = peak_fav_pct + TRAILING_STOP_CEILING_BUFFER_PCT
+    ceiling_distance = margin * ceiling_pct / 100 / size
+    limit_price = entry_level + ceiling_distance if is_long else entry_level - ceiling_distance
+
+    return stop_price, limit_price
 
 
 def _ratchet_stop_target(pos: dict, margin: float, entry_level: float, size: float, is_long: bool,
@@ -501,9 +661,20 @@ def _sync_margin_based_exits(broker, positions: dict, snapshots: dict, max_lever
     the same call. There is no more "value we're not touching" to accidentally
     omit -- there's nothing left to preserve, only two targets to (re)assert. ***
 
+    TRAILING_STOP_INSTRUMENTS (all 5 as of 2026-09-24) instead follow the
+    continuous trailing-stop scheme -- see _trailing_stop_and_limit and its
+    module-level comment -- including a stale-loss force-close via
+    _trailing_stale_loss_due if the position never went favorable within
+    TRAILING_STOP_STALE_LOSS_MINUTES. Peak-favorable state for that scheme is
+    tracked in data/trailing_peaks.json (loaded/pruned/saved once per call).
+
     Returns the list of instrument keys amended this tick, purely for
     logging/visibility -- callers don't need to treat this any differently."""
     synced = []
+    peak_state = _load_trailing_peaks()
+    live_deal_ids = {pos["deal_id"] for pos in positions.values() if pos.get("deal_id")}
+    peak_state = {k: v for k, v in peak_state.items() if k in live_deal_ids}
+
     for instrument, pos in positions.items():
         snapshot = snapshots.get(instrument)
         margin = _margin_allocated_for_position(pos, snapshot, max_leverage_multiple)
@@ -515,15 +686,41 @@ def _sync_margin_based_exits(broker, positions: dict, snapshots: dict, max_lever
             continue
 
         min_stop_distance = (snapshot or {}).get("min_stop_distance")
-        limit_distance = _margin_based_limit_distance(margin, size, min_stop_distance, instrument)
         is_long = pos["direction"] == "BUY"
-        target_limit = round(entry_level + limit_distance if is_long else entry_level - limit_distance, 4)
+        trailing = instrument in TRAILING_STOP_INSTRUMENTS
 
-        candidate_stop = _ratchet_stop_target(pos, margin, entry_level, size, is_long, min_stop_distance, instrument)
+        if trailing and _trailing_stale_loss_due(pos, peak_state):
+            result = broker.close_position(
+                deal_id=pos["deal_id"], direction=pos["direction"], epic=pos["epic"], size=size,
+            )
+            _log_order_event({
+                "action": "TRAILING_STALE_LOSS_CLOSE", "instrument": instrument, "deal_id": pos["deal_id"],
+                "reason": (
+                    f"Never showed a favorable excursion within {TRAILING_STOP_STALE_LOSS_MINUTES} min of "
+                    f"opening and remains at a loss -- force-closed per the trailing-stop strategy's "
+                    f"timeout rule rather than left to ride toward the -{TRAILING_STOP_FLOOR_PCT}% floor."
+                ),
+                **result,
+            })
+            if result.get("status") == "submitted":
+                synced.append(instrument)
+            continue
+
+        if trailing:
+            candidate_stop, target_limit = _trailing_stop_and_limit(
+                pos, margin, entry_level, size, is_long, min_stop_distance, peak_state,
+            )
+            target_limit = round(target_limit, 4)
+        else:
+            limit_distance = _margin_based_limit_distance(margin, size, min_stop_distance, instrument)
+            target_limit = round(entry_level + limit_distance if is_long else entry_level - limit_distance, 4)
+            candidate_stop = _ratchet_stop_target(pos, margin, entry_level, size, is_long, min_stop_distance, instrument)
+
         # One-way ratchet: only ever move the stop in the more-protective direction
         # (higher for a long, lower for a short) than its current live value --
-        # this is what makes the breakeven-lock permanent once triggered, with no
-        # separate "has this already ratcheted" state to track anywhere.
+        # this is what makes the breakeven-lock (and the trailing-stop lock)
+        # permanent once triggered, with no separate "has this already
+        # ratcheted" state to track anywhere.
         if current_stop is None:
             target_stop = round(candidate_stop, 4)
         elif is_long:
@@ -544,17 +741,23 @@ def _sync_margin_based_exits(broker, positions: dict, snapshots: dict, max_lever
             "old_limit_level": current_limit, "new_limit_level": target_limit,
             "old_stop_level": current_stop, "new_stop_level": target_stop,
             "reason": (
-                f"Position's resting stop and/or limit didn't match the "
-                f"{_stop_loss_pct_for(instrument)}%/{_profit_take_pct_for(instrument)}%-of-margin targets "
-                f"(instrument-specific override if one exists, else the global default), or the "
-                f"breakeven ratchet (trigger {BREAKEVEN_TRIGGER_PCT}%, lock {BREAKEVEN_LOCK_PCT}%) "
-                f"applied -- amending both on IG directly "
-                f"(both always sent together, see incident note above)."
-            ),
+                f"Trailing-stop reconciliation (floor {TRAILING_STOP_FLOOR_PCT}%, gap {TRAILING_STOP_GAP_PCT}%, "
+                f"continuous from the first favorable tick, no arm gate)"
+                if trailing else (
+                    f"Position's resting stop and/or limit didn't match the "
+                    f"{_stop_loss_pct_for(instrument)}%/{_profit_take_pct_for(instrument)}%-of-margin targets "
+                    f"(instrument-specific override if one exists, else the global default), or the "
+                    f"breakeven ratchet (trigger {BREAKEVEN_TRIGGER_PCT}%, lock {BREAKEVEN_LOCK_PCT}%) "
+                    f"applied"
+                )
+            ) + " -- amending both on IG directly (both always sent together, see incident note above).",
             **result,
         })
         if result.get("status") == "submitted":
             synced.append(instrument)
+
+    if any(inst in TRAILING_STOP_INSTRUMENTS for inst in positions):
+        _save_trailing_peaks(peak_state)
 
     return synced
 
@@ -1178,8 +1381,9 @@ def run_cfd_tick():
 
                 direction = "BUY" if action == "OPEN_LONG" else "SELL"
                 min_stop_distance = (snapshot or {}).get("min_stop_distance")
-                stop_distance = _margin_based_stop_distance(sizing["margin_allocated"], sizing["size"], min_stop_distance, instrument)
-                limit_distance = _margin_based_limit_distance(sizing["margin_allocated"], sizing["size"], min_stop_distance, instrument)
+                stop_distance, limit_distance = _initial_stop_and_limit_distance(
+                    sizing["margin_allocated"], sizing["size"], min_stop_distance, instrument,
+                )
 
                 result = broker.open_position(
                     epic=inst.epic, direction=direction, size=sizing["size"],
