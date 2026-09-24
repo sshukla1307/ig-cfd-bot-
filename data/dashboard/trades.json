@@ -1,38 +1,48 @@
 [
   {
-    "action": "OPEN_SHORT",
+    "action": "CLOSE",
     "instrument": "NATURAL_GAS",
-    "direction": "SELL",
-    "size": 2.96,
-    "margin_allocated": 1986.39,
-    "effective_leverage": 5.0,
-    "notional": 9945.6,
-    "stop_distance": 19.1257,
-    "limit_distance": 134.2155,
-    "confluence_detail": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for NATURAL_GAS this tick -- a technical read or a generic news search alone can't open a position",
-    "reason": "Natural Gas is overbought with an RSI of 77.6, suggesting a potential pullback. Despite the bullish SMA crossover, the price discrepancy between sources and the lack of extreme positioning signal a potential mean reversion opportunity.",
-    "status": "submitted",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 1 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-24T19:59:15.087497+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Consecutive-loss circuit breaker: BRENT_OIL has lost 7 times in a row going BUY (most recently 70 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
+    "logged_at": "2026-09-24T19:59:15.087217+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "NATURAL_GAS",
     "deal_id": "DIAAAAR8CWFLJAG",
+    "old_limit_level": 3218.7845,
+    "new_limit_level": 3218.88,
+    "old_stop_level": 3372.1257,
+    "new_stop_level": 3372.1257,
+    "reason": "Trailing-stop reconciliation (floor 2.85%, arm 0.5%, gap 0.3% once armed, continuous not stepped) -- amending both on IG directly (both always sent together, see incident note above).",
+    "status": "submitted",
     "raw": {
-      "date": "2026-09-24T19:58:04.028",
-      "status": "OPEN",
+      "date": "2026-09-24T19:58:44.987",
+      "status": "AMENDED",
       "reason": "SUCCESS",
       "dealStatus": "ACCEPTED",
       "epic": "CC.D.NG.DBI.IP",
       "expiry": "-",
-      "dealReference": "PRKCBEYSWJJTYNV",
+      "dealReference": "K2AY5UXAASTYNV",
       "dealId": "DIAAAAR8CWFLJAG",
       "affectedDeals": [
         {
           "dealId": "DIAAAAR8CWFLJAG",
-          "status": "OPENED"
+          "status": "AMENDED"
         }
       ],
       "level": 3353.0,
       "size": 2.96,
       "direction": "SELL",
       "stopLevel": 3372.1257,
-      "limitLevel": 3218.7844,
+      "limitLevel": 3218.88,
       "stopDistance": null,
       "limitDistance": null,
       "guaranteedStop": false,
@@ -40,14 +50,7 @@
       "profit": null,
       "profitCurrency": null
     },
-    "logged_at": "2026-09-24T19:58:04.349983+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Consecutive-loss circuit breaker: BRENT_OIL has lost 7 times in a row going BUY (most recently 69 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
-    "logged_at": "2026-09-24T19:58:03.869864+00:00"
+    "logged_at": "2026-09-24T19:58:45.213036+00:00"
   },
   {
     "action": "BROKER_CLOSE",
@@ -57,7 +60,7 @@
     "estimated_pnl": -18.6,
     "status": "detected",
     "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-09-24T19:57:24.907291+00:00"
+    "logged_at": "2026-09-24T19:58:43.304622+00:00"
   },
   {
     "action": "OPEN_LONG",
@@ -4478,12 +4481,5 @@
     "status": "REJECTED",
     "reason": "Same-direction cooldown: BRENT_OIL was closed at a loss 23 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
     "logged_at": "2026-09-24T10:32:14.970114+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "GOLD",
-    "status": "REJECTED",
-    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for GOLD this tick -- a technical read or a generic news search alone can't open a position",
-    "logged_at": "2026-09-24T10:09:38.415078+00:00"
   }
 ]
