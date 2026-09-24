@@ -1,5 +1,55 @@
 [
   {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "direction": "SELL",
+    "size": 3.4,
+    "margin_allocated": 2160.85,
+    "effective_leverage": 5.0,
+    "notional": 10805.2,
+    "stop_distance": 10.0,
+    "limit_distance": 10.0,
+    "confluence_detail": "get_term_structure agrees with bearish",
+    "reason": "Natural gas is in contango, indicating ample supply, and the recent inventory data shows a build, which is bearish. Despite the recent price increase due to weather forecasts, the positioning data is neutral, and the technicals show an overbought RSI, suggesting a potential pullback.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR78PWDXBD",
+    "raw": {
+      "date": "2026-09-24T09:32:15.906",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "7Y47HKJCGUETYNV",
+      "dealId": "DIAAAAR78PWDXBD",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR78PWDXBD",
+          "status": "OPENED"
+        }
+      ],
+      "level": 3174.0,
+      "size": 3.4,
+      "direction": "SELL",
+      "stopLevel": 3184.0,
+      "limitLevel": 3164.0,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-24T09:32:16.081466+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "WTI_OIL",
+    "status": "REJECTED",
+    "reason": "Same-direction cooldown: WTI_OIL was closed at a loss 21 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
+    "logged_at": "2026-09-24T09:32:15.818269+00:00"
+  },
+  {
     "action": "OPEN_LONG",
     "instrument": "WTI_OIL",
     "status": "REJECTED",
@@ -4105,46 +4155,5 @@
     "status": "REJECTED",
     "reason": "Invalid action: HOLD",
     "logged_at": "2026-09-23T12:50:41.257088+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 61 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-23T12:50:41.256771+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "NATURAL_GAS",
-    "deal_id": "DIAAAAR7Z3MUDAG",
-    "old_limit_level": 3168.841,
-    "new_limit_level": 3168.872,
-    "old_stop_level": 3207.159,
-    "new_stop_level": 3179.0736,
-    "reason": "ATTACHED_ORDER_LEVEL_ERROR",
-    "status": "rejected",
-    "raw": {
-      "date": "2026-09-23T12:47:01.724",
-      "status": null,
-      "reason": "ATTACHED_ORDER_LEVEL_ERROR",
-      "dealStatus": "REJECTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": null,
-      "dealReference": "XTU9UK4RVE2TYNV",
-      "dealId": "DIAAAAR7Z94ELA2",
-      "affectedDeals": [],
-      "level": null,
-      "size": null,
-      "direction": "SELL",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-23T12:47:01.865852+00:00"
   }
 ]
