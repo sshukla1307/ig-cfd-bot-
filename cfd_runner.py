@@ -502,8 +502,16 @@ TRAILING_STOP_ARM_PCT = 0.5  # RE-INTRODUCED 2026-09-24 (user's own choice) -- n
 # +$1,045.74 over the full history; stepped arm=0.5% made it WORSE still (-$257.42). This is a
 # fourth variant (continuous, not stepped, arm lowered to 0.5%, gap widened to 0.30%) -- see the
 # follow-up backtest run right after this change for the actual verdict, not assumed safe. ***
-TRAILING_STOP_GAP_PCT = 0.30  # stop trails to (peak favorable % - this) ONCE ARMED (peak >= TRAILING_STOP_ARM_PCT) --
-# widened from 0.20 to 0.30 alongside the arm re-introduction, both the user's own choice.
+TRAILING_STOP_GAP_PCT = 0.10  # stop trails to (peak favorable % - this) ONCE ARMED (peak >= TRAILING_STOP_ARM_PCT) --
+# tightened from 0.30 to 0.10 on 2026-09-25 (user's own choice), validated via real-trade replay:
+# all 77 real trades opened since commit 839129b, re-simulated against real 1m price bars with
+# ONLY the gap changed (same arm 0.5%, same floor 2.85%, same 120min stale-loss timeout) --
+# CURRENT (0.30% gap): $793.68 total, 90.9% win rate
+# PROPOSED (0.10% gap): $893.86 total, 90.9% win rate (+$100.18, same win rate -- purely
+#   giving back less profit on the way down from each peak, not a win-rate tradeoff)
+# A robustness sweep (0.05/0.10/0.15/0.20/0.25/0.30/0.40) found EVERY value tighter than 0.30
+# beat it on this sample, with 0.05% testing best of all ($926.00) -- 0.10% was chosen as a
+# middle ground rather than the single best-tested cell.
 TRAILING_STOP_STALE_LOSS_MINUTES = 120  # force-close if never favorable and still negative after this long
 TRAILING_STOP_CEILING_BUFFER_PCT = 20.0  # limit_level kept this far beyond the peak favorable level --
 # IG's open_position/update_position both require a real limit_level (see ig_broker.py), so this can't
