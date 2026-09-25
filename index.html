@@ -193,6 +193,20 @@
   </div>
 
   <div class="card">
+    <h2>End-of-day equity</h2>
+    <div class="subtext">Balance as of the last recorded snapshot each day, shown in your local time — the exact minute depends on when that day's last tick happened to run, not necessarily midnight itself.</div>
+    <div class="table-scroll">
+      <table id="eodTable">
+        <thead>
+          <tr><th>Day</th><th class="num">Balance</th><th class="num">Change vs prior day</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <div class="empty" id="eodEmpty" style="display:none;">Not enough data yet — needs at least one fully completed day.</div>
+    </div>
+  </div>
+
+  <div class="card">
     <h2>Recent activity</h2>
     <div class="table-scroll">
       <table id="tradesTable">
@@ -397,6 +411,61 @@
     }
   }
 
+  function localDateKey(isoTimestamp) {
+    const d = new Date(isoTimestamp);
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  }
+
+  // For each calendar day (viewer's local time) that has fully elapsed, finds the
+  // LAST recorded equity snapshot of that day -- the closest real data point to
+  // "end of day" the tick cadence actually produced, not a synthetic 23:59 value.
+  // Today itself is excluded since it hasn't finished yet. Returned most-recent-first.
+  function computeEndOfDaySnapshots(series) {
+    const byDate = new Map();
+    for (const p of series) {
+      const key = localDateKey(p.timestamp);
+      const existing = byDate.get(key);
+      if (!existing || new Date(p.timestamp) > new Date(existing.timestamp)) {
+        byDate.set(key, p);
+      }
+    }
+    byDate.delete(localDateKey(new Date().toISOString()));
+    return Array.from(byDate.entries())
+      .sort((a, b) => b[0].localeCompare(a[0]))
+      .map(([dateKey, point]) => ({ dateKey, point }));
+  }
+
+  function renderEndOfDayEquity(series, ccy) {
+    const tbody = document.querySelector('#eodTable tbody');
+    const empty = document.getElementById('eodEmpty');
+    tbody.innerHTML = '';
+    const days = computeEndOfDaySnapshots(series || []).slice(0, 30);
+    if (days.length === 0) {
+      empty.style.display = 'block';
+      return;
+    }
+    empty.style.display = 'none';
+    for (let i = 0; i < days.length; i++) {
+      const { point } = days[i];
+      const prior = days[i + 1]; // next array entry = one calendar day earlier
+      const d = new Date(point.timestamp);
+      const dateLabel = d.toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' });
+      const timeLabel = d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+      let changeText = '—', changeClass = '';
+      if (prior) {
+        const change = point.balance - prior.point.balance;
+        changeText = `${change >= 0 ? '+' : ''}${fmtMoney(change, ccy)}`;
+        changeClass = change >= 0 ? 'pnl-pos' : 'pnl-neg';
+      }
+      const tr = document.createElement('tr');
+      tr.innerHTML =
+        `<td>Equity at ${escapeHtml(timeLabel)} on ${escapeHtml(dateLabel)}</td>` +
+        `<td class="num">${fmtMoney(point.balance, ccy)}</td>` +
+        `<td class="num ${changeClass}">${changeText}</td>`;
+      tbody.appendChild(tr);
+    }
+  }
+
   function renderTrades(trades) {
     const tbody = document.querySelector('#tradesTable tbody');
     const empty = document.getElementById('tradesEmpty');
@@ -440,6 +509,7 @@
 
       const ccy = positionsData ? positionsData.currency : null;
       renderEquityChart(equitySeries, ccy);
+      renderEndOfDayEquity(equitySeries, ccy);
       updateStatusLine(lastUpdated ? lastUpdated.timestamp : null);
 
       if (positionsData) {
