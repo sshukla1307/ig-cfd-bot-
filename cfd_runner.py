@@ -359,19 +359,19 @@ def _check_orphaned_wti_mirror(broker, positions: dict) -> list:
     return []
 
 
-PROFIT_TAKE_PCT_OF_BALANCE = 0.8  # ADDED 2026-09-25 (user's own choice) -- an independent,
-# account-level profit-take layered on top of the per-position trailing stop: ANY open
-# position (any instrument) is closed immediately, regardless of what its trailing stop
-# currently allows, the moment its actual unrealized dollar profit reaches this % of the
-# account's total BALANCE (not the position's own margin, and not "available" -- balance
-# was chosen specifically because it's stable and doesn't swing with how many other
-# positions happen to be open right now, unlike available). This exists to bank a
-# meaningfully large win outright rather than leave it exposed to the trailing stop's gap
-# giving some of it back on a reversal -- "meaningfully large" is scaled to the whole
-# account, not to this one position's margin, since a big win on a small position and a
-# small win on a large position can both cross this threshold. Checked every cycle
-# (run_watch_check AND run_cfd_tick) so it reacts on the same ~2-min cadence as the
-# trailing stop itself, not just once every 30 min.
+PROFIT_TAKE_PCT_OF_BALANCE = 1.0  # ADDED 2026-09-25 (user's own choice), raised from 0.8
+# to 1.0 the same day (also user's own choice) -- an independent, account-level profit-take
+# layered on top of the per-position trailing stop: ANY open position (any instrument) is
+# closed immediately, regardless of what its trailing stop currently allows, the moment its
+# actual unrealized dollar profit reaches this % of the account's total BALANCE (not the
+# position's own margin, and not "available" -- balance was chosen specifically because
+# it's stable and doesn't swing with how many other positions happen to be open right now,
+# unlike available). This exists to bank a meaningfully large win outright rather than leave
+# it exposed to the trailing stop's gap giving some of it back on a reversal --
+# "meaningfully large" is scaled to the whole account, not to this one position's margin,
+# since a big win on a small position and a small win on a large position can both cross
+# this threshold. Checked every cycle (run_watch_check AND run_cfd_tick) so it reacts on the
+# same ~2-min cadence as the trailing stop itself, not just once every 30 min.
 
 
 def _check_balance_profit_target(broker, positions: dict, account_balance: float) -> list:
