@@ -3,6 +3,91 @@
     "action": "OPEN_LONG",
     "instrument": "BRENT_OIL",
     "status": "REJECTED",
+    "reason": "Consecutive-loss circuit breaker: BRENT_OIL has lost 2 times in a row going BUY (most recently 237 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
+    "logged_at": "2026-09-25T01:31:31.607973+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "NATURAL_GAS",
+    "deal_id": "DIAAAAR8DLF8EAH",
+    "old_limit_level": 3395.56,
+    "new_limit_level": 3397.56,
+    "old_stop_level": 3245.3952,
+    "new_stop_level": 3245.3952,
+    "reason": "Trailing-stop reconciliation (floor 2.85%, arm 0.5%, gap 0.3% once armed, continuous not stepped) -- amending both on IG directly (both always sent together, see incident note above).",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-09-25T01:21:24.777",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "HDB2JY6ZYTETYNV",
+      "dealId": "DIAAAAR8DLF8EAH",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR8DLF8EAH",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 3264.0,
+      "size": 3.12,
+      "direction": "BUY",
+      "stopLevel": 3245.3953,
+      "limitLevel": 3397.56,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-25T01:21:24.976157+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "NATURAL_GAS",
+    "deal_id": "DIAAAAR8DLF8EAH",
+    "old_limit_level": 3394.56,
+    "new_limit_level": 3395.56,
+    "old_stop_level": 3245.3952,
+    "new_stop_level": 3245.3952,
+    "reason": "Trailing-stop reconciliation (floor 2.85%, arm 0.5%, gap 0.3% once armed, continuous not stepped) -- amending both on IG directly (both always sent together, see incident note above).",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-09-25T01:14:17.762",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "FC8H2Q4MD36TYNV",
+      "dealId": "DIAAAAR8DLF8EAH",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR8DLF8EAH",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 3264.0,
+      "size": 3.12,
+      "direction": "BUY",
+      "stopLevel": 3245.3953,
+      "limitLevel": 3395.56,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-25T01:14:17.930783+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
     "reason": "Consecutive-loss circuit breaker: BRENT_OIL has lost 2 times in a row going BUY (most recently 209 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
     "logged_at": "2026-09-25T01:04:22.666088+00:00"
   },
@@ -54,6 +139,66 @@
     "status": "detected",
     "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
     "logged_at": "2026-09-25T01:03:37.713551+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "direction": "BUY",
+    "size": 3.12,
+    "margin_allocated": 2037.76,
+    "effective_leverage": 5.0,
+    "notional": 10180.56,
+    "stop_distance": 18.6142,
+    "limit_distance": 130.6256,
+    "confluence_detail": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for NATURAL_GAS this tick -- a technical read or a generic news search alone can't open a position",
+    "reason": "Natural gas shows a short-term bullish trend with SMA-20 above SMA-50 and a neutral RSI. Weather-driven demand is moderate, but the technicals support a potential upward move. Opening a long position with a cautious allocation.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR8DLF8EAH",
+    "raw": {
+      "date": "2026-09-25T01:02:58.256",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "9976S2F2WUWTYNV",
+      "dealId": "DIAAAAR8DLF8EAH",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR8DLF8EAH",
+          "status": "OPENED"
+        }
+      ],
+      "level": 3264.0,
+      "size": 3.12,
+      "direction": "BUY",
+      "stopLevel": 3245.3857,
+      "limitLevel": 3394.6255,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-25T01:02:58.387649+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Consecutive-loss circuit breaker: BRENT_OIL has lost 2 times in a row going BUY (most recently 208 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
+    "logged_at": "2026-09-25T01:02:58.182547+00:00"
+  },
+  {
+    "action": "BROKER_CLOSE",
+    "instrument": "NATURAL_GAS",
+    "deal_id": "DIAAAAR8DHTJHBB",
+    "original_direction": "SELL",
+    "estimated_pnl": -23.52,
+    "status": "detected",
+    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
+    "logged_at": "2026-09-25T01:02:15.587367+00:00"
   },
   {
     "action": "OPEN_LONG",
@@ -5611,146 +5756,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-24T19:01:06.994790+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "WTI_OIL",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: WTI_OIL has only been open for 21 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-24T19:01:06.582385+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR8CPU6BA7",
-    "old_limit_level": 10487.7009,
-    "new_limit_level": 10502.5056,
-    "old_stop_level": 10025.9747,
-    "new_stop_level": 10093.152,
-    "reason": "Trailing-stop reconciliation (floor 2.85%, arm 0.5%, gap 0.3% once armed, continuous not stepped) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-24T19:00:25.363",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "TLGDLQGA5JSTYNV",
-      "dealId": "DIAAAAR8CPU6BA7",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR8CPU6BA7",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 10082.6,
-      "size": 1.28,
-      "direction": "BUY",
-      "stopLevel": 10093.152,
-      "limitLevel": 10502.506,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-24T19:00:25.600112+00:00"
-  },
-  {
-    "action": "BROKER_CLOSE",
-    "instrument": "NATURAL_GAS",
-    "deal_id": "DIAAAAR8CNMHNA8",
-    "original_direction": "SELL",
-    "estimated_pnl": -26.6,
-    "status": "detected",
-    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-09-24T19:00:23.642127+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR8CPU6BA7",
-    "old_limit_level": 10486.2009,
-    "new_limit_level": 10487.7009,
-    "old_stop_level": 10025.9747,
-    "new_stop_level": 10025.9747,
-    "reason": "Trailing-stop reconciliation (floor 2.85%, arm 0.5%, gap 0.3% once armed, continuous not stepped) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-24T18:53:19.159",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "FYTTASPS9NATYNV",
-      "dealId": "DIAAAAR8CPU6BA7",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR8CPU6BA7",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 10082.6,
-      "size": 1.28,
-      "direction": "BUY",
-      "stopLevel": 10025.975,
-      "limitLevel": 10487.701,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-24T18:53:19.535502+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR8CPU6BA7",
-    "old_limit_level": 10487.8024,
-    "new_limit_level": 10485.904,
-    "old_stop_level": 10025.9747,
-    "new_stop_level": 10025.9747,
-    "reason": "Trailing-stop reconciliation (floor 2.85%, arm 0.5%, gap 0.3% once armed, continuous not stepped) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-24T18:51:57.709",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "7VP3BTQJ6ETYNV",
-      "dealId": "DIAAAAR8CPU6BA7",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR8CPU6BA7",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 10082.6,
-      "size": 1.28,
-      "direction": "BUY",
-      "stopLevel": 10025.975,
-      "limitLevel": 10485.904,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-24T18:51:58.004106+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "This trade's margin ($2034.54) would leave available at $3001.29, below the 30.0% safety buffer of balance $10172.68 -- rejected to avoid risking a forced closure on this or other open positions",
-    "logged_at": "2026-09-24T18:50:03.055607+00:00"
   }
 ]
