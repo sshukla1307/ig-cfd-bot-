@@ -1,5 +1,90 @@
 [
   {
+    "action": "WTI_MIRROR_OPEN",
+    "instrument": "WTI_OIL",
+    "direction": "BUY",
+    "size": 1.4,
+    "margin_allocated": 2570.53,
+    "effective_leverage": 5.0,
+    "notional": 12911.64,
+    "stop_distance": 52.3286,
+    "limit_distance": 367.2186,
+    "reason": "Auto-mirrored from BRENT_OIL: Brent oil is currently oversold with an RSI of 19.2, indicating a potential rebound. Despite a recent build in crude oil stocks, the geopolitical tensions and the flat term structure suggest a potential for price recovery. Opening a long position to capitalize on a potential bounce.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR8KWCUNBC",
+    "raw": {
+      "date": "2026-09-25T20:32:33.329",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "XBMQHWRPGCNTYNV",
+      "dealId": "DIAAAAR8KWCUNBC",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR8KWCUNBC",
+          "status": "OPENED"
+        }
+      ],
+      "level": 9222.0,
+      "size": 1.4,
+      "direction": "BUY",
+      "stopLevel": 9169.672,
+      "limitLevel": 9589.219,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-25T20:32:33.538461+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "direction": "BUY",
+    "size": 1.32,
+    "margin_allocated": 2570.53,
+    "effective_leverage": 5.0,
+    "notional": 12977.18,
+    "stop_distance": 55.5001,
+    "limit_distance": 389.4742,
+    "confluence_detail": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
+    "reason": "Brent oil is currently oversold with an RSI of 19.2, indicating a potential rebound. Despite a recent build in crude oil stocks, the geopolitical tensions and the flat term structure suggest a potential for price recovery. Opening a long position to capitalize on a potential bounce.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR8KVDX6A5",
+    "raw": {
+      "date": "2026-09-25T20:32:32.959",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "35UK2SF39DSTYNV",
+      "dealId": "DIAAAAR8KVDX6A5",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR8KVDX6A5",
+          "status": "OPENED"
+        }
+      ],
+      "level": 9831.3,
+      "size": 1.32,
+      "direction": "BUY",
+      "stopLevel": 9775.8,
+      "limitLevel": 10220.774,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-25T20:32:33.202668+00:00"
+  },
+  {
     "action": "OPEN_SHORT",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
@@ -5480,83 +5565,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-25T14:27:44.725602+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "NATURAL_GAS",
-    "deal_id": "DIAAAAR8HNF7GA8",
-    "old_limit_level": 3051.24,
-    "new_limit_level": 3048.24,
-    "old_stop_level": 3189.0,
-    "new_stop_level": 3186.0,
-    "reason": "Trailing-stop reconciliation (floor 2.85%, arm 0.5%, gap 0.3% once armed, continuous not stepped) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-25T14:27:44.284",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": "-",
-      "dealReference": "M4XHQNXKXWSTYNV",
-      "dealId": "DIAAAAR8HNF7GA8",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR8HNF7GA8",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 3194.0,
-      "size": 4.16,
-      "direction": "SELL",
-      "stopLevel": 3186.0,
-      "limitLevel": 3048.24,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-25T14:27:44.425989+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "NATURAL_GAS",
-    "deal_id": "DIAAAAR8HNF7GA8",
-    "old_limit_level": 3052.24,
-    "new_limit_level": 3051.24,
-    "old_stop_level": 3190.0,
-    "new_stop_level": 3189.0,
-    "reason": "Trailing-stop reconciliation (floor 2.85%, arm 0.5%, gap 0.3% once armed, continuous not stepped) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-25T14:25:43.418",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": "-",
-      "dealReference": "U5TJKJT3L6STYNV",
-      "dealId": "DIAAAAR8HNF7GA8",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR8HNF7GA8",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 3194.0,
-      "size": 4.16,
-      "direction": "SELL",
-      "stopLevel": 3189.0,
-      "limitLevel": 3051.24,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-25T14:25:43.646890+00:00"
   }
 ]
