@@ -1,5 +1,65 @@
 [
   {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "direction": "SELL",
+    "size": 4.04,
+    "margin_allocated": 2597.98,
+    "effective_leverage": 5.0,
+    "notional": 13000.72,
+    "stop_distance": 18.3273,
+    "limit_distance": 128.6129,
+    "confluence_detail": "get_term_structure agrees with bearish",
+    "reason": "Natural Gas is in contango, indicating ample supply. The RSI is neutral, and the weather-driven demand is moderate with no strong signals. The contango structure suggests a bearish tilt.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR8J39ZZBC",
+    "raw": {
+      "date": "2026-09-25T16:32:55.145",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "3LEJCN5D4V2TYNV",
+      "dealId": "DIAAAAR8J39ZZBC",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR8J39ZZBC",
+          "status": "OPENED"
+        }
+      ],
+      "level": 3219.0,
+      "size": 4.04,
+      "direction": "SELL",
+      "stopLevel": 3237.3274,
+      "limitLevel": 3090.3872,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-25T16:32:55.420718+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Consecutive-loss circuit breaker: BRENT_OIL has lost 2 times in a row going BUY (most recently 5 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
+    "logged_at": "2026-09-25T16:32:54.785379+00:00"
+  },
+  {
+    "action": "BROKER_CLOSE",
+    "instrument": "NATURAL_GAS",
+    "deal_id": "DIAAAAR8JWLVNAS",
+    "original_direction": "SELL",
+    "estimated_pnl": -12.36,
+    "status": "detected",
+    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
+    "logged_at": "2026-09-25T16:32:24.727115+00:00"
+  },
+  {
     "action": "OPEN_LONG",
     "instrument": "GOLD",
     "status": "REJECTED",
@@ -5771,101 +5831,5 @@
     "status": "detected",
     "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
     "logged_at": "2026-09-25T11:15:32.843266+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "SILVER",
-    "direction": "SELL",
-    "size": 2.04,
-    "margin_allocated": 2665.89,
-    "effective_leverage": 5.0,
-    "notional": 13277.54,
-    "stop_distance": 37.2441,
-    "limit_distance": 261.3618,
-    "confluence_detail": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for SILVER this tick -- a technical read or a generic news search alone can't open a position",
-    "reason": "Silver is overbought with an RSI of 73.9 and is testing the upper range of its recent trading channel. Rising US Treasury yields and strong US PMI data are putting pressure on silver prices. The technicals suggest a potential for a pullback.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR8F8FVUBD",
-    "raw": {
-      "date": "2026-09-25T11:13:21.848",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDSILVER.DBI.IP",
-      "expiry": "-",
-      "dealReference": "ZAAYAL7XBXATYNV",
-      "dealId": "DIAAAAR8F8FVUBD",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR8F8FVUBD",
-          "status": "OPENED"
-        }
-      ],
-      "level": 6507.1,
-      "size": 2.04,
-      "direction": "SELL",
-      "stopLevel": 6544.344,
-      "limitLevel": 6245.7383,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-25T11:13:21.983241+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "direction": "SELL",
-    "size": 4.12,
-    "margin_allocated": 2665.89,
-    "effective_leverage": 5.0,
-    "notional": 13319.96,
-    "stop_distance": 18.4412,
-    "limit_distance": 129.4121,
-    "confluence_detail": "get_term_structure agrees with bearish",
-    "reason": "Natural Gas is in a contango structure, indicating ample supply. The RSI is oversold, but the term structure suggests a bearish outlook. Weather-driven demand is moderate, with no strong signals. The recent price action shows a pullback from recent highs, and the technicals suggest a potential for further downside.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR8F75HZAH",
-    "raw": {
-      "date": "2026-09-25T11:13:21.594",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": "-",
-      "dealReference": "6BWUB7GSP82TYNV",
-      "dealId": "DIAAAAR8F75HZAH",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR8F75HZAH",
-          "status": "OPENED"
-        }
-      ],
-      "level": 3231.0,
-      "size": 4.12,
-      "direction": "SELL",
-      "stopLevel": 3249.4412,
-      "limitLevel": 3101.588,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-25T11:13:21.760689+00:00"
-  },
-  {
-    "action": "BROKER_CLOSE",
-    "instrument": "NATURAL_GAS",
-    "deal_id": "DIAAAAR8FXXM6AW",
-    "original_direction": "SELL",
-    "estimated_pnl": -32.64,
-    "status": "detected",
-    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-09-25T11:12:46.916465+00:00"
   }
 ]
