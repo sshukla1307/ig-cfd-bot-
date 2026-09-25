@@ -1,5 +1,55 @@
 [
   {
+    "action": "OPEN_SHORT",
+    "instrument": "GOLD",
+    "direction": "SELL",
+    "size": 2.36,
+    "margin_allocated": 2039.0,
+    "effective_leverage": 5.0,
+    "notional": 10110.24,
+    "stop_distance": 24.6235,
+    "limit_distance": 172.7966,
+    "confluence_detail": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for GOLD this tick -- a technical read or a generic news search alone can't open a position",
+    "reason": "Gold is facing downward pressure due to a stronger dollar and rising Treasury yields. The term structure is flat, indicating no strong forward demand, and recent commentary highlights potential for further declines as oil prices and yields rise.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR8D4D7FAJ",
+    "raw": {
+      "date": "2026-09-25T03:21:47.201",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDGOLD.DBI.IP",
+      "expiry": "-",
+      "dealReference": "SXY78JHWAPWTYNV",
+      "dealId": "DIAAAAR8D4D7FAJ",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR8D4D7FAJ",
+          "status": "OPENED"
+        }
+      ],
+      "level": 4283.68,
+      "size": 2.36,
+      "direction": "SELL",
+      "stopLevel": 4308.3037,
+      "limitLevel": 4110.8833,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-25T03:21:47.341676+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Consecutive-loss circuit breaker: BRENT_OIL has lost 2 times in a row going BUY (most recently 347 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
+    "logged_at": "2026-09-25T03:21:47.123984+00:00"
+  },
+  {
     "action": "OPEN_LONG",
     "instrument": "BRENT_OIL",
     "status": "REJECTED",
@@ -5603,55 +5653,5 @@
     "status": "detected",
     "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
     "logged_at": "2026-09-24T19:58:43.304622+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "direction": "SELL",
-    "size": 2.96,
-    "margin_allocated": 1986.39,
-    "effective_leverage": 5.0,
-    "notional": 9945.6,
-    "stop_distance": 19.1257,
-    "limit_distance": 134.2155,
-    "confluence_detail": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for NATURAL_GAS this tick -- a technical read or a generic news search alone can't open a position",
-    "reason": "Natural Gas is overbought with an RSI of 77.6, suggesting a potential pullback. Despite the bullish SMA crossover, the price discrepancy between sources and the lack of extreme positioning signal a potential mean reversion opportunity.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR8CWFLJAG",
-    "raw": {
-      "date": "2026-09-24T19:58:04.028",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": "-",
-      "dealReference": "PRKCBEYSWJJTYNV",
-      "dealId": "DIAAAAR8CWFLJAG",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR8CWFLJAG",
-          "status": "OPENED"
-        }
-      ],
-      "level": 3353.0,
-      "size": 2.96,
-      "direction": "SELL",
-      "stopLevel": 3372.1257,
-      "limitLevel": 3218.7844,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-24T19:58:04.349983+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Consecutive-loss circuit breaker: BRENT_OIL has lost 7 times in a row going BUY (most recently 69 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
-    "logged_at": "2026-09-24T19:58:03.869864+00:00"
   }
 ]
