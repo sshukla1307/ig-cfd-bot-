@@ -3,6 +3,20 @@
     "action": "OPEN_SHORT",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "Consecutive-loss circuit breaker: NATURAL_GAS has lost 2 times in a row going SELL (most recently 23 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
+    "logged_at": "2026-09-25T17:03:07.947208+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Consecutive-loss circuit breaker: BRENT_OIL has lost 2 times in a row going BUY (most recently 35 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
+    "logged_at": "2026-09-25T17:03:07.946990+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "Consecutive-loss circuit breaker: NATURAL_GAS has lost 2 times in a row going SELL (most recently 1 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
     "logged_at": "2026-09-25T16:40:22.881664+00:00"
   },
@@ -5722,51 +5736,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-25T11:19:45.433240+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "SILVER",
-    "deal_id": "DIAAAAR8F8FVUBD",
-    "old_limit_level": 6241.718,
-    "new_limit_level": 6240.316,
-    "old_stop_level": 6544.1905,
-    "new_stop_level": 6544.1905,
-    "reason": "Trailing-stop reconciliation (floor 2.85%, arm 0.5%, gap 0.3% once armed, continuous not stepped) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-25T11:17:39.097",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDSILVER.DBI.IP",
-      "expiry": "-",
-      "dealReference": "2MDD2AS3R96TYNV",
-      "dealId": "DIAAAAR8F8FVUBD",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR8F8FVUBD",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 6507.1,
-      "size": 2.04,
-      "direction": "SELL",
-      "stopLevel": 6544.1904,
-      "limitLevel": 6240.316,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-25T11:17:39.256052+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: SILVER has only been open for 3 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-25T11:16:08.757529+00:00"
   }
 ]
