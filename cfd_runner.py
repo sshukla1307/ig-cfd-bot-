@@ -359,6 +359,56 @@ def _check_orphaned_wti_mirror(broker, positions: dict) -> list:
     return []
 
 
+PROFIT_TAKE_PCT_OF_BALANCE = 0.8  # ADDED 2026-09-25 (user's own choice) -- an independent,
+# account-level profit-take layered on top of the per-position trailing stop: ANY open
+# position (any instrument) is closed immediately, regardless of what its trailing stop
+# currently allows, the moment its actual unrealized dollar profit reaches this % of the
+# account's total BALANCE (not the position's own margin, and not "available" -- balance
+# was chosen specifically because it's stable and doesn't swing with how many other
+# positions happen to be open right now, unlike available). This exists to bank a
+# meaningfully large win outright rather than leave it exposed to the trailing stop's gap
+# giving some of it back on a reversal -- "meaningfully large" is scaled to the whole
+# account, not to this one position's margin, since a big win on a small position and a
+# small win on a large position can both cross this threshold. Checked every cycle
+# (run_watch_check AND run_cfd_tick) so it reacts on the same ~2-min cadence as the
+# trailing stop itself, not just once every 30 min.
+
+
+def _check_balance_profit_target(broker, positions: dict, account_balance: float) -> list:
+    """Closes any position whose _estimate_unrealized_pnl has reached
+    PROFIT_TAKE_PCT_OF_BALANCE of account_balance -- see that constant's comment for
+    the rationale. Runs independently of, and in addition to, the trailing-stop
+    mechanism; a position can be closed here well before its trailing stop would ever
+    fire. Returns the list of instrument keys closed, same convention as
+    _check_stop_breach_backstop/_check_orphaned_wti_mirror."""
+    closed_keys = []
+    if not account_balance:
+        return closed_keys
+    threshold = account_balance * (PROFIT_TAKE_PCT_OF_BALANCE / 100)
+    for instrument, pos in list(positions.items()):
+        pnl = _estimate_unrealized_pnl(pos)
+        if pnl is None or pnl < threshold:
+            continue
+        result = broker.close_position(
+            deal_id=pos["deal_id"], direction=pos["direction"], epic=pos["epic"], size=pos["size"],
+        )
+        _log_order_event({
+            "action": "BALANCE_PROFIT_TARGET_CLOSE", "instrument": instrument, "deal_id": pos["deal_id"],
+            "original_direction": pos["direction"],
+            "unrealized_pnl_usd": pnl, "threshold_usd": round(threshold, 2), "account_balance": account_balance,
+            "reason": (
+                f"Unrealized profit ${pnl:.2f} reached {PROFIT_TAKE_PCT_OF_BALANCE}% of account balance "
+                f"(${account_balance:.2f} -> threshold ${threshold:.2f}) -- closed immediately to bank a "
+                f"meaningfully large win rather than leave it exposed to the trailing stop's gap giving "
+                f"some back on a reversal."
+            ),
+            **result,
+        })
+        if result.get("status") == "submitted":
+            closed_keys.append(instrument)
+    return closed_keys
+
+
 MARGIN_PROFIT_TAKE_PCT = 1.0  # Changed 2026-09-24, nudged up from a same-day 0.8% --
 # both were tested (with previous constants' history below) via the same yfinance-1m-bar
 # entry-anchored replay, now against the freshest 198-trade sample: 0.5%/1.0% edged out
@@ -1239,6 +1289,18 @@ def run_watch_check():
         logger.info("[IG-CFD] [watch] No change since the last snapshot -- nothing to do.")
         return
 
+    # Balance profit-target: checked on this same 2-min cadence, not just once every
+    # 30 min, so a big winner gets banked promptly rather than waiting on the next
+    # full tick (see PROFIT_TAKE_PCT_OF_BALANCE).
+    account = broker.get_account_state()
+    profit_target_closed = _check_balance_profit_target(broker, positions, account["balance"])
+    if profit_target_closed:
+        for key in profit_target_closed:
+            positions.pop(key, None)
+        logger.warning(f"[IG-CFD] [watch] Balance profit-target closed: {profit_target_closed}")
+        if not positions:
+            return
+
     # Nothing closed -- still run the cheap margin-based exit sync so the
     # breakeven-lock ratchet (and any other stop/limit correction) is checked
     # on this same 2-min cadence, not just once every 30 min.
@@ -1300,13 +1362,14 @@ def run_cfd_tick():
     # pattern as the Alpaca bot's profit-lock backstop.
     closed_keys = _check_stop_breach_backstop(broker, positions)
     closed_keys = closed_keys + _check_orphaned_wti_mirror(broker, positions)
+    closed_keys = closed_keys + _check_balance_profit_target(broker, positions, account["balance"])
     if closed_keys:
         for key in closed_keys:
             positions.pop(key, None)
         account = broker.get_account_state()  # margin/balance changed by the closes above
         logger.warning(
-            f"[IG-CFD] Refreshed account after stop-breach backstop / orphan cleanup closes ({closed_keys}): "
-            f"balance={account['balance']:.2f} available={account['available']:.2f}"
+            f"[IG-CFD] Refreshed account after stop-breach backstop / orphan cleanup / profit-target closes "
+            f"({closed_keys}): balance={account['balance']:.2f} available={account['available']:.2f}"
         )
 
     # Per-instrument market status, read fresh every tick -- this is what
