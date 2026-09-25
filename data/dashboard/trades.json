@@ -1,10 +1,53 @@
 [
   {
     "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "direction": "BUY",
+    "size": 3.12,
+    "margin_allocated": 2037.75,
+    "effective_leverage": 5.0,
+    "notional": 10189.92,
+    "stop_distance": 18.6141,
+    "limit_distance": 130.625,
+    "confluence_detail": "Confluence requirement not met: NATURAL_GAS's independent signal(s) checked this tick (get_term_structure=bearish) do not support a bullish thesis -- a technical read alone, or signals pointing the other way, aren't enough to open",
+    "reason": "Natural gas is showing a bullish technical setup with the SMA-20 above SMA-50 and a rising RSI. Additionally, a lower-than-expected storage injection suggests rising demand, supporting a long position.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR8D5SFQBD",
+    "raw": {
+      "date": "2026-09-25T03:43:57.205",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "FPUEXWBQBKATYNV",
+      "dealId": "DIAAAAR8D5SFQBD",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR8D5SFQBD",
+          "status": "OPENED"
+        }
+      ],
+      "level": 3267.0,
+      "size": 3.12,
+      "direction": "BUY",
+      "stopLevel": 3248.386,
+      "limitLevel": 3397.625,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-25T03:43:57.340454+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
     "instrument": "BRENT_OIL",
     "status": "REJECTED",
-    "reason": "Consecutive-loss circuit breaker: BRENT_OIL has lost 2 times in a row going BUY (most recently 368 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
-    "logged_at": "2026-09-25T03:42:53.305411+00:00"
+    "reason": "Consecutive-loss circuit breaker: BRENT_OIL has lost 2 times in a row going BUY (most recently 369 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
+    "logged_at": "2026-09-25T03:43:57.127529+00:00"
   },
   {
     "action": "BROKER_CLOSE",
@@ -14,7 +57,7 @@
     "estimated_pnl": 15.6,
     "status": "detected",
     "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-09-25T03:42:20.432981+00:00"
+    "logged_at": "2026-09-25T03:43:25.965868+00:00"
   },
   {
     "action": "MARGIN_EXIT_SYNC",
@@ -5667,48 +5710,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-24T20:15:21.978282+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "direction": "SELL",
-    "size": 3.8,
-    "margin_allocated": 2512.59,
-    "effective_leverage": 5.0,
-    "notional": 12604.6,
-    "stop_distance": 18.8444,
-    "limit_distance": 132.2416,
-    "confluence_detail": "get_term_structure, get_inventory_data agrees with bearish",
-    "reason": "Natural gas is in contango, indicating ample supply, and recent inventory data shows a larger than typical build. Despite recent price increases, the market structure and inventory data suggest potential for a pullback.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR8CYNKVA4",
-    "raw": {
-      "date": "2026-09-24T20:13:41.23",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": "-",
-      "dealReference": "M5T3Y5S6BVATYNV",
-      "dealId": "DIAAAAR8CYNKVA4",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR8CYNKVA4",
-          "status": "OPENED"
-        }
-      ],
-      "level": 3305.0,
-      "size": 3.8,
-      "direction": "SELL",
-      "stopLevel": 3323.8445,
-      "limitLevel": 3172.7583,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-24T20:13:41.455770+00:00"
   }
 ]
