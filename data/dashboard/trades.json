@@ -1,17 +1,63 @@
 [
   {
     "action": "CLOSE",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 28 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-25T09:32:33.074691+00:00"
-  },
-  {
-    "action": "CLOSE",
     "instrument": "SILVER",
     "status": "REJECTED",
-    "reason": "Minimum hold time not met: SILVER has only been open for 50 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-25T09:32:33.074274+00:00"
+    "reason": "Minimum hold time not met: SILVER has only been open for 51 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-25T09:33:38.983774+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "direction": "BUY",
+    "size": 4.12,
+    "margin_allocated": 2681.84,
+    "effective_leverage": 5.0,
+    "notional": 13410.6,
+    "stop_distance": 18.5516,
+    "limit_distance": 130.1864,
+    "confluence_detail": "Confluence requirement not met: NATURAL_GAS's independent signal(s) checked this tick (get_term_structure=bearish, get_inventory_data=bearish) do not support a bullish thesis -- a technical read alone, or signals pointing the other way, aren't enough to open",
+    "reason": "Natural Gas is currently oversold with an RSI of 20.7, indicating a potential rebound. Despite the contango structure suggesting ample supply, the recent larger-than-typical inventory build could be priced in, and the oversold condition presents a mean-reversion opportunity.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR8FQP7ZBB",
+    "raw": {
+      "date": "2026-09-25T09:33:38.864",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "XERZF8564RSTYNV",
+      "dealId": "DIAAAAR8FQP7ZBB",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR8FQP7ZBB",
+          "status": "OPENED"
+        }
+      ],
+      "level": 3255.0,
+      "size": 4.12,
+      "direction": "BUY",
+      "stopLevel": 3236.4485,
+      "limitLevel": 3385.1863,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-25T09:33:38.983511+00:00"
+  },
+  {
+    "action": "BROKER_CLOSE",
+    "instrument": "NATURAL_GAS",
+    "deal_id": "DIAAAAR8FJ4MWAE",
+    "original_direction": "BUY",
+    "estimated_pnl": -12.36,
+    "status": "detected",
+    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
+    "logged_at": "2026-09-25T09:33:05.727517+00:00"
   },
   {
     "action": "MARGIN_EXIT_SYNC",
@@ -6277,44 +6323,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-25T03:56:23.346738+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "GOLD",
-    "deal_id": "DIAAAAR8D4D7FAJ",
-    "old_limit_level": 4100.6548,
-    "new_limit_level": 4100.2735,
-    "old_stop_level": 4274.5722,
-    "new_stop_level": 4274.1909,
-    "reason": "Trailing-stop reconciliation (floor 2.85%, arm 0.5%, gap 0.3% once armed, continuous not stepped) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-25T03:55:21.171",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDGOLD.DBI.IP",
-      "expiry": "-",
-      "dealReference": "L7LHDMKNLB6TYNV",
-      "dealId": "DIAAAAR8D4D7FAJ",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR8D4D7FAJ",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 4283.68,
-      "size": 2.36,
-      "direction": "SELL",
-      "stopLevel": 4274.191,
-      "limitLevel": 4100.2734,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-25T03:55:21.310294+00:00"
   }
 ]
