@@ -1,16 +1,24 @@
 #!/usr/bin/env python3
 """
-Auto-resolves the two known-safe classes of git rebase conflict in this
+Auto-resolves the three known-safe classes of git rebase conflict in this
 repo's data files, so a genuine two-run race (e.g. a manual workflow_dispatch
 overlapping the every-2-minute "watch" cron) doesn't lose an entire tick's
 audit-log commit to a conflict abort -- which is exactly the failure the
 fetch+rebase+retry logic in cfd_trading.yml was built to prevent in the
 first place, just not far enough: it correctly detects "this isn't just a
 race, there's a real conflict" and aborts rather than corrupting state, but
-every conflict data/ can ever produce is actually one of these two
+every conflict data/ can ever produce is actually one of these three
 semantically-safe kinds, never a real one.
 
-Two conflict classes, resolved differently:
+*** INCIDENT (2026-09-25): data/trailing_peaks.json (added when the
+continuous trailing-stop scheme shipped) wasn't in either of the original
+two classes, so a real race on it correctly fell through to the "leave
+conflict markers, abort" path -- exactly as designed for a genuinely
+unhandled file, but it cost that specific run its entire tick's audit-log
+commit (the ephemeral runner tore down with the commit never pushed).
+Added a third class below for it. ***
+
+Three conflict classes, resolved differently:
 
 1. data/order_log.jsonl and data/equity_history.jsonl are pure APPEND-ONLY
    logs -- every real tick only ever adds new lines, never edits or removes
@@ -38,7 +46,24 @@ Two conflict classes, resolved differently:
    dashboard doesn't depend on which side wins, only on not aborting the
    entire audit-log commit over it.
 
-Exits 0 if every conflicted file was one of the two known-safe classes
+3. data/trailing_peaks.json is a {deal_id: peak_favorable_pct} map, fully
+   rewritten every sync call (see cfd_runner._save_trailing_peaks) -- so like
+   the dashboard files, a race conflicts on nearly the whole file. UNLIKE the
+   dashboard files, it isn't purely cosmetic: it's the one-way-ratchet memory
+   for the trailing stop, and each value only ever increases for a given
+   deal_id (a real peak, once reached, is never un-reached). Picking "theirs"
+   outright, like the dashboard resolution, risks silently reverting a
+   deal_id's peak to a lower value if "ours" had already recorded a higher
+   one this cycle -- not catastrophic (the live stop_level on IG is a
+   separately-persisted value the one-way ratchet in
+   _sync_margin_based_exits still protects independently of this file, so a
+   reverted peak can't loosen an already-tightened real stop), but it could
+   delay how much a subsequent tick locks in. The actually-correct merge is
+   a per-key MAX across both sides (and a union of keys) -- resolved here by
+   parsing both JSON dicts and taking max(ours.get(k, 0), theirs.get(k, 0))
+   for every key in either.
+
+Exits 0 if every conflicted file was one of the three known-safe classes
 above and got resolved (staged via `git add`, ready for `git rebase
 --continue`). Exits 1 -- leaving conflict markers in place -- if ANY
 conflicted file isn't one of these (or a resolution attempt itself looks
@@ -46,6 +71,7 @@ unsafe, e.g. one side rewrote history instead of purely appending), so the
 caller in cfd_trading.yml still aborts the rebase rather than guessing at
 an unanticipated conflict.
 """
+import json
 import subprocess
 import sys
 
@@ -56,6 +82,7 @@ REGENERATED_SNAPSHOTS = {
     "data/dashboard/trades.json",
     "data/dashboard/last_updated.json",
 }
+PEAK_STATE_FILES = {"data/trailing_peaks.json"}
 
 
 def _run(args):
@@ -112,6 +139,29 @@ def _resolve_regenerated_snapshot(path: str) -> bool:
     return True
 
 
+def _resolve_peak_state(path: str) -> bool:
+    ours = _show_stage(2, path)
+    theirs = _show_stage(3, path)
+    if ours is None or theirs is None:
+        return False  # one side deleted the file -- unexpected, don't guess
+    try:
+        ours_dict = json.loads(ours) if ours.strip() else {}
+        theirs_dict = json.loads(theirs) if theirs.strip() else {}
+    except json.JSONDecodeError:
+        return False  # not the {deal_id: float} shape we expect -- don't guess
+    if not isinstance(ours_dict, dict) or not isinstance(theirs_dict, dict):
+        return False
+
+    merged = dict(ours_dict)
+    for deal_id, theirs_peak in theirs_dict.items():
+        merged[deal_id] = max(merged.get(deal_id, 0.0), theirs_peak)
+
+    with open(path, "w") as f:
+        json.dump(merged, f)
+    _run(["git", "add", path])
+    return True
+
+
 def main() -> int:
     conflicted = _conflicted_files()
     if not conflicted:
@@ -124,6 +174,8 @@ def main() -> int:
             ok = _resolve_append_only(path)
         elif path in REGENERATED_SNAPSHOTS:
             ok = _resolve_regenerated_snapshot(path)
+        elif path in PEAK_STATE_FILES:
+            ok = _resolve_peak_state(path)
         else:
             ok = False
 
