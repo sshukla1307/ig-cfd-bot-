@@ -48,6 +48,7 @@ expect for a given allocation_pct -- do not trust the formula blindly.
 import json
 import logging
 import os
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
@@ -1140,11 +1141,13 @@ def run_watch_check():
          position could round-trip from +2% back to a full loss entirely
          between two scheduled ticks with nothing in between to catch it.
       2. Did any position open as of the last recorded snapshot silently close
-         since then -- most likely its resting IG take-profit/stop firing? If
-         so, escalate immediately into a full run_cfd_tick() pass rather than
-         waiting up to 30 min for the next one. The full tick's own exit-sync
-         makes step 1 redundant in that case, so it's skipped here to avoid a
-         wasted extra IG call.
+         since then -- most likely its resting IG take-profit/stop firing? A
+         candidate vanish is re-confirmed with a second get_positions() call
+         after a brief pause before being treated as real (see the 2026-09-25
+         incident note below) -- if it's still gone, escalate immediately into
+         a full run_cfd_tick() pass rather than waiting up to 30 min for the
+         next one. The full tick's own exit-sync makes step 1 redundant in
+         that case, so it's skipped here to avoid a wasted extra IG call.
 
     Writes NOTHING to disk when nothing needs to change -- the calling
     workflow's git-auto-commit-action step only commits if there's an actual
@@ -1196,6 +1199,33 @@ def run_watch_check():
     current_deal_ids = {pos["deal_id"] for pos in positions.values()}
 
     vanished = last_known_deal_ids - current_deal_ids
+    if vanished:
+        # *** BUG FOUND 2026-09-25 (real live incident): a single get_positions()
+        # call transiently omitting a still-open position was enough to log a
+        # bogus BROKER_CLOSE and escalate -- confirmed live, the same deal_id got
+        # detected as "vanished" twice 82 seconds apart with two DIFFERENT
+        # estimated_pnl values, proving the position was still genuinely open at
+        # the first detection. 7 of 43 closes in one 12h window were duplicated
+        # this way, corrupting both P&L analysis and the consecutive-loss streak
+        # count, and -- worse -- a false vanish briefly makes the instrument's
+        # slot look free, risking a second position opening on top of a still-live
+        # one. Fix: re-check once, after a brief pause, before committing to
+        # anything -- a genuine close is still detected on this same cycle
+        # (just ~3s later), a transient API glitch is not mistaken for one. ***
+        time.sleep(3)
+        recheck_positions = broker.get_positions(epic_to_key)
+        recheck_deal_ids = {pos["deal_id"] for pos in recheck_positions.values()}
+        reappeared = vanished & recheck_deal_ids
+        vanished = vanished - recheck_deal_ids
+        if reappeared:
+            logger.warning(
+                f"[IG-CFD] [watch] {len(reappeared)} position(s) initially looked vanished but "
+                f"reappeared on re-check (deal_ids: {sorted(reappeared)}) -- treating as a transient "
+                f"get_positions() glitch, not a real close. No BROKER_CLOSE logged for these."
+            )
+            positions = recheck_positions
+            current_deal_ids = recheck_deal_ids
+
     if vanished:
         logger.warning(
             f"[IG-CFD] [watch] {len(vanished)} position(s) closed since the last snapshot "
