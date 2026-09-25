@@ -3,6 +3,20 @@
     "action": "OPEN_SHORT",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "Consecutive-loss circuit breaker: NATURAL_GAS has lost 2 times in a row going SELL (most recently 35 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
+    "logged_at": "2026-09-25T17:15:01.297368+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Consecutive-loss circuit breaker: BRENT_OIL has lost 2 times in a row going BUY (most recently 47 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
+    "logged_at": "2026-09-25T17:15:01.297090+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "Consecutive-loss circuit breaker: NATURAL_GAS has lost 2 times in a row going SELL (most recently 23 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
     "logged_at": "2026-09-25T17:03:07.947208+00:00"
   },
@@ -5658,83 +5672,5 @@
     "status": "detected",
     "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
     "logged_at": "2026-09-25T11:23:39.068336+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "SILVER",
-    "deal_id": "DIAAAAR8F8FVUBD",
-    "old_limit_level": 6236.316,
-    "new_limit_level": 6232.414,
-    "old_stop_level": 6500.6,
-    "new_stop_level": 6496.7,
-    "reason": "Trailing-stop reconciliation (floor 2.85%, arm 0.5%, gap 0.3% once armed, continuous not stepped) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-25T11:22:04.647",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDSILVER.DBI.IP",
-      "expiry": "-",
-      "dealReference": "VP7GS5ULAX6TYNV",
-      "dealId": "DIAAAAR8F8FVUBD",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR8F8FVUBD",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 6507.1,
-      "size": 2.04,
-      "direction": "SELL",
-      "stopLevel": 6496.7,
-      "limitLevel": 6232.414,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-25T11:22:04.912062+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "SILVER",
-    "deal_id": "DIAAAAR8F8FVUBD",
-    "old_limit_level": 6240.316,
-    "new_limit_level": 6236.316,
-    "old_stop_level": 6544.1905,
-    "new_stop_level": 6500.6,
-    "reason": "Trailing-stop reconciliation (floor 2.85%, arm 0.5%, gap 0.3% once armed, continuous not stepped) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-25T11:19:45.244",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDSILVER.DBI.IP",
-      "expiry": "-",
-      "dealReference": "YC82LR56W4NTYNV",
-      "dealId": "DIAAAAR8F8FVUBD",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR8F8FVUBD",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 6507.1,
-      "size": 2.04,
-      "direction": "SELL",
-      "stopLevel": 6500.6,
-      "limitLevel": 6236.316,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-25T11:19:45.433240+00:00"
   }
 ]
