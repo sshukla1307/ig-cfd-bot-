@@ -1,5 +1,58 @@
 [
   {
+    "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 50 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-27T23:02:38.504705+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 30 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-27T23:02:38.504494+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "NATURAL_GAS",
+    "deal_id": "DIAAAAR8LW758AQ",
+    "old_limit_level": 3007.3139,
+    "new_limit_level": 3007.68,
+    "old_stop_level": 3150.9103,
+    "new_stop_level": 3150.8581,
+    "reason": "Trailing-stop reconciliation (floor 2.85%, arm 0.5%, gap 0.1% once armed, continuous not stepped) -- amending both on IG directly (both always sent together, see incident note above).",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-09-27T22:33:06.967",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "MU6NTKFKTVSTYNV",
+      "dealId": "DIAAAAR8LW758AQ",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR8LW758AQ",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 3133.0,
+      "size": 4.16,
+      "direction": "SELL",
+      "stopLevel": 3150.8582,
+      "limitLevel": 3007.68,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-27T22:33:07.175072+00:00"
+  },
+  {
     "action": "OPEN_SHORT",
     "instrument": "NATURAL_GAS",
     "direction": "SELL",
@@ -5900,95 +5953,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-27T16:41:49.439936+00:00"
-  },
-  {
-    "action": "TRAILING_STALE_LOSS_CLOSE",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR8KVDX6A5",
-    "reason": "MARKET_CLOSED_WITH_EDITS",
-    "status": "rejected",
-    "raw": {
-      "date": "2026-09-27T16:39:34.153",
-      "status": null,
-      "reason": "MARKET_CLOSED_WITH_EDITS",
-      "dealStatus": "REJECTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": null,
-      "dealReference": "F8W9KKL53CSTYNV",
-      "dealId": "DIAAAAR8LMXHLA5",
-      "affectedDeals": [],
-      "level": null,
-      "size": null,
-      "direction": "SELL",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-27T16:39:34.534918+00:00"
-  },
-  {
-    "action": "TRAILING_STALE_LOSS_CLOSE",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR8KVDX6A5",
-    "reason": "MARKET_CLOSED_WITH_EDITS",
-    "status": "rejected",
-    "raw": {
-      "date": "2026-09-27T16:37:40.793",
-      "status": null,
-      "reason": "MARKET_CLOSED_WITH_EDITS",
-      "dealStatus": "REJECTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": null,
-      "dealReference": "4MAFBLDEYLNTYNV",
-      "dealId": "DIAAAAR8LNB88AY",
-      "affectedDeals": [],
-      "level": null,
-      "size": null,
-      "direction": "SELL",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-27T16:37:41.002445+00:00"
-  },
-  {
-    "action": "TRAILING_STALE_LOSS_CLOSE",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR8KVDX6A5",
-    "reason": "MARKET_CLOSED_WITH_EDITS",
-    "status": "rejected",
-    "raw": {
-      "date": "2026-09-27T16:35:29.098",
-      "status": null,
-      "reason": "MARKET_CLOSED_WITH_EDITS",
-      "dealStatus": "REJECTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": null,
-      "dealReference": "ESZJCVMAYRWTYNV",
-      "dealId": "DIAAAAR8LMJWMBB",
-      "affectedDeals": [],
-      "level": null,
-      "size": null,
-      "direction": "SELL",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-27T16:35:29.244121+00:00"
   }
 ]
