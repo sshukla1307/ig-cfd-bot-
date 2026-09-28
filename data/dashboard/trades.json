@@ -3,6 +3,20 @@
     "action": "OPEN_SHORT",
     "instrument": "GOLD",
     "status": "REJECTED",
+    "reason": "Consecutive-loss circuit breaker: GOLD has lost 2 times in a row going SELL (most recently 17 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
+    "logged_at": "2026-09-28T22:32:32.547131+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "NATURAL_GAS momentum filter: proposed OPEN_SHORT conflicts with price action over the last 30 minutes (current 3.146 vs 30-min SMA 3.1457, trending up) -- real-trade replay found NG entries that fight this short-term direction lose far more per trade on average than ones that agree with it, regardless of the RSI/mean-reversion thesis behind the trade. Wait for price action to actually turn before fading.",
+    "logged_at": "2026-09-28T22:32:32.546873+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "GOLD",
+    "status": "REJECTED",
     "reason": "Consecutive-loss circuit breaker: GOLD has lost 2 times in a row going SELL (most recently 1 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
     "logged_at": "2026-09-28T22:16:28.808060+00:00"
   },
@@ -5348,87 +5362,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-28T14:59:38.305411+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "GOLD",
-    "deal_id": "DIAAAAR8SL59YA2",
-    "old_limit_level": 3951.5749,
-    "new_limit_level": 3950.9184,
-    "old_stop_level": 4122.0986,
-    "new_stop_level": 4122.0986,
-    "reason": "Trailing-stop reconciliation (floor 0.8%, arm 1.0%, gap 0.03% once armed, continuous not stepped, per-instrument as of Plan B) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-28T14:59:37.553",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDGOLD.DBI.IP",
-      "expiry": "-",
-      "dealReference": "JXU6WHJRGMSTYNV",
-      "dealId": "DIAAAAR8SL59YA2",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR8SL59YA2",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 4115.54,
-      "size": 3.04,
-      "direction": "SELL",
-      "stopLevel": 4122.0986,
-      "limitLevel": 3950.9185,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-28T14:59:37.840667+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "SILVER",
-    "direction": "SELL",
-    "size": 2.04,
-    "margin_allocated": 2492.27,
-    "effective_leverage": 5.0,
-    "notional": 12421.56,
-    "stop_distance": 12.217,
-    "limit_distance": 244.3402,
-    "confluence_detail": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for SILVER this tick -- a technical read or a generic news search alone can't open a position",
-    "reason": "Silver is experiencing a significant sell-off, with prices sliding due to macroeconomic pressures and geopolitical tensions. The term structure is flat, indicating no forward demand expectations. Commentary highlights a bearish outlook, and the independent price check confirms a sharp decline.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR8SL8RGAC",
-    "raw": {
-      "date": "2026-09-28T14:58:20.115",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDSILVER.DBI.IP",
-      "expiry": "-",
-      "dealReference": "TEARXY6VASTYNV",
-      "dealId": "DIAAAAR8SL8RGAC",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR8SL8RGAC",
-          "status": "OPENED"
-        }
-      ],
-      "level": 6089.1,
-      "size": 2.04,
-      "direction": "SELL",
-      "stopLevel": 6101.317,
-      "limitLevel": 5844.76,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-28T14:58:20.360514+00:00"
   }
 ]
