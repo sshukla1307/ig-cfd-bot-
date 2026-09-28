@@ -1,6 +1,13 @@
 [
   {
     "action": "OPEN_SHORT",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Consecutive-loss circuit breaker: BRENT_OIL has lost 2 times in a row going SELL (most recently 89 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
+    "logged_at": "2026-09-28T21:03:06.593890+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
     "instrument": "SILVER",
     "status": "REJECTED",
     "reason": "Consecutive-loss circuit breaker: SILVER has lost 2 times in a row going SELL (most recently 47 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
@@ -5493,48 +5500,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-28T14:52:29.296493+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "BRENT_OIL",
-    "direction": "SELL",
-    "size": 1.28,
-    "margin_allocated": 2530.53,
-    "effective_leverage": 5.0,
-    "notional": 12789.89,
-    "stop_distance": 27.6777,
-    "limit_distance": 395.3953,
-    "confluence_detail": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
-    "reason": "Brent oil has broken below a critical neckline at $101.50, indicating a bearish trend. The technicals show SMA-20 below SMA-50, supporting a short position. Additionally, the market commentary suggests a bearish outlook with potential support at $97.49.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR8SJDLEA8",
-    "raw": {
-      "date": "2026-09-28T14:52:28.928",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "HFEFRCLLJ5NTYNV",
-      "dealId": "DIAAAAR8SJDLEA8",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR8SJDLEA8",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9968.5,
-      "size": 1.28,
-      "direction": "SELL",
-      "stopLevel": 9996.178,
-      "limitLevel": 9573.1045,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-28T14:52:29.073549+00:00"
   }
 ]
