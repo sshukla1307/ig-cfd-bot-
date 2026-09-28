@@ -359,8 +359,8 @@ def _check_orphaned_wti_mirror(broker, positions: dict) -> list:
     return []
 
 
-PROFIT_TAKE_PCT_OF_BALANCE = 1.0  # ADDED 2026-09-25 (user's own choice), raised from 0.8
-# to 1.0 the same day (also user's own choice) -- an independent, account-level profit-take
+PROFIT_TAKE_PCT_OF_BALANCE = 1.2  # ADDED 2026-09-25 (user's own choice), raised from 0.8
+# to 1.0 the same day, then to 1.2 on 2026-09-28 (all user's own choice) -- an independent, account-level profit-take
 # layered on top of the per-position trailing stop: ANY open position (any instrument) is
 # closed immediately, regardless of what its trailing stop currently allows, the moment its
 # actual unrealized dollar profit reaches this % of the account's total BALANCE (not the
