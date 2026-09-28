@@ -1,5 +1,48 @@
 [
   {
+    "action": "OPEN_LONG",
+    "instrument": "GOLD",
+    "direction": "BUY",
+    "size": 3.12,
+    "margin_allocated": 2605.62,
+    "effective_leverage": 5.0,
+    "notional": 13101.07,
+    "stop_distance": 23.8013,
+    "limit_distance": 167.0269,
+    "confluence_detail": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for GOLD this tick -- a technical read or a generic news search alone can't open a position",
+    "reason": "Gold is showing an oversold RSI of 17.3, indicating a potential reversal opportunity. The SMA-20 is above the SMA-50, suggesting a short-term bullish trend. Additionally, the independent price check shows a discrepancy, but the OilPriceAPI data is not stale and supports a potential upward move.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR8MY6KFA9",
+    "raw": {
+      "date": "2026-09-28T03:02:35.386",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDGOLD.DBI.IP",
+      "expiry": "-",
+      "dealReference": "N5YQ8XR6V9ETYNV",
+      "dealId": "DIAAAAR8MY6KFA9",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR8MY6KFA9",
+          "status": "OPENED"
+        }
+      ],
+      "level": 4201.49,
+      "size": 3.12,
+      "direction": "BUY",
+      "stopLevel": 4177.6885,
+      "limitLevel": 4368.517,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-28T03:02:35.508959+00:00"
+  },
+  {
     "action": "OPEN_SHORT",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
@@ -5681,35 +5724,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-27T19:55:39.761865+00:00"
-  },
-  {
-    "action": "TRAILING_STALE_LOSS_CLOSE",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR8KVDX6A5",
-    "reason": "MARKET_CLOSED_WITH_EDITS",
-    "status": "rejected",
-    "raw": {
-      "date": "2026-09-27T19:53:38.976",
-      "status": null,
-      "reason": "MARKET_CLOSED_WITH_EDITS",
-      "dealStatus": "REJECTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": null,
-      "dealReference": "3ZS9YJZ3VDATYNV",
-      "dealId": "DIAAAAR8LQMQVAL",
-      "affectedDeals": [],
-      "level": null,
-      "size": null,
-      "direction": "SELL",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-27T19:53:39.330638+00:00"
   }
 ]
