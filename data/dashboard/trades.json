@@ -1,6 +1,49 @@
 [
   {
     "action": "OPEN_SHORT",
+    "instrument": "SILVER",
+    "direction": "SELL",
+    "size": 2.08,
+    "margin_allocated": 2604.71,
+    "effective_leverage": 5.0,
+    "notional": 12914.51,
+    "stop_distance": 35.6895,
+    "limit_distance": 250.4529,
+    "confluence_detail": "get_term_structure agrees with bearish",
+    "reason": "Silver is currently in a contango structure, indicating ample supply. The RSI is oversold, but the term structure suggests a bearish tilt. Additionally, recent news indicates a bearish sentiment. Opening a short position aligns with the current market conditions.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR8M5V6TAS",
+    "raw": {
+      "date": "2026-09-28T04:02:45.197",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDSILVER.DBI.IP",
+      "expiry": "-",
+      "dealReference": "Q3RXT7C4F2STYNV",
+      "dealId": "DIAAAAR8M5V6TAS",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR8M5V6TAS",
+          "status": "OPENED"
+        }
+      ],
+      "level": 6203.3,
+      "size": 2.08,
+      "direction": "SELL",
+      "stopLevel": 6238.9893,
+      "limitLevel": 5952.847,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-28T04:02:45.428096+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
     "reason": "Consecutive-loss circuit breaker: NATURAL_GAS has lost 2 times in a row going SELL (most recently 61 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
@@ -5638,35 +5681,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-27T20:41:38.114726+00:00"
-  },
-  {
-    "action": "TRAILING_STALE_LOSS_CLOSE",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR8KVDX6A5",
-    "reason": "MARKET_CLOSED_WITH_EDITS",
-    "status": "rejected",
-    "raw": {
-      "date": "2026-09-27T20:39:27.506",
-      "status": null,
-      "reason": "MARKET_CLOSED_WITH_EDITS",
-      "dealStatus": "REJECTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": null,
-      "dealReference": "JQJZG3S5MKNTYNV",
-      "dealId": "DIAAAAR8LPYR2AS",
-      "affectedDeals": [],
-      "level": null,
-      "size": null,
-      "direction": "SELL",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-27T20:39:27.649243+00:00"
   }
 ]
