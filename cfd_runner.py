@@ -546,23 +546,30 @@ def _arm_pct_for(instrument: str) -> float:
     return TRAILING_STOP_ARM_PCT_BY_INSTRUMENT.get(instrument, TRAILING_STOP_ARM_PCT_DEFAULT)
 
 
-TRAILING_STOP_GAP_PCT = 0.03  # tightened from 0.10 to 0.03 on 2026-09-28 as part of Plan B
-# (user's own choice). Validated via real-trade replay (floor=1.4%/arm=0.3% held fixed,
-# 695 real trades): a full gap sweep (0.03/0.05/0.10/0.15/0.20/0.30) was STRICTLY
-# monotonic -- every tighter value beat the last, both on full-period total AND on a
-# 70/30 train/test split (0.03% was the only value with a POSITIVE test-period result:
-# +$100.27, vs -$169.39 at the previous 0.10%). *** IMPORTANT CAVEAT, flagged to the
-# user before deploying: this monotonic-improves-forever shape is a red flag, not a
-# clean win. The backtest does not model (a) IG's real minNormalStopOrLimitDistance --
-# at 0.03% the average implied trail distance is under 1 point for every instrument
-# (as low as 0.18pt for NATURAL_GAS), almost certainly below what IG will actually
-# accept, meaning live execution will silently clamp to something wider than this
-# constant requests (see the ATTACHED_ORDER_LEVEL_ERROR incident below), and (b) the
-# real ~2-minute watch-cycle re-sync lag vs. this simulator's continuous per-bar
-# updates -- a very tight gap depends on catching the exact peak instantly, which the
-# live system cannot do. Deployed per explicit user instruction; treat live results
-# here as a genuine field test of whether the IG clamp and the sync lag matter as much
-# in practice as they seem to on paper, not as a confirmed improvement.
+TRAILING_STOP_GAP_PCT = 0.10  # REVERTED from 0.03 back to 0.10 on 2026-09-28, same day, ~3.5
+# hours after the 0.03% deploy -- the backtest-only caveat flagged at deploy time was
+# confirmed live, fast and expensively. Real evidence from that 3.5-hour window (36 real
+# trades, tr.csv + order_log.jsonl):
+#   - Median trade hold time collapsed from 31.6 min (all history) to 3.9 min -- positions
+#     were closing almost instantly instead of developing.
+#   - A real ATTACHED_ORDER_LEVEL_ERROR rejection fired on a GOLD stop-sync at 13:29 UTC --
+#     the same bug class as the 2026-09-24 incident: IG rejected a stop amend because the
+#     requested level (peak - 0.03%) was too close to the live price for IG's own
+#     minNormalStopOrLimitDistance to accept.
+#   - Every single instrument lost money live, including BRENT_OIL and WTI_OIL which had
+#     backtested at 81-93% win rate -- live win rates were 33.3%/37.5% instead. Total: -$236.98
+#     over 36 trades, 27.8% win rate.
+# Root cause: the backtest assumed continuous, instant re-locking to (peak - gap); live, the
+# stop only re-syncs every ~2 minutes (the watch cadence), so by the time it re-locks, normal
+# price noise has usually already moved past a gap this thin -- positions get stopped out on
+# ordinary ticks, not real reversals. This was flagged as the specific risk before deploying
+# 0.03% (see git history / commit message on the Plan B deploy) and is now a confirmed, not
+# just theoretical, failure mode. 0.10% ran live for over a day (pre-Plan-B) with zero
+# rejection incidents, which is why it's the reversion target rather than the untested 0.05%
+# middle ground. The per-instrument floor/arm values (TRAILING_STOP_FLOOR_PCT_BY_INSTRUMENT /
+# TRAILING_STOP_ARM_PCT_BY_INSTRUMENT) are NOT implicated by this incident -- every instrument
+# failed uniformly and immediately, pointing at the one setting shared across all of them
+# (this gap), not the per-instrument tuning -- so those stay deployed as-is.
 TRAILING_STOP_STALE_LOSS_MINUTES = 120  # force-close if never favorable and still negative after this long
 TRAILING_STOP_CEILING_BUFFER_PCT = 20.0  # limit_level kept this far beyond the peak favorable level --
 # IG's open_position/update_position both require a real limit_level (see ig_broker.py), so this can't
