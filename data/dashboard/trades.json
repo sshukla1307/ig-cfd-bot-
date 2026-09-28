@@ -1,6 +1,52 @@
 [
   {
     "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Consecutive-loss circuit breaker: NATURAL_GAS has lost 2 times in a row going SELL (most recently 295 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
+    "logged_at": "2026-09-28T07:32:16.264174+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "SILVER",
+    "deal_id": "DIAAAAR8N3TAMAX",
+    "old_limit_level": 5871.3877,
+    "new_limit_level": 5869.3271,
+    "old_stop_level": 6148.915,
+    "new_stop_level": 6148.915,
+    "reason": "Trailing-stop reconciliation (floor 2.85%, arm 0.5%, gap 0.1% once armed, continuous not stepped) -- amending both on IG directly (both always sent together, see incident note above).",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-09-28T07:25:32.895",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDSILVER.DBI.IP",
+      "expiry": "-",
+      "dealReference": "YLSAEDW5KYSTYNV",
+      "dealId": "DIAAAAR8N3TAMAX",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR8N3TAMAX",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 6114.3,
+      "size": 2.12,
+      "direction": "SELL",
+      "stopLevel": 6148.915,
+      "limitLevel": 5869.327,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-28T07:25:33.065828+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
     "instrument": "SILVER",
     "direction": "SELL",
     "size": 2.12,
@@ -5662,83 +5708,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-28T00:47:44.118384+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR8L7UF3A8",
-    "old_limit_level": 9431.9895,
-    "new_limit_level": 9430.285,
-    "old_stop_level": 9886.3327,
-    "new_stop_level": 9886.3327,
-    "reason": "Trailing-stop reconciliation (floor 2.85%, arm 0.5%, gap 0.1% once armed, continuous not stepped) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-28T00:45:26.5",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "WGFMF97G4CSTYNV",
-      "dealId": "DIAAAAR8L7UF3A8",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR8L7UF3A8",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 9830.3,
-      "size": 1.32,
-      "direction": "SELL",
-      "stopLevel": 9886.333,
-      "limitLevel": 9430.285,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-28T00:45:26.661986+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "WTI_OIL",
-    "deal_id": "DIAAAAR8L8DEBA2",
-    "old_limit_level": 8853.852,
-    "new_limit_level": 8846.152,
-    "old_stop_level": 9278.7893,
-    "new_stop_level": 9221.2,
-    "reason": "Trailing-stop reconciliation (floor 2.85%, arm 0.5%, gap 0.1% once armed, continuous not stepped) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-28T00:45:26.252",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "9KDSUMH48USTYNV",
-      "dealId": "DIAAAAR8L8DEBA2",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR8L8DEBA2",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 9226.2,
-      "size": 1.4,
-      "direction": "SELL",
-      "stopLevel": 9221.2,
-      "limitLevel": 8846.152,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-28T00:45:26.409629+00:00"
   }
 ]
