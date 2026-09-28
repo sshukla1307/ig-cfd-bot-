@@ -494,41 +494,75 @@ def _profit_take_pct_for(instrument: str) -> float:
 # because the user asked for uniform treatment across all 5, not because
 # they've been separately validated.
 TRAILING_STOP_INSTRUMENTS = {"BRENT_OIL", "WTI_OIL", "NATURAL_GAS", "GOLD", "SILVER"}
-TRAILING_STOP_FLOOR_PCT = 1.6  # hard worst-case stop, as % of margin -- never breached. Tightened
-# from 1.8 to 1.6 on 2026-09-28 (user's own choice, same day as the 1.8 deploy -- a same-day
-# follow-up after a bad trading day exposed more room to cut losses). Validated via real-trade
-# replay on 695 real trades (Aug 21 - Sep 28, refreshed same day to include that bad day):
-# isolating the floor-only change (1.8->1.6, arm held at 1.0) moved total P&L from $360.94 to
-# $881.12 -- see TRAILING_STOP_ARM_PCT's comment below for the combined result actually deployed,
-# which is smaller than this floor-only number (the arm change below is a net drag by itself).
-TRAILING_STOP_ARM_PCT = 1.2  # Raised from 1.0 to 1.2 on 2026-09-28 (user's own choice) alongside
-# the floor tightening above. Validated together via the same 695-trade real-trade replay:
-#             win%   total($)
-#   1.0 arm / 1.8 floor (previous, deployed same day)   65.2%    360.94
-#   1.2 arm / 1.8 floor (arm-only, isolated)             63.5%   158.83
-#   1.0 arm / 1.6 floor (floor-only, isolated)           64.2%   881.12
-#   1.2 arm / 1.6 floor (BOTH, deployed)                 62.3%   698.33
-# *** IMPORTANT, flagged to the user before deploying: the arm increase (1.0->1.2) is a net
-# DRAG by itself (-$202 vs the previous 1.0/1.8 config) -- delaying the first lock doesn't let
-# winners run further here, it just gives back more on reversals before arming. The floor cut
-# is doing all the real work (+$520 alone). Floor-only (1.0 arm / 1.6 floor) would have scored
-# higher ($881.12) than the combined config actually deployed ($698.33). Deployed anyway per
-# explicit user instruction to change both, since the combined result is still a clear
-# improvement over what was live before (+$337, +93%) -- just noting the arm change is not
-# pulling its own weight so a future re-tune has a lead to follow. Always re-validate on fresh
-# data before trusting any of this file's own historical conclusions -- see the note in this
-# file's history on 2026-09-24/25 about an earlier, contradictory arm-gated finding from a
-# smaller sample.
-TRAILING_STOP_GAP_PCT = 0.10  # stop trails to (peak favorable % - this) ONCE ARMED (peak >= TRAILING_STOP_ARM_PCT) --
-# tightened from 0.30 to 0.10 on 2026-09-25 (user's own choice), validated via real-trade replay:
-# all 77 real trades opened since commit 839129b, re-simulated against real 1m price bars with
-# ONLY the gap changed (same arm 0.5%, same floor 2.85%, same 120min stale-loss timeout) --
-# CURRENT (0.30% gap): $793.68 total, 90.9% win rate
-# PROPOSED (0.10% gap): $893.86 total, 90.9% win rate (+$100.18, same win rate -- purely
-#   giving back less profit on the way down from each peak, not a win-rate tradeoff)
-# A robustness sweep (0.05/0.10/0.15/0.20/0.25/0.30/0.40) found EVERY value tighter than 0.30
-# beat it on this sample, with 0.05% testing best of all ($926.00) -- 0.10% was chosen as a
-# middle ground rather than the single best-tested cell.
+# PLAN B (deployed 2026-09-28, superseding the uniform 1.6%/1.2% "Plan A" config --
+# see git tag plan-a-uniform-1.6floor-1.2arm-0.10gap to revert to that snapshot).
+# Per-instrument floor/arm, replacing the single global TRAILING_STOP_FLOOR_PCT/
+# TRAILING_STOP_ARM_PCT floats. Each pair chosen via a full floor x arm grid search
+# per instrument (695 real trades, Aug 21 - Sep 28), validated with a 70/30
+# time-based train/test split to guard against overfitting to noise:
+#   BRENT_OIL:    1.4% floor / 0.3% arm -- robust: train +$967.85, test +$365.74
+#                 (positive on BOTH splits -- the most trustworthy result of the 5)
+#   WTI_OIL:      2.0% floor / 0.3% arm -- robust: train +$1443.56, test +$484.27
+#                 (also positive on both splits; best win rate of the 5 at 92.8%)
+#   SILVER:       1.0% floor / 1.2% arm -- train +$69.73, test +$96.57 (both positive,
+#                 but n=22 is a small sample -- treat with some caution)
+#   GOLD:         0.8% floor / 1.0% arm -- n=16 is too small to trust as a precise
+#                 number (flagged to the user as noise-level); kept anyway since it's
+#                 at least directionally the best-found and non-negative on both splits
+#   NATURAL_GAS:  1.0% floor / 2.0% arm -- *** NOT profitable *** every floor x arm
+#                 combination tested loses money on NG (a signal-quality problem, not
+#                 a risk-management one) -- this is the LEAST-BAD found (-$595.05 over
+#                 the full period vs -$994.65 under the old uniform 1.6%/1.2%), not a
+#                 genuine win. Re-validate before assuming this is settled.
+# Always re-validate on fresh data before trusting any of these -- see this file's
+# history on 2026-09-24/25 and 2026-09-28 for prior contradictory findings from
+# smaller/different-period samples.
+TRAILING_STOP_FLOOR_PCT_BY_INSTRUMENT = {
+    "BRENT_OIL": 1.4,
+    "WTI_OIL": 2.0,
+    "NATURAL_GAS": 1.0,
+    "GOLD": 0.8,
+    "SILVER": 1.0,
+}
+TRAILING_STOP_ARM_PCT_BY_INSTRUMENT = {
+    "BRENT_OIL": 0.3,
+    "WTI_OIL": 0.3,
+    "NATURAL_GAS": 2.0,
+    "GOLD": 1.0,
+    "SILVER": 1.2,
+}
+# Fallback for any trailing instrument not present in the dicts above (shouldn't
+# happen with all 5 covered, but keeps _floor_pct_for/_arm_pct_for total functions
+# rather than raising) -- these are Plan A's old uniform values.
+TRAILING_STOP_FLOOR_PCT_DEFAULT = 1.6
+TRAILING_STOP_ARM_PCT_DEFAULT = 1.2
+
+
+def _floor_pct_for(instrument: str) -> float:
+    return TRAILING_STOP_FLOOR_PCT_BY_INSTRUMENT.get(instrument, TRAILING_STOP_FLOOR_PCT_DEFAULT)
+
+
+def _arm_pct_for(instrument: str) -> float:
+    return TRAILING_STOP_ARM_PCT_BY_INSTRUMENT.get(instrument, TRAILING_STOP_ARM_PCT_DEFAULT)
+
+
+TRAILING_STOP_GAP_PCT = 0.03  # tightened from 0.10 to 0.03 on 2026-09-28 as part of Plan B
+# (user's own choice). Validated via real-trade replay (floor=1.4%/arm=0.3% held fixed,
+# 695 real trades): a full gap sweep (0.03/0.05/0.10/0.15/0.20/0.30) was STRICTLY
+# monotonic -- every tighter value beat the last, both on full-period total AND on a
+# 70/30 train/test split (0.03% was the only value with a POSITIVE test-period result:
+# +$100.27, vs -$169.39 at the previous 0.10%). *** IMPORTANT CAVEAT, flagged to the
+# user before deploying: this monotonic-improves-forever shape is a red flag, not a
+# clean win. The backtest does not model (a) IG's real minNormalStopOrLimitDistance --
+# at 0.03% the average implied trail distance is under 1 point for every instrument
+# (as low as 0.18pt for NATURAL_GAS), almost certainly below what IG will actually
+# accept, meaning live execution will silently clamp to something wider than this
+# constant requests (see the ATTACHED_ORDER_LEVEL_ERROR incident below), and (b) the
+# real ~2-minute watch-cycle re-sync lag vs. this simulator's continuous per-bar
+# updates -- a very tight gap depends on catching the exact peak instantly, which the
+# live system cannot do. Deployed per explicit user instruction; treat live results
+# here as a genuine field test of whether the IG clamp and the sync lag matter as much
+# in practice as they seem to on paper, not as a confirmed improvement.
 TRAILING_STOP_STALE_LOSS_MINUTES = 120  # force-close if never favorable and still negative after this long
 TRAILING_STOP_CEILING_BUFFER_PCT = 20.0  # limit_level kept this far beyond the peak favorable level --
 # IG's open_position/update_position both require a real limit_level (see ig_broker.py), so this can't
@@ -615,15 +649,15 @@ def _margin_based_stop_distance(margin_allocated: float, size: float, min_distan
 def _initial_stop_and_limit_distance(margin_allocated: float, size: float, min_distance: float = None,
                                       instrument: str = None) -> tuple:
     """Used only at OPEN time. For TRAILING_STOP_INSTRUMENTS, the initial resting
-    stop is the wide TRAILING_STOP_FLOOR_PCT (the worst case the trailing scheme
-    ever allows) and the initial limit is a generous, effectively-out-of-the-way
-    ceiling (TRAILING_STOP_CEILING_BUFFER_PCT past zero profit) -- both get
-    reconciled to the real trailing levels on the very next sync once the
-    position shows a live P&L (see _trailing_stop_and_limit). Every other
-    instrument keeps the plain fixed pair from _margin_based_stop_distance/
+    stop is this instrument's wide _floor_pct_for(instrument) (the worst case the
+    trailing scheme ever allows for it) and the initial limit is a generous,
+    effectively-out-of-the-way ceiling (TRAILING_STOP_CEILING_BUFFER_PCT past zero
+    profit) -- both get reconciled to the real trailing levels on the very next
+    sync once the position shows a live P&L (see _trailing_stop_and_limit). Every
+    other instrument keeps the plain fixed pair from _margin_based_stop_distance/
     _margin_based_limit_distance."""
     if instrument in TRAILING_STOP_INSTRUMENTS:
-        stop_distance = _margin_based_distance(TRAILING_STOP_FLOOR_PCT, margin_allocated, size, min_distance)
+        stop_distance = _margin_based_distance(_floor_pct_for(instrument), margin_allocated, size, min_distance)
         limit_distance = _margin_based_distance(TRAILING_STOP_CEILING_BUFFER_PCT, margin_allocated, size, min_distance)
         return stop_distance, limit_distance
     return (
@@ -678,18 +712,17 @@ def _trailing_stale_loss_due(pos: dict, peak_state: dict) -> bool:
 
 
 def _trailing_stop_and_limit(pos: dict, margin: float, entry_level: float, size: float, is_long: bool,
-                              min_stop_distance: float, peak_state: dict) -> tuple:
+                              min_stop_distance: float, peak_state: dict, instrument: str = None) -> tuple:
     """Core of the trailing-stop scheme (see TRAILING_STOP_INSTRUMENTS): tracks
     each position's peak favorable excursion (as % of margin) across ticks in
     peak_state (mutated in place, keyed by deal_id -- persisted to disk by the
     caller), then returns:
-      - stop_price: stays at the plain -TRAILING_STOP_FLOOR_PCT floor until
-        peak_fav_pct reaches TRAILING_STOP_ARM_PCT; once armed, trails
-        CONTINUOUSLY (re-evaluated on every new peak, not at fixed steps) to
-        (peak_fav_pct - TRAILING_STOP_GAP_PCT) of margin. See the module
-        comment above TRAILING_STOP_ARM_PCT for the known conflict: every
-        arm-gated variant tested earlier this session underperformed the
-        no-arm version on real trade data.
+      - stop_price: stays at the plain -_floor_pct_for(instrument) floor until
+        peak_fav_pct reaches _arm_pct_for(instrument) (both per-instrument as of
+        Plan B, 2026-09-28 -- see TRAILING_STOP_FLOOR_PCT_BY_INSTRUMENT); once
+        armed, trails CONTINUOUSLY (re-evaluated on every new peak, not at fixed
+        steps) to (peak_fav_pct - TRAILING_STOP_GAP_PCT) of margin (gap stays a
+        single global value, not per-instrument).
       - limit_price: entry adjusted by (max(peak_fav_pct, 0) + TRAILING_STOP_CEILING_BUFFER_PCT)
         of margin -- always recomputed past the current peak so it stays out
         of the way; the trailing stop is the real exit, this only exists
@@ -698,15 +731,17 @@ def _trailing_stop_and_limit(pos: dict, margin: float, entry_level: float, size:
     the returned stop_price, so a transient dip in peak_state (shouldn't
     happen since peak_state only ever grows) can never loosen a live stop."""
     deal_id = pos.get("deal_id")
+    floor_pct = _floor_pct_for(instrument)
+    arm_pct = _arm_pct_for(instrument)
     pnl = _estimate_unrealized_pnl(pos)
     current_fav_pct = (pnl / margin * 100) if pnl is not None else 0.0
     peak_fav_pct = max(peak_state.get(deal_id, 0.0), current_fav_pct)
     peak_state[deal_id] = peak_fav_pct
 
-    if peak_fav_pct >= TRAILING_STOP_ARM_PCT:
-        lock_pct = max(-TRAILING_STOP_FLOOR_PCT, peak_fav_pct - TRAILING_STOP_GAP_PCT)
+    if peak_fav_pct >= arm_pct:
+        lock_pct = max(-floor_pct, peak_fav_pct - TRAILING_STOP_GAP_PCT)
     else:
-        lock_pct = -TRAILING_STOP_FLOOR_PCT
+        lock_pct = -floor_pct
     lock_distance = margin * lock_pct / 100 / size
     if min_stop_distance and abs(lock_distance) < min_stop_distance:
         lock_distance = min_stop_distance if lock_distance >= 0 else -min_stop_distance
@@ -853,7 +888,7 @@ def _sync_margin_based_exits(broker, positions: dict, snapshots: dict, max_lever
                 "reason": (
                     f"Never showed a favorable excursion within {TRAILING_STOP_STALE_LOSS_MINUTES} min of "
                     f"opening and remains at a loss -- force-closed per the trailing-stop strategy's "
-                    f"timeout rule rather than left to ride toward the -{TRAILING_STOP_FLOOR_PCT}% floor."
+                    f"timeout rule rather than left to ride toward the -{_floor_pct_for(instrument)}% floor."
                 ),
                 **result,
             })
@@ -863,7 +898,7 @@ def _sync_margin_based_exits(broker, positions: dict, snapshots: dict, max_lever
 
         if trailing:
             candidate_stop, target_limit = _trailing_stop_and_limit(
-                pos, margin, entry_level, size, is_long, min_stop_distance, peak_state,
+                pos, margin, entry_level, size, is_long, min_stop_distance, peak_state, instrument,
             )
             target_limit = round(target_limit, 4)
         else:
@@ -921,8 +956,8 @@ def _sync_margin_based_exits(broker, positions: dict, snapshots: dict, max_lever
             "old_limit_level": current_limit, "new_limit_level": target_limit,
             "old_stop_level": current_stop, "new_stop_level": target_stop,
             "reason": (
-                f"Trailing-stop reconciliation (floor {TRAILING_STOP_FLOOR_PCT}%, arm {TRAILING_STOP_ARM_PCT}%, "
-                f"gap {TRAILING_STOP_GAP_PCT}% once armed, continuous not stepped)"
+                f"Trailing-stop reconciliation (floor {_floor_pct_for(instrument)}%, arm {_arm_pct_for(instrument)}%, "
+                f"gap {TRAILING_STOP_GAP_PCT}% once armed, continuous not stepped, per-instrument as of Plan B)"
                 if trailing else (
                     f"Position's resting stop and/or limit didn't match the "
                     f"{_stop_loss_pct_for(instrument)}%/{_profit_take_pct_for(instrument)}%-of-margin targets "
