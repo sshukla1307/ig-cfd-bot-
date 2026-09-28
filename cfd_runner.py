@@ -494,30 +494,31 @@ def _profit_take_pct_for(instrument: str) -> float:
 # because the user asked for uniform treatment across all 5, not because
 # they've been separately validated.
 TRAILING_STOP_INSTRUMENTS = {"BRENT_OIL", "WTI_OIL", "NATURAL_GAS", "GOLD", "SILVER"}
-TRAILING_STOP_FLOOR_PCT = 1.8  # hard worst-case stop, as % of margin -- never breached. Tightened
-# from 2.85 on 2026-09-28 (user's own choice), validated via real-trade replay: re-simulating all
-# 632 real historical trades (Aug 21 - Sep 25) with ONLY the floor changed (arm/gap held at their
-# then-current 0.5%/0.10%) moved total P&L from $742.48 to $1,393.71 -- see TRAILING_STOP_ARM_PCT's
-# comment below for the combined (floor + arm) result actually deployed.
-TRAILING_STOP_ARM_PCT = 1.0  # Raised from 0.5 on 2026-09-28 (user's own choice) alongside the floor
-# tightening above -- validated together via the same 632-trade real-trade replay:
+TRAILING_STOP_FLOOR_PCT = 1.6  # hard worst-case stop, as % of margin -- never breached. Tightened
+# from 1.8 to 1.6 on 2026-09-28 (user's own choice, same day as the 1.8 deploy -- a same-day
+# follow-up after a bad trading day exposed more room to cut losses). Validated via real-trade
+# replay on 695 real trades (Aug 21 - Sep 28, refreshed same day to include that bad day):
+# isolating the floor-only change (1.8->1.6, arm held at 1.0) moved total P&L from $360.94 to
+# $881.12 -- see TRAILING_STOP_ARM_PCT's comment below for the combined result actually deployed,
+# which is smaller than this floor-only number (the arm change below is a net drag by itself).
+TRAILING_STOP_ARM_PCT = 1.2  # Raised from 1.0 to 1.2 on 2026-09-28 (user's own choice) alongside
+# the floor tightening above. Validated together via the same 695-trade real-trade replay:
 #             win%   total($)
-#   0.5 arm / 2.85 floor (previous)     82.4%    742.48
-#   1.0 arm / 2.85 floor (arm only)       --    1126.03
-#   0.5 arm / 1.8  floor (floor only)     --    1393.71
-#   1.0 arm / 1.8  floor (BOTH, deployed) 65.3%  1778.79
-# Win rate drops (a tighter floor stops out more trades that would eventually have recovered --
-# roughly half of all real winners this session dipped below -1% margin before turning profitable),
-# but net P&L is +139% over the previous config: losses are capped much tighter while a higher arm
-# lets winners run further before the first lock (an earlier finding: ~75% of trades that cross
-# 0.5% peak favorable go on to reach 1% anyway, so arming at 0.5% mostly just clips winners early
-# without saving much on losers). Per-instrument, this is NOT free everywhere -- Natural Gas flips
-# from -$93.89 to +$440.59 and both oil instruments roughly double, but GOLD goes slightly negative
-# (-$57.88 vs +$65.36, n=9-10, too small a sample to weigh heavily either way). *** IMPORTANT: this
-# directly contradicts the "arm-gated designs underperform continuous" conclusion recorded in this
-# file's history on 2026-09-24/25 (e.g. "arm at 1%, 0.3% gap" lost -25.82% back then) -- that
-# finding was from a smaller, different-period trade sample; always re-validate before trusting
-# either conclusion on fresh data rather than assuming this file's own history settles it. ***
+#   1.0 arm / 1.8 floor (previous, deployed same day)   65.2%    360.94
+#   1.2 arm / 1.8 floor (arm-only, isolated)             63.5%   158.83
+#   1.0 arm / 1.6 floor (floor-only, isolated)           64.2%   881.12
+#   1.2 arm / 1.6 floor (BOTH, deployed)                 62.3%   698.33
+# *** IMPORTANT, flagged to the user before deploying: the arm increase (1.0->1.2) is a net
+# DRAG by itself (-$202 vs the previous 1.0/1.8 config) -- delaying the first lock doesn't let
+# winners run further here, it just gives back more on reversals before arming. The floor cut
+# is doing all the real work (+$520 alone). Floor-only (1.0 arm / 1.6 floor) would have scored
+# higher ($881.12) than the combined config actually deployed ($698.33). Deployed anyway per
+# explicit user instruction to change both, since the combined result is still a clear
+# improvement over what was live before (+$337, +93%) -- just noting the arm change is not
+# pulling its own weight so a future re-tune has a lead to follow. Always re-validate on fresh
+# data before trusting any of this file's own historical conclusions -- see the note in this
+# file's history on 2026-09-24/25 about an earlier, contradictory arm-gated finding from a
+# smaller sample.
 TRAILING_STOP_GAP_PCT = 0.10  # stop trails to (peak favorable % - this) ONCE ARMED (peak >= TRAILING_STOP_ARM_PCT) --
 # tightened from 0.30 to 0.10 on 2026-09-25 (user's own choice), validated via real-trade replay:
 # all 77 real trades opened since commit 839129b, re-simulated against real 1m price bars with
