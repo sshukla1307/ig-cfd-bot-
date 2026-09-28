@@ -1,34 +1,63 @@
 [
   {
     "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Consecutive-loss circuit breaker: NATURAL_GAS has lost 2 times in a row going SELL (most recently 185 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
-    "logged_at": "2026-09-28T05:42:57.842111+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "GOLD",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: GOLD has only been open for 160 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-28T05:42:57.841863+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 71 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "logged_at": "2026-09-28T05:42:57.841525+00:00"
+    "instrument": "SILVER",
+    "direction": "SELL",
+    "size": 1.68,
+    "margin_allocated": 2057.89,
+    "effective_leverage": 5.0,
+    "notional": 10359.05,
+    "stop_distance": 34.9106,
+    "limit_distance": 244.9869,
+    "confluence_detail": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for SILVER this tick -- a technical read or a generic news search alone can't open a position",
+    "reason": "Silver is showing a bearish technical setup with SMA-20 below SMA-50 and an oversold RSI of 17.9. Despite the oversold condition, the lack of a strong catalyst or positioning extreme suggests a continuation of the downtrend. The flat term structure indicates no forward market expectation of a price increase.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR8NGRJRA2",
+    "raw": {
+      "date": "2026-09-28T05:44:05.797",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDSILVER.DBI.IP",
+      "expiry": "-",
+      "dealReference": "8G497RCGTKNTYNV",
+      "dealId": "DIAAAAR8NGRJRA2",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR8NGRJRA2",
+          "status": "OPENED"
+        }
+      ],
+      "level": 6164.4,
+      "size": 1.68,
+      "direction": "SELL",
+      "stopLevel": 6199.3105,
+      "limitLevel": 5919.413,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-28T05:44:06.001174+00:00"
   },
   {
     "action": "BROKER_CLOSE",
-    "instrument": "WTI_OIL",
-    "deal_id": "DIAAAAR8M9JVMBA",
+    "instrument": "BRENT_OIL",
+    "deal_id": "DIAAAAR8M96L6AP",
     "original_direction": "SELL",
-    "estimated_pnl": -65.94,
+    "estimated_pnl": -50.16,
     "status": "detected",
     "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-09-28T05:42:18.958070+00:00"
+    "logged_at": "2026-09-28T05:43:34.409723+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Consecutive-loss circuit breaker: NATURAL_GAS has lost 2 times in a row going SELL (most recently 184 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
+    "logged_at": "2026-09-28T05:41:36.978306+00:00"
   },
   {
     "action": "OPEN_SHORT",
@@ -5521,5 +5550,35 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-27T21:32:11.027367+00:00"
+  },
+  {
+    "action": "TRAILING_STALE_LOSS_CLOSE",
+    "instrument": "BRENT_OIL",
+    "deal_id": "DIAAAAR8KVDX6A5",
+    "reason": "MARKET_CLOSED_WITH_EDITS",
+    "status": "rejected",
+    "raw": {
+      "date": "2026-09-27T21:31:31.992",
+      "status": null,
+      "reason": "MARKET_CLOSED_WITH_EDITS",
+      "dealStatus": "REJECTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": null,
+      "dealReference": "JV8LH7Q42LSTYNV",
+      "dealId": "DIAAAAR8LR7UYAV",
+      "affectedDeals": [],
+      "level": null,
+      "size": null,
+      "direction": "SELL",
+      "stopLevel": null,
+      "limitLevel": null,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-27T21:31:32.126724+00:00"
   }
 ]
