@@ -3,6 +3,20 @@
     "action": "OPEN_SHORT",
     "instrument": "GOLD",
     "status": "REJECTED",
+    "reason": "Consecutive-loss circuit breaker: GOLD has lost 2 times in a row going SELL (most recently 47 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
+    "logged_at": "2026-09-28T23:02:54.556063+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "NATURAL_GAS momentum filter: proposed OPEN_SHORT conflicts with price action over the last 30 minutes (current 3.148 vs 30-min SMA 3.1477, trending up) -- real-trade replay found NG entries that fight this short-term direction lose far more per trade on average than ones that agree with it, regardless of the RSI/mean-reversion thesis behind the trade. Wait for price action to actually turn before fading.",
+    "logged_at": "2026-09-28T23:02:54.555564+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "GOLD",
+    "status": "REJECTED",
     "reason": "Consecutive-loss circuit breaker: GOLD has lost 2 times in a row going SELL (most recently 17 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
     "logged_at": "2026-09-28T22:32:32.547131+00:00"
   },
@@ -5316,51 +5330,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-28T15:02:56.679570+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Consecutive-loss circuit breaker: BRENT_OIL has lost 2 times in a row going SELL (most recently 5 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
-    "logged_at": "2026-09-28T15:02:55.930056+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "SILVER",
-    "deal_id": "DIAAAAR8SL8RGAC",
-    "old_limit_level": 5844.7598,
-    "new_limit_level": 5845.536,
-    "old_stop_level": 6101.317,
-    "new_stop_level": 6101.2782,
-    "reason": "Trailing-stop reconciliation (floor 1.0%, arm 1.2%, gap 0.03% once armed, continuous not stepped, per-instrument as of Plan B) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-28T14:59:38.024",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDSILVER.DBI.IP",
-      "expiry": "-",
-      "dealReference": "5YKXJ3D8M2ETYNV",
-      "dealId": "DIAAAAR8SL8RGAC",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR8SL8RGAC",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 6089.1,
-      "size": 2.04,
-      "direction": "SELL",
-      "stopLevel": 6101.2783,
-      "limitLevel": 5845.536,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-28T14:59:38.305411+00:00"
   }
 ]
