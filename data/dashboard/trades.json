@@ -1,6 +1,91 @@
 [
   {
     "action": "OPEN_SHORT",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Consecutive-loss circuit breaker: BRENT_OIL has lost 2 times in a row going SELL (most recently 29 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
+    "logged_at": "2026-09-28T20:02:46.766960+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "GOLD",
+    "deal_id": "DIAAAAR8UCCB5AG",
+    "old_limit_level": 3957.5584,
+    "new_limit_level": 3956.7879,
+    "old_stop_level": 4126.1877,
+    "new_stop_level": 4126.1877,
+    "reason": "Trailing-stop reconciliation (floor 0.2%, arm 1.2%, gap 0.1% once armed, continuous not stepped, per-instrument as of Plan B) -- amending both on IG directly (both always sent together, see incident note above).",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-09-28T20:01:40.233",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDGOLD.DBI.IP",
+      "expiry": "-",
+      "dealReference": "9EAMNBPWUHATYNV",
+      "dealId": "DIAAAAR8UCCB5AG",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR8UCCB5AG",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 4124.54,
+      "size": 2.92,
+      "direction": "SELL",
+      "stopLevel": 4126.1875,
+      "limitLevel": 3956.7878,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-28T20:01:40.385701+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "GOLD",
+    "deal_id": "DIAAAAR8UCCB5AG",
+    "old_limit_level": 3957.918,
+    "new_limit_level": 3957.5584,
+    "old_stop_level": 4126.1877,
+    "new_stop_level": 4126.1877,
+    "reason": "Trailing-stop reconciliation (floor 0.2%, arm 1.2%, gap 0.1% once armed, continuous not stepped, per-instrument as of Plan B) -- amending both on IG directly (both always sent together, see incident note above).",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-09-28T20:00:32.717",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDGOLD.DBI.IP",
+      "expiry": "-",
+      "dealReference": "RBW2XT86PP6TYNV",
+      "dealId": "DIAAAAR8UCCB5AG",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR8UCCB5AG",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 4124.54,
+      "size": 2.92,
+      "direction": "SELL",
+      "stopLevel": 4126.1875,
+      "limitLevel": 3957.5583,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-28T20:00:32.864611+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
     "instrument": "SILVER",
     "direction": "SELL",
     "size": 1.6,
@@ -126,6 +211,109 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-28T19:59:04.060651+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "GOLD",
+    "direction": "SELL",
+    "size": 2.92,
+    "margin_allocated": 2405.58,
+    "effective_leverage": 5.0,
+    "notional": 12044.42,
+    "stop_distance": 1.6477,
+    "limit_distance": 164.7658,
+    "confluence_detail": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for GOLD this tick -- a technical read or a generic news search alone can't open a position",
+    "reason": "Gold is showing a bearish trend with SMA-20 below SMA-50 and a low RSI. Rising bond yields and expectations of higher Fed rates are weighing on gold prices. These factors support a short position.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR8UCCB5AG",
+    "raw": {
+      "date": "2026-09-28T19:58:17.144",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDGOLD.DBI.IP",
+      "expiry": "-",
+      "dealReference": "64VRWARQ3SSTYNV",
+      "dealId": "DIAAAAR8UCCB5AG",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR8UCCB5AG",
+          "status": "OPENED"
+        }
+      ],
+      "level": 4124.54,
+      "size": 2.92,
+      "direction": "SELL",
+      "stopLevel": 4126.1875,
+      "limitLevel": 3959.7742,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-28T19:58:17.271590+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "direction": "SELL",
+    "size": 3.8,
+    "margin_allocated": 2405.58,
+    "effective_leverage": 5.0,
+    "notional": 12027.0,
+    "stop_distance": 10.0,
+    "limit_distance": 126.6095,
+    "confluence_detail": "get_term_structure, get_weather_demand, get_inventory_data agrees with bearish",
+    "reason": "Natural gas is in contango, indicating ample supply, and recent inventory data shows a larger-than-typical build. Weather demand is neutral, and the technicals show a bearish trend with SMA-20 below SMA-50. These factors support a short position.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR8UDMETA4",
+    "raw": {
+      "date": "2026-09-28T19:58:16.875",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "PLFYNKVG35JTYNV",
+      "dealId": "DIAAAAR8UDMETA4",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR8UDMETA4",
+          "status": "OPENED"
+        }
+      ],
+      "level": 3161.0,
+      "size": 3.8,
+      "direction": "SELL",
+      "stopLevel": 3171.0,
+      "limitLevel": 3034.3904,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-28T19:58:17.047246+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Consecutive-loss circuit breaker: BRENT_OIL has lost 2 times in a row going SELL (most recently 24 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
+    "logged_at": "2026-09-28T19:58:16.706780+00:00"
+  },
+  {
+    "action": "BROKER_CLOSE",
+    "instrument": "GOLD",
+    "deal_id": "DIAAAAR8T78WTA9",
+    "original_direction": "SELL",
+    "estimated_pnl": 9.55,
+    "status": "detected",
+    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
+    "logged_at": "2026-09-28T19:57:38.798945+00:00"
   },
   {
     "action": "MARGIN_EXIT_SYNC",
@@ -5598,184 +5786,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-28T14:37:38.723296+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "GOLD",
-    "deal_id": "DIAAAAR8RWLLQAQ",
-    "old_limit_level": 3970.9996,
-    "new_limit_level": 3968.4296,
-    "old_stop_level": 4151.617,
-    "new_stop_level": 4135.23,
-    "reason": "ATTACHED_ORDER_LEVEL_ERROR",
-    "status": "rejected",
-    "raw": {
-      "date": "2026-09-28T14:37:38.219",
-      "status": null,
-      "reason": "ATTACHED_ORDER_LEVEL_ERROR",
-      "dealStatus": "REJECTED",
-      "epic": "CS.D.CFDGOLD.DBI.IP",
-      "expiry": null,
-      "dealReference": "K6WUHEQBEBSTYNV",
-      "dealId": "DIAAAAR8R8YSQAP",
-      "affectedDeals": [],
-      "level": null,
-      "size": null,
-      "direction": "SELL",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-28T14:37:38.409511+00:00"
-  },
-  {
-    "action": "HOLD",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "Invalid action: HOLD",
-    "logged_at": "2026-09-28T14:36:24.949443+00:00"
-  },
-  {
-    "action": "HOLD",
-    "instrument": "GOLD",
-    "status": "REJECTED",
-    "reason": "Invalid action: HOLD",
-    "logged_at": "2026-09-28T14:36:24.949340+00:00"
-  },
-  {
-    "action": "HOLD",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Invalid action: HOLD",
-    "logged_at": "2026-09-28T14:36:24.949200+00:00"
-  },
-  {
-    "action": "WTI_MIRROR_OPEN",
-    "instrument": "WTI_OIL",
-    "direction": "BUY",
-    "size": 1.32,
-    "margin_allocated": 2467.8,
-    "effective_leverage": 5.0,
-    "notional": 12324.05,
-    "stop_distance": 37.3909,
-    "limit_distance": 373.9091,
-    "reason": "Auto-mirrored from BRENT_OIL: Brent oil is experiencing a bullish trend with recent news indicating a rise above $106 due to geopolitical tensions and potential supply disruptions. Despite the flat term structure, the current market sentiment and price movement suggest a continuation of the upward trend.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR8R8E75AL",
-    "raw": {
-      "date": "2026-09-28T14:36:24.736",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "8WTXDN5YTA2TYNV",
-      "dealId": "DIAAAAR8R8E75AL",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR8R8E75AL",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9340.9,
-      "size": 1.32,
-      "direction": "BUY",
-      "stopLevel": 9303.509,
-      "limitLevel": 9714.81,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-28T14:36:24.948864+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "direction": "BUY",
-    "size": 1.24,
-    "margin_allocated": 2467.8,
-    "effective_leverage": 5.0,
-    "notional": 12300.43,
-    "stop_distance": 27.8623,
-    "limit_distance": 398.0323,
-    "confluence_detail": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
-    "reason": "Brent oil is experiencing a bullish trend with recent news indicating a rise above $106 due to geopolitical tensions and potential supply disruptions. Despite the flat term structure, the current market sentiment and price movement suggest a continuation of the upward trend.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR8R8RSBAT",
-    "raw": {
-      "date": "2026-09-28T14:36:24.388",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "YTX64NS6KS2TYNV",
-      "dealId": "DIAAAAR8R8RSBAT",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR8R8RSBAT",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9918.6,
-      "size": 1.24,
-      "direction": "BUY",
-      "stopLevel": 9890.737,
-      "limitLevel": 10316.632,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-28T14:36:24.614819+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "GOLD",
-    "deal_id": "DIAAAAR8RWLLQAQ",
-    "old_limit_level": 3971.0396,
-    "new_limit_level": 3970.9996,
-    "old_stop_level": 4151.617,
-    "new_stop_level": 4151.617,
-    "reason": "Trailing-stop reconciliation (floor 0.8%, arm 1.0%, gap 0.03% once armed, continuous not stepped, per-instrument as of Plan B) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-28T14:35:42.646",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDGOLD.DBI.IP",
-      "expiry": "-",
-      "dealReference": "UN5DGYGRJ3WTYNV",
-      "dealId": "DIAAAAR8RWLLQAQ",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR8RWLLQAQ",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 4145.01,
-      "size": 3.0,
-      "direction": "SELL",
-      "stopLevel": 4151.617,
-      "limitLevel": 3970.9995,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-28T14:35:42.843640+00:00"
   }
 ]
