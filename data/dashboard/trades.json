@@ -3,6 +3,13 @@
     "action": "OPEN_SHORT",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "Consecutive-loss circuit breaker: NATURAL_GAS has lost 2 times in a row going SELL (most recently 174 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
+    "logged_at": "2026-09-28T05:31:58.969743+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "Consecutive-loss circuit breaker: NATURAL_GAS has lost 2 times in a row going SELL (most recently 161 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
     "logged_at": "2026-09-28T05:18:12.713795+00:00"
   },
@@ -5603,35 +5610,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-27T21:25:32.897182+00:00"
-  },
-  {
-    "action": "TRAILING_STALE_LOSS_CLOSE",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR8KVDX6A5",
-    "reason": "MARKET_CLOSED_WITH_EDITS",
-    "status": "rejected",
-    "raw": {
-      "date": "2026-09-27T21:23:26.349",
-      "status": null,
-      "reason": "MARKET_CLOSED_WITH_EDITS",
-      "dealStatus": "REJECTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": null,
-      "dealReference": "LDTSASWBCK2TYNV",
-      "dealId": "DIAAAAR8LRC73AU",
-      "affectedDeals": [],
-      "level": null,
-      "size": null,
-      "direction": "SELL",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-27T21:23:26.513390+00:00"
   }
 ]
