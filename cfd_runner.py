@@ -509,25 +509,49 @@ TRAILING_STOP_INSTRUMENTS = {"BRENT_OIL", "WTI_OIL", "NATURAL_GAS", "GOLD", "SIL
 #   GOLD:         0.8% floor / 1.0% arm -- n=16 is too small to trust as a precise
 #                 number (flagged to the user as noise-level); kept anyway since it's
 #                 at least directionally the best-found and non-negative on both splits
-#   NATURAL_GAS:  1.0% floor / 2.0% arm -- *** NOT profitable *** every floor x arm
-#                 combination tested loses money on NG (a signal-quality problem, not
-#                 a risk-management one) -- this is the LEAST-BAD found (-$595.05 over
-#                 the full period vs -$994.65 under the old uniform 1.6%/1.2%), not a
-#                 genuine win. Re-validate before assuming this is settled.
+#   NATURAL_GAS:  UPDATED 2026-09-28 (same day, later) to 0.2% floor / 1.2% arm -- the
+#                 original 1.0%/2.0% pair above was never profitable in any floor x arm
+#                 combination tested (a signal-quality problem, not risk-management), but
+#                 that search never went below a 0.8% floor. A follow-up test at a much
+#                 tighter 0.2% floor (paired with a lower 1.2% arm) found a genuine, robust
+#                 turnaround on 160 real trades (gap=0.10% held fixed): total P&L
+#                 -$795.93 -> +$390.49 (+$1186.43), and -- unlike every prior NG result --
+#                 POSITIVE on both the train (-$470.07 -> +$286.87) and test
+#                 (-$325.86 -> +$103.63) splits, not just the full-period total. Mechanism:
+#                 NG is choppy/mean-reverting, so the old high arm (2.0%) let losing trades
+#                 run a long way back against the position before the stop ever caught them
+#                 (avg loss -$35.86); the tight 0.2% floor instead cuts losers almost
+#                 immediately (avg loss -$4.68). Win rate actually drops (44.4% -> 26.9%)
+#                 but doesn't matter -- losses shrink far more than win rate falls.
+#                 CAVEAT: implied stop distance at 0.2% floor is ~1.23pts for NG, tighter
+#                 than anything previously deployed for this instrument. Believed lower-risk
+#                 than the failed 0.03% GAP experiment (a floor is a static, one-time
+#                 distance from entry, not a continuously-re-chasing lock that has to track
+#                 a moving peak every ~2min sync -- the timing mismatch that caused that
+#                 incident), but NOT live-verified at this tightness. Watch tr.csv/
+#                 order_log.jsonl for any ATTACHED_ORDER_LEVEL_ERROR on NATURAL_GAS after
+#                 this deploy.
+#   GOLD:         0.8% floor / 1.0% arm -- n=16 is too small to trust as a precise
+#                 number (flagged to the user as noise-level); kept anyway since it's
+#                 at least directionally the best-found and non-negative on both splits.
+#                 NOTE: the same 0.2%-floor test that fixed NATURAL_GAS above also showed
+#                 a robust improvement for GOLD (n=23) at floor=0.2%/arm=1.2%
+#                 (-$25.04 -> +$190.61, positive on both splits) -- NOT deployed here
+#                 pending the same live-verification caution, but worth revisiting.
 # Always re-validate on fresh data before trusting any of these -- see this file's
 # history on 2026-09-24/25 and 2026-09-28 for prior contradictory findings from
 # smaller/different-period samples.
 TRAILING_STOP_FLOOR_PCT_BY_INSTRUMENT = {
     "BRENT_OIL": 1.4,
     "WTI_OIL": 2.0,
-    "NATURAL_GAS": 1.0,
+    "NATURAL_GAS": 0.2,
     "GOLD": 0.8,
     "SILVER": 1.0,
 }
 TRAILING_STOP_ARM_PCT_BY_INSTRUMENT = {
     "BRENT_OIL": 0.3,
     "WTI_OIL": 0.3,
-    "NATURAL_GAS": 2.0,
+    "NATURAL_GAS": 1.2,
     "GOLD": 1.0,
     "SILVER": 1.2,
 }
