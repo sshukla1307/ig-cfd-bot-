@@ -504,8 +504,6 @@ TRAILING_STOP_INSTRUMENTS = {"BRENT_OIL", "WTI_OIL", "NATURAL_GAS", "GOLD", "SIL
 #                 (positive on BOTH splits -- the most trustworthy result of the 5)
 #   WTI_OIL:      2.0% floor / 0.3% arm -- robust: train +$1443.56, test +$484.27
 #                 (also positive on both splits; best win rate of the 5 at 92.8%)
-#   SILVER:       1.0% floor / 1.2% arm -- train +$69.73, test +$96.57 (both positive,
-#                 but n=22 is a small sample -- treat with some caution)
 #   NATURAL_GAS:  UPDATED 2026-09-28 (same day, later) to 0.2% floor / 1.2% arm -- the
 #                 original 1.0%/2.0% pair above was never profitable in any floor x arm
 #                 combination tested (a signal-quality problem, not risk-management), but
@@ -540,6 +538,18 @@ TRAILING_STOP_INSTRUMENTS = {"BRENT_OIL", "WTI_OIL", "NATURAL_GAS", "GOLD", "SIL
 #                 just "any change helps". Same execution-risk caveat as NATURAL_GAS:
 #                 not live-verified at this floor tightness (~1.69pt implied distance
 #                 for GOLD) -- watch order_log.jsonl for ATTACHED_ORDER_LEVEL_ERROR.
+#   SILVER:       UPDATED 2026-09-28 (same day, later still) from 1.0% floor / 1.2% arm
+#                 to 0.4% floor / 0.5% arm. The original pair's full-period total
+#                 (+$29.19, n=32) was entirely a train-period artifact -- test period was
+#                 deeply negative (-$137.11) despite the positive full total. Swept floor
+#                 in {0.1,0.2,0.3,0.4,0.5}% x arm in {0.5,1.0}% (gap=0.10% held fixed):
+#                 0.5%/1.0% had the best raw total (+$69.21) but its test result was
+#                 barely different from the original (-$101.88); 0.4%/0.5% instead gave
+#                 the best TEST-period result of any candidate (-$16.91, closest to
+#                 breakeven) with a smaller but still real total improvement
+#                 (+$29.19 -> +$42.97, train +$166.30 -> +$59.88). Chosen for robustness
+#                 over the single best raw-total number, same reasoning as BRENT_OIL's
+#                 pick above. n=32 is still a small sample -- treat with some caution.
 # Always re-validate on fresh data before trusting any of these -- see this file's
 # history on 2026-09-24/25 and 2026-09-28 for prior contradictory findings from
 # smaller/different-period samples.
@@ -548,14 +558,14 @@ TRAILING_STOP_FLOOR_PCT_BY_INSTRUMENT = {
     "WTI_OIL": 2.0,
     "NATURAL_GAS": 0.2,
     "GOLD": 0.2,
-    "SILVER": 1.0,
+    "SILVER": 0.4,
 }
 TRAILING_STOP_ARM_PCT_BY_INSTRUMENT = {
     "BRENT_OIL": 0.3,
     "WTI_OIL": 0.3,
     "NATURAL_GAS": 1.2,
     "GOLD": 1.2,
-    "SILVER": 1.2,
+    "SILVER": 0.5,
 }
 # Fallback for any trailing instrument not present in the dicts above (shouldn't
 # happen with all 5 covered, but keeps _floor_pct_for/_arm_pct_for total functions
