@@ -3,6 +3,20 @@
     "action": "OPEN_SHORT",
     "instrument": "SILVER",
     "status": "REJECTED",
+    "reason": "Consecutive-loss circuit breaker: SILVER has lost 2 times in a row going SELL (most recently 75 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
+    "logged_at": "2026-09-28T17:32:49.813116+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Consecutive-loss circuit breaker: BRENT_OIL has lost 3 times in a row going SELL (most recently 58 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
+    "logged_at": "2026-09-28T17:32:49.812781+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "SILVER",
+    "status": "REJECTED",
     "reason": "Consecutive-loss circuit breaker: SILVER has lost 2 times in a row going SELL (most recently 45 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
     "logged_at": "2026-09-28T17:02:40.899990+00:00"
   },
@@ -5746,54 +5760,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-28T13:05:39.944767+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "This trade's margin ($2485.34) would leave available at $1856.11, below the 30.0% safety buffer of balance $9941.35 -- rejected to avoid risking a forced closure on this or other open positions",
-    "logged_at": "2026-09-28T13:04:40.996840+00:00"
-  },
-  {
-    "action": "WTI_MIRROR_OPEN",
-    "instrument": "WTI_OIL",
-    "direction": "SELL",
-    "size": 1.32,
-    "margin_allocated": 2485.34,
-    "effective_leverage": 5.0,
-    "notional": 12352.69,
-    "stop_distance": 30.1253,
-    "limit_distance": 376.5667,
-    "reason": "Auto-mirrored from BRENT_OIL: Brent oil is showing a short-term bearish trend with SMA-20 below SMA-50 and a neutral RSI. Recent commentary suggests a bearish outlook with Brent breaking a critical neckline and targeting lower support levels. Independent price checks show discrepancies, but the overall sentiment leans bearish.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR8Q729CAL",
-    "raw": {
-      "date": "2026-09-28T13:04:40.754",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "MZD9KJX7DJJTYNV",
-      "dealId": "DIAAAAR8Q729CAL",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR8Q729CAL",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9349.7,
-      "size": 1.32,
-      "direction": "SELL",
-      "stopLevel": 9379.825,
-      "limitLevel": 8973.133,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-28T13:04:40.996412+00:00"
   }
 ]
