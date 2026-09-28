@@ -1,6 +1,56 @@
 [
   {
     "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Consecutive-loss circuit breaker: NATURAL_GAS has lost 3 times in a row going SELL (most recently 118 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
+    "logged_at": "2026-09-28T22:03:07.819196+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "GOLD",
+    "direction": "SELL",
+    "size": 2.92,
+    "margin_allocated": 2399.35,
+    "effective_leverage": 5.0,
+    "notional": 12025.2,
+    "stop_distance": 1.6434,
+    "limit_distance": 164.339,
+    "confluence_detail": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for GOLD this tick -- a technical read or a generic news search alone can't open a position",
+    "reason": "Gold is currently trading below both its 20 and 50-hour SMAs, indicating a bearish trend. The RSI is at 31.4, which is not yet oversold, suggesting there might be more room for downside. Additionally, the macro environment with a strong dollar and high Treasury yields is putting pressure on gold prices. Recent news also indicates a bearish sentiment with gold slipping below key support levels.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR8UH7PDA8",
+    "raw": {
+      "date": "2026-09-28T22:03:07.616",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDGOLD.DBI.IP",
+      "expiry": "-",
+      "dealReference": "W7K3HNVKV9ATYNV",
+      "dealId": "DIAAAAR8UH7PDA8",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR8UH7PDA8",
+          "status": "OPENED"
+        }
+      ],
+      "level": 4117.69,
+      "size": 2.92,
+      "direction": "SELL",
+      "stopLevel": 4119.3335,
+      "limitLevel": 3953.351,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-28T22:03:07.760440+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
     "instrument": "BRENT_OIL",
     "status": "REJECTED",
     "reason": "Consecutive-loss circuit breaker: BRENT_OIL has lost 2 times in a row going SELL (most recently 119 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
@@ -5419,51 +5469,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-28T14:53:37.115565+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR8SJDLEA8",
-    "old_limit_level": 9573.1047,
-    "new_limit_level": 9569.76,
-    "old_stop_level": 9996.1777,
-    "new_stop_level": 9996.1777,
-    "reason": "Trailing-stop reconciliation (floor 1.4%, arm 0.3%, gap 0.03% once armed, continuous not stepped, per-instrument as of Plan B) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-28T14:53:36.596",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "75Y82U95UTETYNV",
-      "dealId": "DIAAAAR8SJDLEA8",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR8SJDLEA8",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 9968.5,
-      "size": 1.28,
-      "direction": "SELL",
-      "stopLevel": 9996.178,
-      "limitLevel": 9569.76,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-28T14:53:36.808574+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "This trade's margin ($2530.53) would leave available at $2530.55, below the 30.0% safety buffer of balance $10122.14 -- rejected to avoid risking a forced closure on this or other open positions",
-    "logged_at": "2026-09-28T14:52:29.297004+00:00"
   }
 ]
