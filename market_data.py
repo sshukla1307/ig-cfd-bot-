@@ -219,6 +219,53 @@ def get_technicals(yf_ticker: str) -> dict:
         return {"ticker": yf_ticker, "error": str(e)}
 
 
+def get_short_term_momentum(yf_ticker: str, lookback_bars: int = 6) -> dict:
+    """Very short-term momentum reading: current price vs. its simple moving
+    average over the last `lookback_bars` 5-minute bars (default 6 bars = 30
+    minutes). Added 2026-09-28 specifically for NATURAL_GAS's hard,
+    code-enforced entry filter in cfd_runner._validate_trade -- see that
+    call site's comment. This exists because config.py's PERSONA_PROMPT
+    already asks the agent, in words, to check price action isn't already
+    breaking out against a proposed RSI-extreme fade before taking it (added
+    after the 2026-09-23/24 incident: NG shorted 8 times in ~13 hours fading
+    what looked like overbought RSI while NG was actually in a persistent
+    rally, losing 7 of 8) -- but a real-trade replay on 150 NG trades through
+    2026-09-28 found the SAME pattern still happening well after that prompt
+    change: 87% of NG trades were SHORTs during a sustained NG uptrend, and
+    trades fighting the preceding 30 minutes of price action lost 2.7x more
+    per trade on average than trades agreeing with it (-$17.62 vs -$2.69),
+    with worse tail risk too (-$264 worst case vs -$119.60). The prompt-only
+    mitigation clearly isn't reliably followed -- this makes the same check
+    mechanical instead of hoping the LLM remembers it every time."""
+    try:
+        import yfinance as yf
+
+        hist = yf.Ticker(yf_ticker).history(period="1d", interval="5m")
+        if hist.empty or len(hist) < lookback_bars:
+            return {"ticker": yf_ticker, "error": "Not enough recent 5m price history"}
+
+        close = hist["Close"]
+        current_price = float(close.iloc[-1])
+        sma = float(close.tail(lookback_bars).mean())
+        if current_price > sma:
+            direction = "up"
+        elif current_price < sma:
+            direction = "down"
+        else:
+            direction = "flat"
+
+        return {
+            "ticker": yf_ticker,
+            "lookback_minutes": lookback_bars * 5,
+            "current_price": round(current_price, 4),
+            "sma": round(sma, 4),
+            "direction": direction,
+        }
+    except Exception as e:
+        logger.warning(f"get_short_term_momentum({yf_ticker}) failed: {e}")
+        return {"ticker": yf_ticker, "error": str(e)}
+
+
 def _brave_search(query: str, count: int, freshness: str) -> dict:
     """Shared Brave Search API call -- get_commodity_news and
     get_named_market_commentary both go through this, so the request/error

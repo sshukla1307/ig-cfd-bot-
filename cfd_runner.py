@@ -984,6 +984,49 @@ def _sync_margin_based_exits(broker, positions: dict, snapshots: dict, max_lever
     return synced
 
 
+def _check_ng_momentum_confirms(action: str) -> tuple:
+    """Hard, code-level enforcement of a check config.py's PERSONA_PROMPT already
+    asks the agent to make in words for NATURAL_GAS (verify price isn't already
+    breaking out against a proposed RSI-extreme fade) -- added 2026-09-28 after a
+    real-trade replay found the prompt-only version still isn't reliably followed:
+    87% of NG trades were SHORTs during a sustained NG uptrend, and trades fighting
+    the preceding 30 minutes of price action lost 2.7x more per trade on average
+    than trades agreeing with it (-$17.62 vs -$2.69, 150-trade sample through
+    2026-09-28). See market_data.get_short_term_momentum's docstring for the full
+    backtest writeup.
+
+    Compares the proposed direction against get_short_term_momentum's 30-minute
+    (6x5min bar) SMA-vs-current-price reading for NG=F. OPEN_LONG requires
+    direction=='up', OPEN_SHORT requires direction=='down'; 'flat' (price exactly
+    equals the SMA -- a near-impossible tie with real float prices) doesn't block
+    either way. Fails PERMISSIVE on any data error (network hiccup, yfinance
+    outage, insufficient history) -- consistent with this file's existing
+    philosophy for auxiliary checks (see _iter_close_events's docstring): the
+    worst case of failing open is one un-filtered NG trade, not blocking all NG
+    trading over a transient data problem."""
+    import market_data
+    from config import YFINANCE_TICKERS
+
+    momentum = market_data.get_short_term_momentum(YFINANCE_TICKERS["NATURAL_GAS"])
+    if momentum.get("error"):
+        logger.warning(f"NG momentum check unavailable, failing permissive: {momentum['error']}")
+        return True, "OK"
+
+    direction = momentum["direction"]
+    proposed = "up" if action == "OPEN_LONG" else "down"
+    if direction == "flat" or direction == proposed:
+        return True, "OK"
+
+    return False, (
+        f"NATURAL_GAS momentum filter: proposed {action} conflicts with price action over the "
+        f"last {momentum['lookback_minutes']} minutes (current {momentum['current_price']} vs "
+        f"{momentum['lookback_minutes']}-min SMA {momentum['sma']}, trending {direction}) -- "
+        f"real-trade replay found NG entries that fight this short-term direction lose far more "
+        f"per trade on average than ones that agree with it, regardless of the RSI/mean-reversion "
+        f"thesis behind the trade. Wait for price action to actually turn before fading."
+    )
+
+
 def _validate_trade(trade: dict, account: dict, positions: dict, rules,
                      running_available: float = None, checked_multiple_sources: bool = True,
                      confluence_reason: str = "", last_close_info: dict = None,
@@ -1064,6 +1107,10 @@ def _validate_trade(trade: dict, account: dict, positions: dict, rules,
                 "direction was checked this tick -- opening on a technical signal alone is "
                 "blocked (see RULES.require_confluence)"
             )
+        if instrument == "NATURAL_GAS":
+            ok_momentum, momentum_reason = _check_ng_momentum_confirms(action)
+            if not ok_momentum:
+                return False, momentum_reason
         if last_close_info and instrument in last_close_info:
             lc = last_close_info[instrument]
             proposed_direction = "BUY" if action == "OPEN_LONG" else "SELL"
