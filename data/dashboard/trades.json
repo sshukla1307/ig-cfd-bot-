@@ -1,6 +1,134 @@
 [
   {
     "action": "OPEN_LONG",
+    "instrument": "SILVER",
+    "status": "REJECTED",
+    "reason": "This trade's margin ($2497.84) would leave available at $2537.97, below the 30.0% safety buffer of balance $9991.37 -- rejected to avoid risking a forced closure on this or other open positions",
+    "logged_at": "2026-09-28T12:32:16.445351+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "GOLD",
+    "direction": "BUY",
+    "size": 3.0,
+    "margin_allocated": 2497.84,
+    "effective_leverage": 5.0,
+    "notional": 12454.02,
+    "stop_distance": 14.987,
+    "limit_distance": 166.5227,
+    "confluence_detail": "Confluence requirement not met: GOLD's independent signal(s) checked this tick (get_term_structure=bearish) do not support a bullish thesis -- a technical read alone, or signals pointing the other way, aren't enough to open",
+    "reason": "Gold is currently oversold with an RSI of 21.0, indicating a potential rebound. Despite the bearish short-term technicals, the oversold condition and the potential for central banks to diversify into gold provide a bullish catalyst. The term structure is in slight contango, but the oversold RSI suggests a mean-reversion opportunity.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR8QYKS2AZ",
+    "raw": {
+      "date": "2026-09-28T12:32:16.279",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDGOLD.DBI.IP",
+      "expiry": "-",
+      "dealReference": "M3A2UWD799NTYNV",
+      "dealId": "DIAAAAR8QYKS2AZ",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR8QYKS2AZ",
+          "status": "OPENED"
+        }
+      ],
+      "level": 4150.49,
+      "size": 3.0,
+      "direction": "BUY",
+      "stopLevel": 4135.503,
+      "limitLevel": 4317.0127,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-28T12:32:16.445039+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "GOLD",
+    "deal_id": "DIAAAAR8QVE2WAU",
+    "old_limit_level": 4332.7752,
+    "new_limit_level": 4335.9252,
+    "old_stop_level": 4151.1319,
+    "new_stop_level": 4151.1319,
+    "reason": "Trailing-stop reconciliation (floor 1.8%, arm 1.0%, gap 0.1% once armed, continuous not stepped) -- amending both on IG directly (both always sent together, see incident note above).",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-09-28T12:21:53.632",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDGOLD.DBI.IP",
+      "expiry": "-",
+      "dealReference": "DEMTBQHDUBNTYNV",
+      "dealId": "DIAAAAR8QVE2WAU",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR8QVE2WAU",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 4166.13,
+      "size": 3.0,
+      "direction": "BUY",
+      "stopLevel": 4151.132,
+      "limitLevel": 4335.9253,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-28T12:21:53.799423+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "GOLD",
+    "deal_id": "DIAAAAR8QVE2WAU",
+    "old_limit_level": 4333.4153,
+    "new_limit_level": 4332.7752,
+    "old_stop_level": 4151.0743,
+    "new_stop_level": 4151.1319,
+    "reason": "Trailing-stop reconciliation (floor 1.8%, arm 1.0%, gap 0.1% once armed, continuous not stepped) -- amending both on IG directly (both always sent together, see incident note above).",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-09-28T12:17:42.998",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDGOLD.DBI.IP",
+      "expiry": "-",
+      "dealReference": "KZLGM7YCEVWTYNV",
+      "dealId": "DIAAAAR8QVE2WAU",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR8QVE2WAU",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 4166.13,
+      "size": 3.0,
+      "direction": "BUY",
+      "stopLevel": 4151.132,
+      "limitLevel": 4332.7754,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-28T12:17:43.230977+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
     "instrument": "GOLD",
     "direction": "BUY",
     "size": 3.0,
@@ -5583,100 +5711,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-28T07:05:54.378904+00:00"
-  },
-  {
-    "action": "BROKER_CLOSE",
-    "instrument": "SILVER",
-    "deal_id": "DIAAAAR8NU3YVAG",
-    "original_direction": "SELL",
-    "estimated_pnl": -0.42,
-    "status": "detected",
-    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-09-28T07:05:24.604353+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "SILVER",
-    "deal_id": "DIAAAAR8NU3YVAG",
-    "old_limit_level": 5890.255,
-    "new_limit_level": 5886.0579,
-    "old_stop_level": 6140.0,
-    "new_stop_level": 6135.8,
-    "reason": "Trailing-stop reconciliation (floor 2.85%, arm 0.5%, gap 0.1% once armed, continuous not stepped) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-28T07:03:52.437",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDSILVER.DBI.IP",
-      "expiry": "-",
-      "dealReference": "Q4ABNQ88FUWTYNV",
-      "dealId": "DIAAAAR8NU3YVAG",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR8NU3YVAG",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 6143.6,
-      "size": 2.08,
-      "direction": "SELL",
-      "stopLevel": 6135.8,
-      "limitLevel": 5886.058,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-28T07:03:52.633410+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "SILVER",
-    "deal_id": "DIAAAAR8NU3YVAG",
-    "old_limit_level": 5897.856,
-    "new_limit_level": 5890.255,
-    "old_stop_level": 6178.4882,
-    "new_stop_level": 6140.0,
-    "reason": "Trailing-stop reconciliation (floor 2.85%, arm 0.5%, gap 0.1% once armed, continuous not stepped) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-28T07:03:09.115",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDSILVER.DBI.IP",
-      "expiry": "-",
-      "dealReference": "U5Z9QCN4XZATYNV",
-      "dealId": "DIAAAAR8NU3YVAG",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR8NU3YVAG",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 6143.6,
-      "size": 2.08,
-      "direction": "SELL",
-      "stopLevel": 6140.0,
-      "limitLevel": 5890.255,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-28T07:03:09.257122+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Consecutive-loss circuit breaker: NATURAL_GAS has lost 2 times in a row going SELL (most recently 265 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
-    "logged_at": "2026-09-28T07:02:28.763358+00:00"
   }
 ]
