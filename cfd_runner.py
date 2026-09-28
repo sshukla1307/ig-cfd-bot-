@@ -506,9 +506,6 @@ TRAILING_STOP_INSTRUMENTS = {"BRENT_OIL", "WTI_OIL", "NATURAL_GAS", "GOLD", "SIL
 #                 (also positive on both splits; best win rate of the 5 at 92.8%)
 #   SILVER:       1.0% floor / 1.2% arm -- train +$69.73, test +$96.57 (both positive,
 #                 but n=22 is a small sample -- treat with some caution)
-#   GOLD:         0.8% floor / 1.0% arm -- n=16 is too small to trust as a precise
-#                 number (flagged to the user as noise-level); kept anyway since it's
-#                 at least directionally the best-found and non-negative on both splits
 #   NATURAL_GAS:  UPDATED 2026-09-28 (same day, later) to 0.2% floor / 1.2% arm -- the
 #                 original 1.0%/2.0% pair above was never profitable in any floor x arm
 #                 combination tested (a signal-quality problem, not risk-management), but
@@ -531,13 +528,18 @@ TRAILING_STOP_INSTRUMENTS = {"BRENT_OIL", "WTI_OIL", "NATURAL_GAS", "GOLD", "SIL
 #                 incident), but NOT live-verified at this tightness. Watch tr.csv/
 #                 order_log.jsonl for any ATTACHED_ORDER_LEVEL_ERROR on NATURAL_GAS after
 #                 this deploy.
-#   GOLD:         0.8% floor / 1.0% arm -- n=16 is too small to trust as a precise
-#                 number (flagged to the user as noise-level); kept anyway since it's
-#                 at least directionally the best-found and non-negative on both splits.
-#                 NOTE: the same 0.2%-floor test that fixed NATURAL_GAS above also showed
-#                 a robust improvement for GOLD (n=23) at floor=0.2%/arm=1.2%
-#                 (-$25.04 -> +$190.61, positive on both splits) -- NOT deployed here
-#                 pending the same live-verification caution, but worth revisiting.
+#   GOLD:         UPDATED 2026-09-28 (same day, later still) to the SAME 0.2% floor /
+#                 1.2% arm as NATURAL_GAS above. Original Plan B value was 0.8%/1.0%
+#                 (n=16, already flagged as noise-level, itself a small loss: -$25.04).
+#                 The same tighter-floor test that fixed NATURAL_GAS also showed a
+#                 robust improvement for GOLD (n=23, gap=0.10% held fixed):
+#                 -$25.04 -> +$190.61, positive on both train (+$1.24 -> +$137.27) and
+#                 test (-$24.60 -> +$53.35). Separately checked 1.0% floor / 2.0% arm as
+#                 an alternative -- performed about the same as the old 0.8%/1.0%
+#                 (-$23.36 total), confirming 0.2%/1.2% is the real standout here, not
+#                 just "any change helps". Same execution-risk caveat as NATURAL_GAS:
+#                 not live-verified at this floor tightness (~1.69pt implied distance
+#                 for GOLD) -- watch order_log.jsonl for ATTACHED_ORDER_LEVEL_ERROR.
 # Always re-validate on fresh data before trusting any of these -- see this file's
 # history on 2026-09-24/25 and 2026-09-28 for prior contradictory findings from
 # smaller/different-period samples.
@@ -545,14 +547,14 @@ TRAILING_STOP_FLOOR_PCT_BY_INSTRUMENT = {
     "BRENT_OIL": 1.4,
     "WTI_OIL": 2.0,
     "NATURAL_GAS": 0.2,
-    "GOLD": 0.8,
+    "GOLD": 0.2,
     "SILVER": 1.0,
 }
 TRAILING_STOP_ARM_PCT_BY_INSTRUMENT = {
     "BRENT_OIL": 0.3,
     "WTI_OIL": 0.3,
     "NATURAL_GAS": 1.2,
-    "GOLD": 1.0,
+    "GOLD": 1.2,
     "SILVER": 1.2,
 }
 # Fallback for any trailing instrument not present in the dicts above (shouldn't
