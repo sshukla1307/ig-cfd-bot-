@@ -457,27 +457,68 @@ def _check_orphaned_wti_mirror(broker, positions: dict) -> list:
     return []
 
 
-PROFIT_TAKE_PCT_OF_BALANCE = 2.2  # ADDED 2026-09-25 (user's own choice), raised from 0.8
-# to 1.0 the same day, then to 1.2 on 2026-09-28, then to 2.2 on 2026-09-29 (all user's own
-# choice) -- an independent, account-level profit-take layered on top of the per-position
-# trailing stop: ANY open position (any instrument) is closed immediately, regardless of what
-# its trailing stop currently allows, the moment its actual unrealized dollar profit reaches
-# this % of the account's total BALANCE (not the position's own margin, and not "available" --
-# balance was chosen specifically because it's stable and doesn't swing with how many other
-# positions happen to be open right now, unlike available). This exists to bank a meaningfully
-# large win outright rather than leave it exposed to the trailing stop's gap giving some of it
-# back on a reversal -- "meaningfully large" is scaled to the whole account, not to this one
-# position's margin, since a big win on a small position and a small win on a large position
-# can both cross this threshold. Checked every cycle (run_watch_check AND run_cfd_tick) so it
-# reacts on the same ~2-min cadence as the trailing stop itself, not just once every 30 min.
-# NOTE on the 2026-09-29 change to 2.2%: this override has fired only TWICE in the account's
-# entire history (2026-09-28, $156.82 and $143.96 on WTI_OIL/BRENT_OIL, both against the
-# 1.2% threshold then in effect) -- with the now much tighter per-instrument trailing-stop
-# floors/arms mostly producing small $5-50 wins via the gap-based lock, this override rarely
-# has anything to check against. Raising the bar to 2.2% (~$200+ at current balance) means it
-# will fire even less often, effectively deferring almost all exits to the trailing stop
-# itself; a full backtest wasn't run for this change given how few real trades have ever
-# actually reached the old threshold to validate against.
+# ─────────────────────────────────────────────
+# PLAN SWITCH (added 2026-09-29): two named, complete configurations that can be
+# swapped with a single line (ACTIVE_PLAN below) instead of manually re-editing every
+# constant each time this account's risk settings need to change wholesale.
+#
+# PLAN A: the original, uniform-across-all-5-instruments baseline (see git tag
+# plan-a-uniform-1.6floor-1.2arm-0.10gap for the exact historical commit this matches
+# on floor/arm/gap/profit-take). The momentum filter is included in Plan A HERE even
+# though the original 2026-09-28 snapshot predates that feature entirely -- switching
+# to "Plan A" was requested as "Plan A's floor/arm/gap/profit-take values, WITH the
+# momentum filter added on top", not a byte-for-byte revert to the old file (which
+# would also delete the second-opinion critic, the any-direction circuit breaker, and
+# the trade-history injection -- none of those are touched by this switch, only the
+# 5 settings below).
+#
+# PLAN B: the per-instrument-tuned config developed through the floor/arm backtesting
+# documented in the long comment block below TRAILING_STOP_FLOOR_PCT_BY_INSTRUMENT --
+# that dict (and TRAILING_STOP_ARM_PCT_BY_INSTRUMENT) IS Plan B's floor/arm, kept
+# under their original names as aliases into PLANS["B"] since the comment history
+# there is specifically about how each of Plan B's per-instrument numbers was derived.
+# See also git tag plan-b-per-instrument-tuned-2026-09-29 for a frozen snapshot.
+PLANS = {
+    "A": {
+        "floor": {"BRENT_OIL": 1.6, "WTI_OIL": 1.6, "NATURAL_GAS": 1.6, "GOLD": 1.6, "SILVER": 1.6},
+        "arm": {"BRENT_OIL": 1.2, "WTI_OIL": 1.2, "NATURAL_GAS": 1.2, "GOLD": 1.2, "SILVER": 1.2},
+        "gap": 0.10,
+        "profit_take_pct_of_balance": 1.2,
+        "momentum_filtered_instruments": {"NATURAL_GAS", "BRENT_OIL"},
+    },
+    "B": {
+        "floor": {"BRENT_OIL": 0.45, "WTI_OIL": 0.45, "NATURAL_GAS": 0.45, "GOLD": 0.2, "SILVER": 0.4},
+        "arm": {"BRENT_OIL": 0.8, "WTI_OIL": 0.8, "NATURAL_GAS": 1.2, "GOLD": 1.2, "SILVER": 0.5},
+        "gap": 0.10,
+        "profit_take_pct_of_balance": 2.2,
+        "momentum_filtered_instruments": set(),
+    },
+}
+ACTIVE_PLAN = "A"  # "A" or "B" -- THE single switch. Change this one line (and push) to flip
+# between the two full configurations above; everything below derives from whichever plan is
+# named here (TRAILING_STOP_GAP_PCT, PROFIT_TAKE_PCT_OF_BALANCE, MOMENTUM_FILTERED_INSTRUMENTS,
+# and every instrument's floor/arm via _floor_pct_for/_arm_pct_for). SWITCHED TO "A" 2026-09-29
+# per explicit user instruction ("switch to plan A and add momentum filter there") -- Plan B
+# remains fully defined above and one line away if this doesn't work out.
+
+PROFIT_TAKE_PCT_OF_BALANCE = PLANS[ACTIVE_PLAN]["profit_take_pct_of_balance"]  # ADDED
+# 2026-09-25 (user's own choice), raised from 0.8 to 1.0 the same day, then to 1.2 on
+# 2026-09-28, then to 2.2 on 2026-09-29 -- an independent, account-level profit-take layered
+# on top of the per-position trailing stop: ANY open position (any instrument) is closed
+# immediately, regardless of what its trailing stop currently allows, the moment its actual
+# unrealized dollar profit reaches this % of the account's total BALANCE (not the position's
+# own margin, and not "available" -- balance was chosen specifically because it's stable and
+# doesn't swing with how many other positions happen to be open right now, unlike available).
+# This exists to bank a meaningfully large win outright rather than leave it exposed to the
+# trailing stop's gap giving some of it back on a reversal -- "meaningfully large" is scaled
+# to the whole account, not to this one position's margin, since a big win on a small position
+# and a small win on a large position can both cross this threshold. Checked every cycle
+# (run_watch_check AND run_cfd_tick) so it reacts on the same ~2-min cadence as the trailing
+# stop itself, not just once every 30 min. As of 2026-09-29 this value is read through the
+# PLAN SWITCH above (currently Plan A -> 1.2%) rather than being independently set -- see that
+# block for Plan B's own 2.2% value and the reasoning behind it (this override has fired only
+# TWICE in the account's entire history, both against a 1.2% threshold, so 2.2% mostly just
+# means it almost never fires at all).
 
 
 def _check_balance_profit_target(broker, positions: dict, account_balance: float) -> list:
@@ -680,36 +721,30 @@ TRAILING_STOP_INSTRUMENTS = {"BRENT_OIL", "WTI_OIL", "NATURAL_GAS", "GOLD", "SIL
 # Always re-validate on fresh data before trusting any of these -- see this file's
 # history on 2026-09-24/25 and 2026-09-28 for prior contradictory findings from
 # smaller/different-period samples.
-TRAILING_STOP_FLOOR_PCT_BY_INSTRUMENT = {
-    "BRENT_OIL": 0.45,
-    "WTI_OIL": 0.45,
-    "NATURAL_GAS": 0.45,
-    "GOLD": 0.2,
-    "SILVER": 0.4,
-}
-TRAILING_STOP_ARM_PCT_BY_INSTRUMENT = {
-    "BRENT_OIL": 0.8,
-    "WTI_OIL": 0.8,
-    "NATURAL_GAS": 1.2,
-    "GOLD": 1.2,
-    "SILVER": 0.5,
-}
-# Fallback for any trailing instrument not present in the dicts above (shouldn't
-# happen with all 5 covered, but keeps _floor_pct_for/_arm_pct_for total functions
-# rather than raising) -- these are Plan A's old uniform values.
+TRAILING_STOP_FLOOR_PCT_BY_INSTRUMENT = PLANS["B"]["floor"]  # alias -- see the PLAN SWITCH
+# block above. Kept under this name because the long comment history just above documents
+# exactly how each of these per-instrument values was derived (real-trade backtests, train/
+# test splits, live-evidence follow-ups) -- that history is about Plan B specifically,
+# regardless of which plan is currently ACTIVE_PLAN.
+TRAILING_STOP_ARM_PCT_BY_INSTRUMENT = PLANS["B"]["arm"]  # alias, same reasoning as above.
+# Fallback for any trailing instrument not present in the ACTIVE plan's dicts (shouldn't
+# happen with all 5 covered in both plans, but keeps _floor_pct_for/_arm_pct_for total
+# functions rather than raising) -- Plan A's own uniform values, regardless of which plan
+# is currently active.
 TRAILING_STOP_FLOOR_PCT_DEFAULT = 1.6
 TRAILING_STOP_ARM_PCT_DEFAULT = 1.2
 
 
 def _floor_pct_for(instrument: str) -> float:
-    return TRAILING_STOP_FLOOR_PCT_BY_INSTRUMENT.get(instrument, TRAILING_STOP_FLOOR_PCT_DEFAULT)
+    return PLANS[ACTIVE_PLAN]["floor"].get(instrument, TRAILING_STOP_FLOOR_PCT_DEFAULT)
 
 
 def _arm_pct_for(instrument: str) -> float:
-    return TRAILING_STOP_ARM_PCT_BY_INSTRUMENT.get(instrument, TRAILING_STOP_ARM_PCT_DEFAULT)
+    return PLANS[ACTIVE_PLAN]["arm"].get(instrument, TRAILING_STOP_ARM_PCT_DEFAULT)
 
 
-TRAILING_STOP_GAP_PCT = 0.10  # REVERTED from 0.03 back to 0.10 on 2026-09-28, same day, ~3.5
+TRAILING_STOP_GAP_PCT = PLANS[ACTIVE_PLAN]["gap"]  # both Plan A and Plan B currently use 0.10%
+# -- REVERTED from 0.03 back to 0.10 on 2026-09-28, same day, ~3.5
 # hours after the 0.03% deploy -- the backtest-only caveat flagged at deploy time was
 # confirmed live, fast and expensively. Real evidence from that 3.5-hour window (36 real
 # trades, tr.csv + order_log.jsonl):
@@ -1127,7 +1162,7 @@ def _sync_margin_based_exits(broker, positions: dict, snapshots: dict, max_lever
             "old_stop_level": current_stop, "new_stop_level": target_stop,
             "reason": (
                 f"Trailing-stop reconciliation (floor {_floor_pct_for(instrument)}%, arm {_arm_pct_for(instrument)}%, "
-                f"gap {TRAILING_STOP_GAP_PCT}% once armed, continuous not stepped, per-instrument as of Plan B)"
+                f"gap {TRAILING_STOP_GAP_PCT}% once armed, continuous not stepped, Plan {ACTIVE_PLAN} active)"
                 if trailing else (
                     f"Position's resting stop and/or limit didn't match the "
                     f"{_stop_loss_pct_for(instrument)}%/{_profit_take_pct_for(instrument)}%-of-margin targets "
@@ -1166,13 +1201,15 @@ def _sync_margin_based_exits(broker, positions: dict, snapshots: dict, max_lever
 # (-$1229.95 -> -$367.04), robust on both a 70/30 train (-$1268.79 -> -$393.02)
 # and test (+$38.84 -> +$25.98, both already-positive) split -- a real, smaller
 # improvement, not the dramatic loss-to-profit flip NG showed.
-MOMENTUM_FILTERED_INSTRUMENTS = set()  # DISABLED 2026-09-29 (fourth toggle today, user's own
-# choice) -- was {"NATURAL_GAS", "BRENT_OIL"}. Requested alongside a cooldown/circuit-breaker
-# reset, after BRENT_OIL's any-direction breaker tripped (3 losses in a row) and the momentum
-# filter was blocking both LONG and SHORT proposals on both instruments in the same session.
-# The second-opinion critic (now with real price-confirmation, see agent_runner.
-# get_second_opinion) and the any-direction circuit breaker remain fully active independently.
-# Re-enable by restoring the set above to {"NATURAL_GAS", "BRENT_OIL"}.
+MOMENTUM_FILTERED_INSTRUMENTS = PLANS[ACTIVE_PLAN]["momentum_filtered_instruments"]  # as of
+# 2026-09-29 this is read through the PLAN SWITCH above rather than being independently set --
+# Plan A includes {"NATURAL_GAS", "BRENT_OIL"} (the momentum filter added back in per explicit
+# user instruction when switching to Plan A), Plan B currently has this empty (disabled after
+# the fourth toggle that day: requested alongside a cooldown/circuit-breaker reset, after
+# BRENT_OIL's any-direction breaker tripped and the filter was blocking both LONG and SHORT
+# proposals on both instruments in the same session). The second-opinion critic (with real
+# price-confirmation, see agent_runner.get_second_opinion) and the any-direction circuit
+# breaker remain fully active independently of which plan (or momentum-filter state) is active.
 
 
 def _check_momentum_confirms(instrument: str, action: str) -> tuple:
