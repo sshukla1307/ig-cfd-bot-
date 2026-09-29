@@ -481,7 +481,10 @@ def _check_orphaned_wti_mirror(broker, positions: dict) -> list:
 PLANS = {
     "A": {
         "floor": {"BRENT_OIL": 1.6, "WTI_OIL": 1.6, "NATURAL_GAS": 1.6, "GOLD": 1.6, "SILVER": 1.6},
-        "arm": {"BRENT_OIL": 1.2, "WTI_OIL": 1.2, "NATURAL_GAS": 1.2, "GOLD": 1.2, "SILVER": 1.2},
+        "arm": {"BRENT_OIL": 0.6, "WTI_OIL": 0.6, "NATURAL_GAS": 0.6, "GOLD": 0.6, "SILVER": 0.6},  # lowered
+        # from 1.2 to 0.6 on 2026-09-30 per user's own choice -- positions now start trailing
+        # (locking in gains) at half the previous favorable-move threshold. Floor (1.6%) and gap
+        # (0.10%) unchanged.
         "gap": 0.10,
         "profit_take_pct_of_balance": 1.2,
         "momentum_filtered_instruments": {"NATURAL_GAS", "BRENT_OIL"},
