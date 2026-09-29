@@ -1,6 +1,20 @@
 [
   {
     "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "NATURAL_GAS momentum filter: proposed OPEN_SHORT conflicts with price action over the last 30 minutes (current 3.135 vs 30-min SMA 3.1335, trending up) -- real-trade replay found NG entries that fight this short-term direction lose far more per trade on average than ones that agree with it, regardless of the RSI/mean-reversion thesis behind the trade. Wait for price action to actually turn before fading.",
+    "logged_at": "2026-09-29T01:32:31.197893+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Consecutive-loss circuit breaker: BRENT_OIL has lost 2 times in a row going SELL (most recently 359 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
+    "logged_at": "2026-09-29T01:32:31.131604+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
     "instrument": "GOLD",
     "status": "REJECTED",
     "reason": "Consecutive-loss circuit breaker: GOLD has lost 2 times in a row going SELL (most recently 167 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
@@ -4951,83 +4965,5 @@
     "status": "REJECTED",
     "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 28 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "logged_at": "2026-09-28T15:32:51.204270+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "NATURAL_GAS",
-    "deal_id": "DIAAAAR8SN5UHAX",
-    "old_limit_level": 3015.84,
-    "new_limit_level": 3014.84,
-    "old_stop_level": 3164.0,
-    "new_stop_level": 3151.0,
-    "reason": "Trailing-stop reconciliation (floor 1.0%, arm 2.0%, gap 0.03% once armed, continuous not stepped, per-instrument as of Plan B) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-28T15:19:41.171",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": "-",
-      "dealReference": "ZQVADGAZLHNTYNV",
-      "dealId": "DIAAAAR8SN5UHAX",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR8SN5UHAX",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 3154.0,
-      "size": 3.92,
-      "direction": "SELL",
-      "stopLevel": 3151.0,
-      "limitLevel": 3014.84,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-28T15:19:41.331296+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "NATURAL_GAS",
-    "deal_id": "DIAAAAR8SN5UHAX",
-    "old_limit_level": 3023.84,
-    "new_limit_level": 3015.84,
-    "old_stop_level": 3164.0,
-    "new_stop_level": 3164.0,
-    "reason": "Trailing-stop reconciliation (floor 1.0%, arm 2.0%, gap 0.03% once armed, continuous not stepped, per-instrument as of Plan B) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-28T15:13:34.616",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": "-",
-      "dealReference": "L487ET3LUV2TYNV",
-      "dealId": "DIAAAAR8SN5UHAX",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR8SN5UHAX",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 3154.0,
-      "size": 3.92,
-      "direction": "SELL",
-      "stopLevel": 3164.0,
-      "limitLevel": 3015.84,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-28T15:13:34.842950+00:00"
   }
 ]
