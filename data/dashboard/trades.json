@@ -1,6 +1,20 @@
 [
   {
     "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Consecutive-loss circuit breaker: NATURAL_GAS has lost 3 times in a row going SELL (most recently 267 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
+    "logged_at": "2026-09-29T00:32:19.843608+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Consecutive-loss circuit breaker: BRENT_OIL has lost 2 times in a row going SELL (most recently 298 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
+    "logged_at": "2026-09-29T00:32:19.761758+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
     "instrument": "SILVER",
     "status": "REJECTED",
     "reason": "Consecutive-loss circuit breaker: SILVER has lost 2 times in a row going SELL (most recently 247 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
@@ -5111,46 +5125,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-28T15:07:42.238453+00:00"
-  },
-  {
-    "action": "MIRROR_ROLLBACK",
-    "instrument": "BRENT_OIL",
-    "reason": "WTI mirror leg failed (Insufficient margin headroom for the WTI mirror leg) -- closing Brent back out.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-28T15:06:19.485",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "D67CCUNPDCSTYNV",
-      "dealId": "DIAAAAR8SNUC6AF",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR8SNUC6AF",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 10024.6,
-      "size": 1.24,
-      "direction": "SELL",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": -4.96,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-09-28T15:06:19.631486+00:00"
-  },
-  {
-    "action": "WTI_MIRROR_OPEN",
-    "instrument": "WTI_OIL",
-    "status": "rejected",
-    "reason": "Insufficient margin headroom for the WTI mirror leg",
-    "logged_at": "2026-09-28T15:06:19.244094+00:00"
   }
 ]
