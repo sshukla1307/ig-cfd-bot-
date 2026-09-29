@@ -1020,32 +1020,54 @@ def _sync_margin_based_exits(broker, positions: dict, snapshots: dict, max_lever
     return synced
 
 
-def _check_ng_momentum_confirms(action: str) -> tuple:
+# Instruments with a hard, code-level 30-min momentum entry filter (see
+# _check_momentum_confirms) -- each entry documents the real-trade backtest that
+# justified adding it. NATURAL_GAS: added 2026-09-28 after a real-trade replay
+# found the LLM's mean-reversion (RSI-fade) default kept fighting a sustained NG
+# uptrend well after config.py's PERSONA_PROMPT was already updated in words to
+# warn against exactly this (the 2026-09-23/24 incident) -- 87% of NG trades were
+# SHORTs, and trades fighting the preceding 30 minutes of price action lost 2.7x
+# more per trade on average than trades agreeing with it (-$17.62 vs -$2.69,
+# 150-trade sample). BRENT_OIL: added 2026-09-29 after the consecutive-loss
+# circuit breaker kept tripping on repeated SHORT losses overnight -- unlike NG,
+# Brent's losses aren't concentrated in one direction (LONG -$845.27/118 trades,
+# SHORT -$384.68/156 trades, both losing, on a choppy/range-bound market rather
+# than a clean trend) so this isn't a stuck-directional-bias fix the way NG's
+# was -- it's a bad-entry-timing fix: trades fighting the 30-min direction lost
+# -$6.64/trade on average vs -$2.55/trade for aligned trades (274-trade sample).
+# Skipping conflicting trades would have cut Brent's total loss by 70%
+# (-$1229.95 -> -$367.04), robust on both a 70/30 train (-$1268.79 -> -$393.02)
+# and test (+$38.84 -> +$25.98, both already-positive) split -- a real, smaller
+# improvement, not the dramatic loss-to-profit flip NG showed.
+MOMENTUM_FILTERED_INSTRUMENTS = {"NATURAL_GAS", "BRENT_OIL"}
+
+
+def _check_momentum_confirms(instrument: str, action: str) -> tuple:
     """Hard, code-level enforcement of a check config.py's PERSONA_PROMPT already
     asks the agent to make in words for NATURAL_GAS (verify price isn't already
-    breaking out against a proposed RSI-extreme fade) -- added 2026-09-28 after a
-    real-trade replay found the prompt-only version still isn't reliably followed:
-    87% of NG trades were SHORTs during a sustained NG uptrend, and trades fighting
-    the preceding 30 minutes of price action lost 2.7x more per trade on average
-    than trades agreeing with it (-$17.62 vs -$2.69, 150-trade sample through
-    2026-09-28). See market_data.get_short_term_momentum's docstring for the full
-    backtest writeup.
+    breaking out against a proposed RSI-extreme fade) -- added after real-trade
+    replays found the prompt-only version isn't reliably followed in practice.
+    See MOMENTUM_FILTERED_INSTRUMENTS above for the per-instrument backtest
+    writeup (NATURAL_GAS and BRENT_OIL each validated separately, for different
+    underlying reasons -- this isn't assumed to generalize to every instrument
+    without its own check).
 
     Compares the proposed direction against get_short_term_momentum's 30-minute
-    (6x5min bar) SMA-vs-current-price reading for NG=F. OPEN_LONG requires
-    direction=='up', OPEN_SHORT requires direction=='down'; 'flat' (price exactly
-    equals the SMA -- a near-impossible tie with real float prices) doesn't block
-    either way. Fails PERMISSIVE on any data error (network hiccup, yfinance
-    outage, insufficient history) -- consistent with this file's existing
-    philosophy for auxiliary checks (see _iter_close_events's docstring): the
-    worst case of failing open is one un-filtered NG trade, not blocking all NG
-    trading over a transient data problem."""
+    (6x5min bar) SMA-vs-current-price reading for this instrument's yfinance
+    ticker. OPEN_LONG requires direction=='up', OPEN_SHORT requires
+    direction=='down'; 'flat' (price exactly equals the SMA -- a near-impossible
+    tie with real float prices) doesn't block either way. Fails PERMISSIVE on any
+    data error (network hiccup, yfinance outage, insufficient history) --
+    consistent with this file's existing philosophy for auxiliary checks (see
+    _iter_close_events's docstring): the worst case of failing open is one
+    un-filtered trade, not blocking all trading on that instrument over a
+    transient data problem."""
     import market_data
     from config import YFINANCE_TICKERS
 
-    momentum = market_data.get_short_term_momentum(YFINANCE_TICKERS["NATURAL_GAS"])
+    momentum = market_data.get_short_term_momentum(YFINANCE_TICKERS[instrument])
     if momentum.get("error"):
-        logger.warning(f"NG momentum check unavailable, failing permissive: {momentum['error']}")
+        logger.warning(f"{instrument} momentum check unavailable, failing permissive: {momentum['error']}")
         return True, "OK"
 
     direction = momentum["direction"]
@@ -1054,12 +1076,12 @@ def _check_ng_momentum_confirms(action: str) -> tuple:
         return True, "OK"
 
     return False, (
-        f"NATURAL_GAS momentum filter: proposed {action} conflicts with price action over the "
+        f"{instrument} momentum filter: proposed {action} conflicts with price action over the "
         f"last {momentum['lookback_minutes']} minutes (current {momentum['current_price']} vs "
         f"{momentum['lookback_minutes']}-min SMA {momentum['sma']}, trending {direction}) -- "
-        f"real-trade replay found NG entries that fight this short-term direction lose far more "
-        f"per trade on average than ones that agree with it, regardless of the RSI/mean-reversion "
-        f"thesis behind the trade. Wait for price action to actually turn before fading."
+        f"real-trade replay found entries that fight this short-term direction lose more per "
+        f"trade on average than ones that agree with it, regardless of the thesis behind the "
+        f"trade. Wait for price action to actually turn before entering."
     )
 
 
@@ -1143,8 +1165,8 @@ def _validate_trade(trade: dict, account: dict, positions: dict, rules,
                 "direction was checked this tick -- opening on a technical signal alone is "
                 "blocked (see RULES.require_confluence)"
             )
-        if instrument == "NATURAL_GAS":
-            ok_momentum, momentum_reason = _check_ng_momentum_confirms(action)
+        if instrument in MOMENTUM_FILTERED_INSTRUMENTS:
+            ok_momentum, momentum_reason = _check_momentum_confirms(instrument, action)
             if not ok_momentum:
                 return False, momentum_reason
         if last_close_info and instrument in last_close_info:
