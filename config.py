@@ -301,17 +301,28 @@ PERSONA_PROMPT = (
 # LLM Provider
 # ─────────────────────────────────────────────
 
-# Tried Anthropic (Claude) to see whether behavioral drift across a large,
-# complex system prompt (RSI-fade fixation, then repeating the identical
-# Brent-WTI spread ~15 times in a row) improved with a different model. It did
-# fix both of those specific behavioral bugs, but the real-money result was
-# 4 losing trades in a row immediately after switching (and after an
-# aggressive-persona rebalance) -- reinforcing that this is a signal-quality
-# problem, not a which-model problem, exactly as expected going in. Reverted
-# to OpenAI while a backtest harness gets built to validate hypotheses
-# offline before any further live changes. agent_runner.py picks the client
-# based on this alone -- both clients still exist and are still tested.
-LLM_PROVIDER = "openai"  # "anthropic" or "openai"
+# Tried Anthropic (Claude) once before (see git history) to see whether
+# behavioral drift across a large, complex system prompt (RSI-fade fixation,
+# then repeating the identical Brent-WTI spread ~15 times in a row) improved
+# with a different model. It did fix both of those specific behavioral bugs,
+# but the real-money result was 4 losing trades in a row immediately after
+# switching (and after an aggressive-persona rebalance) -- reinforcing that
+# this was a signal-quality problem, not a which-model problem, exactly as
+# expected going in. Reverted to OpenAI at the time.
+#
+# SWITCHED BACK TO "anthropic" on 2026-09-29, per explicit user instruction
+# ("change model from OPEN AI to claude"). Watch closely: the prior attempt's
+# 4-losing-trades outcome is a real precedent, but a lot has changed since
+# then that didn't exist during that attempt -- per-instrument floor/arm
+# tuning (see cfd_runner.PLANS), the recent-trade-history injection into the
+# prompt, the any-direction consecutive-loss circuit breaker, and (new
+# 2026-09-29) an adversarial second-opinion critic on every proposed trade
+# (agent_runner.get_second_opinion) that now runs as OpenAI specifically
+# because the primary is Anthropic (see
+# agent_runner._second_opinion_client_and_model) -- so this isn't a repeat of
+# the earlier bare swap. agent_runner.py picks the primary client based on
+# this alone -- both clients still exist and are still tested.
+LLM_PROVIDER = "anthropic"  # "anthropic" or "openai"
 OPENAI_MODEL = "gpt-4o"
 OPENAI_RESEARCH_MODEL = "gpt-4o-mini"  # used ONLY for the intermediate tool-selection
 # turns (get_technicals/get_commodity_news/etc.) within a tick's research loop -- those

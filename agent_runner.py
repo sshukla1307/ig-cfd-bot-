@@ -404,17 +404,23 @@ def check_confluence(tool_call_log: list, instrument: str, action: str) -> tuple
     )
 
 
-SECOND_OPINION_MODEL = "claude-sonnet-5"  # ALWAYS Anthropic, regardless of LLM_PROVIDER (see
-# _make_llm_client) -- the whole point of a second opinion is a genuinely different model
-# family from the primary one, not another instance sharing the same training biases. If
-# LLM_PROVIDER is ever switched to "anthropic" for the primary decision, this pairing stops
-# making sense and should be revisited (e.g. swap to OpenAI as the second opinion instead).
+def _second_opinion_client_and_model():
+    """The second-opinion critic must always be a genuinely different model
+    family from whichever one is proposing trades (LLM_PROVIDER) -- the whole
+    point is an independent check, not another instance sharing the same
+    training biases. UPDATED 2026-09-29 when LLM_PROVIDER switched to
+    "anthropic" for the primary decision: this now picks OpenAI as the critic
+    instead of hardcoding Anthropic, so the pairing stays opposite-family no
+    matter which side LLM_PROVIDER is on."""
+    if LLM_PROVIDER == "anthropic":
+        return OpenAIClient(model=OPENAI_MODEL, research_model=OPENAI_RESEARCH_MODEL), OPENAI_MODEL
+    return AnthropicClient(model=ANTHROPIC_MODEL), ANTHROPIC_MODEL
 
 
 def get_second_opinion(trade: dict, recent_trade_history: list) -> tuple:
     """Adversarial critique of a single already-proposed, already-validated
     OPEN_LONG/OPEN_SHORT trade, by a model from a different family than
-    whichever one proposed it (see SECOND_OPINION_MODEL). Added 2026-09-29
+    whichever one proposed it (see _second_opinion_client_and_model). Added 2026-09-29
     after finding two concrete, real reasoning-quality problems in this
     account's trade log: NATURAL_GAS repeating the identical "contango,
     ample supply, bearish SMA crossover" thesis across 15+ SHORT trades over
@@ -516,7 +522,7 @@ def get_second_opinion(trade: dict, recent_trade_history: list) -> tuple:
     )
 
     try:
-        client = AnthropicClient(model=SECOND_OPINION_MODEL)
+        client, _second_opinion_model = _second_opinion_client_and_model()
         verdict_text = client.generate(system_prompt, user_prompt, tools=[], max_tool_calls=0)
     except Exception as e:
         logger.warning(f"get_second_opinion({instrument}) failed, failing permissive: {e}")
