@@ -1,6 +1,22 @@
 [
   {
     "action": "OPEN_SHORT",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Second opinion objected: VERDICT: OBJECT \u2014 This repeats the same bearish thesis (SMA-20<SMA-50, Saudi supply increase) as multiple recent losing SELL trades on BRENT_OIL, with no acknowledgment of that losing history or explanation of what's different now.",
+    "agent_reason": "Brent Oil is showing a short-term bearish trend with SMA-20 below SMA-50 and a neutral RSI. Recent news indicates potential supply increases from Saudi Arabia, which could pressure prices further. The term structure is flat, suggesting no immediate supply-demand imbalances. The geopolitical tensions in the Middle East are not providing enough support to sustain higher prices.",
+    "logged_at": "2026-09-29T06:02:59.337219+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 50 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "agent_reason": "Natural Gas is currently in contango, indicating ample supply, and recent inventory data shows a larger-than-typical build. The technicals show a neutral RSI and a short-term bearish trend with SMA-20 below SMA-50. However, the market outlook suggests potential support around the $3 level, and the current position is slightly negative. Closing to reassess the situation.",
+    "logged_at": "2026-09-29T06:02:56.001553+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
     "instrument": "GOLD",
     "direction": "SELL",
     "size": 2.88,
@@ -4482,25 +4498,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-28T16:30:16.739873+00:00"
-  },
-  {
-    "action": "BROKER_CLOSE",
-    "instrument": "WTI_OIL",
-    "deal_id": "DIAAAAR8TAVHDAV",
-    "original_direction": "SELL",
-    "estimated_pnl": -1.06,
-    "status": "detected",
-    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-09-28T16:29:37.966695+00:00"
-  },
-  {
-    "action": "BROKER_CLOSE",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR8TAUEDAG",
-    "original_direction": "SELL",
-    "estimated_pnl": -3.1,
-    "status": "detected",
-    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-09-28T16:29:37.966393+00:00"
   }
 ]
