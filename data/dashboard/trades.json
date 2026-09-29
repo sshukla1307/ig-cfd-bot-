@@ -1,5 +1,19 @@
 [
   {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 19 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "logged_at": "2026-09-29T05:32:07.711372+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "BRENT_OIL momentum filter: proposed OPEN_SHORT conflicts with price action over the last 30 minutes (current 99.96 vs 30-min SMA 99.85, trending up) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "logged_at": "2026-09-29T05:32:07.711133+00:00"
+  },
+  {
     "action": "OPEN_LONG",
     "instrument": "SILVER",
     "direction": "BUY",
@@ -4640,54 +4654,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-28T16:23:33.761659+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "GOLD",
-    "status": "REJECTED",
-    "reason": "Consecutive-loss circuit breaker: GOLD has lost 2 times in a row going SELL (most recently 1 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
-    "logged_at": "2026-09-28T16:22:31.720374+00:00"
-  },
-  {
-    "action": "WTI_MIRROR_OPEN",
-    "instrument": "WTI_OIL",
-    "direction": "SELL",
-    "size": 1.32,
-    "margin_allocated": 2436.65,
-    "effective_leverage": 5.0,
-    "notional": 12222.01,
-    "stop_distance": 36.9189,
-    "limit_distance": 369.1894,
-    "reason": "Auto-mirrored from BRENT_OIL: Brent oil is showing a short-term bearish trend with SMA-20 below SMA-50 and a neutral RSI. The term structure is flat, indicating no strong forward demand. Recent news suggests bearish sentiment with Brent breaking a critical neckline and geopolitical tensions potentially affecting supply. Independent price checks show discrepancies, but the overall sentiment leans bearish.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR8TAVHDAV",
-    "raw": {
-      "date": "2026-09-28T16:22:31.534",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "X6UVUT2N2ZETYNV",
-      "dealId": "DIAAAAR8TAVHDAV",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR8TAVHDAV",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9240.0,
-      "size": 1.32,
-      "direction": "SELL",
-      "stopLevel": 9276.919,
-      "limitLevel": 8870.811,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-28T16:22:31.719988+00:00"
   }
 ]
