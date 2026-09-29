@@ -598,20 +598,25 @@ TRAILING_STOP_INSTRUMENTS = {"BRENT_OIL", "WTI_OIL", "NATURAL_GAS", "GOLD", "SIL
 # TRAILING_STOP_ARM_PCT floats. Each pair chosen via a full floor x arm grid search
 # per instrument (695 real trades, Aug 21 - Sep 28), validated with a 70/30
 # time-based train/test split to guard against overfitting to noise:
-#   BRENT_OIL:    UPDATED 2026-09-29, floor now 0.3% (arm unchanged at 0.8%). Backtest vs
-#                 the immediately-prior 0.7%/0.8% (271 real trades, gap=0.10%): total
-#                 $973.09 -> $1068.40 (+$95.31), but win% actually DROPPED 51.7% -> 42.4%
-#                 and test period shrank $149.95 -> $33.25 -- a small full-period gain built
-#                 on a worse, less consistent trade mix, not a clean improvement. Still well
-#                 below the original, robust 1.4%/0.3% pair ($1436.41, 81.5% win, both splits
-#                 positive). Deployed per explicit user instruction despite this.
-#   WTI_OIL:      UPDATED 2026-09-29, floor now 0.3% (arm unchanged at 0.8%). Backtest vs
-#                 the immediately-prior 0.7%/0.8% (265 real trades, gap=0.10%): total
-#                 $948.44 -> $773.20 (-$175.23), win% 59.2% -> 45.3%, and test period FLIPS
-#                 NEGATIVE ($109.39 -> -$128.30). A real regression, not a mixed result like
-#                 Brent's. Still well below the original, robust 2.0%/0.3% pair ($2091.85,
-#                 93.2% win, both splits positive). Deployed per explicit user instruction
-#                 despite this.
+#   BRENT_OIL:    UPDATED AGAIN 2026-09-29, floor now 0.45% (arm unchanged at 0.8%). Real
+#                 LIVE evidence (not just backtest) prompted this: a batch of 7 real SHORTs
+#                 opened right after the second-opinion price-confirmation refinement all lost
+#                 small amounts (0.31-0.39% of margin) at the 0.3% floor, then reversed into
+#                 what would have been a combined +$1326.88 (vs the real -$85.99) within 2
+#                 hours if held -- in every case price moved only 0.10-0.27% of margin FURTHER
+#                 against the position, for under 1 minute, before turning profitable relative
+#                 to the exit level. That said, the aggregate backtest on 279 real trades
+#                 (gap=0.10% held fixed) does NOT support this change: 0.3%->0.45% total
+#                 $1000.70 -> $785.57 (-$215.13), test period $1.19 -> -$13.08. The live
+#                 7-trade pattern may reflect a specific whipsaw-then-reversal condition rather
+#                 than a generally-too-tight floor across all conditions. Deployed per explicit
+#                 user instruction despite the backtest disagreeing -- re-validate as more live
+#                 data accumulates under this value specifically.
+#   WTI_OIL:      UPDATED AGAIN 2026-09-29, floor now 0.45% (arm unchanged at 0.8%), same
+#                 live-evidence justification and same backtest disagreement as BRENT_OIL
+#                 above (279->273-trade sample: 0.3%->0.45% total $681.89 -> $638.51 (-$43.38),
+#                 win% 44.0% -> 49.5%, test period -$208.02 -> -$97.22 -- less bad but still
+#                 negative on both). Deployed per explicit user instruction.
 #   NATURAL_GAS:  UPDATED 2026-09-28 (same day, later) to 0.2% floor / 1.2% arm -- the
 #                 original 1.0%/2.0% pair above was never profitable in any floor x arm
 #                 combination tested (a signal-quality problem, not risk-management), but
@@ -668,8 +673,8 @@ TRAILING_STOP_INSTRUMENTS = {"BRENT_OIL", "WTI_OIL", "NATURAL_GAS", "GOLD", "SIL
 # history on 2026-09-24/25 and 2026-09-28 for prior contradictory findings from
 # smaller/different-period samples.
 TRAILING_STOP_FLOOR_PCT_BY_INSTRUMENT = {
-    "BRENT_OIL": 0.3,
-    "WTI_OIL": 0.3,
+    "BRENT_OIL": 0.45,
+    "WTI_OIL": 0.45,
     "NATURAL_GAS": 0.45,
     "GOLD": 0.2,
     "SILVER": 0.4,
