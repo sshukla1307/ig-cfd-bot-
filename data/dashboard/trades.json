@@ -3,6 +3,22 @@
     "action": "OPEN_SHORT",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "NATURAL_GAS momentum filter: proposed OPEN_SHORT conflicts with price action over the last 30 minutes (current 3.058 vs 30-min SMA 3.0563, trending up) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Natural gas is in contango, indicating ample supply, and recent inventory data shows a larger-than-typical build. The technicals show a bearish trend with SMA-20 below SMA-50. Current market commentary suggests limited demand, supporting a short position.",
+    "logged_at": "2026-09-29T16:14:23.455871+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Consecutive-loss circuit breaker: BRENT_OIL has lost 3 times in a row going SELL (most recently 306 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
+    "agent_reason": "Brent oil is in a short-term bearish trend with SMA-20 below SMA-50 and an oversold RSI. The term structure is flat, indicating no strong forward demand. Recent news suggests Saudi Arabia's crude exports are recovering, which could add to supply pressure. Additionally, the recent inventory data shows a build, supporting a bearish outlook.",
+    "logged_at": "2026-09-29T16:14:23.402827+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "NATURAL_GAS momentum filter: proposed OPEN_SHORT conflicts with price action over the last 30 minutes (current 3.063 vs 30-min SMA 3.0513, trending up) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
     "agent_reason": "Natural gas is in a bearish trend with SMA-20 below SMA-50 and a neutral RSI. The term structure is in contango, indicating ample supply. Recent inventory data shows a larger-than-typical build, supporting a short position.",
     "logged_at": "2026-09-29T16:03:18.789886+00:00"
@@ -2820,19 +2836,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-28T20:35:42.393581+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Consecutive-loss circuit breaker: NATURAL_GAS has lost 3 times in a row going SELL (most recently 28 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
-    "logged_at": "2026-09-28T20:33:03.602126+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Consecutive-loss circuit breaker: BRENT_OIL has lost 2 times in a row going SELL (most recently 59 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
-    "logged_at": "2026-09-28T20:33:03.521444+00:00"
   }
 ]
