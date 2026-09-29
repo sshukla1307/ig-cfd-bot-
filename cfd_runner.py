@@ -485,6 +485,11 @@ PLANS = {
         "gap": 0.10,
         "profit_take_pct_of_balance": 1.2,
         "momentum_filtered_instruments": {"NATURAL_GAS", "BRENT_OIL"},
+        "second_opinion_enabled": False,  # OFF in Plan A per explicit user instruction
+        # (2026-09-29, "in plan a dont use a second opinion provider") -- the critic still
+        # exists (agent_runner.get_second_opinion) and Plan B still runs it, this just skips
+        # the call site in run_cfd_tick while Plan A is active, so no extra API call/cost or
+        # rejection risk from it.
     },
     "B": {
         "floor": {"BRENT_OIL": 0.45, "WTI_OIL": 0.45, "NATURAL_GAS": 0.45, "GOLD": 0.2, "SILVER": 0.4},
@@ -492,6 +497,7 @@ PLANS = {
         "gap": 0.10,
         "profit_take_pct_of_balance": 2.2,
         "momentum_filtered_instruments": set(),
+        "second_opinion_enabled": True,
     },
 }
 ACTIVE_PLAN = "A"  # "A" or "B" -- THE single switch. Change this one line (and push) to flip
@@ -1207,9 +1213,15 @@ MOMENTUM_FILTERED_INSTRUMENTS = PLANS[ACTIVE_PLAN]["momentum_filtered_instrument
 # user instruction when switching to Plan A), Plan B currently has this empty (disabled after
 # the fourth toggle that day: requested alongside a cooldown/circuit-breaker reset, after
 # BRENT_OIL's any-direction breaker tripped and the filter was blocking both LONG and SHORT
-# proposals on both instruments in the same session). The second-opinion critic (with real
-# price-confirmation, see agent_runner.get_second_opinion) and the any-direction circuit
-# breaker remain fully active independently of which plan (or momentum-filter state) is active.
+# proposals on both instruments in the same session). The any-direction circuit breaker remains
+# fully active regardless of plan. The second-opinion critic is now ALSO plan-gated (see
+# SECOND_OPINION_ENABLED below) -- Plan A runs without it, Plan B still uses it.
+
+SECOND_OPINION_ENABLED = PLANS[ACTIVE_PLAN]["second_opinion_enabled"]  # OFF under Plan A per
+# explicit user instruction (2026-09-29, "in plan a dont use a second opinion provider") --
+# run_cfd_tick's OPEN_LONG/OPEN_SHORT call site checks this before calling
+# agent_runner.get_second_opinion at all, so with Plan A active it costs nothing (no extra
+# API call) and can't reject a trade. Plan B still has it on.
 
 
 def _check_momentum_confirms(instrument: str, action: str) -> tuple:
@@ -1954,7 +1966,7 @@ def run_cfd_tick():
                                    "reason": reason, "agent_reason": trade.get("reason", "")})
                 continue
 
-            if action in ("OPEN_LONG", "OPEN_SHORT"):
+            if action in ("OPEN_LONG", "OPEN_SHORT") and SECOND_OPINION_ENABLED:
                 # Second-opinion adversarial critique from a different model family (see
                 # agent_runner.get_second_opinion's docstring) -- added 2026-09-29 alongside
                 # recent_trade_history above, targeting the same two documented problems
@@ -1962,6 +1974,7 @@ def run_cfd_tick():
                 # lost). Runs AFTER _validate_trade so a trade that would be rejected anyway
                 # (confluence, cooldown, circuit breakers, momentum filter, margin safety)
                 # doesn't spend an extra API call on a critique that's moot either way.
+                # Gated off entirely under Plan A (see SECOND_OPINION_ENABLED).
                 second_opinion_ok, second_opinion_text = get_second_opinion(
                     trade, recent_trade_history.get(instrument, []),
                 )
