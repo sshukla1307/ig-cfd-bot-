@@ -624,6 +624,12 @@ TRAILING_STOP_INSTRUMENTS = {"BRENT_OIL", "WTI_OIL", "NATURAL_GAS", "GOLD", "SIL
 #                 incident), but NOT live-verified at this tightness. Watch tr.csv/
 #                 order_log.jsonl for any ATTACHED_ORDER_LEVEL_ERROR on NATURAL_GAS after
 #                 this deploy.
+#                 UPDATED AGAIN 2026-09-29: floor moved from 0.2% to 0.45% (arm unchanged
+#                 at 1.2%), per the user's own proposed value. Validated on 160 real trades
+#                 (gap=0.10% held fixed): total $390.49 -> $640.34 (+$249.85), win% 26.9% ->
+#                 41.2%, and -- unlike the Brent/WTI/Gold variants of this same request,
+#                 which all backtested WORSE and were deliberately NOT deployed -- both train
+#                 (+$286.87 -> +$479.98) and test (+$103.63 -> +$160.37) improved together.
 #   GOLD:         UPDATED 2026-09-28 (same day, later still) to the SAME 0.2% floor /
 #                 1.2% arm as NATURAL_GAS above. Original Plan B value was 0.8%/1.0%
 #                 (n=16, already flagged as noise-level, itself a small loss: -$25.04).
@@ -654,7 +660,7 @@ TRAILING_STOP_INSTRUMENTS = {"BRENT_OIL", "WTI_OIL", "NATURAL_GAS", "GOLD", "SIL
 TRAILING_STOP_FLOOR_PCT_BY_INSTRUMENT = {
     "BRENT_OIL": 1.4,
     "WTI_OIL": 2.0,
-    "NATURAL_GAS": 0.2,
+    "NATURAL_GAS": 0.45,
     "GOLD": 0.2,
     "SILVER": 0.4,
 }
