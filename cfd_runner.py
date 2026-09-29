@@ -202,6 +202,104 @@ def _get_same_direction_loss_streak(order_log_path: Path) -> dict:
     return streaks
 
 
+def _get_any_direction_loss_streak(order_log_path: Path) -> dict:
+    """Returns {instrument: {"streak", "logged_at"}} -- streak is how many
+    CONSECUTIVE closes in a row were losses, regardless of direction (a win
+    resets to 0; a direction change does NOT reset it, unlike
+    _get_same_direction_loss_streak). Added 2026-09-29 after finding
+    BRENT_OIL could route around the same-direction circuit breaker simply
+    by flipping direction: on 2026-09-28 14:36-14:52, 2 consecutive LONG
+    losses tripped RULES.max_consecutive_same_direction_losses for LONG, but
+    the very next tick immediately went SHORT with a completely fresh (zero)
+    streak -- since that breaker resets to 0 on any direction change -- and
+    lost again too, all within 20 minutes citing no new evidence (a
+    real-trade-log-confirmed instance of the "thesis whiplash" pattern
+    documented in config.py's PERSONA_PROMPT history). Feeds
+    RULES.max_consecutive_losses_any_direction, which blocks BOTH directions
+    once tripped -- the same-direction breaker alone can't catch a losing
+    streak that keeps escaping by switching sides."""
+    streaks = {}
+    for event in _iter_close_events(order_log_path):
+        instrument, logged_at, is_loss = event["instrument"], event["logged_at"], event["is_loss"]
+        current = streaks.get(instrument, {"streak": 0})
+        if is_loss:
+            streaks[instrument] = {"streak": current["streak"] + 1, "logged_at": logged_at}
+        else:
+            streaks[instrument] = {"streak": 0, "logged_at": logged_at}
+    return streaks
+
+
+def _get_recent_trade_history(order_log_path: Path, n_per_instrument: int = 5) -> dict:
+    """Returns {instrument: [{"direction", "reason", "pnl", "closed_at"}, ...]}
+    (oldest first, most recent last), the last n_per_instrument REAL closes per
+    instrument with the ORIGINAL agent-stated thesis (trade["reason"] at OPEN
+    time) attached to its actual outcome. Added 2026-09-29 -- previously the
+    agent re-derived its view from scratch every tick with zero visibility
+    into its own track record, which is how NATURAL_GAS ended up repeating
+    the identical "contango, ample supply, bearish SMA crossover" thesis
+    across 15+ SHORT trades over ~22 hours while price rose the entire time,
+    and how BRENT_OIL flipped from a bullish geopolitical narrative to a
+    bearish technical one and back within 20 minutes with no new evidence.
+    Feeding the agent its own recent {thesis, outcome} pairs per instrument
+    doesn't guarantee better decisions, but removes the excuse of not being
+    able to see the pattern -- see portfolio_state["recent_trade_history"] in
+    run_cfd_tick and its accompanying note.
+
+    Correlates by deal_id: first pass collects every submitted
+    OPEN_LONG/OPEN_SHORT/WTI_MIRROR_OPEN's own stated reason, second pass
+    walks real closes (agent CLOSE with status=submitted, profit from
+    raw.profit; broker-side BROKER_CLOSE with status=detected, profit from
+    estimated_pnl -- same two sources _iter_close_events uses) and looks up
+    the matching open's reason by deal_id. A close whose opening deal_id
+    isn't found (log predates this feature, or was truncated) still gets
+    included with reason="(original reasoning not available)" rather than
+    being silently dropped -- partial history beats none. reason text is
+    truncated to 220 chars to keep the injected prompt content bounded across
+    5 instruments x n_per_instrument trades each."""
+    if not order_log_path.exists():
+        return {}
+
+    opens = {}
+    all_events = []
+    with open(order_log_path) as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                d = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            all_events.append(d)
+            if d.get("action") in ("OPEN_LONG", "OPEN_SHORT", "WTI_MIRROR_OPEN") and d.get("status") == "submitted" and d.get("deal_id"):
+                opens[d["deal_id"]] = {
+                    "reason": d.get("reason", ""), "direction": d.get("direction"), "instrument": d.get("instrument"),
+                }
+
+    history = {}
+    for d in all_events:
+        action, status = d.get("action"), d.get("status")
+        deal_id, instrument, logged_at = d.get("deal_id"), d.get("instrument"), d.get("logged_at")
+        if not (deal_id and instrument and logged_at):
+            continue
+        if action == "CLOSE" and status == "submitted":
+            pnl = d.get("raw", {}).get("profit")
+        elif action == "BROKER_CLOSE" and status == "detected":
+            pnl = d.get("estimated_pnl")
+        else:
+            continue
+        if pnl is None:
+            continue
+        opened = opens.get(deal_id, {})
+        reason = opened.get("reason") or "(original reasoning not available)"
+        direction = opened.get("direction") or d.get("original_direction") or "?"
+        history.setdefault(instrument, []).append({
+            "direction": direction, "reason": reason[:220], "pnl": round(pnl, 2), "closed_at": logged_at,
+        })
+
+    return {inst: trades[-n_per_instrument:] for inst, trades in history.items()}
+
+
 def _compute_position_size(equity: float, allocation_pct: float, snapshot: dict,
                             max_leverage_multiple: float, min_deal_size: float):
     """Returns (size, margin_allocated, effective_leverage, notional) or
@@ -1088,7 +1186,7 @@ def _check_momentum_confirms(instrument: str, action: str) -> tuple:
 def _validate_trade(trade: dict, account: dict, positions: dict, rules,
                      running_available: float = None, checked_multiple_sources: bool = True,
                      confluence_reason: str = "", last_close_info: dict = None,
-                     loss_streak_info: dict = None) -> tuple:
+                     loss_streak_info: dict = None, any_direction_loss_streak_info: dict = None) -> tuple:
     """running_available: the margin-safety check's source of truth for
     'available margin right now'. Pass this explicitly (rather than reading
     account['available'] directly) so the caller can track it as a running
@@ -1116,7 +1214,15 @@ def _validate_trade(trade: dict, account: dict, positions: dict, rules,
     RULES.max_consecutive_same_direction_losses times in a row in the same
     direction, blocks that direction for RULES.consecutive_loss_cooldown_minutes
     regardless of how much time has passed (unlike same_direction_cooldown_minutes
-    above, which only looks at the single most recent close)."""
+    above, which only looks at the single most recent close).
+
+    any_direction_loss_streak_info: {instrument: {streak, logged_at}} from
+    _get_any_direction_loss_streak -- like loss_streak_info above but counts
+    losses regardless of direction, so switching sides doesn't reset it to
+    zero. Closes a real gap the same-direction breaker has on its own: a
+    losing streak can otherwise escape it by simply flipping direction (see
+    _get_any_direction_loss_streak's docstring for the 2026-09-28 BRENT_OIL
+    incident that motivated this)."""
     if running_available is None:
         running_available = account["available"]
 
@@ -1193,6 +1299,20 @@ def _validate_trade(trade: dict, account: dict, positions: dict, rules,
                         f"{minutes_since:.0f} min ago) -- blocked for {rules.consecutive_loss_cooldown_minutes} "
                         f"min regardless of the shorter same-direction cooldown, to avoid repeating a thesis "
                         f"that keeps failing against what may be a persistent trend"
+                    )
+        if any_direction_loss_streak_info and instrument in any_direction_loss_streak_info:
+            any_streak = any_direction_loss_streak_info[instrument]
+            if any_streak["streak"] >= rules.max_consecutive_losses_any_direction:
+                minutes_since = (datetime.now(timezone.utc) - datetime.fromisoformat(any_streak["logged_at"])).total_seconds() / 60
+                if minutes_since < rules.consecutive_loss_cooldown_minutes:
+                    return False, (
+                        f"Any-direction circuit breaker: {instrument} has lost {any_streak['streak']} times in a "
+                        f"row REGARDLESS OF DIRECTION (most recently {minutes_since:.0f} min ago) -- blocked for "
+                        f"{rules.consecutive_loss_cooldown_minutes} min in EITHER direction. This exists because "
+                        f"the same-direction breaker alone can be escaped by simply flipping sides (a real "
+                        f"2026-09-28 BRENT_OIL incident: 2 consecutive LONG losses, then immediately SHORT with "
+                        f"a fresh streak, losing again within 20 minutes with no new evidence) -- a full "
+                        f"direction reversal right now needs to wait out this cooldown like any other repeat."
                     )
         if not _margin_headroom_ok(running_available, account["balance"], rules):
             return False, (
@@ -1576,10 +1696,20 @@ def run_cfd_tick():
         "account": account,
         "positions": positions_with_pnl,
         "instruments_currently_tradeable": list(tradeable_instruments.keys()),
+        "recent_trade_history": _get_recent_trade_history(DATA_DIR / "order_log.jsonl"),
         "note": (
             "THIS IS A REAL IG CFD ACCOUNT. Every trade you propose executes immediately with "
             "real, leveraged capital. Only instruments listed in instruments_currently_tradeable "
-            "can be acted on right now -- others are outside market hours."
+            "can be acted on right now -- others are outside market hours. "
+            "recent_trade_history shows your own last few closed trades per instrument (thesis at "
+            "open time + actual P&L). Before repeating a thesis you've already tried on an "
+            "instrument, check whether it's already lost there recently -- a real incident "
+            "(2026-09-27/29) showed NATURAL_GAS and BRENT_OIL both re-proposed the same or a "
+            "flip-flopped reasoning many times in a row without acknowledging that the same or "
+            "opposite thesis had just failed. This history is not a rule that blocks a trade "
+            "(the code-level circuit breakers/momentum filters handle that); it's context for you "
+            "to weigh -- if your evidence is genuinely new, say what changed. If it's the same "
+            "evidence you already lost on, that's worth noticing before repeating it."
         ),
     }
 
@@ -1610,6 +1740,7 @@ def run_cfd_tick():
         running_available = account["available"]
         last_close_info = _get_last_close_info(DATA_DIR / "order_log.jsonl")
         loss_streak_info = _get_same_direction_loss_streak(DATA_DIR / "order_log.jsonl")
+        any_direction_loss_streak_info = _get_any_direction_loss_streak(DATA_DIR / "order_log.jsonl")
 
         for trade in trades:
             action = trade.get("action", "").upper()
@@ -1732,16 +1863,29 @@ def run_cfd_tick():
 
             ok, reason = _validate_trade(trade, account, positions, RULES, running_available=running_available,
                                           checked_multiple_sources=confluence_ok, confluence_reason=confluence_reason,
-                                          last_close_info=last_close_info, loss_streak_info=loss_streak_info)
+                                          last_close_info=last_close_info, loss_streak_info=loss_streak_info,
+                                          any_direction_loss_streak_info=any_direction_loss_streak_info)
             if not ok:
-                _log_order_event({"action": action, "instrument": instrument, "status": "REJECTED", "reason": reason})
+                # 2026-09-29: log the agent's OWN stated thesis (trade["reason"]) alongside
+                # the validation rejection reason -- previously only the rejection reason was
+                # kept, silently discarding what the agent was actually thinking every single
+                # time a trade got blocked (confluence, cooldown, circuit breaker, momentum
+                # filter, etc). Found this gap while trying to check whether repeated,
+                # circuit-breaker-blocked BRENT_OIL SHORT attempts overnight were citing new
+                # information each time or just repeating the same stale thesis -- that
+                # question was unanswerable because the data was never captured. Field name
+                # is "agent_reason" (not "reason") to avoid colliding with the existing
+                # rejection-reason field other log consumers may already depend on.
+                _log_order_event({"action": action, "instrument": instrument, "status": "REJECTED",
+                                   "reason": reason, "agent_reason": trade.get("reason", "")})
                 continue
 
             inst = INSTRUMENTS[instrument]
             snapshot = snapshots.get(instrument)
             if not broker.is_tradeable(snapshot):
                 _log_order_event({"action": action, "instrument": instrument, "status": "REJECTED",
-                                   "reason": "Market no longer tradeable (status changed since gating check)"})
+                                   "reason": "Market no longer tradeable (status changed since gating check)",
+                                   "agent_reason": trade.get("reason", "")})
                 continue
 
             if action in ("OPEN_LONG", "OPEN_SHORT"):
@@ -1750,7 +1894,8 @@ def run_cfd_tick():
                     RULES.max_leverage_multiple, inst.min_deal_size,
                 )
                 if err:
-                    _log_order_event({"action": action, "instrument": instrument, "status": "REJECTED", "reason": err})
+                    _log_order_event({"action": action, "instrument": instrument, "status": "REJECTED",
+                                       "reason": err, "agent_reason": trade.get("reason", "")})
                     continue
 
                 # Precise post-trade check: does THIS trade's specific margin

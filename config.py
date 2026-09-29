@@ -150,6 +150,24 @@ class SystemRules:
                                                 # same_direction_cooldown_minutes, since the whole point is
                                                 # surviving a trend/repeating thesis that a short cooldown
                                                 # doesn't survive.
+    max_consecutive_losses_any_direction: int = 2  # ADDED 2026-09-29 after finding a real gap in
+                                                # max_consecutive_same_direction_losses above: that breaker
+                                                # resets to 0 the instant direction flips, so BRENT_OIL could
+                                                # (and did) escape it by simply switching sides -- 2026-09-28
+                                                # 14:36-14:52: 2 consecutive LONG losses tripped the
+                                                # same-direction breaker for LONG, but the very next tick went
+                                                # SHORT with a completely fresh streak and lost again too, all
+                                                # within 20 minutes citing no new evidence -- a real instance
+                                                # of the narrative-whiplash pattern (flipping between the
+                                                # geopolitical-bullish and technical-bearish reads described
+                                                # elsewhere in this file) rather than a stuck one-direction
+                                                # bias. Counts losses regardless of direction -- a loss in
+                                                # EITHER direction continues the streak, only a WIN resets it
+                                                # -- so flipping sides no longer resets the count to zero.
+                                                # Same threshold (2) as the same-direction breaker because
+                                                # that's what the actual incident took to trip; same
+                                                # consecutive_loss_cooldown_minutes (480) block duration,
+                                                # applied to BOTH directions at once.
 
 
 RULES = SystemRules()
