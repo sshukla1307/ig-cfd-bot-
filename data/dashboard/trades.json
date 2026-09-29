@@ -3,6 +3,20 @@
     "action": "OPEN_SHORT",
     "instrument": "SILVER",
     "status": "REJECTED",
+    "reason": "Consecutive-loss circuit breaker: SILVER has lost 2 times in a row going SELL (most recently 235 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
+    "logged_at": "2026-09-29T00:02:35.549822+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Consecutive-loss circuit breaker: BRENT_OIL has lost 2 times in a row going SELL (most recently 269 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
+    "logged_at": "2026-09-29T00:02:35.549554+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "SILVER",
+    "status": "REJECTED",
     "reason": "Consecutive-loss circuit breaker: SILVER has lost 2 times in a row going SELL (most recently 205 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
     "logged_at": "2026-09-28T23:32:16.376091+00:00"
   },
@@ -5245,51 +5259,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-28T15:04:27.191989+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Consecutive-loss circuit breaker: BRENT_OIL has lost 2 times in a row going SELL (most recently 7 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
-    "logged_at": "2026-09-28T15:04:26.868323+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "SILVER",
-    "deal_id": "DIAAAAR8SNGGWAB",
-    "old_limit_level": 5852.3745,
-    "new_limit_level": 5852.256,
-    "old_stop_level": 6108.2863,
-    "new_stop_level": 6108.2863,
-    "reason": "Trailing-stop reconciliation (floor 1.0%, arm 1.2%, gap 0.03% once armed, continuous not stepped, per-instrument as of Plan B) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-28T15:03:43.253",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDSILVER.DBI.IP",
-      "expiry": "-",
-      "dealReference": "HEEFCHJM4DSTYNV",
-      "dealId": "DIAAAAR8SNGGWAB",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR8SNGGWAB",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 6096.1,
-      "size": 2.04,
-      "direction": "SELL",
-      "stopLevel": 6108.286,
-      "limitLevel": 5852.256,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-28T15:03:43.471701+00:00"
   }
 ]
