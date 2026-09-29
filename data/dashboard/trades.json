@@ -3,6 +3,22 @@
     "action": "OPEN_LONG",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 3.036 vs 30-min SMA 3.0388, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Natural gas is oversold with an RSI of 27.2, indicating a potential rebound. The SMA-20 is below the SMA-50, suggesting a short-term bearish trend, but the oversold condition presents a mean-reversion opportunity. The term structure is in contango, indicating ample supply, but the oversold RSI suggests a potential bounce. Recent inventory data shows a larger-than-typical build, supporting a short-term rebound.",
+    "logged_at": "2026-09-29T17:03:42.689240+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 96.83 vs 30-min SMA 96.88, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Brent oil is currently oversold with an RSI of 22.5, indicating a potential rebound. The SMA-20 is below the SMA-50, suggesting a short-term bearish trend, but the oversold condition presents a mean-reversion opportunity. Recent news indicates that Saudi Arabia's crude exports are recovering, which could stabilize prices. The term structure is flat, indicating no strong forward demand, but the oversold RSI suggests a potential bounce.",
+    "logged_at": "2026-09-29T17:03:42.648554+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 3.051 vs 30-min SMA 3.054, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
     "agent_reason": "Natural gas is oversold with an RSI of 29.0, suggesting a potential rebound. The market is in contango, indicating ample supply, but the oversold condition provides a mean-reversion opportunity. Recent inventory data shows a larger-than-typical build, but the technicals suggest a short-term bounce is possible.",
     "logged_at": "2026-09-29T16:33:30.184489+00:00"
@@ -2696,83 +2712,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-28T20:47:35.086591+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "GOLD",
-    "deal_id": "DIAAAAR8UCCB5AG",
-    "old_limit_level": 3949.6474,
-    "new_limit_level": 3948.9283,
-    "old_stop_level": 4115.63,
-    "new_stop_level": 4114.91,
-    "reason": "Trailing-stop reconciliation (floor 0.2%, arm 1.2%, gap 0.1% once armed, continuous not stepped, per-instrument as of Plan B) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-28T20:45:25.969",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDGOLD.DBI.IP",
-      "expiry": "-",
-      "dealReference": "7X2PVVWTB3STYNV",
-      "dealId": "DIAAAAR8UCCB5AG",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR8UCCB5AG",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 4124.54,
-      "size": 2.92,
-      "direction": "SELL",
-      "stopLevel": 4114.91,
-      "limitLevel": 3948.9282,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-28T20:45:26.110692+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "GOLD",
-    "deal_id": "DIAAAAR8UCCB5AG",
-    "old_limit_level": 3951.2981,
-    "new_limit_level": 3949.6474,
-    "old_stop_level": 4126.1877,
-    "new_stop_level": 4115.63,
-    "reason": "Trailing-stop reconciliation (floor 0.2%, arm 1.2%, gap 0.1% once armed, continuous not stepped, per-instrument as of Plan B) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-28T20:43:30.206",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDGOLD.DBI.IP",
-      "expiry": "-",
-      "dealReference": "GQTXCGZ4RZJTYNV",
-      "dealId": "DIAAAAR8UCCB5AG",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR8UCCB5AG",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 4124.54,
-      "size": 2.92,
-      "direction": "SELL",
-      "stopLevel": 4115.63,
-      "limitLevel": 3949.6475,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-28T20:43:30.407414+00:00"
   }
 ]
