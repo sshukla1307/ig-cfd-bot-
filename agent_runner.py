@@ -404,6 +404,89 @@ def check_confluence(tool_call_log: list, instrument: str, action: str) -> tuple
     )
 
 
+SECOND_OPINION_MODEL = "claude-sonnet-5"  # ALWAYS Anthropic, regardless of LLM_PROVIDER (see
+# _make_llm_client) -- the whole point of a second opinion is a genuinely different model
+# family from the primary one, not another instance sharing the same training biases. If
+# LLM_PROVIDER is ever switched to "anthropic" for the primary decision, this pairing stops
+# making sense and should be revisited (e.g. swap to OpenAI as the second opinion instead).
+
+
+def get_second_opinion(trade: dict, recent_trade_history: list) -> tuple:
+    """Adversarial critique of a single already-proposed, already-validated
+    OPEN_LONG/OPEN_SHORT trade, by a model from a different family than
+    whichever one proposed it (see SECOND_OPINION_MODEL). Added 2026-09-29
+    after finding two concrete, real reasoning-quality problems in this
+    account's trade log: NATURAL_GAS repeating the identical "contango,
+    ample supply, bearish SMA crossover" thesis across 15+ SHORT trades over
+    ~22 hours while price rose the entire time, and BRENT_OIL flipping
+    between a bullish geopolitical narrative and a bearish technical one
+    within 20 minutes with no new evidence -- including one instance that
+    explicitly cited backwardation (a bullish signal) and still concluded
+    "the overall sentiment and technicals support a short position" without
+    addressing the contradiction.
+
+    This is deliberately NOT a second independent trade proposal that must
+    merely agree (that's just a second confluence check, and would likely
+    just cut trade frequency further without improving reasoning quality --
+    see config.py's own history: Anthropic was already tried as the PRIMARY
+    decision-maker once and produced 4 losing trades in a row right after
+    switching, reinforcing this account's problems are about signal quality,
+    not which model is used). Instead the critic model is shown the EXACT
+    same recent_trade_history context the primary model already has (see
+    cfd_runner._get_recent_trade_history) and asked two narrow, targeted
+    questions: (1) does this trade's own stated reasoning contain a real
+    self-contradiction (citing evidence that argues the other way and not
+    addressing it), and (2) is this the same thesis (or its flip-flopped
+    opposite) that recently lost on this instrument, presented as if it were
+    fresh. A plain "I'd have proposed something different" is NOT grounds to
+    object -- that's just the second model's own opinion, not a documented
+    logic flaw.
+
+    Fails PERMISSIVE on any API error (network/auth/rate-limit) -- a critic
+    outage should not itself halt trading, consistent with this codebase's
+    existing philosophy for auxiliary checks (see cfd_runner._iter_close_events's
+    docstring). Returns (ok: bool, verdict_text: str) -- verdict_text is
+    ALWAYS returned (even when ok=True) so it can be logged for every trade,
+    not just objections, avoiding the exact logging gap already found and
+    fixed for validation rejections."""
+    instrument = trade.get("instrument", "")
+    action = trade.get("action", "")
+    history_lines = "\n".join(
+        f"  - {t['closed_at']}: {t['direction']} closed {t['pnl']:+.2f} -- \"{t['reason']}\""
+        for t in (recent_trade_history or [])
+    ) or "  (no recent closed trades on this instrument)"
+
+    system_prompt = (
+        "You are an independent risk reviewer for a live-money CFD trading account, checking a "
+        "single proposed trade written by a different AI model before it executes. You are NOT "
+        "proposing your own trade and a differing opinion is not itself grounds to object. Object "
+        "ONLY if you find one of these two specific problems: (1) the reasoning cites a data point "
+        "that argues AGAINST its own conclusion without addressing the contradiction, or (2) the "
+        "reasoning is substantially the same thesis (or its exact opposite, freshly asserted) as a "
+        "recent trade on this same instrument that already lost, with no acknowledgment of that "
+        "history or explanation of what's actually different this time. Respond with exactly one "
+        "line starting with either 'VERDICT: APPROVE' or 'VERDICT: OBJECT', followed by one short "
+        "sentence explaining why."
+    )
+    user_prompt = (
+        f"Proposed trade: {action} {instrument}\n"
+        f"Stated reasoning: \"{trade.get('reason', '')}\"\n\n"
+        f"Recent closed trades on {instrument} (oldest first):\n{history_lines}\n"
+    )
+
+    try:
+        client = AnthropicClient(model=SECOND_OPINION_MODEL)
+        verdict_text = client.generate(system_prompt, user_prompt, tools=[], max_tool_calls=0)
+    except Exception as e:
+        logger.warning(f"get_second_opinion({instrument}) failed, failing permissive: {e}")
+        return True, f"(second opinion unavailable: {e})"
+
+    first_line = (verdict_text or "").strip().split("\n", 1)[0].upper()
+    if "OBJECT" in first_line:
+        return False, verdict_text.strip()
+    return True, verdict_text.strip()
+
+
 class AgentCallFailed(Exception):
     """Raised when the LLM call itself failed or didn't produce a usable
     decision -- distinct from the agent successfully deciding to hold. The

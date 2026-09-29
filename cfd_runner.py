@@ -1616,7 +1616,7 @@ def run_cfd_tick():
 
     from config import RULES, INSTRUMENTS, PLAYBOOKS_DIR
     from ig_broker import IGBroker
-    from agent_runner import get_agent_trades, AgentCallFailed, check_confluence
+    from agent_runner import get_agent_trades, AgentCallFailed, check_confluence, get_second_opinion
     from dashboard_exporter import export_for_dashboard
 
     live = os.getenv("IG_LIVE", "").lower() == "true"
@@ -1692,11 +1692,13 @@ def run_cfd_tick():
     positions_with_pnl = {key: {**pos, "unrealized_pnl_usd": _estimate_unrealized_pnl(pos)}
                            for key, pos in positions.items()}
 
+    recent_trade_history = _get_recent_trade_history(DATA_DIR / "order_log.jsonl")
+
     portfolio_state = {
         "account": account,
         "positions": positions_with_pnl,
         "instruments_currently_tradeable": list(tradeable_instruments.keys()),
-        "recent_trade_history": _get_recent_trade_history(DATA_DIR / "order_log.jsonl"),
+        "recent_trade_history": recent_trade_history,
         "note": (
             "THIS IS A REAL IG CFD ACCOUNT. Every trade you propose executes immediately with "
             "real, leveraged capital. Only instruments listed in instruments_currently_tradeable "
@@ -1879,6 +1881,30 @@ def run_cfd_tick():
                 _log_order_event({"action": action, "instrument": instrument, "status": "REJECTED",
                                    "reason": reason, "agent_reason": trade.get("reason", "")})
                 continue
+
+            if action in ("OPEN_LONG", "OPEN_SHORT"):
+                # Second-opinion adversarial critique from a different model family (see
+                # agent_runner.get_second_opinion's docstring) -- added 2026-09-29 alongside
+                # recent_trade_history above, targeting the same two documented problems
+                # (self-contradicting reasoning, repeating/flip-flopping a thesis that already
+                # lost). Runs AFTER _validate_trade so a trade that would be rejected anyway
+                # (confluence, cooldown, circuit breakers, momentum filter, margin safety)
+                # doesn't spend an extra API call on a critique that's moot either way.
+                second_opinion_ok, second_opinion_text = get_second_opinion(
+                    trade, recent_trade_history.get(instrument, []),
+                )
+                if not second_opinion_ok:
+                    _log_order_event({
+                        "action": action, "instrument": instrument, "status": "REJECTED",
+                        "reason": f"Second opinion objected: {second_opinion_text}",
+                        "agent_reason": trade.get("reason", ""),
+                    })
+                    continue
+                # Log the APPROVAL too, not just objections -- otherwise this recreates the
+                # exact logging gap just fixed for validation rejections (silently dropping
+                # the second model's reasoning whenever it doesn't block anything).
+                _log_order_event({"action": "SECOND_OPINION", "instrument": instrument,
+                                   "status": "approved", "reason": second_opinion_text})
 
             inst = INSTRUMENTS[instrument]
             snapshot = snapshots.get(instrument)
