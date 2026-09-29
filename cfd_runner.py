@@ -598,10 +598,21 @@ TRAILING_STOP_INSTRUMENTS = {"BRENT_OIL", "WTI_OIL", "NATURAL_GAS", "GOLD", "SIL
 # TRAILING_STOP_ARM_PCT floats. Each pair chosen via a full floor x arm grid search
 # per instrument (695 real trades, Aug 21 - Sep 28), validated with a 70/30
 # time-based train/test split to guard against overfitting to noise:
-#   BRENT_OIL:    1.4% floor / 0.3% arm -- robust: train +$967.85, test +$365.74
-#                 (positive on BOTH splits -- the most trustworthy result of the 5)
-#   WTI_OIL:      2.0% floor / 0.3% arm -- robust: train +$1443.56, test +$484.27
-#                 (also positive on both splits; best win rate of the 5 at 92.8%)
+#   BRENT_OIL:    UPDATED 2026-09-29 from 1.4% floor / 0.3% arm to 0.7% floor / 0.8% arm,
+#                 per the user's own proposed value, deployed despite backtesting WORSE on
+#                 271 real trades (gap=0.10% held fixed): total $1436.41 -> $973.09
+#                 (-$463.32), win% 81.5% -> 51.7%, test period $483.27 -> $149.95. The
+#                 previous 1.4%/0.3% pair was robust on both train/test splits and remains
+#                 the better-validated number -- this change was made anyway on explicit
+#                 user instruction after the backtest result was shown twice (once at
+#                 0.5%/0.8%, once at 0.7%/0.8%, both clearly worse). Not a case of "the
+#                 data was ambiguous"; re-validate before assuming this is settled.
+#   WTI_OIL:      UPDATED 2026-09-29 from 2.0% floor / 0.3% arm to 0.7% floor / 0.8% arm,
+#                 same user-instructed change as BRENT_OIL above, same caveat: backtested
+#                 WORSE on 265 real trades (gap=0.10% held fixed): total $2091.85 -> $948.44
+#                 (-$1143.42), win% 93.2% -> 59.2%, test period $609.47 -> $109.39 -- the
+#                 largest single backtested regression of any change made today. Deployed
+#                 per explicit user instruction despite this.
 #   NATURAL_GAS:  UPDATED 2026-09-28 (same day, later) to 0.2% floor / 1.2% arm -- the
 #                 original 1.0%/2.0% pair above was never profitable in any floor x arm
 #                 combination tested (a signal-quality problem, not risk-management), but
@@ -658,15 +669,15 @@ TRAILING_STOP_INSTRUMENTS = {"BRENT_OIL", "WTI_OIL", "NATURAL_GAS", "GOLD", "SIL
 # history on 2026-09-24/25 and 2026-09-28 for prior contradictory findings from
 # smaller/different-period samples.
 TRAILING_STOP_FLOOR_PCT_BY_INSTRUMENT = {
-    "BRENT_OIL": 1.4,
-    "WTI_OIL": 2.0,
+    "BRENT_OIL": 0.7,
+    "WTI_OIL": 0.7,
     "NATURAL_GAS": 0.45,
     "GOLD": 0.2,
     "SILVER": 0.4,
 }
 TRAILING_STOP_ARM_PCT_BY_INSTRUMENT = {
-    "BRENT_OIL": 0.3,
-    "WTI_OIL": 0.3,
+    "BRENT_OIL": 0.8,
+    "WTI_OIL": 0.8,
     "NATURAL_GAS": 1.2,
     "GOLD": 1.2,
     "SILVER": 0.5,
