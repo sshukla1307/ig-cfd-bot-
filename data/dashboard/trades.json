@@ -1,5 +1,55 @@
 [
   {
+    "action": "OPEN_SHORT",
+    "instrument": "GOLD",
+    "status": "REJECTED",
+    "reason": "This trade's margin ($2396.83) would leave available at $2368.69, below the 30.0% safety buffer of balance $9587.33 -- rejected to avoid risking a forced closure on this or other open positions",
+    "logged_at": "2026-09-29T05:12:48.143427+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "direction": "SELL",
+    "size": 3.8,
+    "margin_allocated": 2396.83,
+    "effective_leverage": 5.0,
+    "notional": 12027.0,
+    "stop_distance": 10.0,
+    "limit_distance": 126.1489,
+    "confluence_detail": "get_term_structure, get_seasonality, get_weather_demand, get_weather_demand, get_weather_demand agrees with bearish",
+    "reason": "Natural Gas is in a contango structure, indicating ample supply. The technicals show a bearish SMA crossover, and the RSI is neutral. Seasonality and current weather demand are bearish/neutral, supporting a short position.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR8VT23VAB",
+    "raw": {
+      "date": "2026-09-29T05:12:48.018",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "F54LYN3AFTSTYNV",
+      "dealId": "DIAAAAR8VT23VAB",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR8VT23VAB",
+          "status": "OPENED"
+        }
+      ],
+      "level": 3162.0,
+      "size": 3.8,
+      "direction": "SELL",
+      "stopLevel": 3172.0,
+      "limitLevel": 3035.851,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-29T05:12:48.142957+00:00"
+  },
+  {
     "action": "MARGIN_EXIT_SYNC",
     "instrument": "WTI_OIL",
     "deal_id": "DIAAAAR8VLCDAA6",
@@ -4616,54 +4666,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-28T16:18:20.829974+00:00"
-  },
-  {
-    "action": "BROKER_CLOSE",
-    "instrument": "SILVER",
-    "deal_id": "DIAAAAR8S4YGTAC",
-    "original_direction": "SELL",
-    "estimated_pnl": -8.36,
-    "status": "detected",
-    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-09-28T16:17:41.100832+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "SILVER",
-    "deal_id": "DIAAAAR8S4YGTAC",
-    "old_limit_level": 5858.688,
-    "new_limit_level": 5854.188,
-    "old_stop_level": 6114.9084,
-    "new_stop_level": 6114.9084,
-    "reason": "Trailing-stop reconciliation (floor 1.0%, arm 1.2%, gap 0.03% once armed, continuous not stepped, per-instrument as of Plan B) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-28T16:13:35.589",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDSILVER.DBI.IP",
-      "expiry": "-",
-      "dealReference": "WFY75WVMRGNTYNV",
-      "dealId": "DIAAAAR8S4YGTAC",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR8S4YGTAC",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 6102.8,
-      "size": 2.04,
-      "direction": "SELL",
-      "stopLevel": 6114.908,
-      "limitLevel": 5854.188,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-28T16:13:35.737844+00:00"
   }
 ]
