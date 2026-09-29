@@ -1153,13 +1153,14 @@ def _sync_margin_based_exits(broker, positions: dict, snapshots: dict, max_lever
 # (-$1229.95 -> -$367.04), robust on both a 70/30 train (-$1268.79 -> -$393.02)
 # and test (+$38.84 -> +$25.98, both already-positive) split -- a real, smaller
 # improvement, not the dramatic loss-to-profit flip NG showed.
-MOMENTUM_FILTERED_INSTRUMENTS = set()  # TEMPORARILY DISABLED AGAIN 2026-09-29 (user's own
-# choice) -- was {"NATURAL_GAS", "BRENT_OIL"}, briefly re-enabled the same day after a local
-# live run showed the second-opinion critic alone already catching bad repeated-thesis
-# trades. Disabled again per explicit user instruction. The second-opinion critic, any-
-# direction circuit breaker, and trade-history context injection all remain fully active
-# independently. Re-enable by restoring the set above to {"NATURAL_GAS", "BRENT_OIL"}. See
-# the backtest justification further up in this file's history for why this filter exists.
+MOMENTUM_FILTERED_INSTRUMENTS = {"NATURAL_GAS", "BRENT_OIL"}
+# RE-ENABLED 2026-09-29 (third toggle today). Confirmed via a direct prompt-construction test
+# that the recent_trade_history injection (see _get_recent_trade_history) IS reaching the
+# LLM's actual prompt correctly (verified the real -23.28 BRENT_OIL loss string appears in
+# agent_runner.build_user_prompt's output) -- so the repeated-thesis trades still being
+# proposed aren't a wiring bug, GPT-4o just isn't changing its proposals in response to that
+# context on its own. The second-opinion critic is the mechanism actually catching this, not
+# the context injection. No reason left to keep the momentum filter off.
 
 
 def _check_momentum_confirms(instrument: str, action: str) -> tuple:
