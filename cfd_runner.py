@@ -1153,15 +1153,13 @@ def _sync_margin_based_exits(broker, positions: dict, snapshots: dict, max_lever
 # (-$1229.95 -> -$367.04), robust on both a 70/30 train (-$1268.79 -> -$393.02)
 # and test (+$38.84 -> +$25.98, both already-positive) split -- a real, smaller
 # improvement, not the dramatic loss-to-profit flip NG showed.
-MOMENTUM_FILTERED_INSTRUMENTS = set()  # TEMPORARILY DISABLED 2026-09-29 (user's own choice) --
-# was {"NATURAL_GAS", "BRENT_OIL"}, see the backtest justification in the comment above. The
-# user wanted trades to actually start flowing again to observe the new 0.3%/0.8% Brent/WTI
-# and 0.45%/1.2% NG floor/arm settings live, and this filter (stacked with the new
-# per-instrument second-opinion critic) was blocking essentially everything on both
-# instruments. Not a "reset" -- this check has no persistent state to clear, it recomputes
-# fresh from live price every tick, so disabling is the only lever. Re-enable by restoring
-# the set above to {"NATURAL_GAS", "BRENT_OIL"} once there's been time to observe the new
-# stop settings with this filter out of the way.
+MOMENTUM_FILTERED_INSTRUMENTS = {"NATURAL_GAS", "BRENT_OIL"}
+# RE-ENABLED 2026-09-29, same day, ~1h after being temporarily disabled to let trades flow
+# while observing the new floor/arm settings. Re-enabled once a local live run (python -m
+# cfd_runner) showed the second-opinion critic alone already catching every proposed trade
+# that tick (Brent/NG/Gold SHORTs, all objected to as repeats of recent losing theses) --
+# confirmation that check is working independently, and there's no remaining reason to keep
+# this one off. See the backtest justification in the comment above for why this exists.
 
 
 def _check_momentum_confirms(instrument: str, action: str) -> tuple:
