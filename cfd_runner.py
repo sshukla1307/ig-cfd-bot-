@@ -1153,13 +1153,13 @@ def _sync_margin_based_exits(broker, positions: dict, snapshots: dict, max_lever
 # (-$1229.95 -> -$367.04), robust on both a 70/30 train (-$1268.79 -> -$393.02)
 # and test (+$38.84 -> +$25.98, both already-positive) split -- a real, smaller
 # improvement, not the dramatic loss-to-profit flip NG showed.
-MOMENTUM_FILTERED_INSTRUMENTS = {"NATURAL_GAS", "BRENT_OIL"}
-# RE-ENABLED 2026-09-29, same day, ~1h after being temporarily disabled to let trades flow
-# while observing the new floor/arm settings. Re-enabled once a local live run (python -m
-# cfd_runner) showed the second-opinion critic alone already catching every proposed trade
-# that tick (Brent/NG/Gold SHORTs, all objected to as repeats of recent losing theses) --
-# confirmation that check is working independently, and there's no remaining reason to keep
-# this one off. See the backtest justification in the comment above for why this exists.
+MOMENTUM_FILTERED_INSTRUMENTS = set()  # TEMPORARILY DISABLED AGAIN 2026-09-29 (user's own
+# choice) -- was {"NATURAL_GAS", "BRENT_OIL"}, briefly re-enabled the same day after a local
+# live run showed the second-opinion critic alone already catching bad repeated-thesis
+# trades. Disabled again per explicit user instruction. The second-opinion critic, any-
+# direction circuit breaker, and trade-history context injection all remain fully active
+# independently. Re-enable by restoring the set above to {"NATURAL_GAS", "BRENT_OIL"}. See
+# the backtest justification further up in this file's history for why this filter exists.
 
 
 def _check_momentum_confirms(instrument: str, action: str) -> tuple:
