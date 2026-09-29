@@ -448,13 +448,47 @@ def get_second_opinion(trade: dict, recent_trade_history: list) -> tuple:
     docstring). Returns (ok: bool, verdict_text: str) -- verdict_text is
     ALWAYS returned (even when ok=True) so it can be logged for every trade,
     not just objections, avoiding the exact logging gap already found and
-    fixed for validation rejections."""
+    fixed for validation rejections.
+
+    UPDATED 2026-09-29: criterion (2) above was found to be too blunt the
+    same day it shipped -- it objected to ANY repeated thesis based on text
+    similarity alone, which doesn't distinguish BRENT_OIL (kept shorting the
+    same thesis while price was actually RISING the whole time -- the thesis
+    was wrong, repeating it was the real mistake) from GOLD/SILVER/
+    NATURAL_GAS (kept shorting the same thesis while price kept FALLING
+    exactly as predicted -- the thesis was right, getting stopped out by
+    short-term noise isn't the same failure). Now also computes
+    market_data.get_price_confirmation() against the most recent trade on
+    this instrument and gives the critic the real answer to "has price
+    actually moved with or against that thesis since then" -- criterion (2)
+    is now explicitly conditioned on price having moved AGAINST the thesis
+    (or no confirmation data being available), not on text similarity alone."""
+    from config import YFINANCE_TICKERS
+    import market_data
+
     instrument = trade.get("instrument", "")
     action = trade.get("action", "")
     history_lines = "\n".join(
         f"  - {t['closed_at']}: {t['direction']} closed {t['pnl']:+.2f} -- \"{t['reason']}\""
         for t in (recent_trade_history or [])
     ) or "  (no recent closed trades on this instrument)"
+
+    price_confirmation_line = "  (no recent trade on this instrument to check price confirmation against)"
+    if recent_trade_history:
+        most_recent = recent_trade_history[-1]  # oldest-first list, per _get_recent_trade_history
+        ticker = YFINANCE_TICKERS.get(instrument)
+        if ticker:
+            conf = market_data.get_price_confirmation(ticker, most_recent["closed_at"], most_recent["direction"])
+            if conf.get("error"):
+                price_confirmation_line = f"  (price confirmation unavailable: {conf['error']})"
+            else:
+                verb = "confirmed" if conf["moved_with_thesis"] else "CONTRADICTED"
+                price_confirmation_line = (
+                    f"  Since the most recent trade's close ({conf['since']}), price has moved "
+                    f"{conf['pct_move']:+.2f}% (from {conf['price_then']} to {conf['price_now']}) -- "
+                    f"this {verb} that trade's {conf['thesis_direction']} thesis "
+                    f"(moved_with_thesis={conf['moved_with_thesis']})."
+                )
 
     system_prompt = (
         "You are an independent risk reviewer for a live-money CFD trading account, checking a "
@@ -463,15 +497,22 @@ def get_second_opinion(trade: dict, recent_trade_history: list) -> tuple:
         "ONLY if you find one of these two specific problems: (1) the reasoning cites a data point "
         "that argues AGAINST its own conclusion without addressing the contradiction, or (2) the "
         "reasoning is substantially the same thesis (or its exact opposite, freshly asserted) as a "
-        "recent trade on this same instrument that already lost, with no acknowledgment of that "
-        "history or explanation of what's actually different this time. Respond with exactly one "
-        "line starting with either 'VERDICT: APPROVE' or 'VERDICT: OBJECT', followed by one short "
-        "sentence explaining why."
+        "recent trade on this same instrument that already lost, WITH NO acknowledgment of that "
+        "history or explanation of what's different -- AND real price action since that prior trade "
+        "has moved AGAINST the thesis (shown below as price_confirmation), or no price confirmation "
+        "data is available at all. If price_confirmation shows the market has continued moving WITH "
+        "the thesis since the prior trade (moved_with_thesis=True), that means the underlying "
+        "direction is being validated by real price action, not disproven -- repeating it is NOT the "
+        "stuck-thesis mistake this check exists to catch, even if the wording is very similar to a "
+        "recent loss (a loss there was more likely just an entry-timing/stop issue, not a wrong call). "
+        "Respond with exactly one line starting with either 'VERDICT: APPROVE' or 'VERDICT: OBJECT', "
+        "followed by one short sentence explaining why."
     )
     user_prompt = (
         f"Proposed trade: {action} {instrument}\n"
         f"Stated reasoning: \"{trade.get('reason', '')}\"\n\n"
-        f"Recent closed trades on {instrument} (oldest first):\n{history_lines}\n"
+        f"Recent closed trades on {instrument} (oldest first):\n{history_lines}\n\n"
+        f"Price confirmation since the most recent trade above:\n{price_confirmation_line}\n"
     )
 
     try:

@@ -266,6 +266,74 @@ def get_short_term_momentum(yf_ticker: str, lookback_bars: int = 6) -> dict:
         return {"ticker": yf_ticker, "error": str(e)}
 
 
+def get_price_confirmation(yf_ticker: str, since_iso: str, direction: str) -> dict:
+    """Has price actually moved WITH or AGAINST a directional thesis since a
+    given past timestamp? Added 2026-09-29 to refine agent_runner.
+    get_second_opinion: that critic was objecting to any trade that repeated
+    a recent losing thesis on the same instrument, based on text similarity
+    alone -- but a real-data check the same day found this doesn't
+    distinguish two very different situations found live: BRENT_OIL kept
+    shorting the same "bearish SMA/inventory" thesis while price was actually
+    RISING the whole time (the thesis was wrong, repeating it was the
+    mistake), versus GOLD/SILVER/NATURAL_GAS repeating a bearish thesis while
+    price kept FALLING exactly as predicted (the thesis was right, getting
+    stopped out by short-term noise along the way isn't the same failure).
+    This gives the critic the real, current answer to "has this thesis
+    actually been validated or invalidated since the last attempt" instead
+    of just judging text similarity.
+
+    direction: the direction of the PAST trade being checked against ('BUY'/
+    'SELL' or 'OPEN_LONG'/'OPEN_SHORT') -- moved_with_thesis is True if price
+    has moved in the direction that thesis predicted (down for a SELL/short
+    thesis, up for a BUY/long one), regardless of what's being newly
+    proposed. Returns an "error" key (never raises) if the reference
+    timestamp can't be parsed, there's not enough price history since then,
+    or the network call fails -- callers should treat that as "no
+    confirmation signal available," not as either a confirm or a
+    disconfirm."""
+    try:
+        import yfinance as yf
+        from datetime import datetime, timezone
+
+        since_dt = datetime.fromisoformat(since_iso)
+        if since_dt.tzinfo is None:
+            since_dt = since_dt.replace(tzinfo=timezone.utc)
+
+        hist = yf.Ticker(yf_ticker).history(period="7d", interval="5m")
+        if hist.empty:
+            return {"ticker": yf_ticker, "error": "No price history returned"}
+        if hist.index.tz is None:
+            hist.index = hist.index.tz_localize("UTC")
+        else:
+            hist.index = hist.index.tz_convert("UTC")
+
+        window = hist[hist.index >= since_dt]
+        if len(window) < 2:
+            return {"ticker": yf_ticker, "error": "Not enough price history since the reference timestamp"}
+
+        price_then = float(window.iloc[0]["Close"])
+        price_now = float(window.iloc[-1]["Close"])
+        if not price_then:
+            return {"ticker": yf_ticker, "error": "Reference price was zero"}
+
+        is_short = direction.upper() in ("SELL", "OPEN_SHORT")
+        moved_with_thesis = (price_now < price_then) if is_short else (price_now > price_then)
+        pct_move = (price_now - price_then) / price_then * 100
+
+        return {
+            "ticker": yf_ticker,
+            "since": since_iso,
+            "thesis_direction": "SHORT" if is_short else "LONG",
+            "price_then": round(price_then, 4),
+            "price_now": round(price_now, 4),
+            "pct_move": round(pct_move, 3),
+            "moved_with_thesis": moved_with_thesis,
+        }
+    except Exception as e:
+        logger.warning(f"get_price_confirmation({yf_ticker}) failed: {e}")
+        return {"ticker": yf_ticker, "error": str(e)}
+
+
 def _brave_search(query: str, count: int, freshness: str) -> dict:
     """Shared Brave Search API call -- get_commodity_news and
     get_named_market_commentary both go through this, so the request/error
