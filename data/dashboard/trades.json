@@ -1,5 +1,21 @@
 [
   {
+    "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 3.051 vs 30-min SMA 3.054, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Natural gas is oversold with an RSI of 29.0, suggesting a potential rebound. The market is in contango, indicating ample supply, but the oversold condition provides a mean-reversion opportunity. Recent inventory data shows a larger-than-typical build, but the technicals suggest a short-term bounce is possible.",
+    "logged_at": "2026-09-29T16:33:30.184489+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Any-direction circuit breaker: BRENT_OIL has lost 3 times in a row REGARDLESS OF DIRECTION (most recently 325 min ago) -- blocked for 480 min in EITHER direction. This exists because the same-direction breaker alone can be escaped by simply flipping sides (a real 2026-09-28 BRENT_OIL incident: 2 consecutive LONG losses, then immediately SHORT with a fresh streak, losing again within 20 minutes with no new evidence) -- a full direction reversal right now needs to wait out this cooldown like any other repeat.",
+    "agent_reason": "Brent oil is currently oversold with an RSI of 25.4, indicating a potential rebound. Despite the bearish trend with SMA-20 below SMA-50, the oversold condition presents a mean-reversion opportunity. Recent commentary suggests a bearish sentiment, but the oversold technicals provide a strong case for a short-term bounce.",
+    "logged_at": "2026-09-29T16:33:30.107166+00:00"
+  },
+  {
     "action": "OPEN_SHORT",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
@@ -2758,83 +2774,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-28T20:43:30.407414+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "GOLD",
-    "deal_id": "DIAAAAR8UCCB5AG",
-    "old_limit_level": 3951.4077,
-    "new_limit_level": 3951.2981,
-    "old_stop_level": 4126.1877,
-    "new_stop_level": 4126.1877,
-    "reason": "Trailing-stop reconciliation (floor 0.2%, arm 1.2%, gap 0.1% once armed, continuous not stepped, per-instrument as of Plan B) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-28T20:37:34.847",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDGOLD.DBI.IP",
-      "expiry": "-",
-      "dealReference": "T4H6ANP3C6WTYNV",
-      "dealId": "DIAAAAR8UCCB5AG",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR8UCCB5AG",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 4124.54,
-      "size": 2.92,
-      "direction": "SELL",
-      "stopLevel": 4126.1875,
-      "limitLevel": 3951.298,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-28T20:37:35.043783+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "GOLD",
-    "deal_id": "DIAAAAR8UCCB5AG",
-    "old_limit_level": 3952.6988,
-    "new_limit_level": 3951.4077,
-    "old_stop_level": 4126.1877,
-    "new_stop_level": 4126.1877,
-    "reason": "Trailing-stop reconciliation (floor 0.2%, arm 1.2%, gap 0.1% once armed, continuous not stepped, per-instrument as of Plan B) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-28T20:35:42.093",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDGOLD.DBI.IP",
-      "expiry": "-",
-      "dealReference": "WKH3NA8FSGWTYNV",
-      "dealId": "DIAAAAR8UCCB5AG",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR8UCCB5AG",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 4124.54,
-      "size": 2.92,
-      "direction": "SELL",
-      "stopLevel": 4126.1875,
-      "limitLevel": 3951.4077,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-28T20:35:42.393581+00:00"
   }
 ]
