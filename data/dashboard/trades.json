@@ -1,5 +1,21 @@
 [
   {
+    "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 3.05 vs 30-min SMA 3.0607, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Natural gas is oversold with an RSI of 26.1, indicating a potential rebound. The market is in contango, suggesting ample supply, but the oversold condition presents a mean-reversion opportunity. Recent inventory data shows a larger-than-typical build, but the technical oversold condition suggests a potential short-term bounce.",
+    "logged_at": "2026-09-29T13:33:15.317341+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Any-direction circuit breaker: BRENT_OIL has lost 3 times in a row REGARDLESS OF DIRECTION (most recently 145 min ago) -- blocked for 480 min in EITHER direction. This exists because the same-direction breaker alone can be escaped by simply flipping sides (a real 2026-09-28 BRENT_OIL incident: 2 consecutive LONG losses, then immediately SHORT with a fresh streak, losing again within 20 minutes with no new evidence) -- a full direction reversal right now needs to wait out this cooldown like any other repeat.",
+    "agent_reason": "Brent oil is currently oversold with an RSI of 27.2, indicating a potential rebound. Despite the recent bearish trend, the oversold condition presents a mean-reversion opportunity. The term structure is flat, suggesting no immediate supply-demand imbalances, and recent news indicates potential supply increases from Saudi Arabia, which could stabilize prices.",
+    "logged_at": "2026-09-29T13:33:15.252495+00:00"
+  },
+  {
     "action": "OPEN_SHORT",
     "instrument": "GOLD",
     "status": "REJECTED",
@@ -3069,25 +3085,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-28T20:03:34.021867+00:00"
-  },
-  {
-    "action": "BROKER_CLOSE",
-    "instrument": "SILVER",
-    "deal_id": "DIAAAAR8UCQS3AD",
-    "original_direction": "SELL",
-    "estimated_pnl": -6.24,
-    "status": "detected",
-    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-09-28T20:03:31.945034+00:00"
-  },
-  {
-    "action": "BROKER_CLOSE",
-    "instrument": "NATURAL_GAS",
-    "deal_id": "DIAAAAR8UDMETA4",
-    "original_direction": "SELL",
-    "estimated_pnl": -11.4,
-    "status": "detected",
-    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-09-28T20:03:31.944691+00:00"
   }
 ]
