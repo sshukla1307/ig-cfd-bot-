@@ -1,5 +1,44 @@
 [
   {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "GOLD",
+    "deal_id": "DIAAAAR83C6B4AE",
+    "old_limit_level": 4349.0639,
+    "new_limit_level": 4350.8063,
+    "old_stop_level": 4169.9093,
+    "new_stop_level": 4169.9093,
+    "reason": "Trailing-stop reconciliation (floor 1.6%, arm 0.6%, gap 0.1% once armed, continuous not stepped, Plan A active) -- amending both on IG directly (both always sent together, see incident note above).",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-09-29T22:04:06.606",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDGOLD.DBI.IP",
+      "expiry": "-",
+      "dealReference": "QAMRN6E3D32TYNV",
+      "dealId": "DIAAAAR83C6B4AE",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR83C6B4AE",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 4183.18,
+      "size": 2.24,
+      "direction": "BUY",
+      "stopLevel": 4169.909,
+      "limitLevel": 4350.806,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-29T22:04:06.883358+00:00"
+  },
+  {
     "action": "OPEN_LONG",
     "instrument": "GOLD",
     "direction": "BUY",
@@ -3622,44 +3661,5 @@
     "status": "detected",
     "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
     "logged_at": "2026-09-29T06:09:40.109423+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "GOLD",
-    "deal_id": "DIAAAAR8V3QVJAF",
-    "old_limit_level": 3977.3856,
-    "new_limit_level": 3976.0071,
-    "old_stop_level": 4144.7596,
-    "new_stop_level": 4144.7596,
-    "reason": "Trailing-stop reconciliation (floor 0.2%, arm 1.2%, gap 0.1% once armed, continuous not stepped, per-instrument as of Plan B) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-29T06:07:35.785",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDGOLD.DBI.IP",
-      "expiry": "-",
-      "dealReference": "2PYU9F9U5RWTYNV",
-      "dealId": "DIAAAAR8V3QVJAF",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR8V3QVJAF",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 4143.11,
-      "size": 2.88,
-      "direction": "SELL",
-      "stopLevel": 4144.76,
-      "limitLevel": 3976.007,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-29T06:07:35.916121+00:00"
   }
 ]
