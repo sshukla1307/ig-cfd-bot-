@@ -3,6 +3,14 @@
     "action": "OPEN_LONG",
     "instrument": "GOLD",
     "status": "REJECTED",
+    "reason": "Consecutive-loss circuit breaker: GOLD has lost 2 times in a row going BUY (most recently 17 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
+    "agent_reason": "Hourly uptrend intact: price 4202.7 above SMA20 (4198.7) and SMA50 (4185.8), bullishly stacked; RSI 50.3 neutral with room to run, not overbought. Backtest strongly favors Gold trend-following (+38% net, 51% win). News flow shows gold pressured by high yields/firm USD but rebounding from 7-week low as oil rally partly offsets -- a two-sided but not bearish-extreme setup, and positioning (74.5th pctile) is not crowded enough to fade. Sizing moderate given last few Gold longs were choppy (mixed P&L) -- staying with the validated trend-following default rather than flip-flopping.",
+    "logged_at": "2026-09-30T05:34:59.427040+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "GOLD",
+    "status": "REJECTED",
     "reason": "Consecutive-loss circuit breaker: GOLD has lost 2 times in a row going BUY (most recently 15 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
     "agent_reason": "Gold hourly uptrend intact: price 4203 above both SMA20 (4198.5) and SMA50 (4185.7), which are bullishly stacked. RSI 50.5 neutral -- healthy room to run, not overbought. Positioning is only at 74.5th percentile of trailing year (not an extreme crowding signal), so no strong contrarian reason to fade. Backtest strongly favors Gold trend-following (+38% net, 51% win). Prior repeated GOLD longs on similar setups have been a mixed bag intraday but thesis (trend-following edge) remains statistically sound; treating this as a fresh entry with full 12h horizon to let it play out rather than a repeat of a failed short-term flip.",
     "logged_at": "2026-09-30T05:32:32.246417+00:00"
@@ -4655,15 +4663,5 @@
     "reason": "Second opinion objected: VERDICT: OBJECT This trade repeats the exact same thesis (nearly word-for-word) as a recent losing SHORT on BRENT_OIL with no acknowledgment of that loss, and no price confirmation data is available to validate continuation of the thesis.",
     "agent_reason": "Brent oil is currently trading below both its 20 and 50-hour SMAs, indicating a bearish trend. The RSI is neutral, and the term structure is flat, suggesting no immediate supply-demand imbalances. Additionally, geopolitical tensions and recent news suggest potential supply increases from Saudi Arabia, which could pressure prices further.",
     "logged_at": "2026-09-29T10:34:50.616271+00:00"
-  },
-  {
-    "action": "BROKER_CLOSE",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR8XF6AKAY",
-    "original_direction": "SELL",
-    "estimated_pnl": -5.88,
-    "status": "detected",
-    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-09-29T10:34:10.176464+00:00"
   }
 ]
