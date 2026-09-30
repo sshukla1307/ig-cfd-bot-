@@ -2,6 +2,49 @@
   {
     "action": "OPEN_LONG",
     "instrument": "GOLD",
+    "direction": "BUY",
+    "size": 2.4,
+    "margin_allocated": 2008.62,
+    "effective_leverage": 5.0,
+    "notional": 10085.95,
+    "stop_distance": 13.3908,
+    "limit_distance": 167.385,
+    "confluence_detail": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for GOLD this tick -- a technical read or a generic news search alone can't open a position",
+    "reason": "Hourly uptrend intact: price 4230.9 above SMA20 (4205.2) and SMA50 (4185.6), bullishly stacked, fresh highs on last several bars. RSI 76.8 overbought but backtest strongly favors Gold trend-following (+38% net, 51% win) over fading RSI (+7% weak). CNBC/Morgan Stanley commentary today reiterates structural bullish case (rate risk, central bank buying) even after a brief pullback -- no reversal signal in price action. Positioning at 74.5th percentile, not an extreme crowding warning yet. Sizing at 22% given RSI extremity adds some mean-reversion risk despite trend confirmation.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR85XGR3AQ",
+    "raw": {
+      "date": "2026-09-30T08:39:15.352",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDGOLD.DBI.IP",
+      "expiry": "-",
+      "dealReference": "X6DAGFHW3METYNV",
+      "dealId": "DIAAAAR85XGR3AQ",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR85XGR3AQ",
+          "status": "OPENED"
+        }
+      ],
+      "level": 4202.19,
+      "size": 2.4,
+      "direction": "BUY",
+      "stopLevel": 4188.7993,
+      "limitLevel": 4369.575,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-30T08:39:15.538575+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "GOLD",
     "status": "REJECTED",
     "reason": "Consecutive-loss circuit breaker: GOLD has lost 2 times in a row going BUY (most recently 195 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
     "agent_reason": "Gold in a confirmed hourly uptrend: price 4232.6 above both SMA20 (4205.3) and SMA50 (4185.6), which are bullishly stacked. RSI 77.2 is overbought but per backtest Gold is a trend-following instrument (+38% net, 51% win) where fading RSI loses -- default to trend, not fade. Positioning data shows managed-money net long at 74.5th percentile, elevated but not an extreme crowding signal that would override trend. Macro backdrop: 10Y yield spiked to ~24yr highs yet gold is still pushing higher alongside softer labor data -- real safe-haven/rate-cut-expectation bid, a genuine catalyst not yet fully priced by lagging indicators. Sizing at top of band given strong trend + macro confluence.",
@@ -4651,13 +4694,5 @@
     "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 96.43 vs 30-min SMA 96.7267, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
     "agent_reason": "Brent oil is currently oversold with an RSI of 29.4, indicating a potential rebound. The SMA-20 is below the SMA-50, suggesting a short-term bearish trend, but the oversold condition presents a mean-reversion opportunity. Additionally, geopolitical tensions and potential supply disruptions could support a price increase.",
     "logged_at": "2026-09-29T12:03:06.259813+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "GOLD",
-    "status": "REJECTED",
-    "reason": "Second opinion objected: VERDICT: OBJECT \u2014 The trade repeats the same bearish thesis as multiple recent losing GOLD shorts without acknowledging that history, and price has moved against the thesis since the last trade.",
-    "agent_reason": "Gold is showing a bearish trend with SMA-20 below SMA-50 and an overbought RSI of 75.1. Rising Treasury yields and expectations of higher Fed rates are weighing on gold prices. The positioning data shows no extreme crowding, allowing for further downside potential.",
-    "logged_at": "2026-09-29T11:32:45.564307+00:00"
   }
 ]
