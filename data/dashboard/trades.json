@@ -1,5 +1,15 @@
 [
   {
+    "action": "BROKER_CLOSE",
+    "instrument": "BRENT_OIL",
+    "deal_id": "DIAAAAR8927BVBC",
+    "original_direction": "BUY",
+    "estimated_pnl": -19.37,
+    "status": "detected",
+    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
+    "logged_at": "2026-09-30T18:30:26.955965+00:00"
+  },
+  {
     "action": "MARGIN_EXIT_SYNC",
     "instrument": "BRENT_OIL",
     "deal_id": "DIAAAAR8927BVBC",
@@ -6201,44 +6211,5 @@
     "status": "detected",
     "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
     "logged_at": "2026-09-30T05:17:36.816156+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "GOLD",
-    "deal_id": "DIAAAAR84DKRGA9",
-    "old_limit_level": 4349.692,
-    "new_limit_level": 4350.971,
-    "old_stop_level": 4168.2268,
-    "new_stop_level": 4168.2268,
-    "reason": "Trailing-stop reconciliation (floor 1.6%, arm 0.6%, gap 0.1% once armed, continuous not stepped, Plan A active) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-30T04:42:19.372",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDGOLD.DBI.IP",
-      "expiry": "-",
-      "dealReference": "DVNDASLLMTSTYNV",
-      "dealId": "DIAAAAR84DKRGA9",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR84DKRGA9",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 4181.56,
-      "size": 2.76,
-      "direction": "BUY",
-      "stopLevel": 4168.2266,
-      "limitLevel": 4350.971,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-30T04:42:19.518507+00:00"
   }
 ]
