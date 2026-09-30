@@ -1,5 +1,44 @@
 [
   {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "GOLD",
+    "deal_id": "DIAAAAR83YHHTBA",
+    "old_limit_level": 4337.6942,
+    "new_limit_level": 4336.5612,
+    "old_stop_level": 4156.0985,
+    "new_stop_level": 4156.2074,
+    "reason": "Trailing-stop reconciliation (floor 1.6%, arm 0.6%, gap 0.1% once armed, continuous not stepped, Plan A active) -- amending both on IG directly (both always sent together, see incident note above).",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-09-30T01:25:36.228",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDGOLD.DBI.IP",
+      "expiry": "-",
+      "dealReference": "QRNRQL5NTKWTYNV",
+      "dealId": "DIAAAAR83YHHTBA",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR83YHHTBA",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 4169.55,
+      "size": 2.4,
+      "direction": "BUY",
+      "stopLevel": 4156.2075,
+      "limitLevel": 4336.561,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-30T01:25:36.369473+00:00"
+  },
+  {
     "action": "OPEN_LONG",
     "instrument": "GOLD",
     "direction": "BUY",
@@ -4130,13 +4169,5 @@
     "reason": "Second opinion objected: VERDICT: OBJECT \u2014 This reasoning is nearly identical (SMA-20<SMA-50, neutral RSI, rising yields/Fed hikes) to multiple recent SHORT trades on GOLD that closed at a loss, with no acknowledgment of that history or explanation of what's different now.",
     "agent_reason": "Gold is in a short-term bearish trend with SMA-20 below SMA-50 and a neutral RSI. Rising bond yields and expectations of higher Fed rates are weighing on gold prices. The macro environment is unfavorable for non-yielding assets like gold.",
     "logged_at": "2026-09-29T07:47:23.866773+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Second opinion objected: VERDICT: OBJECT\n\nThis is the same bearish contango/SMA-crossover/inventory-build thesis repeated verbatim from multiple recent losing SELL trades on NATURAL_GAS, with no acknowledgment of that losing history or explanation of what's different now.",
-    "agent_reason": "Natural Gas is in a short-term bearish trend with SMA-20 below SMA-50 and a neutral RSI. The term structure is in contango, indicating ample supply, and the recent inventory data shows a larger-than-typical build. These factors support a bearish outlook.",
-    "logged_at": "2026-09-29T07:47:21.030952+00:00"
   }
 ]
