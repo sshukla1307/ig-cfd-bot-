@@ -1,5 +1,44 @@
 [
   {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "BRENT_OIL",
+    "deal_id": "DIAAAAR8927BVBC",
+    "old_limit_level": 10221.1486,
+    "new_limit_level": 10227.4503,
+    "old_stop_level": 9792.3638,
+    "new_stop_level": 9792.3638,
+    "reason": "Trailing-stop reconciliation (floor 1.6%, arm 0.6%, gap 0.1% once armed, continuous not stepped, Plan A active) -- amending both on IG directly (both always sent together, see incident note above).",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-09-30T17:55:44.694",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "8LGCFQ3JV86TYNV",
+      "dealId": "DIAAAAR8927BVBC",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR8927BVBC",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 9823.8,
+      "size": 1.16,
+      "direction": "BUY",
+      "stopLevel": 9792.364,
+      "limitLevel": 10227.45,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-30T17:55:44.923079+00:00"
+  },
+  {
     "action": "BROKER_CLOSE",
     "instrument": "WTI_OIL",
     "deal_id": "DIAAAAR892PN4AQ",
@@ -6201,44 +6240,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-30T04:42:19.518507+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "GOLD",
-    "deal_id": "DIAAAAR84DKRGA9",
-    "old_limit_level": 4348.8224,
-    "new_limit_level": 4349.692,
-    "old_stop_level": 4168.2268,
-    "new_stop_level": 4168.2268,
-    "reason": "Trailing-stop reconciliation (floor 1.6%, arm 0.6%, gap 0.1% once armed, continuous not stepped, Plan A active) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-30T04:39:25.818",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDGOLD.DBI.IP",
-      "expiry": "-",
-      "dealReference": "9MASRPX6JN2TYNV",
-      "dealId": "DIAAAAR84DKRGA9",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR84DKRGA9",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 4181.56,
-      "size": 2.76,
-      "direction": "BUY",
-      "stopLevel": 4168.2266,
-      "limitLevel": 4349.692,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-30T04:39:26.061032+00:00"
   }
 ]
