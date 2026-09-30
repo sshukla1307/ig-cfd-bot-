@@ -1,5 +1,11 @@
 [
   {
+    "action": "AGENT_CALL_FAILED",
+    "status": "ERROR",
+    "reason": "Agent responded without ever calling propose_trades (hit max tool calls or returned nothing)",
+    "logged_at": "2026-09-30T19:32:25.518935+00:00"
+  },
+  {
     "action": "BROKER_CLOSE",
     "instrument": "BRENT_OIL",
     "deal_id": "DIAAAAR8927BVBC",
@@ -6201,15 +6207,5 @@
     "reason": "Consecutive-loss circuit breaker: GOLD has lost 2 times in a row going BUY (most recently 1 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
     "agent_reason": "Hourly uptrend intact: price 4211.5 above both SMA20 (4199.2) and SMA50 (4185.9), which are bullishly stacked (SMA20>SMA50). RSI 55, healthy momentum not yet overbought -- room to run. Positioning at 74.5th percentile is elevated but not extreme crowding. Backtest strongly favors Gold trend-following (+38% net, 51% win). Prior five GOLD longs on similar setups were mixed but the trend structure remains intact and this is a fresh higher-high/higher-low structure post-pullback (bounced off 4198 back to 4211), not a stale re-entry.",
     "logged_at": "2026-09-30T05:18:10.559141+00:00"
-  },
-  {
-    "action": "BROKER_CLOSE",
-    "instrument": "GOLD",
-    "deal_id": "DIAAAAR84DKRGA9",
-    "original_direction": "BUY",
-    "estimated_pnl": -2.26,
-    "status": "detected",
-    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-09-30T05:17:36.816156+00:00"
   }
 ]
