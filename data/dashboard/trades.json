@@ -1,5 +1,58 @@
 [
   {
+    "action": "OPEN_LONG",
+    "instrument": "GOLD",
+    "direction": "BUY",
+    "size": 2.4,
+    "margin_allocated": 2017.73,
+    "effective_leverage": 5.0,
+    "notional": 10008.43,
+    "stop_distance": 13.4515,
+    "limit_distance": 168.1442,
+    "confluence_detail": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for GOLD this tick -- a technical read or a generic news search alone can't open a position",
+    "reason": "Gold hourly uptrend confirmed: SMA20 (4191) crossed above/holding at SMA50 (4191), price 4204.5 above both, RSI 58.8 healthy bullish momentum (not yet overbought, room to run). Backtest strongly favors trend-following on Gold (+38% net, 51% win). CFTC positioning at 74.5th percentile -- elevated but not extreme, no contrarian red flag. Prior long today got stopped on a shallow pullback; price has since reclaimed both SMAs cleanly, a fresh, cleaner trend-confirmation entry rather than repeating the same losing setup.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR83YHHTBA",
+    "raw": {
+      "date": "2026-09-30T01:24:01.674",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDGOLD.DBI.IP",
+      "expiry": "-",
+      "dealReference": "PRVRT8EYRDWTYNV",
+      "dealId": "DIAAAAR83YHHTBA",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR83YHHTBA",
+          "status": "OPENED"
+        }
+      ],
+      "level": 4169.55,
+      "size": 2.4,
+      "direction": "BUY",
+      "stopLevel": 4156.0986,
+      "limitLevel": 4337.6943,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-30T01:24:01.831104+00:00"
+  },
+  {
+    "action": "BROKER_CLOSE",
+    "instrument": "GOLD",
+    "deal_id": "DIAAAAR83C6B4AE",
+    "original_direction": "BUY",
+    "estimated_pnl": -9.45,
+    "status": "detected",
+    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
+    "logged_at": "2026-09-30T01:23:39.003611+00:00"
+  },
+  {
     "action": "AGENT_CALL_FAILED",
     "status": "ERROR",
     "reason": "Agent responded without ever calling propose_trades (hit max tool calls or returned nothing)",
@@ -24,6 +77,52 @@
     "status": "detected",
     "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
     "logged_at": "2026-09-30T01:04:39.374558+00:00"
+  },
+  {
+    "action": "ORPHANED_WTI_CLEANUP",
+    "instrument": "WTI_OIL",
+    "deal_id": "DIAAAAR83RX85AK",
+    "original_direction": "SELL",
+    "reason": "WTI_OIL was open with no corresponding BRENT_OIL position -- WTI is a pure mirror and should never be open on its own (Brent likely closed via its own native stop/limit, WTI's own trailing-stop timeout fired independently, or this predates the mirroring feature). Closing it automatically so Brent can trade again.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-09-30T01:03:22.09",
+      "status": "CLOSED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "XT227LQEENNTYNV",
+      "dealId": "DIAAAAR83RX85AK",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR83RX85AK",
+          "status": "FULLY_CLOSED"
+        }
+      ],
+      "level": 8874.9,
+      "size": 1.16,
+      "direction": "BUY",
+      "stopLevel": null,
+      "limitLevel": null,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": -21.69,
+      "profitCurrency": "USD"
+    },
+    "logged_at": "2026-09-30T01:03:22.360997+00:00"
+  },
+  {
+    "action": "BROKER_CLOSE",
+    "instrument": "BRENT_OIL",
+    "deal_id": "DIAAAAR83RCVRAX",
+    "original_direction": "SELL",
+    "estimated_pnl": -5.08,
+    "status": "detected",
+    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
+    "logged_at": "2026-09-30T01:03:21.199956+00:00"
   },
   {
     "action": "MARGIN_EXIT_SYNC",
@@ -4039,37 +4138,5 @@
     "reason": "Second opinion objected: VERDICT: OBJECT\n\nThis is the same bearish contango/SMA-crossover/inventory-build thesis repeated verbatim from multiple recent losing SELL trades on NATURAL_GAS, with no acknowledgment of that losing history or explanation of what's different now.",
     "agent_reason": "Natural Gas is in a short-term bearish trend with SMA-20 below SMA-50 and a neutral RSI. The term structure is in contango, indicating ample supply, and the recent inventory data shows a larger-than-typical build. These factors support a bearish outlook.",
     "logged_at": "2026-09-29T07:47:21.030952+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Second opinion objected: VERDICT: OBJECT\n\nThis trade repeats the same bearish thesis (SMA-20<SMA-50, Saudi supply increases, geopolitical tensions, inventory build) as multiple recent SELL trades on BRENT_OIL that lost money (including a -23.28 loss), with no acknowledgment of that history or explanation of what's different now.",
-    "agent_reason": "Brent oil is showing a short-term bearish trend with SMA-20 below SMA-50. The term structure is flat, indicating no strong forward demand. Recent news suggests geopolitical tensions and potential supply increases from Saudi Arabia, which could pressure prices further. Additionally, the inventory data shows a build, supporting a bearish outlook.",
-    "logged_at": "2026-09-29T07:47:19.499273+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "GOLD",
-    "status": "REJECTED",
-    "reason": "Second opinion objected: VERDICT: OBJECT\n\nThe proposed trade repeats the same bearish thesis (SMA-20 below SMA-50, neutral RSI, rising yields/Fed rate expectations pressuring gold) as multiple recent SELL trades on GOLD, several of which lost money (-2.37, -1.49, -0.12), with no acknowledgment of that history or explanation of what's different now.",
-    "agent_reason": "Gold is in a short-term bearish trend with SMA-20 below SMA-50 and a neutral RSI. Rising bond yields and expectations of higher Fed rates are weighing on gold prices. Market commentary highlights the pressure from higher Treasury yields, supporting a short position.",
-    "logged_at": "2026-09-29T07:37:21.525750+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Second opinion objected: VERDICT: OBJECT \u2014 This is essentially the same bearish contango/SMA-crossover/inventory-build thesis as multiple recent losing SELL trades on NATURAL_GAS, with no acknowledgment of that history or explanation of what's different now.",
-    "agent_reason": "Natural Gas is in a short-term bearish trend with SMA-20 below SMA-50 and a neutral RSI. The term structure is in contango, indicating ample supply, and recent inventory data shows a larger-than-typical build. These factors support a short position.",
-    "logged_at": "2026-09-29T07:37:18.107847+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Second opinion objected: VERDICT: OBJECT\n\nThis trade's reasoning is nearly verbatim identical to the 2026-09-29T05:21:42 SELL trade (same \"inventory build,\" \"ultra-bullish positioning constraint\" thesis) which lost -23.28, and there is no acknowledgment of that prior loss or explanation of what's different now.",
-    "agent_reason": "Brent oil is showing a short-term bearish trend with SMA-20 below SMA-50. The RSI is neutral, and recent inventory data shows a build, indicating potential supply pressure. Market commentary suggests that the oil price rally is constrained by ultra-bullish positioning, and geopolitical tensions are adding uncertainty. These factors support a short position.",
-    "logged_at": "2026-09-29T07:37:14.991889+00:00"
   }
 ]
