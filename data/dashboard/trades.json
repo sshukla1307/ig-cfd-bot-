@@ -1,5 +1,44 @@
 [
   {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "GOLD",
+    "deal_id": "DIAAAAR85XGR3AQ",
+    "old_limit_level": 4369.575,
+    "new_limit_level": 4370.2776,
+    "old_stop_level": 4188.7992,
+    "new_stop_level": 4188.7992,
+    "reason": "Trailing-stop reconciliation (floor 1.6%, arm 0.6%, gap 0.1% once armed, continuous not stepped, Plan A active) -- amending both on IG directly (both always sent together, see incident note above).",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-09-30T08:41:48.767",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDGOLD.DBI.IP",
+      "expiry": "-",
+      "dealReference": "8RHTZQQU6D2TYNV",
+      "dealId": "DIAAAAR85XGR3AQ",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR85XGR3AQ",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 4202.19,
+      "size": 2.4,
+      "direction": "BUY",
+      "stopLevel": 4188.7993,
+      "limitLevel": 4370.278,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-30T08:41:48.937694+00:00"
+  },
+  {
     "action": "OPEN_LONG",
     "instrument": "GOLD",
     "direction": "BUY",
@@ -4686,13 +4725,5 @@
     "status": "approved",
     "reason": "VERDICT: APPROVE \u2014 Same thesis repeated, but price action since the last trade has moved with the short thesis, so this isn't the stuck-thesis failure mode.",
     "logged_at": "2026-09-29T12:03:08.914023+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 96.43 vs 30-min SMA 96.7267, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Brent oil is currently oversold with an RSI of 29.4, indicating a potential rebound. The SMA-20 is below the SMA-50, suggesting a short-term bearish trend, but the oversold condition presents a mean-reversion opportunity. Additionally, geopolitical tensions and potential supply disruptions could support a price increase.",
-    "logged_at": "2026-09-29T12:03:06.259813+00:00"
   }
 ]
