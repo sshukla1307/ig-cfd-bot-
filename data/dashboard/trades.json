@@ -1,5 +1,15 @@
 [
   {
+    "action": "BROKER_CLOSE",
+    "instrument": "BRENT_OIL",
+    "deal_id": "DIAAAAR827TR8BA",
+    "original_direction": "SELL",
+    "estimated_pnl": -4.43,
+    "status": "detected",
+    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
+    "logged_at": "2026-09-30T00:03:45.607715+00:00"
+  },
+  {
     "action": "MARGIN_EXIT_SYNC",
     "instrument": "GOLD",
     "deal_id": "DIAAAAR83C6B4AE",
@@ -3773,13 +3783,5 @@
     "reason": "Second opinion objected: VERDICT: OBJECT\n\nThis trade repeats the same \"bearish SMA crossover + Saudi supply increase\" thesis used in multiple recent SHORT trades on BRENT_OIL that mostly lost (including a -23.28 loss), without acknowledging that history or explaining why this time is different.",
     "agent_reason": "Brent oil is showing a short-term bearish trend with SMA-20 below SMA-50. The term structure is flat, indicating no strong forward demand. Recent news suggests geopolitical tensions and potential supply increases from Saudi Arabia, which could pressure prices further.",
     "logged_at": "2026-09-29T06:32:27.664829+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "GOLD",
-    "status": "REJECTED",
-    "reason": "Second opinion objected: VERDICT: OBJECT\n\nThis is the same \"SMA-20 below SMA-50, rising yields/Fed hikes\" bearish thesis repeated verbatim from multiple recent trades, several of which lost, with no acknowledgment of that history or explanation of what's different now.",
-    "agent_reason": "Gold is in a short-term bearish trend with SMA-20 below SMA-50. Rising bond yields and expectations of higher Fed rates are weighing on gold prices. These factors support a short position.",
-    "logged_at": "2026-09-29T06:30:16.616851+00:00"
   }
 ]
