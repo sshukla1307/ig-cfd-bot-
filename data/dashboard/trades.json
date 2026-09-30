@@ -1,6 +1,16 @@
 [
   {
     "action": "BROKER_CLOSE",
+    "instrument": "GOLD",
+    "deal_id": "DIAAAAR87N3HVBB",
+    "original_direction": "BUY",
+    "estimated_pnl": -27.66,
+    "status": "detected",
+    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
+    "logged_at": "2026-09-30T13:19:47.134687+00:00"
+  },
+  {
+    "action": "BROKER_CLOSE",
     "instrument": "BRENT_OIL",
     "deal_id": "DIAAAAR87PD4DAS",
     "original_direction": "BUY",
@@ -6142,44 +6152,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-29T20:39:37.720618+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "GOLD",
-    "deal_id": "DIAAAAR82XCZBAB",
-    "old_limit_level": 4345.4433,
-    "new_limit_level": 4345.9614,
-    "old_stop_level": 4177.57,
-    "new_stop_level": 4178.09,
-    "reason": "Trailing-stop reconciliation (floor 1.6%, arm 0.6%, gap 0.1% once armed, continuous not stepped, Plan A active) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-29T20:37:35.98",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDGOLD.DBI.IP",
-      "expiry": "-",
-      "dealReference": "GF4B48LLHKNTYNV",
-      "dealId": "DIAAAAR82XCZBAB",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR82XCZBAB",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 4171.81,
-      "size": 2.76,
-      "direction": "BUY",
-      "stopLevel": 4178.09,
-      "limitLevel": 4345.9614,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-29T20:37:36.209616+00:00"
   }
 ]
