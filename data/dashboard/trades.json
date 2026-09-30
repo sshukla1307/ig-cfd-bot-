@@ -1,5 +1,11 @@
 [
   {
+    "action": "AGENT_CALL_FAILED",
+    "status": "ERROR",
+    "reason": "Agent responded without ever calling propose_trades (hit max tool calls or returned nothing)",
+    "logged_at": "2026-09-30T15:03:32.877726+00:00"
+  },
+  {
     "action": "BROKER_CLOSE",
     "instrument": "BRENT_OIL",
     "deal_id": "DIAAAAR88FYP5AV",
@@ -6186,15 +6192,5 @@
       "profitCurrency": "USD"
     },
     "logged_at": "2026-09-30T01:03:22.360997+00:00"
-  },
-  {
-    "action": "BROKER_CLOSE",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR83RCVRAX",
-    "original_direction": "SELL",
-    "estimated_pnl": -5.08,
-    "status": "detected",
-    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-09-30T01:03:21.199956+00:00"
   }
 ]
