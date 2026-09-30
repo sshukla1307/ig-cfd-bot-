@@ -487,7 +487,9 @@ PLANS = {
         # (0.10%) unchanged.
         "gap": 0.10,
         "profit_take_pct_of_balance": 1.2,
-        "momentum_filtered_instruments": {"NATURAL_GAS", "BRENT_OIL"},
+        "momentum_filtered_instruments": set(),  # TEMPORARILY DISABLED 2026-09-30 (user's own
+        # choice, "disable ... momentum temporarily") -- was {"NATURAL_GAS", "BRENT_OIL"}. Restore
+        # that set to re-enable.
         "second_opinion_enabled": False,  # OFF in Plan A per explicit user instruction
         # (2026-09-29, "in plan a dont use a second opinion provider") -- the critic still
         # exists (agent_runner.get_second_opinion) and Plan B still runs it, this just skips

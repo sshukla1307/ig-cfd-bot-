@@ -122,19 +122,19 @@ class SystemRules:
                                                 # validated edge actually develop; the real stop/limit and
                                                 # the stop-breach backstop still protect capital
                                                 # independently of this rule the whole time.
-    max_consecutive_same_direction_losses: int = 2  # RE-ENABLED 2026-09-24 (user's own choice) --
-                                                # was disabled (999999) for a short window earlier the same
-                                                # day, alongside same_direction_cooldown_minutes and
-                                                # require_confluence, which promptly reproduced the exact
-                                                # failure pattern this exists to prevent: Brent Oil got
-                                                # re-opened LONG 5 times in ~12 minutes on essentially the
+    max_consecutive_same_direction_losses: int = 999999  # TEMPORARILY DISABLED 2026-09-30
+                                                # (user's own choice, "disable cooldown... temporarily") --
+                                                # was 2, restore to 2 to re-enable. NOTE: the last time this
+                                                # was disabled together with same_direction_cooldown_minutes
+                                                # and require_confluence (2026-09-24), it promptly reproduced
+                                                # the exact failure pattern it exists to prevent: Brent Oil
+                                                # got re-opened LONG 5 times in ~12 minutes on essentially the
                                                 # same "strong uptrend / bullish backwardation" thesis,
                                                 # losing the same ~$6.02 three times in a row (the floor,
                                                 # never even reaching the trailing stop's arm) -- an entry-
-                                                # quality problem the disabled circuit breaker would have
-                                                # caught after the 2nd loss. same_direction_cooldown_minutes
-                                                # and require_confluence remain disabled per the user's
-                                                # separate, still-standing choice; this one alone is back on.
+                                                # quality problem this circuit breaker would otherwise catch
+                                                # after the 2nd loss. Watch closely; re-enable promptly if a
+                                                # similar repeat-losing pattern shows up again.
                                                 # Originally added after a real, observed overnight incident
                                                 # (2026-09-23/24: the agent re-shorted Natural Gas 8 times in
                                                 # ~13 hours into a persistent rally, losing 7, each re-entry
@@ -150,7 +150,9 @@ class SystemRules:
                                                 # same_direction_cooldown_minutes, since the whole point is
                                                 # surviving a trend/repeating thesis that a short cooldown
                                                 # doesn't survive.
-    max_consecutive_losses_any_direction: int = 2  # ADDED 2026-09-29 after finding a real gap in
+    max_consecutive_losses_any_direction: int = 999999  # TEMPORARILY DISABLED 2026-09-30 (user's
+                                                # own choice, "disable cooldown... temporarily") -- was 2,
+                                                # restore to 2 to re-enable. ADDED 2026-09-29 after finding a real gap in
                                                 # max_consecutive_same_direction_losses above: that breaker
                                                 # resets to 0 the instant direction flips, so BRENT_OIL could
                                                 # (and did) escape it by simply switching sides -- 2026-09-28
