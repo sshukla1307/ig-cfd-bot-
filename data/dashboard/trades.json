@@ -1,5 +1,90 @@
 [
   {
+    "action": "WTI_MIRROR_OPEN",
+    "instrument": "WTI_OIL",
+    "direction": "BUY",
+    "size": 1.0,
+    "margin_allocated": 1842.94,
+    "effective_leverage": 5.0,
+    "notional": 9054.7,
+    "stop_distance": 29.487,
+    "limit_distance": 368.588,
+    "reason": "Auto-mirrored from BRENT_OIL: Brent hourly still shows strong uptrend price 98.62 above both SMA20 96.65/SMA50 97.74, fresh highs, but RSI 83 is extremely overbought and recent history here (last 5 trades on this same 'trend continuation' thesis all lost or barely broke even, e.g. -3.43, -10.5, -10.5). However genuine fresh catalyst: Reuters poll raising 2026 Brent forecasts to ~$90 on prolonged Gulf disruption, and independent price feeds show Brent trading materially higher (~103-104) than the yfinance feed's 98.62 -- sources_agree=true between SiftingIO and OilPriceAPI at ~$104, well above technicals feed, suggesting the yfinance-based technicals feed may be lagging a real supply-driven spike. Given persistent Hormuz/Saudi export disruption headlines and news confirming Brent trading near/above $100-103 today, staying long but sized at the floor (20%) given RSI extremity and recent chop losses, tight stop to respect risk.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR87YTGPBB",
+    "raw": {
+      "date": "2026-09-30T13:32:50.788",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "TCQJ7CZEYUWTYNV",
+      "dealId": "DIAAAAR87YTGPBB",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR87YTGPBB",
+          "status": "OPENED"
+        }
+      ],
+      "level": 9066.9,
+      "size": 1.0,
+      "direction": "BUY",
+      "stopLevel": 9037.413,
+      "limitLevel": 9435.488,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-30T13:32:51.057807+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "direction": "BUY",
+    "size": 0.92,
+    "margin_allocated": 1842.94,
+    "effective_leverage": 5.0,
+    "notional": 9060.16,
+    "stop_distance": 32.0511,
+    "limit_distance": 400.6391,
+    "confluence_detail": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
+    "reason": "Brent hourly still shows strong uptrend price 98.62 above both SMA20 96.65/SMA50 97.74, fresh highs, but RSI 83 is extremely overbought and recent history here (last 5 trades on this same 'trend continuation' thesis all lost or barely broke even, e.g. -3.43, -10.5, -10.5). However genuine fresh catalyst: Reuters poll raising 2026 Brent forecasts to ~$90 on prolonged Gulf disruption, and independent price feeds show Brent trading materially higher (~103-104) than the yfinance feed's 98.62 -- sources_agree=true between SiftingIO and OilPriceAPI at ~$104, well above technicals feed, suggesting the yfinance-based technicals feed may be lagging a real supply-driven spike. Given persistent Hormuz/Saudi export disruption headlines and news confirming Brent trading near/above $100-103 today, staying long but sized at the floor (20%) given RSI extremity and recent chop losses, tight stop to respect risk.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR87YLX7AQ",
+    "raw": {
+      "date": "2026-09-30T13:32:50.314",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "YLQJKDWBPYATYNV",
+      "dealId": "DIAAAAR87YLX7AQ",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR87YLX7AQ",
+          "status": "OPENED"
+        }
+      ],
+      "level": 9853.8,
+      "size": 0.92,
+      "direction": "BUY",
+      "stopLevel": 9821.749,
+      "limitLevel": 10254.439,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-30T13:32:50.599327+00:00"
+  },
+  {
     "action": "BROKER_CLOSE",
     "instrument": "GOLD",
     "deal_id": "DIAAAAR87N3HVBB",
@@ -6074,83 +6159,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-29T20:41:49.126162+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "GOLD",
-    "deal_id": "DIAAAAR82XCZBAB",
-    "old_limit_level": 4348.0918,
-    "new_limit_level": 4349.5628,
-    "old_stop_level": 4180.22,
-    "new_stop_level": 4181.69,
-    "reason": "Trailing-stop reconciliation (floor 1.6%, arm 0.6%, gap 0.1% once armed, continuous not stepped, Plan A active) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-29T20:41:48.649",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDGOLD.DBI.IP",
-      "expiry": "-",
-      "dealReference": "XQYDMJXP372TYNV",
-      "dealId": "DIAAAAR82XCZBAB",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR82XCZBAB",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 4171.81,
-      "size": 2.76,
-      "direction": "BUY",
-      "stopLevel": 4181.69,
-      "limitLevel": 4349.563,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-29T20:41:48.835573+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "GOLD",
-    "deal_id": "DIAAAAR82XCZBAB",
-    "old_limit_level": 4345.9614,
-    "new_limit_level": 4348.0918,
-    "old_stop_level": 4178.09,
-    "new_stop_level": 4180.22,
-    "reason": "Trailing-stop reconciliation (floor 1.6%, arm 0.6%, gap 0.1% once armed, continuous not stepped, Plan A active) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-29T20:39:37.559",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDGOLD.DBI.IP",
-      "expiry": "-",
-      "dealReference": "3GSPZNEHX2WTYNV",
-      "dealId": "DIAAAAR82XCZBAB",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR82XCZBAB",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 4171.81,
-      "size": 2.76,
-      "direction": "BUY",
-      "stopLevel": 4180.22,
-      "limitLevel": 4348.092,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-29T20:39:37.720618+00:00"
   }
 ]
