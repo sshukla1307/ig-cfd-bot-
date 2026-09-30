@@ -1,5 +1,122 @@
 [
   {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "GOLD",
+    "deal_id": "DIAAAAR83678WAK",
+    "old_limit_level": 4345.782,
+    "new_limit_level": 4346.3328,
+    "old_stop_level": 4164.4739,
+    "new_stop_level": 4164.4739,
+    "reason": "Trailing-stop reconciliation (floor 1.6%, arm 0.6%, gap 0.1% once armed, continuous not stepped, Plan A active) -- amending both on IG directly (both always sent together, see incident note above).",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-09-30T02:23:31.86",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDGOLD.DBI.IP",
+      "expiry": "-",
+      "dealReference": "VNUD8ZHW27ETYNV",
+      "dealId": "DIAAAAR83678WAK",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR83678WAK",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 4177.79,
+      "size": 2.76,
+      "direction": "BUY",
+      "stopLevel": 4164.474,
+      "limitLevel": 4346.333,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-30T02:23:32.046802+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "GOLD",
+    "deal_id": "DIAAAAR83678WAK",
+    "old_limit_level": 4344.9016,
+    "new_limit_level": 4345.782,
+    "old_stop_level": 4164.4739,
+    "new_stop_level": 4164.4739,
+    "reason": "Trailing-stop reconciliation (floor 1.6%, arm 0.6%, gap 0.1% once armed, continuous not stepped, Plan A active) -- amending both on IG directly (both always sent together, see incident note above).",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-09-30T02:19:17.02",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDGOLD.DBI.IP",
+      "expiry": "-",
+      "dealReference": "E9HZF6AZMLNTYNV",
+      "dealId": "DIAAAAR83678WAK",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR83678WAK",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 4177.79,
+      "size": 2.76,
+      "direction": "BUY",
+      "stopLevel": 4164.474,
+      "limitLevel": 4345.782,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-30T02:19:17.196542+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "GOLD",
+    "deal_id": "DIAAAAR83678WAK",
+    "old_limit_level": 4344.2414,
+    "new_limit_level": 4344.9016,
+    "old_stop_level": 4164.4739,
+    "new_stop_level": 4164.4739,
+    "reason": "Trailing-stop reconciliation (floor 1.6%, arm 0.6%, gap 0.1% once armed, continuous not stepped, Plan A active) -- amending both on IG directly (both always sent together, see incident note above).",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-09-30T02:13:21.11",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDGOLD.DBI.IP",
+      "expiry": "-",
+      "dealReference": "JXBJPF23UPSTYNV",
+      "dealId": "DIAAAAR83678WAK",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR83678WAK",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 4177.79,
+      "size": 2.76,
+      "direction": "BUY",
+      "stopLevel": 4164.474,
+      "limitLevel": 4344.9014,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-30T02:13:21.308601+00:00"
+  },
+  {
     "action": "OPEN_LONG",
     "instrument": "GOLD",
     "direction": "BUY",
@@ -4492,29 +4609,5 @@
     "reason": "NATURAL_GAS momentum filter: proposed OPEN_SHORT conflicts with price action over the last 30 minutes (current 3.084 vs 30-min SMA 3.083, trending up) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
     "agent_reason": "Natural Gas is in a short-term bearish trend with SMA-20 below SMA-50 and an RSI of 35.4. The term structure is in contango, indicating ample supply, and the weather demand is neutral, supporting a short position.",
     "logged_at": "2026-09-29T10:03:24.809472+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "BRENT_OIL momentum filter: proposed OPEN_SHORT conflicts with price action over the last 30 minutes (current 97.58 vs 30-min SMA 97.57, trending up) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Brent oil is showing a short-term bearish trend with SMA-20 below SMA-50 and a neutral RSI. The term structure is flat, indicating no strong forward demand. Recent market commentary suggests that geopolitical tensions and potential supply increases from Saudi Arabia could pressure prices further.",
-    "logged_at": "2026-09-29T10:03:24.750639+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Second opinion objected: VERDICT: OBJECT\nThis is the same \"contango + bearish SMA crossover + neutral weather demand\" short thesis that has already lost on this instrument multiple times in a row without acknowledging that history or explaining what's different now.",
-    "agent_reason": "Natural Gas is in a short-term bearish trend with the SMA-20 below the SMA-50 and an RSI of 37.4. The term structure is in contango, indicating ample supply, and the weather demand is neutral, supporting a bearish outlook.",
-    "logged_at": "2026-09-29T09:33:49.736308+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "BRENT_OIL momentum filter: proposed OPEN_SHORT conflicts with price action over the last 30 minutes (current 97.94 vs 30-min SMA 97.795, trending up) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Brent oil is showing a short-term bearish trend with SMA-20 below SMA-50 and a neutral RSI. The term structure is flat, indicating no strong forward demand. Recent news suggests potential supply increases from Saudi Arabia, which could pressure prices further. Additionally, geopolitical tensions are not providing enough support to counteract the bearish technicals.",
-    "logged_at": "2026-09-29T09:33:44.965968+00:00"
   }
 ]
