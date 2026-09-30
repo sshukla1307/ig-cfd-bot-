@@ -1,5 +1,136 @@
 [
   {
+    "action": "OPEN_LONG",
+    "instrument": "SILVER",
+    "status": "REJECTED",
+    "reason": "This trade's margin ($1818.89) would leave available at $2223.68, below the 30.0% safety buffer of balance $9094.43 -- rejected to avoid risking a forced closure on this or other open positions",
+    "logged_at": "2026-09-30T09:31:54.930495+00:00"
+  },
+  {
+    "action": "WTI_MIRROR_OPEN",
+    "instrument": "WTI_OIL",
+    "direction": "BUY",
+    "size": 1.28,
+    "margin_allocated": 2273.61,
+    "effective_leverage": 5.0,
+    "notional": 11448.58,
+    "stop_distance": 28.4201,
+    "limit_distance": 355.2516,
+    "reason": "Auto-mirrored from BRENT_OIL: Brent has reversed from the bearish trend that dominated the last 24h: price now 97.37, back above both SMA20 (96.41) and SMA50 (97.89 -- nearly reclaimed), RSI 63.6 showing fresh bullish momentum with a strong rally off the 95.1 low over the last several hourly bars (95.1->97.48, consecutive higher highs). Per backtest, Brent trend-following is the validated edge (+71% net, 55% win). This is a fresh long entry on the new uptrend, not a repeat of the prior shorts which were correctly following the prior downtrend that has now clearly reversed. Term structure flat (no drag), macro calm (VIX 16, no risk-off pressure against oil).",
+    "status": "submitted",
+    "deal_id": "DIAAAAR858ZGHBA",
+    "raw": {
+      "date": "2026-09-30T09:31:54.802",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "YW9Y5N9CTQSTYNV",
+      "dealId": "DIAAAAR858ZGHBA",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR858ZGHBA",
+          "status": "OPENED"
+        }
+      ],
+      "level": 8944.1,
+      "size": 1.28,
+      "direction": "BUY",
+      "stopLevel": 8915.68,
+      "limitLevel": 9299.352,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-30T09:31:54.930144+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "direction": "BUY",
+    "size": 1.16,
+    "margin_allocated": 2273.61,
+    "effective_leverage": 5.0,
+    "notional": 11231.12,
+    "stop_distance": 31.3601,
+    "limit_distance": 392.0017,
+    "confluence_detail": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
+    "reason": "Brent has reversed from the bearish trend that dominated the last 24h: price now 97.37, back above both SMA20 (96.41) and SMA50 (97.89 -- nearly reclaimed), RSI 63.6 showing fresh bullish momentum with a strong rally off the 95.1 low over the last several hourly bars (95.1->97.48, consecutive higher highs). Per backtest, Brent trend-following is the validated edge (+71% net, 55% win). This is a fresh long entry on the new uptrend, not a repeat of the prior shorts which were correctly following the prior downtrend that has now clearly reversed. Term structure flat (no drag), macro calm (VIX 16, no risk-off pressure against oil).",
+    "status": "submitted",
+    "deal_id": "DIAAAAR859AZ5AS",
+    "raw": {
+      "date": "2026-09-30T09:31:54.594",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "L9Y9VAQ5SPNTYNV",
+      "dealId": "DIAAAAR859AZ5AS",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR859AZ5AS",
+          "status": "OPENED"
+        }
+      ],
+      "level": 9682.8,
+      "size": 1.16,
+      "direction": "BUY",
+      "stopLevel": 9651.439,
+      "limitLevel": 10074.802,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-30T09:31:54.727559+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "GOLD",
+    "deal_id": "DIAAAAR855PPGA2",
+    "old_limit_level": 4356.4583,
+    "new_limit_level": 4357.936,
+    "old_stop_level": 4176.3269,
+    "new_stop_level": 4176.3269,
+    "reason": "Trailing-stop reconciliation (floor 1.6%, arm 0.6%, gap 0.1% once armed, continuous not stepped, Plan A active) -- amending both on IG directly (both always sent together, see incident note above).",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-09-30T09:15:28.308",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDGOLD.DBI.IP",
+      "expiry": "-",
+      "dealReference": "DJC6Q3W95Q6TYNV",
+      "dealId": "DIAAAAR855PPGA2",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR855PPGA2",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 4189.67,
+      "size": 2.4,
+      "direction": "BUY",
+      "stopLevel": 4176.3267,
+      "limitLevel": 4357.936,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-09-30T09:15:28.448262+00:00"
+  },
+  {
     "action": "MIRROR_ROLLBACK",
     "instrument": "BRENT_OIL",
     "reason": "WTI mirror leg failed (Insufficient margin headroom for the WTI mirror leg) -- closing Brent back out.",
@@ -4692,39 +4823,5 @@
     "status": "detected",
     "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
     "logged_at": "2026-09-29T12:16:20.433408+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "GOLD",
-    "status": "REJECTED",
-    "reason": "Second opinion objected: VERDICT: OBJECT \u2014 The reasoning cites RSI 72.8 (overbought, implying recent upward momentum) while also claiming SMA-20 below SMA-50 signals a bearish downtrend, an unresolved contradiction, and this repeats the same short thesis from multiple recent losing GOLD trades even as price has moved against the thesis since the last one.",
-    "agent_reason": "Gold is currently overbought with an RSI of 72.8, indicating a potential pullback. The SMA-20 is below the SMA-50, suggesting a short-term bearish trend. The macro environment with high Treasury yields and expectations of further Fed rate hikes is weighing on gold prices. Managed-money positioning is within a normal range, providing no extreme crowding signal.",
-    "logged_at": "2026-09-29T12:14:55.878193+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Second opinion objected: VERDICT: OBJECT \u2014 This is essentially the same short thesis (contango, bearish SMA crossover, inventory build) as multiple recent losing trades with no acknowledgment of that history, and no price confirmation data is available to validate the direction.",
-    "agent_reason": "Natural Gas is in a contango structure, indicating ample supply. The technicals show a bearish SMA crossover, and the RSI is neutral. Recent inventory data shows a larger-than-typical build, supporting a short position. The macro environment with a high dollar index also weighs on commodities.",
-    "logged_at": "2026-09-29T12:14:48.442309+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 96.14 vs 30-min SMA 96.5933, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Brent oil is currently oversold with an RSI of 24.9, indicating a potential rebound. Despite the recent bearish trend, the oversold condition presents a mean-reversion opportunity. The term structure is flat, and recent inventory data shows a build, but not larger than typical, suggesting no immediate supply-demand imbalance. The macro environment with a high dollar index and Treasury yields is a concern, but the oversold RSI is a strong signal for a potential bounce.",
-    "logged_at": "2026-09-29T12:14:45.202941+00:00"
-  },
-  {
-    "action": "BROKER_CLOSE",
-    "instrument": "NATURAL_GAS",
-    "deal_id": "DIAAAAR8XXW52AP",
-    "original_direction": "SELL",
-    "estimated_pnl": -14.88,
-    "status": "detected",
-    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-09-29T12:14:10.863887+00:00"
   }
 ]
