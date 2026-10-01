@@ -480,11 +480,23 @@ def _check_orphaned_wti_mirror(broker, positions: dict) -> list:
 # See also git tag plan-b-per-instrument-tuned-2026-09-29 for a frozen snapshot.
 PLANS = {
     "A": {
-        "floor": {"BRENT_OIL": 1.6, "WTI_OIL": 1.6, "NATURAL_GAS": 1.6, "GOLD": 1.6, "SILVER": 1.6},
-        "arm": {"BRENT_OIL": 0.6, "WTI_OIL": 0.6, "NATURAL_GAS": 0.6, "GOLD": 0.6, "SILVER": 0.6},  # lowered
-        # from 1.2 to 0.6 on 2026-09-30 per user's own choice -- positions now start trailing
-        # (locking in gains) at half the previous favorable-move threshold. Floor (1.6%) and gap
-        # (0.10%) unchanged.
+        "floor": {"BRENT_OIL": 0.8, "WTI_OIL": 0.8, "NATURAL_GAS": 0.8, "GOLD": 0.8, "SILVER": 0.8},  # lowered
+        # from 1.6 to 0.8 on 2026-10-02, and arm from 0.6 to 0.15 below -- per user's own choice,
+        # backed by two real-data simulations run this session: (1) a floor x arm grid swept
+        # against 2026-10-01's real trades (97 trades, real result -$730.68) using actual
+        # 1-minute yfinance price data through the account's own continuous-trailing mechanics --
+        # 0.8/0.15 simulated +$507.06 vs -$280.85 for the then-live 1.6/0.6, a clean monotonic
+        # surface (not a noisy spike) with arm speed mattering far more than floor width; (2) the
+        # single worst historical incident, the 2026-09-20 Brent/WTI overnight reversal (real
+        # -$1,318.29, held ~12.5h through what was then a much wider ~5%-of-margin stop) --
+        # 0.8/0.15 simulated +$15.20 on that exact trade pair, beating even the 1.6/0.6 setting's
+        # -$110.79, because the much faster arm caught a brief favorable tick right at the open
+        # and locked in a small gain before the reversal started. Both tests agreed tighter beats
+        # wider for this account's actual trade pattern -- see git history around 2026-10-02 for
+        # the full comparison across 0.8/0.6 and 1.2/0.6 (both intermediate, both still beaten by
+        # 0.8/0.15 on both tests). Caveat acknowledged: two data points, not a full multi-week
+        # 70/30 backtest -- watch closely.
+        "arm": {"BRENT_OIL": 0.15, "WTI_OIL": 0.15, "NATURAL_GAS": 0.15, "GOLD": 0.15, "SILVER": 0.15},
         "gap": 0.10,
         "profit_take_pct_of_balance": 1.2,
         "momentum_filtered_instruments": set(),  # TEMPORARILY DISABLED 2026-09-30 (user's own
