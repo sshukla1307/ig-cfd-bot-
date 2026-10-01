@@ -3,6 +3,45 @@
     "action": "MARGIN_EXIT_SYNC",
     "instrument": "BRENT_OIL",
     "deal_id": "DIAAAAR9E6V6ZAV",
+    "old_limit_level": 10426.624,
+    "new_limit_level": 10430.424,
+    "old_stop_level": 9993.9504,
+    "new_stop_level": 9993.9504,
+    "reason": "Trailing-stop reconciliation (floor 1.6%, arm 0.6%, gap 0.1% once armed, continuous not stepped, Plan A active) -- amending both on IG directly (both always sent together, see incident note above).",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-01T11:22:07.175",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "ZUTDA3HQAN2TYNV",
+      "dealId": "DIAAAAR9E6V6ZAV",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR9E6V6ZAV",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 10025.6,
+      "size": 1.0,
+      "direction": "BUY",
+      "stopLevel": 9993.95,
+      "limitLevel": 10430.424,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-01T11:22:07.380048+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "BRENT_OIL",
+    "deal_id": "DIAAAAR9E6V6ZAV",
     "old_limit_level": 10421.22,
     "new_limit_level": 10426.624,
     "old_stop_level": 9993.9504,
@@ -96,6 +135,111 @@
     "status": "detected",
     "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
     "logged_at": "2026-10-01T11:19:57.156042+00:00"
+  },
+  {
+    "action": "WTI_MIRROR_OPEN",
+    "instrument": "WTI_OIL",
+    "direction": "BUY",
+    "size": 1.08,
+    "margin_allocated": 1978.1,
+    "effective_leverage": 5.0,
+    "notional": 9881.68,
+    "stop_distance": 29.3052,
+    "limit_distance": 366.3148,
+    "reason": "Auto-mirrored from BRENT_OIL: Hourly uptrend intact and strengthening: price 100.50 above SMA20 98.46 and SMA50 97.46, bullishly stacked, RSI 66.5 healthy not extreme. Term structure in backwardation (-3.5%) confirming tight supply. Hormuz crisis/Iran war remains a live, ongoing catalyst per CNBC/oilprice.com -- Brent back above $100 on Chinese refiners banning October fuel exports, EIU expecting inventories to fall further. Trend-following is the validated Brent default (+71% backtest) and this is a continuation entry, not a fresh chase -- price action making fresh highs off the breakout with no reversion. Last 5 Brent entries were small losses from getting chopped on short holds before the thesis played out; this one is sized within the normal band and will be allowed to run toward target per house style.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR9E7HJKAS",
+    "raw": {
+      "date": "2026-10-01T11:19:09.38",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "NBKL24L4ME6TYNV",
+      "dealId": "DIAAAAR9E7HJKAS",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR9E7HJKAS",
+          "status": "OPENED"
+        }
+      ],
+      "level": 9151.8,
+      "size": 1.08,
+      "direction": "BUY",
+      "stopLevel": 9122.495,
+      "limitLevel": 9518.115,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-01T11:19:09.657277+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "direction": "BUY",
+    "size": 1.0,
+    "margin_allocated": 1978.1,
+    "effective_leverage": 5.0,
+    "notional": 10025.6,
+    "stop_distance": 31.6496,
+    "limit_distance": 395.62,
+    "confluence_detail": "get_term_structure agrees with bullish",
+    "reason": "Hourly uptrend intact and strengthening: price 100.50 above SMA20 98.46 and SMA50 97.46, bullishly stacked, RSI 66.5 healthy not extreme. Term structure in backwardation (-3.5%) confirming tight supply. Hormuz crisis/Iran war remains a live, ongoing catalyst per CNBC/oilprice.com -- Brent back above $100 on Chinese refiners banning October fuel exports, EIU expecting inventories to fall further. Trend-following is the validated Brent default (+71% backtest) and this is a continuation entry, not a fresh chase -- price action making fresh highs off the breakout with no reversion. Last 5 Brent entries were small losses from getting chopped on short holds before the thesis played out; this one is sized within the normal band and will be allowed to run toward target per house style.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR9E6V6ZAV",
+    "raw": {
+      "date": "2026-10-01T11:19:09.147",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "Y574F7YBXWETYNV",
+      "dealId": "DIAAAAR9E6V6ZAV",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR9E6V6ZAV",
+          "status": "OPENED"
+        }
+      ],
+      "level": 10025.6,
+      "size": 1.0,
+      "direction": "BUY",
+      "stopLevel": 9993.95,
+      "limitLevel": 10421.22,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-01T11:19:09.300382+00:00"
+  },
+  {
+    "action": "BROKER_CLOSE",
+    "instrument": "BRENT_OIL",
+    "deal_id": "DIAAAAR9E4DT3A5",
+    "original_direction": "BUY",
+    "estimated_pnl": 4.4,
+    "status": "detected",
+    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
+    "logged_at": "2026-10-01T11:18:08.210009+00:00"
+  },
+  {
+    "action": "BROKER_CLOSE",
+    "instrument": "WTI_OIL",
+    "deal_id": "DIAAAAR9E36GVAP",
+    "original_direction": "BUY",
+    "estimated_pnl": -1.84,
+    "status": "detected",
+    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
+    "logged_at": "2026-10-01T11:18:08.209773+00:00"
   },
   {
     "action": "MARGIN_EXIT_SYNC",
@@ -6405,178 +6549,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-30T13:40:16.558349+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR87YLX7AQ",
-    "old_limit_level": 10254.4391,
-    "new_limit_level": 10247.952,
-    "old_stop_level": 9821.7489,
-    "new_stop_level": 9822.2678,
-    "reason": "Trailing-stop reconciliation (floor 1.6%, arm 0.6%, gap 0.1% once armed, continuous not stepped, Plan A active) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-30T13:34:24.204",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "B2G962RTN66TYNV",
-      "dealId": "DIAAAAR87YLX7AQ",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR87YLX7AQ",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 9853.8,
-      "size": 0.92,
-      "direction": "BUY",
-      "stopLevel": 9822.268,
-      "limitLevel": 10247.952,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-30T13:34:24.426227+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "WTI_OIL",
-    "deal_id": "DIAAAAR87YTGPBB",
-    "old_limit_level": 9435.488,
-    "new_limit_level": 9429.576,
-    "old_stop_level": 9037.413,
-    "new_stop_level": 9037.8859,
-    "reason": "Trailing-stop reconciliation (floor 1.6%, arm 0.6%, gap 0.1% once armed, continuous not stepped, Plan A active) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-30T13:34:23.871",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "XPNSGXLKA32TYNV",
-      "dealId": "DIAAAAR87YTGPBB",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR87YTGPBB",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 9066.9,
-      "size": 1.0,
-      "direction": "BUY",
-      "stopLevel": 9037.886,
-      "limitLevel": 9429.576,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-30T13:34:24.101456+00:00"
-  },
-  {
-    "action": "WTI_MIRROR_OPEN",
-    "instrument": "WTI_OIL",
-    "direction": "BUY",
-    "size": 1.0,
-    "margin_allocated": 1842.94,
-    "effective_leverage": 5.0,
-    "notional": 9054.7,
-    "stop_distance": 29.487,
-    "limit_distance": 368.588,
-    "reason": "Auto-mirrored from BRENT_OIL: Brent hourly still shows strong uptrend price 98.62 above both SMA20 96.65/SMA50 97.74, fresh highs, but RSI 83 is extremely overbought and recent history here (last 5 trades on this same 'trend continuation' thesis all lost or barely broke even, e.g. -3.43, -10.5, -10.5). However genuine fresh catalyst: Reuters poll raising 2026 Brent forecasts to ~$90 on prolonged Gulf disruption, and independent price feeds show Brent trading materially higher (~103-104) than the yfinance feed's 98.62 -- sources_agree=true between SiftingIO and OilPriceAPI at ~$104, well above technicals feed, suggesting the yfinance-based technicals feed may be lagging a real supply-driven spike. Given persistent Hormuz/Saudi export disruption headlines and news confirming Brent trading near/above $100-103 today, staying long but sized at the floor (20%) given RSI extremity and recent chop losses, tight stop to respect risk.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR87YTGPBB",
-    "raw": {
-      "date": "2026-09-30T13:32:50.788",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "TCQJ7CZEYUWTYNV",
-      "dealId": "DIAAAAR87YTGPBB",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR87YTGPBB",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9066.9,
-      "size": 1.0,
-      "direction": "BUY",
-      "stopLevel": 9037.413,
-      "limitLevel": 9435.488,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-30T13:32:51.057807+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "direction": "BUY",
-    "size": 0.92,
-    "margin_allocated": 1842.94,
-    "effective_leverage": 5.0,
-    "notional": 9060.16,
-    "stop_distance": 32.0511,
-    "limit_distance": 400.6391,
-    "confluence_detail": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
-    "reason": "Brent hourly still shows strong uptrend price 98.62 above both SMA20 96.65/SMA50 97.74, fresh highs, but RSI 83 is extremely overbought and recent history here (last 5 trades on this same 'trend continuation' thesis all lost or barely broke even, e.g. -3.43, -10.5, -10.5). However genuine fresh catalyst: Reuters poll raising 2026 Brent forecasts to ~$90 on prolonged Gulf disruption, and independent price feeds show Brent trading materially higher (~103-104) than the yfinance feed's 98.62 -- sources_agree=true between SiftingIO and OilPriceAPI at ~$104, well above technicals feed, suggesting the yfinance-based technicals feed may be lagging a real supply-driven spike. Given persistent Hormuz/Saudi export disruption headlines and news confirming Brent trading near/above $100-103 today, staying long but sized at the floor (20%) given RSI extremity and recent chop losses, tight stop to respect risk.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR87YLX7AQ",
-    "raw": {
-      "date": "2026-09-30T13:32:50.314",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "YLQJKDWBPYATYNV",
-      "dealId": "DIAAAAR87YLX7AQ",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR87YLX7AQ",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9853.8,
-      "size": 0.92,
-      "direction": "BUY",
-      "stopLevel": 9821.749,
-      "limitLevel": 10254.439,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-30T13:32:50.599327+00:00"
-  },
-  {
-    "action": "BROKER_CLOSE",
-    "instrument": "GOLD",
-    "deal_id": "DIAAAAR87N3HVBB",
-    "original_direction": "BUY",
-    "estimated_pnl": -27.66,
-    "status": "detected",
-    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-09-30T13:19:47.134687+00:00"
   }
 ]
