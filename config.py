@@ -319,12 +319,18 @@ PERSONA_PROMPT = (
 # tuning (see cfd_runner.PLANS), the recent-trade-history injection into the
 # prompt, the any-direction consecutive-loss circuit breaker, and (new
 # 2026-09-29) an adversarial second-opinion critic on every proposed trade
-# (agent_runner.get_second_opinion) that now runs as OpenAI specifically
-# because the primary is Anthropic (see
-# agent_runner._second_opinion_client_and_model) -- so this isn't a repeat of
-# the earlier bare swap. agent_runner.py picks the primary client based on
-# this alone -- both clients still exist and are still tested.
-LLM_PROVIDER = "anthropic"  # "anthropic" or "openai"
+# (agent_runner.get_second_opinion) -- so this isn't a repeat of the earlier
+# bare swap.
+#
+# SUPERSEDED 2026-10-01 as the sole decision-maker: per explicit user
+# instruction ("For WTI, CRUDE, SPOT GOLD use openAI to make decision. For NG
+# and Silver use Claude"), the primary decision is now made PER INSTRUMENT via
+# INSTRUMENT_LLM_PROVIDER below, not by this single global value. LLM_PROVIDER
+# itself is kept only as the fallback default for an instrument that somehow
+# isn't in that mapping (agent_runner._make_llm_client / get_second_opinion's
+# fallback) -- every one of this account's 5 real instruments is explicitly
+# mapped below, so this fallback shouldn't actually be exercised in practice.
+LLM_PROVIDER = "anthropic"  # "anthropic" or "openai" -- fallback default only, see note above
 OPENAI_MODEL = "gpt-4o"
 OPENAI_RESEARCH_MODEL = "gpt-4o-mini"  # used ONLY for the intermediate tool-selection
 # turns (get_technicals/get_commodity_news/etc.) within a tick's research loop -- those
@@ -333,6 +339,36 @@ OPENAI_RESEARCH_MODEL = "gpt-4o-mini"  # used ONLY for the intermediate tool-sel
 # (see OpenAIClient.generate), so trade quality shouldn't be affected -- only the cost
 # of the research turns, which was most of a tick's token spend at 5-6 calls/tick.
 ANTHROPIC_MODEL = "claude-sonnet-5"
+
+# ADDED 2026-10-01 per explicit user instruction ("For WTI, CRUDE, SPOT GOLD use
+# openAI to make decision. For NG and Silver use Claude"). This is now what
+# actually decides the primary trade-proposal provider for each instrument,
+# not LLM_PROVIDER above. agent_runner.get_agent_trades is called ONCE PER
+# PROVIDER GROUP per tick (cfd_runner.run_cfd_tick groups INSTRUMENT_LLM_PROVIDER
+# by value), each call scoped to only its own group's instruments -- see
+# agent_runner.build_system_prompt's "YOUR SCOPE THIS CHECK-IN" section and
+# _tools_for_instruments/_propose_trades_schema_for_instruments.
+#
+# WTI_OIL maps to the SAME provider as BRENT_OIL (openai) even though WTI is
+# never given its own decision -- it's a pure mirror of whatever BRENT_OIL
+# decides (see agent_runner's WTI-mirror comments), so there's no separate
+# "WTI decision" for a provider to make; this entry exists mainly so the
+# mapping is total over every instrument in INSTRUMENTS, and so it's obvious
+# at a glance which provider effectively drives WTI's position too.
+#
+# Historical note: Anthropic was tried once before as the SOLE primary
+# decision-maker (see LLM_PROVIDER's comment above) and produced 4 losing
+# trades in a row immediately after switching. This split is a narrower bet
+# than that -- Claude only drives NATURAL_GAS and SILVER now, not the whole
+# account -- but it's still worth watching those two instruments specifically
+# for a similar pattern.
+INSTRUMENT_LLM_PROVIDER = {
+    "BRENT_OIL": "openai",
+    "WTI_OIL": "openai",     # mirrors BRENT_OIL's decision automatically, never asked independently
+    "GOLD": "openai",
+    "NATURAL_GAS": "anthropic",
+    "SILVER": "anthropic",
+}
 
 # ─────────────────────────────────────────────
 # Paths

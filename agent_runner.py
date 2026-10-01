@@ -15,8 +15,12 @@ from config import (
 from api_adapters import OpenAIClient, AnthropicClient
 
 
-def _make_llm_client():
-    if LLM_PROVIDER == "anthropic":
+def _make_llm_client(provider: str):
+    """UPDATED 2026-10-01: takes the provider explicitly instead of reading
+    config.LLM_PROVIDER -- per-instrument provider selection (see
+    config.INSTRUMENT_LLM_PROVIDER) means there is no longer one single
+    global "primary" provider for the whole account."""
+    if provider == "anthropic":
         return AnthropicClient(model=ANTHROPIC_MODEL)
     return OpenAIClient(model=OPENAI_MODEL, research_model=OPENAI_RESEARCH_MODEL)
 
@@ -200,7 +204,45 @@ PROPOSE_TRADES_SCHEMA = {
 }
 
 
-def build_system_prompt(playbook: str) -> str:
+def _tools_for_instruments(allowed_instruments: list) -> list:
+    """ADDED 2026-10-01 for per-instrument LLM provider selection (see
+    config.INSTRUMENT_LLM_PROVIDER): returns TOOLS scoped to allowed_instruments
+    -- every tool with an "instrument" enum gets that enum intersected with
+    allowed_instruments, and a tool left with an EMPTY enum after that (e.g.
+    get_weather_demand, NATURAL_GAS-only, when called for the {"BRENT_OIL",
+    "GOLD"} group) is dropped from this call's tool list entirely, since it has
+    nothing to offer this provider's assigned instruments. Tools with no
+    "instrument" parameter at all (get_commodity_news, get_macro,
+    get_named_market_commentary) are general-purpose and always included."""
+    allowed = set(allowed_instruments)
+    scoped = []
+    for tool in TOOLS:
+        instrument_prop = tool.get("parameters", {}).get("properties", {}).get("instrument")
+        if instrument_prop is None:
+            scoped.append(tool)
+            continue
+        new_enum = [i for i in instrument_prop.get("enum", []) if i in allowed]
+        if not new_enum:
+            continue
+        tool_copy = json.loads(json.dumps(tool))
+        tool_copy["parameters"]["properties"]["instrument"]["enum"] = new_enum
+        scoped.append(tool_copy)
+    return scoped
+
+
+def _propose_trades_schema_for_instruments(allowed_instruments: list) -> dict:
+    """ADDED 2026-10-01, same purpose as _tools_for_instruments above --
+    restricts propose_trades' own "instrument" enum so a provider literally
+    cannot select an instrument outside its assigned scope via the tool
+    schema itself (get_agent_trades also double-checks this in code after
+    the call returns, since a schema enum is a strong hint, not a guarantee,
+    for every provider's tool-calling implementation)."""
+    schema = json.loads(json.dumps(PROPOSE_TRADES_SCHEMA))
+    schema["parameters"]["properties"]["trades"]["items"]["properties"]["instrument"]["enum"] = list(allowed_instruments)
+    return schema
+
+
+def build_system_prompt(playbook: str, allowed_instruments: list) -> str:
     prompt = f"YOU ARE A LIVE IG CFD TRADING AGENT.\n\n"
     prompt += "=== SYSTEM RULES (enforced by code, not by you) ===\n"
     prompt += f"- Position sizing: {RULES.min_allocation_pct}-{RULES.max_allocation_pct}% of account equity (as margin) per position\n"
@@ -208,16 +250,25 @@ def build_system_prompt(playbook: str) -> str:
     prompt += f"- Hard leverage cap: {RULES.max_leverage_multiple}x notional exposure per unit of margin allocated, regardless of what IG's own margin factor for the instrument would otherwise permit\n"
     prompt += "- Every OPEN_LONG/OPEN_SHORT MUST include both stop_loss_pct and take_profit_pct -- both mandatory, no exceptions\n"
     prompt += (
-        "- WTI_OIL IS A PURE MIRROR OF BRENT_OIL, not an independently-traded instrument. "
-        "You only ever decide on BRENT_OIL, NATURAL_GAS, GOLD, and SILVER. Whenever you OPEN_LONG or "
-        "OPEN_SHORT BRENT_OIL, the exact same direction and allocation_pct is automatically opened on "
-        "WTI_OIL too, atomically -- if the WTI leg fails after Brent already opened, Brent is "
-        "immediately closed back out rather than leaving you with an unintended naked Brent-only "
-        "position. When you CLOSE BRENT_OIL, its WTI mirror is closed automatically at the same time. "
-        "Never propose OPEN_LONG/OPEN_SHORT/CLOSE on WTI_OIL yourself -- it will simply be rejected. "
-        "Don't research WTI's own technicals/term structure/positioning either; its direction and size "
-        "are fully determined by your Brent decision, not by anything WTI-specific.\n"
+        f"- YOUR SCOPE THIS CHECK-IN: you decide ONLY on {', '.join(allowed_instruments)}. "
+        "ADDED 2026-10-01 (user's own choice, per-instrument LLM provider split): a DIFFERENT model "
+        "(a different provider entirely) independently decides on this same account's other "
+        "instruments this same tick, in a separate call you never see. Never propose OPEN_LONG/"
+        "OPEN_SHORT/CLOSE for an instrument outside your scope above -- it will simply be rejected, "
+        "and it isn't your decision to make regardless.\n"
     )
+    if "BRENT_OIL" in allowed_instruments:
+        prompt += (
+            "- WTI_OIL IS A PURE MIRROR OF BRENT_OIL, not an independently-traded instrument, and it "
+            "is NOT in your scope above even though it's in this account. Whenever you OPEN_LONG or "
+            "OPEN_SHORT BRENT_OIL, the exact same direction and allocation_pct is automatically opened on "
+            "WTI_OIL too, atomically -- if the WTI leg fails after Brent already opened, Brent is "
+            "immediately closed back out rather than leaving you with an unintended naked Brent-only "
+            "position. When you CLOSE BRENT_OIL, its WTI mirror is closed automatically at the same time. "
+            "Never propose OPEN_LONG/OPEN_SHORT/CLOSE on WTI_OIL yourself -- it will simply be rejected. "
+            "Don't research WTI's own technicals/term structure/positioning either; its direction and size "
+            "are fully determined by your Brent decision, not by anything WTI-specific.\n"
+        )
     prompt += f"- If available margin drops below {RULES.margin_safety_buffer_pct}% of account balance, ALL new opens are blocked account-wide until it recovers\n"
     if RULES.require_confluence:
         prompt += (
@@ -252,8 +303,9 @@ def build_system_prompt(playbook: str) -> str:
     prompt += "=== LIVE CHECK-IN ===\n"
     prompt += (
         "This is a LIVE check-in against a REAL IG CFD account, repeating roughly every "
-        f"{RULES.min_tick_interval_minutes} minutes while at least one of your {len(INSTRUMENT_KEYS)} instruments' "
-        "markets is open. Any trade you propose fills IMMEDIATELY at the live market price -- "
+        f"{RULES.min_tick_interval_minutes} minutes while at least one of your {len(allowed_instruments)} assigned "
+        "instruments' markets is open (this account trades more instruments in total -- see your scope above). "
+        "Any trade you propose fills IMMEDIATELY at the live market price -- "
         "there is no paper simulation and no human reviewing your orders before they execute. "
         "CFDs are leveraged: a losing move against you compounds faster than in an unleveraged "
         "account, and a margin call can force-close a position at the worst possible moment. "
@@ -404,15 +456,17 @@ def check_confluence(tool_call_log: list, instrument: str, action: str) -> tuple
     )
 
 
-def _second_opinion_client_and_model():
+def _second_opinion_client_and_model(primary_provider: str):
     """The second-opinion critic must always be a genuinely different model
-    family from whichever one is proposing trades (LLM_PROVIDER) -- the whole
-    point is an independent check, not another instance sharing the same
-    training biases. UPDATED 2026-09-29 when LLM_PROVIDER switched to
-    "anthropic" for the primary decision: this now picks OpenAI as the critic
-    instead of hardcoding Anthropic, so the pairing stays opposite-family no
-    matter which side LLM_PROVIDER is on."""
-    if LLM_PROVIDER == "anthropic":
+    family from whichever one proposed THIS specific trade -- the whole point
+    is an independent check, not another instance sharing the same training
+    biases. UPDATED 2026-10-01: takes the proposing provider explicitly
+    (get_second_opinion reads it off the trade's own trade["_llm_provider"],
+    set by get_agent_trades) instead of reading a single global LLM_PROVIDER
+    -- per-instrument provider selection (config.INSTRUMENT_LLM_PROVIDER)
+    means different trades in the same tick can have different primaries, so
+    the critic has to be picked per-trade too."""
+    if primary_provider == "anthropic":
         return OpenAIClient(model=OPENAI_MODEL, research_model=OPENAI_RESEARCH_MODEL), OPENAI_MODEL
     return AnthropicClient(model=ANTHROPIC_MODEL), ANTHROPIC_MODEL
 
@@ -522,7 +576,10 @@ def get_second_opinion(trade: dict, recent_trade_history: list) -> tuple:
     )
 
     try:
-        client, _second_opinion_model = _second_opinion_client_and_model()
+        primary_provider = trade.get("_llm_provider", LLM_PROVIDER)  # falls back to the global
+        # default only for a trade that somehow lacks the tag (shouldn't happen -- every trade
+        # returned by get_agent_trades is tagged with its proposing provider)
+        client, _second_opinion_model = _second_opinion_client_and_model(primary_provider)
         verdict_text = client.generate(system_prompt, user_prompt, tools=[], max_tool_calls=0)
     except Exception as e:
         logger.warning(f"get_second_opinion({instrument}) failed, failing permissive: {e}")
@@ -544,16 +601,30 @@ class AgentCallFailed(Exception):
     this account has run."""
 
 
-def get_agent_trades(playbook: str, portfolio_state: dict, now_str: str) -> tuple:
+def get_agent_trades(playbook: str, portfolio_state: dict, now_str: str,
+                      provider: str, allowed_instruments: list) -> tuple:
     """Returns (trades, tool_call_log). tool_call_log is a list of
     {"tool", "args", "result"} for every non-propose_trades tool call made
     this turn -- lets the caller run check_confluence() per proposed trade
     (real signal agreement, not just "was some other tool called"),
-    independent of whatever the agent itself claims it considered."""
-    client = _make_llm_client()
-    sys_prompt = build_system_prompt(playbook)
+    independent of whatever the agent itself claims it considered.
+
+    UPDATED 2026-10-01 for per-instrument LLM provider selection (user's own
+    choice: "For WTI, CRUDE, SPOT GOLD use openAI to make decision. For NG
+    and Silver use Claude" -- see config.INSTRUMENT_LLM_PROVIDER). This is
+    now called ONCE PER PROVIDER GROUP per tick (cfd_runner.run_cfd_tick
+    loops over the groups), each scoped to only the instruments that
+    provider is responsible for -- provider picks the client, allowed_
+    instruments scopes the system prompt, the research tools' own
+    "instrument" enums (_tools_for_instruments), and propose_trades' own
+    "instrument" enum (_propose_trades_schema_for_instruments). Each
+    returned trade is tagged with trade["_llm_provider"] = provider so
+    get_second_opinion can later pick the genuinely opposite provider for
+    THIS specific trade, not a single account-wide primary."""
+    client = _make_llm_client(provider)
+    sys_prompt = build_system_prompt(playbook, allowed_instruments)
     user_prompt = build_user_prompt(portfolio_state, now_str)
-    tools = TOOLS + [PROPOSE_TRADES_SCHEMA]
+    tools = _tools_for_instruments(allowed_instruments) + [_propose_trades_schema_for_instruments(allowed_instruments)]
     tool_call_log = []
 
     try:
@@ -566,18 +637,39 @@ def get_agent_trades(playbook: str, portfolio_state: dict, now_str: str) -> tupl
         # watch for AGENT_CALL_FAILED recurring; if it does, this cap likely
         # needs raising again rather than the persona telling the agent to
         # research less (the whole point of confluence is genuine research).
+        # Each provider group now only sees ~2 instruments' worth of relevant
+        # tools, so this ceiling has more headroom than it used to, not less.
         result_json = client.generate(sys_prompt, user_prompt, tools, max_tool_calls=20,
                                        tool_call_tracker=tool_call_log)
     except Exception as e:
-        raise AgentCallFailed(f"LLM call crashed ({LLM_PROVIDER}): {e}") from e
+        raise AgentCallFailed(f"LLM call crashed ({provider}, scope={allowed_instruments}): {e}") from e
 
     if not result_json:
-        raise AgentCallFailed("Agent responded without ever calling propose_trades (hit max tool calls or returned nothing)")
+        raise AgentCallFailed(
+            f"Agent ({provider}, scope={allowed_instruments}) responded without ever calling "
+            "propose_trades (hit max tool calls or returned nothing)"
+        )
 
     try:
         data = json.loads(result_json)
         trades = data.get("trades", [])
-        logger.info(f"Agent proposed {len(trades)} trades. Notes: {data.get('notes', '')}")
-        return trades, tool_call_log
     except json.JSONDecodeError:
-        raise AgentCallFailed(f"Agent returned invalid JSON: {result_json}")
+        raise AgentCallFailed(f"Agent ({provider}, scope={allowed_instruments}) returned invalid JSON: {result_json}")
+
+    # Belt-and-braces scope enforcement: the schema's own enum (see
+    # _propose_trades_schema_for_instruments) already restricts this, but a
+    # provider's tool-calling implementation isn't a hard guarantee -- this
+    # determines which live account gets real-money orders, so an
+    # out-of-scope proposal is dropped and logged loudly, never trusted.
+    in_scope = [t for t in trades if t.get("instrument") in allowed_instruments]
+    out_of_scope = [t for t in trades if t.get("instrument") not in allowed_instruments]
+    if out_of_scope:
+        logger.error(
+            f"[IG-CFD] Agent ({provider}) proposed {len(out_of_scope)} trade(s) outside its scope "
+            f"{allowed_instruments}, dropped without executing: {out_of_scope}"
+        )
+    for t in in_scope:
+        t["_llm_provider"] = provider
+
+    logger.info(f"Agent ({provider}, scope={allowed_instruments}) proposed {len(in_scope)} trades. Notes: {data.get('notes', '')}")
+    return in_scope, tool_call_log

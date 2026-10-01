@@ -1703,7 +1703,7 @@ def run_cfd_tick():
         logger.info("[IG-CFD] IG_LIVE_TRADING_ENABLED is not 'true'. Doing nothing.")
         return
 
-    from config import RULES, INSTRUMENTS, PLAYBOOKS_DIR
+    from config import RULES, INSTRUMENTS, PLAYBOOKS_DIR, INSTRUMENT_LLM_PROVIDER
     from ig_broker import IGBroker
     from agent_runner import get_agent_trades, AgentCallFailed, check_confluence, get_second_opinion
     from dashboard_exporter import export_for_dashboard
@@ -1809,17 +1809,37 @@ def run_cfd_tick():
 
     now_str = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     tool_call_log = []
-    try:
-        trades, tool_call_log = get_agent_trades(playbook, portfolio_state, now_str)
-    except AgentCallFailed as e:
-        # Fails SAFE (no trades this tick, same as a real HOLD would), but
-        # logged loudly and distinctly in the audit trail/dashboard -- an
-        # agent-call failure must never look identical to a legitimate HOLD,
-        # or a persistent outage (e.g. a broken OpenAI connection) can go
-        # unnoticed indefinitely, which is exactly what happened before this.
-        logger.error(f"[IG-CFD] {e}")
-        _log_order_event({"action": "AGENT_CALL_FAILED", "status": "ERROR", "reason": str(e)})
-        trades = []
+    trades = []
+    # ADDED 2026-10-01 per explicit user instruction ("For WTI, CRUDE, SPOT GOLD
+    # use openAI to make decision. For NG and Silver use Claude"): one
+    # get_agent_trades call PER PROVIDER GROUP per tick now, instead of a single
+    # account-wide call -- each group only sees/decides its own instruments (see
+    # agent_runner.build_system_prompt's scope enforcement). WTI_OIL is excluded
+    # from its own group since it never gets an independent decision -- it mirrors
+    # whatever BRENT_OIL's group (openai) decides. A failure in one provider's
+    # call is logged and that group's instruments simply get no trades this tick
+    # (same fail-safe behavior as before), but does NOT prevent the other
+    # provider's group from still deciding normally.
+    provider_groups = {}
+    for inst, provider in INSTRUMENT_LLM_PROVIDER.items():
+        if inst == "WTI_OIL":
+            continue
+        provider_groups.setdefault(provider, []).append(inst)
+
+    for provider, allowed_instruments in provider_groups.items():
+        try:
+            p_trades, p_tool_log = get_agent_trades(playbook, portfolio_state, now_str, provider, allowed_instruments)
+            trades.extend(p_trades)
+            tool_call_log.extend(p_tool_log)
+        except AgentCallFailed as e:
+            # Fails SAFE (no trades this tick for THIS group, same as a real HOLD
+            # would), but logged loudly and distinctly in the audit trail/dashboard
+            # -- an agent-call failure must never look identical to a legitimate
+            # HOLD, or a persistent outage (e.g. a broken OpenAI connection) can go
+            # unnoticed indefinitely, which is exactly what happened before this.
+            logger.error(f"[IG-CFD] {e}")
+            _log_order_event({"action": "AGENT_CALL_FAILED", "status": "ERROR", "reason": str(e),
+                               "provider": provider, "scope": allowed_instruments})
 
     if not trades:
         logger.info("[IG-CFD] Agent proposed no trades this tick (HOLD).")
@@ -1968,7 +1988,8 @@ def run_cfd_tick():
                 # is "agent_reason" (not "reason") to avoid colliding with the existing
                 # rejection-reason field other log consumers may already depend on.
                 _log_order_event({"action": action, "instrument": instrument, "status": "REJECTED",
-                                   "reason": reason, "agent_reason": trade.get("reason", "")})
+                                   "reason": reason, "agent_reason": trade.get("reason", ""),
+                                   "llm_provider": trade.get("_llm_provider", "")})
                 continue
 
             if action in ("OPEN_LONG", "OPEN_SHORT") and SECOND_OPINION_ENABLED:
@@ -2053,7 +2074,8 @@ def run_cfd_tick():
                     # confluence agreement against real outcomes -- checked_multiple_sources
                     # was never logged before this, only used transiently to gate the open.
                     "confluence_detail": confluence_reason,
-                    "reason": trade.get("reason", ""), **result,
+                    "reason": trade.get("reason", ""), "llm_provider": trade.get("_llm_provider", ""),
+                    **result,
                 })
                 if result["status"] == "submitted":
                     running_available -= sizing["margin_allocated"]
@@ -2124,7 +2146,8 @@ def run_cfd_tick():
                     # what the same-direction cooldown check needs to detect "re-opening the exact
                     # thesis that just lost" -- see _get_last_close_info.
                     "original_direction": pos["direction"],
-                    "reason": trade.get("reason", ""), **result,
+                    "reason": trade.get("reason", ""), "llm_provider": trade.get("_llm_provider", ""),
+                    **result,
                 })
 
                 # WTI_OIL auto-mirror: closing Brent closes its WTI mirror too.
