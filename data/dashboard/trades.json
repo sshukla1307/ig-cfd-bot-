@@ -1,6 +1,53 @@
 [
   {
     "action": "OPEN_SHORT",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Market no longer tradeable (status changed since gating check)",
+    "agent_reason": "Brent oil is currently overbought with an RSI of 70.5, indicating a potential pullback. Despite the strong uptrend and backwardation suggesting tight supply, the recent price surge may have been overextended. The geopolitical tensions and US-Iran negotiations are key factors, but the technical overbought condition suggests a short-term correction is likely.",
+    "logged_at": "2026-10-01T22:32:51.506484+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "GOLD",
+    "deal_id": "DIAAAAR9KRZEWAD",
+    "old_limit_level": 4006.2167,
+    "new_limit_level": 4005.552,
+    "old_stop_level": 4179.0993,
+    "new_stop_level": 4179.0993,
+    "reason": "Trailing-stop reconciliation (floor 0.8%, arm 0.15%, gap 0.1% once armed, continuous not stepped, Plan A active) -- amending both on IG directly (both always sent together, see incident note above).",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-01T22:27:41.794",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDGOLD.DBI.IP",
+      "expiry": "-",
+      "dealReference": "M9XUQMT26V2TYNV",
+      "dealId": "DIAAAAR9KRZEWAD",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR9KRZEWAD",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 4172.45,
+      "size": 2.52,
+      "direction": "SELL",
+      "stopLevel": 4179.099,
+      "limitLevel": 4005.552,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-01T22:27:41.994571+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
     "instrument": "GOLD",
     "direction": "SELL",
     "size": 2.52,
@@ -5940,24 +5987,5 @@
       "profitCurrency": "USD"
     },
     "logged_at": "2026-10-01T18:05:25.658163+00:00"
-  },
-  {
-    "action": "BROKER_CLOSE",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR9JZ2THA5",
-    "original_direction": "SELL",
-    "estimated_pnl": -6.97,
-    "status": "detected",
-    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-10-01T18:05:24.444489+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: SILVER has only been open for 7 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "agent_reason": "Position opened minutes ago; discretionary close is blocked within 720 min regardless, so leaving as is -- not actually submitting a close, holding position.",
-    "llm_provider": "anthropic",
-    "logged_at": "2026-10-01T18:04:29.377234+00:00"
   }
 ]
