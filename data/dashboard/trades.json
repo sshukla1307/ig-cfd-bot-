@@ -1,5 +1,334 @@
 [
   {
+    "action": "WTI_MIRROR_OPEN",
+    "instrument": "WTI_OIL",
+    "direction": "SELL",
+    "size": 1.12,
+    "margin_allocated": 2092.57,
+    "effective_leverage": 5.0,
+    "notional": 10372.54,
+    "stop_distance": 29.8939,
+    "limit_distance": 373.6732,
+    "reason": "Auto-mirrored from BRENT_OIL: Brent oil is currently overbought with an RSI of 81.8, indicating a potential pullback. Despite the strong uptrend and backwardation suggesting tight supply, the recent price surge may have been overextended. The geopolitical tensions in the Middle East are keeping prices elevated, but the technical overbought condition suggests a short-term correction is likely.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR9KDMJ4A8",
+    "raw": {
+      "date": "2026-10-01T19:33:27.249",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "H4WURPXALWETYNV",
+      "dealId": "DIAAAAR9KDMJ4A8",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR9KDMJ4A8",
+          "status": "OPENED"
+        }
+      ],
+      "level": 9250.9,
+      "size": 1.12,
+      "direction": "SELL",
+      "stopLevel": 9280.794,
+      "limitLevel": 8877.227,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-01T19:33:27.585485+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "BRENT_OIL",
+    "direction": "SELL",
+    "size": 1.04,
+    "margin_allocated": 2092.57,
+    "effective_leverage": 5.0,
+    "notional": 10644.61,
+    "stop_distance": 32.1934,
+    "limit_distance": 402.4173,
+    "confluence_detail": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
+    "reason": "Brent oil is currently overbought with an RSI of 81.8, indicating a potential pullback. Despite the strong uptrend and backwardation suggesting tight supply, the recent price surge may have been overextended. The geopolitical tensions in the Middle East are keeping prices elevated, but the technical overbought condition suggests a short-term correction is likely.",
+    "llm_provider": "openai",
+    "status": "submitted",
+    "deal_id": "DIAAAAR9KD24HAS",
+    "raw": {
+      "date": "2026-10-01T19:33:26.937",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "Y7XY75MNH4WTYNV",
+      "dealId": "DIAAAAR9KD24HAS",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR9KD24HAS",
+          "status": "OPENED"
+        }
+      ],
+      "level": 10222.4,
+      "size": 1.04,
+      "direction": "SELL",
+      "stopLevel": 10254.594,
+      "limitLevel": 9819.982,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-01T19:33:27.156287+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "GOLD",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: GOLD has only been open for 56 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "agent_reason": "Gold is currently in a short-term bearish setup with the SMA-20 below the SMA-50 and the market in contango, indicating ample supply. The RSI is neutral, providing room for further downside. Managed-money positioning is within a normal range, suggesting no extreme crowding signal. However, the current position is slightly negative, and the technicals do not strongly support a continued short position at this time.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-01T19:33:26.850869+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "NATURAL_GAS",
+    "deal_id": "DIAAAAR9J7NXVA2",
+    "old_limit_level": 2888.08,
+    "new_limit_level": 2886.08,
+    "old_stop_level": 3019.0,
+    "new_stop_level": 3017.0,
+    "reason": "Trailing-stop reconciliation (floor 1.6%, arm 0.6%, gap 0.1% once armed, continuous not stepped, Plan A active) -- amending both on IG directly (both always sent together, see incident note above).",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-01T19:23:41.877",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "M48EMXRJAEWTYNV",
+      "dealId": "DIAAAAR9J7NXVA2",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR9J7NXVA2",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 3023.0,
+      "size": 3.2,
+      "direction": "SELL",
+      "stopLevel": 3017.0,
+      "limitLevel": 2886.08,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-01T19:23:42.035292+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "NATURAL_GAS",
+    "deal_id": "DIAAAAR9J7NXVA2",
+    "old_limit_level": 2889.08,
+    "new_limit_level": 2888.08,
+    "old_stop_level": 3020.0,
+    "new_stop_level": 3019.0,
+    "reason": "Trailing-stop reconciliation (floor 1.6%, arm 0.6%, gap 0.1% once armed, continuous not stepped, Plan A active) -- amending both on IG directly (both always sent together, see incident note above).",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-01T19:15:41.285",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "B5BMMKL5TGATYNV",
+      "dealId": "DIAAAAR9J7NXVA2",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR9J7NXVA2",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 3023.0,
+      "size": 3.2,
+      "direction": "SELL",
+      "stopLevel": 3019.0,
+      "limitLevel": 2888.08,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-01T19:15:41.488098+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "GOLD",
+    "deal_id": "DIAAAAR9J8ZP2AX",
+    "old_limit_level": 4008.1918,
+    "new_limit_level": 4007.1006,
+    "old_stop_level": 4191.318,
+    "new_stop_level": 4191.318,
+    "reason": "Trailing-stop reconciliation (floor 1.6%, arm 0.6%, gap 0.1% once armed, continuous not stepped, Plan A active) -- amending both on IG directly (both always sent together, see incident note above).",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-01T19:07:44.284",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDGOLD.DBI.IP",
+      "expiry": "-",
+      "dealReference": "D2P547GXSUNTYNV",
+      "dealId": "DIAAAAR9J8ZP2AX",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR9J8ZP2AX",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 4177.99,
+      "size": 2.52,
+      "direction": "SELL",
+      "stopLevel": 4191.318,
+      "limitLevel": 4007.1006,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-01T19:07:44.477461+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "NATURAL_GAS",
+    "deal_id": "DIAAAAR9J7NXVA2",
+    "old_limit_level": 2890.08,
+    "new_limit_level": 2889.08,
+    "old_stop_level": 3020.0,
+    "new_stop_level": 3020.0,
+    "reason": "Trailing-stop reconciliation (floor 1.6%, arm 0.6%, gap 0.1% once armed, continuous not stepped, Plan A active) -- amending both on IG directly (both always sent together, see incident note above).",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-01T19:05:51.048",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "B7QGU53L772TYNV",
+      "dealId": "DIAAAAR9J7NXVA2",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR9J7NXVA2",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 3023.0,
+      "size": 3.2,
+      "direction": "SELL",
+      "stopLevel": 3020.0,
+      "limitLevel": 2889.08,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-01T19:05:51.243778+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "GOLD",
+    "deal_id": "DIAAAAR9J8ZP2AX",
+    "old_limit_level": 4008.9696,
+    "new_limit_level": 4008.1918,
+    "old_stop_level": 4191.318,
+    "new_stop_level": 4191.318,
+    "reason": "Trailing-stop reconciliation (floor 1.6%, arm 0.6%, gap 0.1% once armed, continuous not stepped, Plan A active) -- amending both on IG directly (both always sent together, see incident note above).",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-01T19:04:48.173",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDGOLD.DBI.IP",
+      "expiry": "-",
+      "dealReference": "JCLGQYSL5WNTYNV",
+      "dealId": "DIAAAAR9J8ZP2AX",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR9J8ZP2AX",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 4177.99,
+      "size": 2.52,
+      "direction": "SELL",
+      "stopLevel": 4191.318,
+      "limitLevel": 4008.192,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-01T19:04:48.375972+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "NATURAL_GAS",
+    "deal_id": "DIAAAAR9J7NXVA2",
+    "old_limit_level": 2889.08,
+    "new_limit_level": 2890.08,
+    "old_stop_level": 3020.0,
+    "new_stop_level": 3020.0,
+    "reason": "Trailing-stop reconciliation (floor 1.6%, arm 0.6%, gap 0.1% once armed, continuous not stepped, Plan A active) -- amending both on IG directly (both always sent together, see incident note above).",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-01T19:04:47.835",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "Z2WNHFBCXZ6TYNV",
+      "dealId": "DIAAAAR9J7NXVA2",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR9J7NXVA2",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 3023.0,
+      "size": 3.2,
+      "direction": "SELL",
+      "stopLevel": 3020.0,
+      "limitLevel": 2890.08,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-01T19:04:48.061203+00:00"
+  },
+  {
     "action": "CLOSE",
     "instrument": "GOLD",
     "status": "REJECTED",
@@ -5729,327 +6058,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-10-01T15:47:55.010045+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR9HV5YLAD",
-    "old_limit_level": 10539.88,
-    "new_limit_level": 10550.88,
-    "old_stop_level": 10102.319,
-    "new_stop_level": 10102.319,
-    "reason": "Trailing-stop reconciliation (floor 1.6%, arm 0.6%, gap 0.1% once armed, continuous not stepped, Plan A active) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-10-01T15:35:46.262",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "V5G7AB5LZJETYNV",
-      "dealId": "DIAAAAR9HV5YLAD",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR9HV5YLAD",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 10134.5,
-      "size": 1.08,
-      "direction": "BUY",
-      "stopLevel": 10102.319,
-      "limitLevel": 10550.88,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-01T15:35:46.480696+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "WTI_OIL",
-    "deal_id": "DIAAAAR9HVVNTAP",
-    "old_limit_level": 9552.536,
-    "new_limit_level": 9560.836,
-    "old_stop_level": 9154.4371,
-    "new_stop_level": 9154.4371,
-    "reason": "Trailing-stop reconciliation (floor 1.6%, arm 0.6%, gap 0.1% once armed, continuous not stepped, Plan A active) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-10-01T15:35:45.953",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "BRD2MLMNH8STYNV",
-      "dealId": "DIAAAAR9HVVNTAP",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR9HVVNTAP",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 9183.4,
-      "size": 1.2,
-      "direction": "BUY",
-      "stopLevel": 9154.4375,
-      "limitLevel": 9560.836,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-01T15:35:46.168003+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR9HV5YLAD",
-    "old_limit_level": 10550.88,
-    "new_limit_level": 10539.88,
-    "old_stop_level": 10102.319,
-    "new_stop_level": 10102.319,
-    "reason": "Trailing-stop reconciliation (floor 1.6%, arm 0.6%, gap 0.1% once armed, continuous not stepped, Plan A active) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-10-01T15:34:21.036",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "BGNTUNNJYR6TYNV",
-      "dealId": "DIAAAAR9HV5YLAD",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR9HV5YLAD",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 10134.5,
-      "size": 1.08,
-      "direction": "BUY",
-      "stopLevel": 10102.319,
-      "limitLevel": 10539.88,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-01T15:34:21.243430+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "WTI_OIL",
-    "deal_id": "DIAAAAR9HVVNTAP",
-    "old_limit_level": 9560.836,
-    "new_limit_level": 9552.536,
-    "old_stop_level": 9154.4371,
-    "new_stop_level": 9154.4371,
-    "reason": "Trailing-stop reconciliation (floor 1.6%, arm 0.6%, gap 0.1% once armed, continuous not stepped, Plan A active) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-10-01T15:34:20.718",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "2GHGCG67FZ2TYNV",
-      "dealId": "DIAAAAR9HVVNTAP",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR9HVVNTAP",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 9183.4,
-      "size": 1.2,
-      "direction": "BUY",
-      "stopLevel": 9154.4375,
-      "limitLevel": 9552.536,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-01T15:34:20.896912+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR9HV5YLAD",
-    "old_limit_level": 10539.88,
-    "new_limit_level": 10550.88,
-    "old_stop_level": 10102.319,
-    "new_stop_level": 10102.319,
-    "reason": "Trailing-stop reconciliation (floor 1.6%, arm 0.6%, gap 0.1% once armed, continuous not stepped, Plan A active) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-10-01T15:32:13.931",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "BEVRK97DMLNTYNV",
-      "dealId": "DIAAAAR9HV5YLAD",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR9HV5YLAD",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 10134.5,
-      "size": 1.08,
-      "direction": "BUY",
-      "stopLevel": 10102.319,
-      "limitLevel": 10550.88,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-01T15:32:14.191721+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "WTI_OIL",
-    "deal_id": "DIAAAAR9HVVNTAP",
-    "old_limit_level": 9552.536,
-    "new_limit_level": 9560.836,
-    "old_stop_level": 9154.4371,
-    "new_stop_level": 9154.4371,
-    "reason": "Trailing-stop reconciliation (floor 1.6%, arm 0.6%, gap 0.1% once armed, continuous not stepped, Plan A active) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-10-01T15:32:13.577",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "QWKBDPL4RS2TYNV",
-      "dealId": "DIAAAAR9HVVNTAP",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR9HVVNTAP",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 9183.4,
-      "size": 1.2,
-      "direction": "BUY",
-      "stopLevel": 9154.4375,
-      "limitLevel": 9560.836,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-01T15:32:13.817394+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR9HV5YLAD",
-    "old_limit_level": 10536.763,
-    "new_limit_level": 10539.88,
-    "old_stop_level": 10102.319,
-    "new_stop_level": 10102.319,
-    "reason": "Trailing-stop reconciliation (floor 1.6%, arm 0.6%, gap 0.1% once armed, continuous not stepped, Plan A active) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-10-01T15:27:59.763",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "BW566PAS55STYNV",
-      "dealId": "DIAAAAR9HV5YLAD",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR9HV5YLAD",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 10134.5,
-      "size": 1.08,
-      "direction": "BUY",
-      "stopLevel": 10102.319,
-      "limitLevel": 10539.88,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-01T15:28:00.008521+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "WTI_OIL",
-    "deal_id": "DIAAAAR9HVVNTAP",
-    "old_limit_level": 9545.4367,
-    "new_limit_level": 9552.536,
-    "old_stop_level": 9154.4371,
-    "new_stop_level": 9154.4371,
-    "reason": "Trailing-stop reconciliation (floor 1.6%, arm 0.6%, gap 0.1% once armed, continuous not stepped, Plan A active) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-10-01T15:27:59.423",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "4J6FS2KWEVETYNV",
-      "dealId": "DIAAAAR9HVVNTAP",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR9HVVNTAP",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 9183.4,
-      "size": 1.2,
-      "direction": "BUY",
-      "stopLevel": 9154.4375,
-      "limitLevel": 9552.536,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-01T15:27:59.653961+00:00"
-  },
-  {
-    "action": "BROKER_CLOSE",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR9HRU3JAQ",
-    "original_direction": "BUY",
-    "estimated_pnl": 19.33,
-    "status": "detected",
-    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-10-01T15:27:57.291517+00:00"
   }
 ]
