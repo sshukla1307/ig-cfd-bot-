@@ -1,5 +1,44 @@
 [
   {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "NATURAL_GAS",
+    "deal_id": "DIAAAAR9BAVVPAY",
+    "old_limit_level": 2912.68,
+    "new_limit_level": 2911.68,
+    "old_stop_level": 3045.0,
+    "new_stop_level": 3044.0,
+    "reason": "Trailing-stop reconciliation (floor 1.6%, arm 0.6%, gap 0.1% once armed, continuous not stepped, Plan A active) -- amending both on IG directly (both always sent together, see incident note above).",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-01T05:09:39.86",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "Q53CDE32PWJTYNV",
+      "dealId": "DIAAAAR9BAVVPAY",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR9BAVVPAY",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 3058.0,
+      "size": 3.28,
+      "direction": "SELL",
+      "stopLevel": 3044.0,
+      "limitLevel": 2911.68,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-01T05:09:40.089228+00:00"
+  },
+  {
     "action": "CLOSE",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
@@ -6584,44 +6623,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-30T10:21:44.117779+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR86F7RDBA",
-    "old_limit_level": 10105.632,
-    "new_limit_level": 10117.7282,
-    "old_stop_level": 9677.4418,
-    "new_stop_level": 9723.4,
-    "reason": "Trailing-stop reconciliation (floor 1.6%, arm 0.6%, gap 0.1% once armed, continuous not stepped, Plan A active) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-30T10:21:43.675",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "PD49Z64Z7YWTYNV",
-      "dealId": "DIAAAAR86F7RDBA",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR86F7RDBA",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 9708.3,
-      "size": 1.04,
-      "direction": "BUY",
-      "stopLevel": 9723.4,
-      "limitLevel": 10117.729,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-30T10:21:43.834063+00:00"
   }
 ]
