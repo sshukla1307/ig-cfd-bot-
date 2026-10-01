@@ -1,5 +1,189 @@
 [
   {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "stop_loss_pct is mandatory",
+    "agent_reason": "Brent hourly uptrend intact: price 98.25 above both SMA20 97.64 and SMA50 97.55, RSI 63.5 is healthy/neutral momentum not an overbought extreme. Backtest favors Brent trend-following strongly (+71% net, 55% win). Hormuz disruption ongoing and OPEC+ holding Nov quotas steady per multiple oilprice/tradingeconomics sources -- real supply catalyst supporting continued upside. Just closed a prior long here for +16.31 on the same thesis; trend has not reversed, fresh pullback to test SMA20 support held and price bounced back to 98.25 from 97.6 low -- re-entering with trend intact.",
+    "logged_at": "2026-10-01T00:36:26.799164+00:00"
+  },
+  {
+    "action": "BROKER_CLOSE",
+    "instrument": "BRENT_OIL",
+    "deal_id": "DIAAAAR9A92B3AD",
+    "original_direction": "BUY",
+    "estimated_pnl": 16.31,
+    "status": "detected",
+    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
+    "logged_at": "2026-10-01T00:36:06.210076+00:00"
+  },
+  {
+    "action": "BROKER_CLOSE",
+    "instrument": "WTI_OIL",
+    "deal_id": "DIAAAAR9BAE5WAZ",
+    "original_direction": "BUY",
+    "estimated_pnl": 10.67,
+    "status": "detected",
+    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
+    "logged_at": "2026-10-01T00:36:06.209718+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "BRENT_OIL",
+    "deal_id": "DIAAAAR9A92B3AD",
+    "old_limit_level": 10195.724,
+    "new_limit_level": 10196.224,
+    "old_stop_level": 9798.6,
+    "new_stop_level": 9798.6,
+    "reason": "Trailing-stop reconciliation (floor 1.6%, arm 0.6%, gap 0.1% once armed, continuous not stepped, Plan A active) -- amending both on IG directly (both always sent together, see incident note above).",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-01T00:33:35.833",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "TGUBL6TQPRETYNV",
+      "dealId": "DIAAAAR9A92B3AD",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR9A92B3AD",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 9790.6,
+      "size": 1.08,
+      "direction": "BUY",
+      "stopLevel": 9798.6,
+      "limitLevel": 10196.224,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-01T00:33:36.058743+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "WTI_OIL",
+    "deal_id": "DIAAAAR9BAE5WAZ",
+    "old_limit_level": 9344.8257,
+    "new_limit_level": 9343.9206,
+    "old_stop_level": 8979.9,
+    "new_stop_level": 8979.9,
+    "reason": "Trailing-stop reconciliation (floor 1.6%, arm 0.6%, gap 0.1% once armed, continuous not stepped, Plan A active) -- amending both on IG directly (both always sent together, see incident note above).",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-01T00:33:35.431",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "FB34KNKHUS6TYNV",
+      "dealId": "DIAAAAR9BAE5WAZ",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR9BAE5WAZ",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 8973.1,
+      "size": 1.16,
+      "direction": "BUY",
+      "stopLevel": 8979.9,
+      "limitLevel": 9343.921,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-01T00:33:35.705648+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "BRENT_OIL",
+    "deal_id": "DIAAAAR9A92B3AD",
+    "old_limit_level": 10196.224,
+    "new_limit_level": 10195.724,
+    "old_stop_level": 9798.6,
+    "new_stop_level": 9798.6,
+    "reason": "Trailing-stop reconciliation (floor 1.6%, arm 0.6%, gap 0.1% once armed, continuous not stepped, Plan A active) -- amending both on IG directly (both always sent together, see incident note above).",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-01T00:32:52.56",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "NSG2MEASF8ETYNV",
+      "dealId": "DIAAAAR9A92B3AD",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR9A92B3AD",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 9790.6,
+      "size": 1.08,
+      "direction": "BUY",
+      "stopLevel": 9798.6,
+      "limitLevel": 10195.724,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-01T00:32:52.760955+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "WTI_OIL",
+    "deal_id": "DIAAAAR9BAE5WAZ",
+    "old_limit_level": 9339.1274,
+    "new_limit_level": 9344.8257,
+    "old_stop_level": 8944.3861,
+    "new_stop_level": 8979.9,
+    "reason": "Trailing-stop reconciliation (floor 1.6%, arm 0.6%, gap 0.1% once armed, continuous not stepped, Plan A active) -- amending both on IG directly (both always sent together, see incident note above).",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-01T00:32:52.256",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "TYX2LDHX7EATYNV",
+      "dealId": "DIAAAAR9BAE5WAZ",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR9BAE5WAZ",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 8973.1,
+      "size": 1.16,
+      "direction": "BUY",
+      "stopLevel": 8979.9,
+      "limitLevel": 9344.826,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-01T00:32:52.461387+00:00"
+  },
+  {
     "action": "MARGIN_EXIT_SYNC",
     "instrument": "BRENT_OIL",
     "deal_id": "DIAAAAR9A92B3AD",
@@ -6357,199 +6541,5 @@
     "status": "rejected",
     "reason": "Insufficient margin headroom for the WTI mirror leg",
     "logged_at": "2026-09-30T09:14:32.485455+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "direction": "BUY",
-    "size": 1.16,
-    "margin_allocated": 2274.39,
-    "effective_leverage": 5.0,
-    "notional": 11281.7,
-    "stop_distance": 31.3709,
-    "limit_distance": 392.1362,
-    "confluence_detail": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
-    "reason": "Genuine catalyst override: independent price feed (OilPriceAPI, fresh, non-stale) shows Brent near $103.67, +5.96% in 24h, driven by real news -- Trump ruling out Iran sanctions easing, Hormuz supply risk, and a Saudi Red Sea pipeline attack disrupting exports (even after a partial recovery pullback). yfinance technicals feed lags at $97.08 (SMA20 96.4 briefly bearish-crossed but price has since ripped through SMA20/50 on the last two hourly bars off a fresh low of 95.14, RSI 60.6 turning up) -- price action is a hard reversal off the low, fresh higher highs on last 2 bars. This is a fast-moving supply-shock catalyst that hasn't been fully priced into the lagging SMA yet; per house style, act on the news, don't wait for technicals to catch up. Term structure flat (no contango drag). Going long to catch the reversal/rally, not fighting it with a stale bearish trend read.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR856CWGAU",
-    "raw": {
-      "date": "2026-09-30T09:14:32.303",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "F82SPRHY4S6TYNV",
-      "dealId": "DIAAAAR856CWGAU",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR856CWGAU",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9728.3,
-      "size": 1.16,
-      "direction": "BUY",
-      "stopLevel": 9696.929,
-      "limitLevel": 10120.437,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-30T09:14:32.485171+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "GOLD",
-    "direction": "BUY",
-    "size": 2.4,
-    "margin_allocated": 2001.46,
-    "effective_leverage": 5.0,
-    "notional": 10051.8,
-    "stop_distance": 13.3431,
-    "limit_distance": 166.7883,
-    "confluence_detail": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for GOLD this tick -- a technical read or a generic news search alone can't open a position",
-    "reason": "Gold hourly uptrend intact: price 4224.5 above SMA20(4206.9) and SMA50(4185.7), bullishly stacked. RSI 64.4 healthy momentum, not overbought -- more room to run than the last (overbought RSI 76.8) entry that just lost. CFTC positioning at 74.5th percentile, elevated but not extreme, no contrarian flag. Backtest strongly favors Gold trend-following (+38% net, 51% win). Macro: 10Y yield elevated at 5.24% but VIX subdued and dollar index steady -- no major headwind. Sizing at 22% given repeated recent small losses on this exact setup suggest thesis is directionally right but choppy; keeping size moderate rather than max.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR855PPGA2",
-    "raw": {
-      "date": "2026-09-30T09:14:32.045",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDGOLD.DBI.IP",
-      "expiry": "-",
-      "dealReference": "Q9LANN27ZF6TYNV",
-      "dealId": "DIAAAAR855PPGA2",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR855PPGA2",
-          "status": "OPENED"
-        }
-      ],
-      "level": 4189.67,
-      "size": 2.4,
-      "direction": "BUY",
-      "stopLevel": 4176.3267,
-      "limitLevel": 4356.4585,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-30T09:14:32.204622+00:00"
-  },
-  {
-    "action": "BROKER_CLOSE",
-    "instrument": "GOLD",
-    "deal_id": "DIAAAAR85XGR3AQ",
-    "original_direction": "BUY",
-    "estimated_pnl": -23.45,
-    "status": "detected",
-    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-09-30T09:13:40.326698+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "GOLD",
-    "deal_id": "DIAAAAR85XGR3AQ",
-    "old_limit_level": 4369.575,
-    "new_limit_level": 4370.2776,
-    "old_stop_level": 4188.7992,
-    "new_stop_level": 4188.7992,
-    "reason": "Trailing-stop reconciliation (floor 1.6%, arm 0.6%, gap 0.1% once armed, continuous not stepped, Plan A active) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-30T08:41:48.767",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDGOLD.DBI.IP",
-      "expiry": "-",
-      "dealReference": "8RHTZQQU6D2TYNV",
-      "dealId": "DIAAAAR85XGR3AQ",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR85XGR3AQ",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 4202.19,
-      "size": 2.4,
-      "direction": "BUY",
-      "stopLevel": 4188.7993,
-      "limitLevel": 4370.278,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-30T08:41:48.937694+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "GOLD",
-    "direction": "BUY",
-    "size": 2.4,
-    "margin_allocated": 2008.62,
-    "effective_leverage": 5.0,
-    "notional": 10085.95,
-    "stop_distance": 13.3908,
-    "limit_distance": 167.385,
-    "confluence_detail": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for GOLD this tick -- a technical read or a generic news search alone can't open a position",
-    "reason": "Hourly uptrend intact: price 4230.9 above SMA20 (4205.2) and SMA50 (4185.6), bullishly stacked, fresh highs on last several bars. RSI 76.8 overbought but backtest strongly favors Gold trend-following (+38% net, 51% win) over fading RSI (+7% weak). CNBC/Morgan Stanley commentary today reiterates structural bullish case (rate risk, central bank buying) even after a brief pullback -- no reversal signal in price action. Positioning at 74.5th percentile, not an extreme crowding warning yet. Sizing at 22% given RSI extremity adds some mean-reversion risk despite trend confirmation.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR85XGR3AQ",
-    "raw": {
-      "date": "2026-09-30T08:39:15.352",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDGOLD.DBI.IP",
-      "expiry": "-",
-      "dealReference": "X6DAGFHW3METYNV",
-      "dealId": "DIAAAAR85XGR3AQ",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR85XGR3AQ",
-          "status": "OPENED"
-        }
-      ],
-      "level": 4202.19,
-      "size": 2.4,
-      "direction": "BUY",
-      "stopLevel": 4188.7993,
-      "limitLevel": 4369.575,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-30T08:39:15.538575+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "GOLD",
-    "status": "REJECTED",
-    "reason": "Consecutive-loss circuit breaker: GOLD has lost 2 times in a row going BUY (most recently 195 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
-    "agent_reason": "Gold in a confirmed hourly uptrend: price 4232.6 above both SMA20 (4205.3) and SMA50 (4185.6), which are bullishly stacked. RSI 77.2 is overbought but per backtest Gold is a trend-following instrument (+38% net, 51% win) where fading RSI loses -- default to trend, not fade. Positioning data shows managed-money net long at 74.5th percentile, elevated but not an extreme crowding signal that would override trend. Macro backdrop: 10Y yield spiked to ~24yr highs yet gold is still pushing higher alongside softer labor data -- real safe-haven/rate-cut-expectation bid, a genuine catalyst not yet fully priced by lagging indicators. Sizing at top of band given strong trend + macro confluence.",
-    "logged_at": "2026-09-30T08:32:32.591596+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "GOLD",
-    "status": "REJECTED",
-    "reason": "Consecutive-loss circuit breaker: GOLD has lost 2 times in a row going BUY (most recently 193 min ago) -- blocked for 480 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
-    "agent_reason": "Gold hourly uptrend strongly intact: price 4230.8 above both SMA20 (4205) and SMA50 (4185.6), bullishly stacked, fresh highs on the last several bars. RSI 76.8 is overbought but backtest confirms Gold is a trend-following instrument (+38% net, 51% win) where fading RSI extremes loses. Independent price checks confirm continued upward drift (OilPriceAPI +1.35% 24h). CFTC positioning at 74.5th percentile -- elevated but not an extreme crowding signal that would override the trend. News flow is bullish (rate cut/hike uncertainty, inflation hedge demand, analysts citing new record highs this year). Term structure flat (no drag). Sizing at top of band given strong trend confirmation + supportive catalyst.",
-    "logged_at": "2026-09-30T08:30:32.860153+00:00"
   }
 ]
