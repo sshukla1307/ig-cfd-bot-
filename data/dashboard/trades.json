@@ -3,6 +3,14 @@
     "action": "OPEN_SHORT",
     "instrument": "BRENT_OIL",
     "status": "REJECTED",
+    "reason": "Market no longer tradeable (status changed since gating check)",
+    "agent_reason": "Brent oil is currently overbought with an RSI of 74.4, indicating a potential pullback. Despite the strong uptrend and backwardation suggesting tight supply, the recent price surge may have been overextended. The geopolitical tensions and market expectations are already priced in, and the shoulder season suggests no strong seasonal demand driver. The technicals show a short-term bullish trend, but the overbought RSI and recent price surge suggest a correction is likely.",
+    "logged_at": "2026-10-01T22:03:30.955132+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
     "reason": "Cannot open BRENT_OIL -- its WTI_OIL mirror slot is already occupied by an existing WTI position (shouldn't happen in normal operation; investigate if this recurs)",
     "agent_reason": "Brent oil is currently overbought with an RSI of 74.4, indicating a potential pullback. Despite the strong uptrend and backwardation suggesting tight supply, the recent price surge may have been overextended. The geopolitical tensions in the Middle East and the recent inventory build also support a potential short-term correction.",
     "llm_provider": "openai",
@@ -5932,49 +5940,5 @@
     "status": "detected",
     "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
     "logged_at": "2026-10-01T17:58:09.958001+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "direction": "BUY",
-    "size": 1.4,
-    "margin_allocated": 1700.16,
-    "effective_leverage": 5.0,
-    "notional": 8505.28,
-    "stop_distance": 19.4304,
-    "limit_distance": 242.88,
-    "confluence_detail": "get_term_structure agrees with bullish",
-    "reason": "Silver technicals are essentially neutral (RSI 46.9, price 61.27 vs SMA20 61.12/SMA50 61.21 -- barely above both, no strong trend either way) so leaning on non-technical catalysts per house style: term structure is in backwardation (near month above far, a bullish tilt signaling tight near-term supply), CFTC managed money positioning is unremarkable (60.8th percentile, no crowding extreme) removing a contrarian-short case, and broader precious metals commentary (Morgan Stanley) cites structural bullish support from physical demand and fiscal concerns spilling over from gold. Sizing at the floor (20%) given silver's historically thin trend-following edge and lack of a strong specific catalyst beyond backwardation.",
-    "llm_provider": "anthropic",
-    "status": "submitted",
-    "deal_id": "DIAAAAR9JYWEJAL",
-    "raw": {
-      "date": "2026-10-01T17:57:16.505",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDSILVER.DBI.IP",
-      "expiry": "-",
-      "dealReference": "M3XXZU38CZETYNV",
-      "dealId": "DIAAAAR9JYWEJAL",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR9JYWEJAL",
-          "status": "OPENED"
-        }
-      ],
-      "level": 6063.7,
-      "size": 1.4,
-      "direction": "BUY",
-      "stopLevel": 6044.2695,
-      "limitLevel": 6306.58,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-01T17:57:16.635832+00:00"
   }
 ]
