@@ -4,6 +4,46 @@
     "instrument": "BRENT_OIL",
     "status": "REJECTED",
     "reason": "Cannot open BRENT_OIL -- its WTI_OIL mirror slot is already occupied by an existing WTI position (shouldn't happen in normal operation; investigate if this recurs)",
+    "agent_reason": "Brent oil is currently overbought with an RSI of 74.4, indicating a potential pullback. Despite the strong uptrend and backwardation suggesting tight supply, the recent price surge may have been overextended. The geopolitical tensions in the Middle East and the recent inventory build also support a potential short-term correction.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-01T21:33:26.466925+00:00"
+  },
+  {
+    "action": "ORPHANED_WTI_CLEANUP",
+    "instrument": "WTI_OIL",
+    "deal_id": "DIAAAAR9KNXGXAC",
+    "original_direction": "SELL",
+    "reason": "MARKET_CLOSED_WITH_EDITS",
+    "status": "rejected",
+    "raw": {
+      "date": "2026-10-01T21:32:03.514",
+      "status": null,
+      "reason": "MARKET_CLOSED_WITH_EDITS",
+      "dealStatus": "REJECTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": null,
+      "dealReference": "B79JPTZ6VAETYNV",
+      "dealId": "DIAAAAR9KNVSTAL",
+      "affectedDeals": [],
+      "level": null,
+      "size": null,
+      "direction": "BUY",
+      "stopLevel": null,
+      "limitLevel": null,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-01T21:32:03.718629+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Cannot open BRENT_OIL -- its WTI_OIL mirror slot is already occupied by an existing WTI position (shouldn't happen in normal operation; investigate if this recurs)",
     "agent_reason": "Brent oil is currently overbought with an RSI of 74.4, indicating a potential pullback. Despite the strong uptrend and backwardation suggesting tight supply, the recent price surge may have been overextended. Geopolitical tensions and supply disruptions are already priced in, and the market may correct from these elevated levels.",
     "llm_provider": "openai",
     "logged_at": "2026-10-01T21:12:44.237165+00:00"
@@ -5936,19 +5976,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-10-01T17:57:16.635832+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "This trade's margin ($1870.18) would leave available at $2380.22, below the 30.0% safety buffer of balance $8500.80 -- rejected to avoid risking a forced closure on this or other open positions",
-    "logged_at": "2026-10-01T17:57:16.427858+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "GOLD",
-    "status": "REJECTED",
-    "reason": "This trade's margin ($2125.20) would leave available at $2125.20, below the 30.0% safety buffer of balance $8500.80 -- rejected to avoid risking a forced closure on this or other open positions",
-    "logged_at": "2026-10-01T17:57:16.427647+00:00"
   }
 ]
