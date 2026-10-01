@@ -1,5 +1,52 @@
 [
   {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 252 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "agent_reason": "Original short thesis (contango, bearish seasonality, shoulder-season demand) remains intact and now has a solid +$75 unrealized gain after ~4hrs. Price has made fresh lows (2.977 vs 3.013 earlier) with RSI 26.9 now oversold -- continuing a one-directional move down, not chopping. Rather than risk giving back the gain by holding into a potential oversold bounce, banking this real, developed profit is consistent with house style (let a move develop, then take it) given the trade has already run meaningfully in favor. Note: this close is only proposed if outside the 12h discretionary-close block; otherwise treat as HOLD on NG this check-in.",
+    "logged_at": "2026-10-01T04:32:46.349174+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "NATURAL_GAS",
+    "deal_id": "DIAAAAR9BAVVPAY",
+    "old_limit_level": 2913.68,
+    "new_limit_level": 2912.68,
+    "old_stop_level": 3046.0,
+    "new_stop_level": 3045.0,
+    "reason": "Trailing-stop reconciliation (floor 1.6%, arm 0.6%, gap 0.1% once armed, continuous not stepped, Plan A active) -- amending both on IG directly (both always sent together, see incident note above).",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-01T04:04:22.328",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "P7NG263SYZ2TYNV",
+      "dealId": "DIAAAAR9BAVVPAY",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR9BAVVPAY",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 3058.0,
+      "size": 3.28,
+      "direction": "SELL",
+      "stopLevel": 3045.0,
+      "limitLevel": 2912.68,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-01T04:04:22.534996+00:00"
+  },
+  {
     "action": "MARGIN_EXIT_SYNC",
     "instrument": "NATURAL_GAS",
     "deal_id": "DIAAAAR9BAVVPAY",
@@ -6576,83 +6623,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-09-30T10:21:43.834063+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "WTI_OIL",
-    "deal_id": "DIAAAAR86FQNHAT",
-    "old_limit_level": 9320.175,
-    "new_limit_level": 9328.0782,
-    "old_stop_level": 8933.346,
-    "new_stop_level": 8933.346,
-    "reason": "Trailing-stop reconciliation (floor 1.6%, arm 0.6%, gap 0.1% once armed, continuous not stepped, Plan A active) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-30T10:19:36.319",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "RSJ4D3TUGDATYNV",
-      "dealId": "DIAAAAR86FQNHAT",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR86FQNHAT",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 8962.0,
-      "size": 1.12,
-      "direction": "BUY",
-      "stopLevel": 8933.346,
-      "limitLevel": 9328.078,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-30T10:19:36.500987+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR86F7RDBA",
-    "old_limit_level": 10094.0269,
-    "new_limit_level": 10105.632,
-    "old_stop_level": 9677.4418,
-    "new_stop_level": 9677.4418,
-    "reason": "Trailing-stop reconciliation (floor 1.6%, arm 0.6%, gap 0.1% once armed, continuous not stepped, Plan A active) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-09-30T10:19:36.077",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "N2WTMFCV8YJTYNV",
-      "dealId": "DIAAAAR86F7RDBA",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR86F7RDBA",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 9708.3,
-      "size": 1.04,
-      "direction": "BUY",
-      "stopLevel": 9677.441,
-      "limitLevel": 10105.632,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-09-30T10:19:36.230976+00:00"
   }
 ]
