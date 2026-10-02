@@ -504,6 +504,11 @@ PLANS = {
         # exists (agent_runner.get_second_opinion) and Plan B still runs it, this just skips
         # the call site in run_cfd_tick while Plan A is active, so no extra API call/cost or
         # rejection risk from it.
+        "trailing_stop_instruments": {"BRENT_OIL", "WTI_OIL", "NATURAL_GAS", "GOLD", "SILVER"},
+        "agent_discretion_instruments": set(),  # none -- Plan A's instruments all use the
+        # system-enforced trailing-stop floor/arm scheme above, never the agent's own
+        # per-trade stop_loss_pct/take_profit_pct (see Plan C below for the instrument set
+        # where that's reversed).
     },
     "B": {
         "floor": {"BRENT_OIL": 0.45, "WTI_OIL": 0.45, "NATURAL_GAS": 0.45, "GOLD": 0.2, "SILVER": 0.4},
@@ -512,14 +517,53 @@ PLANS = {
         "profit_take_pct_of_balance": 2.2,
         "momentum_filtered_instruments": set(),
         "second_opinion_enabled": True,
+        "trailing_stop_instruments": {"BRENT_OIL", "WTI_OIL", "NATURAL_GAS", "GOLD", "SILVER"},
+        "agent_discretion_instruments": set(),
+    },
+    "C": {
+        # ADDED 2026-10-02 per explicit user instruction ("switch to 1st September setup and
+        # call it plan c") -- reconstructed from commit 66b63968 (2026-09-01T23:20:20+04:00,
+        # the last config change that day), the account's setup BEFORE the trailing-stop/floor-
+        # arm/PLANS architecture existed at all. The defining difference from Plan A/B: there is
+        # NO system-enforced stop/limit scheme here -- the agent itself picks stop_loss_pct
+        # (1-50% of PRICE) and take_profit_pct (1-200% of PRICE) on every OPEN_LONG/OPEN_SHORT,
+        # exactly as it did on 2026-09-01, and that stop/limit is set ONCE at open and never
+        # synced/ratcheted afterward (Sep 1 had no _sync_margin_based_exits equivalent at all).
+        # See agent_discretion_instruments below and its call sites in run_cfd_tick /
+        # _sync_margin_based_exits. floor/arm/gap are placeholders here, structurally present
+        # only so _floor_pct_for/_arm_pct_for/TRAILING_STOP_GAP_PCT stay total functions -- they
+        # are never actually read for any instrument under Plan C, since
+        # trailing_stop_instruments is empty.
+        "floor": {"BRENT_OIL": 1.6, "WTI_OIL": 1.6, "NATURAL_GAS": 1.6, "GOLD": 1.6, "SILVER": 1.6},
+        "arm": {"BRENT_OIL": 1.2, "WTI_OIL": 1.2, "NATURAL_GAS": 1.2, "GOLD": 1.2, "SILVER": 1.2},
+        "gap": 0.10,
+        "profit_take_pct_of_balance": 1.2,  # _check_balance_profit_target postdates Sep 1 (added
+        # 2026-09-25) and wasn't asked to be removed -- kept active as an extra safety net (it
+        # only ever closes a position already in substantial profit, which doesn't conflict with
+        # "agent sets its own stop/target"), unlike the trailing-stop machinery itself.
+        "momentum_filtered_instruments": set(),  # didn't exist on Sep 1 (added 2026-09-25)
+        "second_opinion_enabled": False,  # didn't exist on Sep 1 (added 2026-09-29)
+        "trailing_stop_instruments": set(),  # none -- see agent_discretion_instruments
+        "agent_discretion_instruments": {"BRENT_OIL", "WTI_OIL", "NATURAL_GAS", "GOLD", "SILVER"},
+        # all 5 (kept at today's 5-instrument universe per explicit user instruction, rather
+        # than restricting to Sep 1's actual 3 -- Brent/WTI/NG -- since Gold/Silver didn't exist
+        # as instruments yet on that date).
     },
 }
-ACTIVE_PLAN = "A"  # "A" or "B" -- THE single switch. Change this one line (and push) to flip
-# between the two full configurations above; everything below derives from whichever plan is
-# named here (TRAILING_STOP_GAP_PCT, PROFIT_TAKE_PCT_OF_BALANCE, MOMENTUM_FILTERED_INSTRUMENTS,
-# and every instrument's floor/arm via _floor_pct_for/_arm_pct_for). SWITCHED TO "A" 2026-09-29
-# per explicit user instruction ("switch to plan A and add momentum filter there") -- Plan B
-# remains fully defined above and one line away if this doesn't work out.
+ACTIVE_PLAN = "C"  # "A", "B", or "C" -- THE single switch. Change this one line (and push) to
+# flip between configurations; everything below derives from whichever plan is named here
+# (TRAILING_STOP_GAP_PCT, PROFIT_TAKE_PCT_OF_BALANCE, MOMENTUM_FILTERED_INSTRUMENTS,
+# TRAILING_STOP_INSTRUMENTS, AGENT_DISCRETION_INSTRUMENTS, and every instrument's floor/arm via
+# _floor_pct_for/_arm_pct_for). SWITCHED TO "C" 2026-10-02 per explicit user instruction
+# ("switch to 1st September setup and call it plan c") -- Plan A/B remain fully defined above
+# and one line away if this doesn't work out. NOTE: unlike the A<->B switch, adopting Plan C
+# ALSO required changes outside PLANS that this single line does NOT revert on its own --
+# config.RULES (require_confluence, same_direction_cooldown_minutes,
+# min_hold_minutes_before_discretionary_close, min_tick_interval_minutes) and
+# config.INSTRUMENT_LLM_PROVIDER (reverted to single-OpenAI for all 5 instruments) were both
+# changed globally alongside this switch, and config.PAUSED_INSTRUMENTS was cleared -- switching
+# back to Plan A/B later will NOT automatically restore those, they'd need to be set back
+# manually.
 
 PROFIT_TAKE_PCT_OF_BALANCE = PLANS[ACTIVE_PLAN]["profit_take_pct_of_balance"]  # ADDED
 # 2026-09-25 (user's own choice), raised from 0.8 to 1.0 the same day, then to 1.2 on
@@ -660,7 +704,19 @@ def _profit_take_pct_for(instrument: str) -> float:
 # enough data to draw a real conclusion for them either way; included here
 # because the user asked for uniform treatment across all 5, not because
 # they've been separately validated.
-TRAILING_STOP_INSTRUMENTS = {"BRENT_OIL", "WTI_OIL", "NATURAL_GAS", "GOLD", "SILVER"}
+TRAILING_STOP_INSTRUMENTS = PLANS[ACTIVE_PLAN]["trailing_stop_instruments"]  # as of 2026-10-02
+# this is plan-derived rather than a hardcoded module-level set -- Plan A/B keep it as all 5
+# instruments (the historical derivation below is specifically about THEIR floor/arm), Plan C
+# empties it entirely in favor of AGENT_DISCRETION_INSTRUMENTS just below.
+AGENT_DISCRETION_INSTRUMENTS = PLANS[ACTIVE_PLAN]["agent_discretion_instruments"]  # ADDED
+# 2026-10-02 for Plan C ("switch to 1st September setup and call it plan c") -- an instrument
+# in this set gets NEITHER the trailing-stop scheme NOR the non-trailing fixed-%-of-margin
+# fallback below; instead its OPEN_LONG/OPEN_SHORT stop_distance/limit_distance come straight
+# from the agent's own proposed stop_loss_pct/take_profit_pct (a % of PRICE, not margin -- see
+# the OPEN execution call sites in run_cfd_tick), exactly as this account worked before any of
+# this trailing-stop machinery existed. _sync_margin_based_exits (below) explicitly skips any
+# instrument in this set every tick -- once opened, its stop/limit is never touched again,
+# matching Sep 1's behavior of having no sync/ratchet step at all.
 # PLAN B (deployed 2026-09-28, superseding the uniform 1.6%/1.2% "Plan A" config --
 # see git tag plan-a-uniform-1.6floor-1.2arm-0.10gap to revert to that snapshot).
 # Per-instrument floor/arm, replacing the single global TRAILING_STOP_FLOOR_PCT/
@@ -1091,6 +1147,12 @@ def _sync_margin_based_exits(broker, positions: dict, snapshots: dict, max_lever
     peak_state = {k: v for k, v in peak_state.items() if k in live_deal_ids}
 
     for instrument, pos in positions.items():
+        if instrument in AGENT_DISCRETION_INSTRUMENTS:
+            # ADDED 2026-10-02 for Plan C: this instrument's stop/limit were set once at
+            # OPEN time from the agent's own stop_loss_pct/take_profit_pct and are never
+            # synced/ratcheted afterward -- matching Sep 1's actual behavior (no sync step
+            # existed at all back then). Skip entirely, every tick.
+            continue
         snapshot = snapshots.get(instrument)
         margin = _margin_allocated_for_position(pos, snapshot, max_leverage_multiple)
         entry_level = pos.get("entry_level")
@@ -2073,10 +2135,21 @@ def run_cfd_tick():
                     continue
 
                 direction = "BUY" if action == "OPEN_LONG" else "SELL"
-                min_stop_distance = (snapshot or {}).get("min_stop_distance")
-                stop_distance, limit_distance = _initial_stop_and_limit_distance(
-                    sizing["margin_allocated"], sizing["size"], min_stop_distance, instrument,
-                )
+                if instrument in AGENT_DISCRETION_INSTRUMENTS:
+                    # ADDED 2026-10-02 for Plan C: no system-enforced stop/limit at all here --
+                    # the agent's OWN proposed stop_loss_pct/take_profit_pct (already validated
+                    # as mandatory, see _validate_trade) is applied directly as a % of the
+                    # current fill PRICE, exactly the Sep-1-era formula (not a % of margin like
+                    # every other mechanism in this file). _sync_margin_based_exits never
+                    # touches this position again after this.
+                    price = sizing["price"]
+                    stop_distance = round(price * (trade["stop_loss_pct"] / 100), 4)
+                    limit_distance = round(price * (trade["take_profit_pct"] / 100), 4)
+                else:
+                    min_stop_distance = (snapshot or {}).get("min_stop_distance")
+                    stop_distance, limit_distance = _initial_stop_and_limit_distance(
+                        sizing["margin_allocated"], sizing["size"], min_stop_distance, instrument,
+                    )
 
                 result = broker.open_position(
                     epic=inst.epic, direction=direction, size=sizing["size"],
@@ -2116,10 +2189,19 @@ def run_cfd_tick():
                             running_available - wti_sizing["margin_allocated"], account["balance"], RULES,
                         )
                         if wti_sizing and wti_margin_ok:
-                            wti_min_stop_distance = (wti_snapshot or {}).get("min_stop_distance")
-                            wti_stop_distance, wti_limit_distance = _initial_stop_and_limit_distance(
-                                wti_sizing["margin_allocated"], wti_sizing["size"], wti_min_stop_distance, "WTI_OIL",
-                            )
+                            if "WTI_OIL" in AGENT_DISCRETION_INSTRUMENTS:
+                                # ADDED 2026-10-02 for Plan C -- same Sep-1-era formula as the
+                                # Brent leg above, using the SAME trade["stop_loss_pct"]/
+                                # take_profit_pct (Brent's proposal) against WTI's own price,
+                                # exactly matching the original 2026-09-01 mirror-open code.
+                                wti_price = wti_sizing["price"]
+                                wti_stop_distance = round(wti_price * (trade["stop_loss_pct"] / 100), 4)
+                                wti_limit_distance = round(wti_price * (trade["take_profit_pct"] / 100), 4)
+                            else:
+                                wti_min_stop_distance = (wti_snapshot or {}).get("min_stop_distance")
+                                wti_stop_distance, wti_limit_distance = _initial_stop_and_limit_distance(
+                                    wti_sizing["margin_allocated"], wti_sizing["size"], wti_min_stop_distance, "WTI_OIL",
+                                )
                             wti_result = broker.open_position(
                                 epic=wti_inst.epic, direction=direction, size=wti_sizing["size"],
                                 stop_distance=wti_stop_distance, limit_distance=wti_limit_distance,

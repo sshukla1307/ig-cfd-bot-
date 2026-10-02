@@ -86,40 +86,32 @@ class SystemRules:
                                          # doesn't guarantee precise firing -- see cfd_trading.yml's
                                          # comment. Treat this as the target/nominal cadence, not a
                                          # hard guarantee.
-    require_confluence: bool = False  # DISABLED 2026-09-24 (user's own choice) -- was blocking ~60%
-                                      # of all proposed trades (82 of 136 rejections in the preceding
-                                      # 24h alone), cutting trade frequency far more aggressively than
-                                      # intended. Originally added after 49 real trades showed a 37%
-                                      # win rate, to block any OPEN_LONG/OPEN_SHORT proposed on
-                                      # technicals alone -- the agent had to have checked news or macro
-                                      # THIS tick too before opening. Left in place (not deleted) in
-                                      # case a future win-rate regression makes re-enabling it worth
-                                      # revisiting -- see _validate_trade's require_confluence check.
-    same_direction_cooldown_minutes: int = 0  # DISABLED 2026-09-24 (user's own choice, after also
-                                                # disabling the circuit breaker below) -- was 60. Originally
-                                                # added after a real, observed pattern of re-shorting Brent/
-                                                # WTI into a strong uptrend 3 times in ~90 minutes right
-                                                # after each stop-out, using a vague "news suggests a
-                                                # decline" headline to satisfy confluence each time --
-                                                # blocked re-opening the SAME direction on an instrument
-                                                # within this many minutes of a LOSING close there. 0 means
-                                                # the check (minutes_since < this) is never true, i.e. never
-                                                # blocks. Left in place, not deleted, in case a future
-                                                # re-shorting pattern makes re-enabling it worth revisiting.
-    min_hold_minutes_before_discretionary_close: int = 720  # real trade data (76 matched
-                                                # trades in one day) showed a ~30min median hold time,
-                                                # while the backtest that validated the trend-following/
-                                                # mean-reversion strategies needed a 34-48h MEDIAN hold
-                                                # for its 4%/8% stop/target to actually resolve -- the
-                                                # live agent has been closing positions ~100x faster than
-                                                # the strategy it's supposedly running, never letting the
-                                                # validated edge develop. Blocks a discretionary CLOSE
-                                                # (the agent choosing to exit early, as opposed to IG's
-                                                # own stop/limit or the stop-breach backstop firing) within
-                                                # this many minutes of opening. Raised from 180 (3h) to
-                                                # 720 (12h) -- still short of the full 34-48h backtested
-                                                # median, but a much bigger step toward letting the
-                                                # validated edge actually develop; the real stop/limit and
+    require_confluence: bool = True  # RE-ENABLED 2026-10-02 as part of adopting Plan C ("switch
+                                      # to 1st September setup and call it plan c") -- this was the
+                                      # live value on 2026-09-01, before being disabled 2026-09-24
+                                      # (that history: was blocking ~60% of all proposed trades, 82
+                                      # of 136 rejections in the preceding 24h alone). Note today's
+                                      # actual confluence CHECK (agent_runner.check_confluence) is a
+                                      # real signal-agreement verification, not Sep 1's cruder
+                                      # "did it call any other tool" procedural minimum -- this flag
+                                      # just turns the gate back on, it doesn't downgrade the check
+                                      # itself.
+    same_direction_cooldown_minutes: int = 60  # RESTORED 2026-10-02 as part of Plan C -- this was
+                                                # the live value on 2026-09-01, before being disabled
+                                                # 2026-09-24. Originally added after a real, observed
+                                                # pattern of re-shorting Brent/WTI into a strong uptrend
+                                                # 3 times in ~90 minutes right after each stop-out, using
+                                                # a vague "news suggests a decline" headline to satisfy
+                                                # confluence each time -- blocks re-opening the SAME
+                                                # direction on an instrument within this many minutes of
+                                                # a LOSING close there.
+    min_hold_minutes_before_discretionary_close: int = 180  # RESTORED 2026-10-02 as part of Plan C
+                                                # -- this was the live value on 2026-09-01 (raised to
+                                                # 720 on a later date; see git history for that
+                                                # reasoning). Blocks a discretionary CLOSE (the agent
+                                                # choosing to exit early, as opposed to IG's own
+                                                # stop/limit or the stop-breach backstop firing) within
+                                                # this many minutes of opening -- the real stop/limit and
                                                 # the stop-breach backstop still protect capital
                                                 # independently of this rule the whole time.
     max_consecutive_same_direction_losses: int = 999999  # TEMPORARILY DISABLED 2026-09-30
@@ -363,25 +355,25 @@ ANTHROPIC_MODEL = "claude-sonnet-5"
 # account -- but it's still worth watching those two instruments specifically
 # for a similar pattern.
 INSTRUMENT_LLM_PROVIDER = {
+    # REVERTED 2026-10-02 to single-OpenAI for all 5 instruments, as part of adopting Plan C
+    # ("switch to 1st September setup and call it plan c") -- the NATURAL_GAS/SILVER -> Claude
+    # split (2026-10-01) didn't exist on Sep 1; OpenAI was the sole provider for everything.
+    # This mapping is global, not plan-scoped like PLANS -- switching ACTIVE_PLAN back to "A" or
+    # "B" later will NOT automatically restore the split; it would need to be set back manually
+    # to {"BRENT_OIL": "openai", "WTI_OIL": "openai", "GOLD": "openai", "NATURAL_GAS":
+    # "anthropic", "SILVER": "anthropic"}.
     "BRENT_OIL": "openai",
     "WTI_OIL": "openai",     # mirrors BRENT_OIL's decision automatically, never asked independently
     "GOLD": "openai",
-    "NATURAL_GAS": "anthropic",
-    "SILVER": "anthropic",
+    "NATURAL_GAS": "openai",
+    "SILVER": "openai",
 }
 
-PAUSED_INSTRUMENTS = {"BRENT_OIL", "WTI_OIL", "GOLD"}  # ADDED 2026-10-02 per explicit user
-# instruction ("stop trades on brent, wti and gold. also stop making open ai calls") -- these
-# three ARE all of INSTRUMENT_LLM_PROVIDER's "openai" instruments, so excluding them from
-# cfd_runner.run_cfd_tick's provider-group loop leaves that group empty and the OpenAI call is
-# skipped entirely for the tick, not just gated after the fact -- satisfies both halves of the
-# request in one change. Only the LLM decision (new opens, agent-discretionary closes) is
-# paused; the independent protective machinery that runs regardless of any agent call --
-# _sync_margin_based_exits (trailing stop), _check_stop_breach_backstop,
-# _check_balance_profit_target, _check_orphaned_wti_mirror -- keeps managing any already-open
-# BRENT_OIL/WTI_OIL/GOLD position exactly as before, so an existing position isn't abandoned,
-# just no longer added to or discretionarily closed by the agent. Remove entries from this set
-# (or clear it) to resume.
+PAUSED_INSTRUMENTS = set()  # CLEARED 2026-10-02 as part of adopting Plan C (user's own choice,
+# "lift the pause") -- was {"BRENT_OIL", "WTI_OIL", "GOLD"} from an earlier same-day request to
+# stop trading those three and skip OpenAI calls entirely. Re-add instruments here (same
+# mechanics as before: excluded from cfd_runner.run_cfd_tick's provider-group loop, and the
+# provider group for an instrument-less provider is skipped entirely) to pause again.
 
 # ─────────────────────────────────────────────
 # Paths
