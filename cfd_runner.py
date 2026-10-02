@@ -509,6 +509,8 @@ PLANS = {
         # system-enforced trailing-stop floor/arm scheme above, never the agent's own
         # per-trade stop_loss_pct/take_profit_pct (see Plan C below for the instrument set
         # where that's reversed).
+        "agent_discretion_takeprofit_pct_of_margin": None,  # unused -- no agent-discretion
+        # instruments under Plan A, take-profit is the trailing scheme's own limit ceiling.
     },
     "B": {
         "floor": {"BRENT_OIL": 0.45, "WTI_OIL": 0.45, "NATURAL_GAS": 0.45, "GOLD": 0.2, "SILVER": 0.4},
@@ -519,6 +521,7 @@ PLANS = {
         "second_opinion_enabled": True,
         "trailing_stop_instruments": {"BRENT_OIL", "WTI_OIL", "NATURAL_GAS", "GOLD", "SILVER"},
         "agent_discretion_instruments": set(),
+        "agent_discretion_takeprofit_pct_of_margin": None,  # unused, same reasoning as Plan A
     },
     "C": {
         # ADDED 2026-10-02 per explicit user instruction ("switch to 1st September setup and
@@ -539,12 +542,16 @@ PLANS = {
         # are never actually read for any instrument under Plan C, since
         # trailing_stop_instruments is empty.
         #
-        # NOTE: 2026-09-21 (this account's single BEST day ever, +$857.06) ran on a further
-        # refinement made 2026-09-18 that this plan does NOT include -- take_profit_pct stopped
-        # being agent-discretion there too, replaced by a system-fixed 1.5%-of-margin limit
-        # (MARGIN_PROFIT_TAKE_PCT at the time), plus a fast 2-min "watch" check escalating to a
-        # full tick the moment a position closed. Flagged to the user as a candidate follow-up;
-        # not built into Plan C as of this comment.
+        # UPDATED 2026-10-02 again ("add the 21 september 1.5% margin profit takeout and 2 min
+        # watch") to also fold in the 2026-09-21 refinement: take_profit_pct is NO LONGER
+        # agent-discretion -- replaced by agent_discretion_takeprofit_pct_of_margin below, a
+        # system-fixed % of margin applied as a real resting IG limit order, synced every cycle
+        # (see _sync_margin_based_exits' agent-discretion branch). stop_loss_pct REMAINS
+        # agent-discretion, unchanged -- Sep 21 never touched the stop side, only take-profit.
+        # The "2 min watch" half of that request needed no new code: run_watch_check already
+        # runs _sync_margin_based_exits every ~2 minutes via gh-cron-pinger's external Cron
+        # Trigger (see its own docstring) -- it was simply a no-op for agent-discretion
+        # instruments before this change, since the sync function skipped them entirely.
         "floor": {"BRENT_OIL": 1.6, "WTI_OIL": 1.6, "NATURAL_GAS": 1.6, "GOLD": 1.6, "SILVER": 1.6},
         "arm": {"BRENT_OIL": 1.2, "WTI_OIL": 1.2, "NATURAL_GAS": 1.2, "GOLD": 1.2, "SILVER": 1.2},
         "gap": 0.10,
@@ -559,6 +566,11 @@ PLANS = {
         # all 5 (kept at today's 5-instrument universe per explicit user instruction, rather
         # than restricting to Sep 1's actual 3 -- Brent/WTI/NG -- since Gold/Silver didn't exist
         # as instruments yet on that date).
+        "agent_discretion_takeprofit_pct_of_margin": 1.5,  # the 2026-09-21 value (tried at 3.5%,
+        # then 2%, settled at 1.5% all in one day, 2026-09-18) -- overrides the agent's own
+        # take_profit_pct for every agent-discretion instrument. See
+        # _margin_based_distance(1.5, margin, size) at the OPEN call sites and the dedicated
+        # limit-only sync branch in _sync_margin_based_exits.
     },
 }
 ACTIVE_PLAN = "C"  # "A", "B", or "C" -- THE single switch. Change this one line (and push) to
@@ -722,12 +734,22 @@ TRAILING_STOP_INSTRUMENTS = PLANS[ACTIVE_PLAN]["trailing_stop_instruments"]  # a
 AGENT_DISCRETION_INSTRUMENTS = PLANS[ACTIVE_PLAN]["agent_discretion_instruments"]  # ADDED
 # 2026-10-02 for Plan C ("switch to 1st September setup and call it plan c") -- an instrument
 # in this set gets NEITHER the trailing-stop scheme NOR the non-trailing fixed-%-of-margin
-# fallback below; instead its OPEN_LONG/OPEN_SHORT stop_distance/limit_distance come straight
-# from the agent's own proposed stop_loss_pct/take_profit_pct (a % of PRICE, not margin -- see
-# the OPEN execution call sites in run_cfd_tick), exactly as this account worked before any of
-# this trailing-stop machinery existed. _sync_margin_based_exits (below) explicitly skips any
-# instrument in this set every tick -- once opened, its stop/limit is never touched again,
-# matching Sep 1's behavior of having no sync/ratchet step at all.
+# fallback below; instead its OPEN_LONG/OPEN_SHORT stop_distance comes straight from the
+# agent's own proposed stop_loss_pct (a % of PRICE, not margin -- see the OPEN execution call
+# sites in run_cfd_tick), exactly as this account worked before any of this trailing-stop
+# machinery existed.
+AGENT_DISCRETION_TAKEPROFIT_PCT = PLANS[ACTIVE_PLAN]["agent_discretion_takeprofit_pct_of_margin"]
+# ADDED 2026-10-02 ("add the 21 september 1.5% margin profit takeout and 2 min watch") -- when
+# not None, an agent-discretion instrument's take-profit is this fixed % of MARGIN (not the
+# agent's own take_profit_pct, and not a % of price) -- see the OPEN call sites and
+# _sync_margin_based_exits' dedicated limit-only sync branch below. None under Plan A/B (no
+# agent-discretion instruments to apply it to) and also a valid value under Plan C itself
+# (e.g. if a future "pure Sep 1/16" variant is wanted again without the Sep 21 take-profit
+# override, set this back to None -- the OPEN/sync code falls back to the agent's own
+# take_profit_pct whenever this is None).
+# _sync_margin_based_exits (below): for an agent-discretion instrument, the STOP is still never
+# touched after open (matching Sep 1/16's "no sync at all" behavior) -- only the LIMIT is
+# synced, and only when AGENT_DISCRETION_TAKEPROFIT_PCT is set (the Sep 21 refinement).
 # PLAN B (deployed 2026-09-28, superseding the uniform 1.6%/1.2% "Plan A" config --
 # see git tag plan-a-uniform-1.6floor-1.2arm-0.10gap to revert to that snapshot).
 # Per-instrument floor/arm, replacing the single global TRAILING_STOP_FLOOR_PCT/
@@ -1159,10 +1181,56 @@ def _sync_margin_based_exits(broker, positions: dict, snapshots: dict, max_lever
 
     for instrument, pos in positions.items():
         if instrument in AGENT_DISCRETION_INSTRUMENTS:
-            # ADDED 2026-10-02 for Plan C: this instrument's stop/limit were set once at
-            # OPEN time from the agent's own stop_loss_pct/take_profit_pct and are never
-            # synced/ratcheted afterward -- matching Sep 1's actual behavior (no sync step
-            # existed at all back then). Skip entirely, every tick.
+            if AGENT_DISCRETION_TAKEPROFIT_PCT is None:
+                # Plan C without the Sep-21 take-profit refinement: stop AND limit were
+                # set once at OPEN from the agent's own stop_loss_pct/take_profit_pct and
+                # are never touched again -- matching Sep 1/16's actual behavior (no sync
+                # step existed at all back then).
+                continue
+            # ADDED 2026-10-02 ("add the 21 september 1.5% margin profit takeout and 2 min
+            # watch"): the STOP stays exactly as the agent set it at open -- never touched
+            # here, matching Sep 1/16/21's actual stop behavior. Only the LIMIT
+            # (take-profit) is kept in sync with the fixed %-of-margin target, same
+            # mechanism as the real 2026-09-21 _sync_margin_based_limits. Called from both
+            # run_cfd_tick AND run_watch_check (every ~2 min via gh-cron-pinger), so this
+            # reconciles within minutes of any drift, not up to 30 min later.
+            agent_discretion_snapshot = snapshots.get(instrument)
+            agent_discretion_margin = _margin_allocated_for_position(pos, agent_discretion_snapshot, max_leverage_multiple)
+            agent_discretion_entry = pos.get("entry_level")
+            agent_discretion_current_limit = pos.get("limit_level")
+            agent_discretion_current_stop = pos.get("stop_level")
+            agent_discretion_size = pos.get("size")
+            if not agent_discretion_margin or agent_discretion_entry is None or not agent_discretion_size or agent_discretion_current_stop is None:
+                continue
+            agent_discretion_is_long = pos["direction"] == "BUY"
+            agent_discretion_limit_distance = _margin_based_distance(
+                AGENT_DISCRETION_TAKEPROFIT_PCT, agent_discretion_margin, agent_discretion_size,
+            )
+            agent_discretion_target_limit = round(
+                agent_discretion_entry + agent_discretion_limit_distance if agent_discretion_is_long
+                else agent_discretion_entry - agent_discretion_limit_distance, 4,
+            )
+            if agent_discretion_current_limit is not None and abs(agent_discretion_current_limit - agent_discretion_target_limit) <= MARGIN_LIMIT_SYNC_TOLERANCE:
+                continue  # already correct
+            result = broker.update_position(
+                deal_id=pos["deal_id"], limit_level=agent_discretion_target_limit,
+                stop_level=agent_discretion_current_stop,  # always reassert the stop explicitly when
+                # amending -- see the 2026-09-18 incident note below: omitting it is not "leave
+                # unchanged", IG deletes it.
+            )
+            _log_order_event({
+                "action": "MARGIN_EXIT_SYNC", "instrument": instrument, "deal_id": pos["deal_id"],
+                "old_limit_level": agent_discretion_current_limit, "new_limit_level": agent_discretion_target_limit,
+                "old_stop_level": agent_discretion_current_stop, "new_stop_level": agent_discretion_current_stop,
+                "reason": (
+                    f"Agent-discretion take-profit reconciliation (fixed {AGENT_DISCRETION_TAKEPROFIT_PCT}% "
+                    f"of margin, 2026-09-21 refinement) -- stop left exactly as the agent set it at open, "
+                    f"amending the limit only."
+                ),
+                **result,
+            })
+            if result.get("status") == "submitted":
+                synced.append(instrument)
             continue
         snapshot = snapshots.get(instrument)
         margin = _margin_allocated_for_position(pos, snapshot, max_leverage_multiple)
@@ -2147,15 +2215,24 @@ def run_cfd_tick():
 
                 direction = "BUY" if action == "OPEN_LONG" else "SELL"
                 if instrument in AGENT_DISCRETION_INSTRUMENTS:
-                    # ADDED 2026-10-02 for Plan C: no system-enforced stop/limit at all here --
-                    # the agent's OWN proposed stop_loss_pct/take_profit_pct (already validated
-                    # as mandatory, see _validate_trade) is applied directly as a % of the
-                    # current fill PRICE, exactly the Sep-1-era formula (not a % of margin like
-                    # every other mechanism in this file). _sync_margin_based_exits never
-                    # touches this position again after this.
+                    # ADDED 2026-10-02 for Plan C: no system-enforced STOP here -- the agent's
+                    # OWN proposed stop_loss_pct (already validated as mandatory, see
+                    # _validate_trade) is applied directly as a % of the current fill PRICE,
+                    # exactly the Sep-1-era formula (not a % of margin like every other
+                    # mechanism in this file). _sync_margin_based_exits never touches the stop
+                    # again after this.
                     price = sizing["price"]
                     stop_distance = round(price * (trade["stop_loss_pct"] / 100), 4)
-                    limit_distance = round(price * (trade["take_profit_pct"] / 100), 4)
+                    if AGENT_DISCRETION_TAKEPROFIT_PCT is not None:
+                        # UPDATED 2026-10-02 (2026-09-21 refinement): take-profit is a fixed %
+                        # of MARGIN instead of the agent's own take_profit_pct -- synced every
+                        # cycle by _sync_margin_based_exits' agent-discretion branch, same as
+                        # the real 2026-09-21 mechanism.
+                        limit_distance = _margin_based_distance(
+                            AGENT_DISCRETION_TAKEPROFIT_PCT, sizing["margin_allocated"], sizing["size"],
+                        )
+                    else:
+                        limit_distance = round(price * (trade["take_profit_pct"] / 100), 4)
                 else:
                     min_stop_distance = (snapshot or {}).get("min_stop_distance")
                     stop_distance, limit_distance = _initial_stop_and_limit_distance(
@@ -2201,13 +2278,21 @@ def run_cfd_tick():
                         )
                         if wti_sizing and wti_margin_ok:
                             if "WTI_OIL" in AGENT_DISCRETION_INSTRUMENTS:
-                                # ADDED 2026-10-02 for Plan C -- same Sep-1-era formula as the
-                                # Brent leg above, using the SAME trade["stop_loss_pct"]/
-                                # take_profit_pct (Brent's proposal) against WTI's own price,
-                                # exactly matching the original 2026-09-01 mirror-open code.
+                                # ADDED 2026-10-02 for Plan C -- same Sep-1-era stop formula as
+                                # the Brent leg above, using the SAME trade["stop_loss_pct"]
+                                # (Brent's proposal) against WTI's own price, matching the
+                                # original 2026-09-01 mirror-open code. Take-profit follows
+                                # whatever the Brent leg just used (fixed %-of-margin if
+                                # AGENT_DISCRETION_TAKEPROFIT_PCT is set -- the 2026-09-21
+                                # refinement -- else the agent's own take_profit_pct).
                                 wti_price = wti_sizing["price"]
                                 wti_stop_distance = round(wti_price * (trade["stop_loss_pct"] / 100), 4)
-                                wti_limit_distance = round(wti_price * (trade["take_profit_pct"] / 100), 4)
+                                if AGENT_DISCRETION_TAKEPROFIT_PCT is not None:
+                                    wti_limit_distance = _margin_based_distance(
+                                        AGENT_DISCRETION_TAKEPROFIT_PCT, wti_sizing["margin_allocated"], wti_sizing["size"],
+                                    )
+                                else:
+                                    wti_limit_distance = round(wti_price * (trade["take_profit_pct"] / 100), 4)
                             else:
                                 wti_min_stop_distance = (wti_snapshot or {}).get("min_stop_distance")
                                 wti_stop_distance, wti_limit_distance = _initial_stop_and_limit_distance(
