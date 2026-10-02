@@ -1712,7 +1712,7 @@ def run_cfd_tick():
         logger.info("[IG-CFD] IG_LIVE_TRADING_ENABLED is not 'true'. Doing nothing.")
         return
 
-    from config import RULES, INSTRUMENTS, PLAYBOOKS_DIR, INSTRUMENT_LLM_PROVIDER
+    from config import RULES, INSTRUMENTS, PLAYBOOKS_DIR, INSTRUMENT_LLM_PROVIDER, PAUSED_INSTRUMENTS
     from ig_broker import IGBroker
     from agent_runner import get_agent_trades, AgentCallFailed, check_confluence, get_second_opinion
     from dashboard_exporter import export_for_dashboard
@@ -1829,9 +1829,18 @@ def run_cfd_tick():
     # call is logged and that group's instruments simply get no trades this tick
     # (same fail-safe behavior as before), but does NOT prevent the other
     # provider's group from still deciding normally.
+    # ADDED 2026-10-02 per explicit user instruction ("stop trades on brent, wti and
+    # gold. also stop making open ai calls" -- see config.PAUSED_INSTRUMENTS): an
+    # instrument in this set is excluded from every provider group below, so no LLM
+    # call ever proposes a trade for it. Since PAUSED_INSTRUMENTS is currently all of
+    # INSTRUMENT_LLM_PROVIDER's "openai" instruments, that group ends up empty and
+    # the OpenAI call is skipped for the tick entirely -- not just gated after the
+    # fact. Any already-open position on a paused instrument is still fully managed
+    # by the independent protective checks above (stop-breach backstop, trailing-stop
+    # sync, balance profit-take, orphaned-WTI cleanup) regardless of this pause.
     provider_groups = {}
     for inst, provider in INSTRUMENT_LLM_PROVIDER.items():
-        if inst == "WTI_OIL":
+        if inst == "WTI_OIL" or inst in PAUSED_INSTRUMENTS:
             continue
         provider_groups.setdefault(provider, []).append(inst)
 

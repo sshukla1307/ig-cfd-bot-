@@ -370,6 +370,19 @@ INSTRUMENT_LLM_PROVIDER = {
     "SILVER": "anthropic",
 }
 
+PAUSED_INSTRUMENTS = {"BRENT_OIL", "WTI_OIL", "GOLD"}  # ADDED 2026-10-02 per explicit user
+# instruction ("stop trades on brent, wti and gold. also stop making open ai calls") -- these
+# three ARE all of INSTRUMENT_LLM_PROVIDER's "openai" instruments, so excluding them from
+# cfd_runner.run_cfd_tick's provider-group loop leaves that group empty and the OpenAI call is
+# skipped entirely for the tick, not just gated after the fact -- satisfies both halves of the
+# request in one change. Only the LLM decision (new opens, agent-discretionary closes) is
+# paused; the independent protective machinery that runs regardless of any agent call --
+# _sync_margin_based_exits (trailing stop), _check_stop_breach_backstop,
+# _check_balance_profit_target, _check_orphaned_wti_mirror -- keeps managing any already-open
+# BRENT_OIL/WTI_OIL/GOLD position exactly as before, so an existing position isn't abandoned,
+# just no longer added to or discretionarily closed by the agent. Remove entries from this set
+# (or clear it) to resume.
+
 # ─────────────────────────────────────────────
 # Paths
 # ─────────────────────────────────────────────
