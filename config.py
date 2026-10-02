@@ -105,10 +105,12 @@ class SystemRules:
                                                 # confluence each time -- blocks re-opening the SAME
                                                 # direction on an instrument within this many minutes of
                                                 # a LOSING close there.
-    min_hold_minutes_before_discretionary_close: int = 180  # RESTORED 2026-10-02 as part of Plan C
-                                                # -- this was the live value on 2026-09-01 (raised to
-                                                # 720 on a later date; see git history for that
-                                                # reasoning). Blocks a discretionary CLOSE (the agent
+    min_hold_minutes_before_discretionary_close: int = 720  # RAISED 2026-10-02 from 180 to 720
+                                                # ("switch to september 16") -- 180 was the Sep-1 value,
+                                                # but this account raised it to 720 (12h) on 2026-09-02
+                                                # and that was still the live value on 2026-09-16 (the
+                                                # code was otherwise frozen the whole 09-02 to 09-18
+                                                # window). Blocks a discretionary CLOSE (the agent
                                                 # choosing to exit early, as opposed to IG's own
                                                 # stop/limit or the stop-breach backstop firing) within
                                                 # this many minutes of opening -- the real stop/limit and

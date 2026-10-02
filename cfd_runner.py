@@ -522,18 +522,29 @@ PLANS = {
     },
     "C": {
         # ADDED 2026-10-02 per explicit user instruction ("switch to 1st September setup and
-        # call it plan c") -- reconstructed from commit 66b63968 (2026-09-01T23:20:20+04:00,
-        # the last config change that day), the account's setup BEFORE the trailing-stop/floor-
-        # arm/PLANS architecture existed at all. The defining difference from Plan A/B: there is
-        # NO system-enforced stop/limit scheme here -- the agent itself picks stop_loss_pct
-        # (1-50% of PRICE) and take_profit_pct (1-200% of PRICE) on every OPEN_LONG/OPEN_SHORT,
-        # exactly as it did on 2026-09-01, and that stop/limit is set ONCE at open and never
-        # synced/ratcheted afterward (Sep 1 had no _sync_margin_based_exits equivalent at all).
-        # See agent_discretion_instruments below and its call sites in run_cfd_tick /
+        # call it plan c"), then UPDATED same day ("switch to september 16") once investigation
+        # showed 2026-09-16 -- one of this account's two best days ever -- ran on the SAME
+        # agent-discretion stop/profit mechanism as Sep 1, just with a few RULES values that had
+        # moved since (see config.RULES: min_hold_minutes_before_discretionary_close now 720, not
+        # Sep 1's 180 -- the code was frozen from commit 73beefac on 2026-09-02 all the way
+        # through 2026-09-18, so this is what was ACTUALLY live on both Sep 1 and Sep 16, modulo
+        # that one RULES field). The defining difference from Plan A/B: there is NO
+        # system-enforced stop/limit scheme here -- the agent itself picks stop_loss_pct (1-50%
+        # of PRICE) and take_profit_pct (1-200% of PRICE) on every OPEN_LONG/OPEN_SHORT, and that
+        # stop/limit is set ONCE at open and never synced/ratcheted afterward (no
+        # _sync_margin_based_exits equivalent existed in this window at all). See
+        # agent_discretion_instruments below and its call sites in run_cfd_tick /
         # _sync_margin_based_exits. floor/arm/gap are placeholders here, structurally present
         # only so _floor_pct_for/_arm_pct_for/TRAILING_STOP_GAP_PCT stay total functions -- they
         # are never actually read for any instrument under Plan C, since
         # trailing_stop_instruments is empty.
+        #
+        # NOTE: 2026-09-21 (this account's single BEST day ever, +$857.06) ran on a further
+        # refinement made 2026-09-18 that this plan does NOT include -- take_profit_pct stopped
+        # being agent-discretion there too, replaced by a system-fixed 1.5%-of-margin limit
+        # (MARGIN_PROFIT_TAKE_PCT at the time), plus a fast 2-min "watch" check escalating to a
+        # full tick the moment a position closed. Flagged to the user as a candidate follow-up;
+        # not built into Plan C as of this comment.
         "floor": {"BRENT_OIL": 1.6, "WTI_OIL": 1.6, "NATURAL_GAS": 1.6, "GOLD": 1.6, "SILVER": 1.6},
         "arm": {"BRENT_OIL": 1.2, "WTI_OIL": 1.2, "NATURAL_GAS": 1.2, "GOLD": 1.2, "SILVER": 1.2},
         "gap": 0.10,
