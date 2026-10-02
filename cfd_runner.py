@@ -480,23 +480,20 @@ def _check_orphaned_wti_mirror(broker, positions: dict) -> list:
 # See also git tag plan-b-per-instrument-tuned-2026-09-29 for a frozen snapshot.
 PLANS = {
     "A": {
-        "floor": {"BRENT_OIL": 0.8, "WTI_OIL": 0.8, "NATURAL_GAS": 0.8, "GOLD": 0.8, "SILVER": 0.8},  # lowered
-        # from 1.6 to 0.8 on 2026-10-02, and arm from 0.6 to 0.15 below -- per user's own choice,
-        # backed by two real-data simulations run this session: (1) a floor x arm grid swept
-        # against 2026-10-01's real trades (97 trades, real result -$730.68) using actual
-        # 1-minute yfinance price data through the account's own continuous-trailing mechanics --
-        # 0.8/0.15 simulated +$507.06 vs -$280.85 for the then-live 1.6/0.6, a clean monotonic
-        # surface (not a noisy spike) with arm speed mattering far more than floor width; (2) the
-        # single worst historical incident, the 2026-09-20 Brent/WTI overnight reversal (real
-        # -$1,318.29, held ~12.5h through what was then a much wider ~5%-of-margin stop) --
-        # 0.8/0.15 simulated +$15.20 on that exact trade pair, beating even the 1.6/0.6 setting's
-        # -$110.79, because the much faster arm caught a brief favorable tick right at the open
-        # and locked in a small gain before the reversal started. Both tests agreed tighter beats
-        # wider for this account's actual trade pattern -- see git history around 2026-10-02 for
-        # the full comparison across 0.8/0.6 and 1.2/0.6 (both intermediate, both still beaten by
-        # 0.8/0.15 on both tests). Caveat acknowledged: two data points, not a full multi-week
-        # 70/30 backtest -- watch closely.
-        "arm": {"BRENT_OIL": 0.15, "WTI_OIL": 0.15, "NATURAL_GAS": 0.15, "GOLD": 0.15, "SILVER": 0.15},
+        "floor": {"BRENT_OIL": 0.15, "WTI_OIL": 0.15, "NATURAL_GAS": 0.15, "GOLD": 0.15, "SILVER": 0.15},
+        # floor 0.8->0.15 and arm 0.15->0.3 on 2026-10-02 (user's own choice), superseding the
+        # 0.8/0.15 setting deployed earlier the same day. 0.8/0.15 underperformed live overnight
+        # (real: -$375.46/65 trades, 30.8% win rate, vs the +$507 the Oct-1 backtest predicted --
+        # market regime, not a bug: the fast 0.15% arm excelled on Oct 1's trending afternoon but
+        # gave back the edge in a choppier overnight session). Re-swept against the real last-12h
+        # trades that prompted this (92 trades, real -$483.04): a floor=0.15 x arm grid (0.1
+        # through 1.5) peaked cleanly at arm=0.30 (+$72.97, 37% win rate) -- every other arm
+        # tried, both tighter (0.1/0.1/0.2) and looser (0.5/0.6/1.0/1.4/1.5), did worse on this
+        # same data, and floor=0.10 (even tighter) at the same arm underperformed 0.15 (+58.85 vs
+        # +72.97, mainly by flipping GOLD negative). NOT yet cross-checked against the Oct-1
+        # trending day or the Sep-20 reversal the way 0.8/0.15 was -- deployed on this window's
+        # result alone, per explicit instruction. Watch closely, same as every prior iteration.
+        "arm": {"BRENT_OIL": 0.3, "WTI_OIL": 0.3, "NATURAL_GAS": 0.3, "GOLD": 0.3, "SILVER": 0.3},
         "gap": 0.10,
         "profit_take_pct_of_balance": 1.2,
         "momentum_filtered_instruments": set(),  # TEMPORARILY DISABLED 2026-09-30 (user's own
