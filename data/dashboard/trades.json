@@ -1,5 +1,91 @@
 [
   {
+    "action": "WTI_MIRROR_OPEN",
+    "instrument": "WTI_OIL",
+    "direction": "BUY",
+    "size": 1.12,
+    "margin_allocated": 2019.16,
+    "effective_leverage": 5.0,
+    "notional": 10187.63,
+    "stop_distance": 272.883,
+    "limit_distance": 27.0423,
+    "reason": "Auto-mirrored from BRENT_OIL: Brent oil is in a short-term bullish setup with SMA-20 above SMA-50 and RSI at 50.9, indicating bullish momentum. The market is in backwardation, signaling tight supply. Recent news highlights geopolitical tensions with potential disruptions in Hormuz, which could further tighten supply.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR9SW95BAD",
+    "raw": {
+      "date": "2026-10-02T18:03:03.095",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "4M73DNS34DSTYNV",
+      "dealId": "DIAAAAR9SW95BAD",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR9SW95BAD",
+          "status": "OPENED"
+        }
+      ],
+      "level": 9106.6,
+      "size": 1.12,
+      "direction": "BUY",
+      "stopLevel": 8833.717,
+      "limitLevel": 9133.643,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-02T18:03:03.262029+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "direction": "BUY",
+    "size": 1.0,
+    "margin_allocated": 2019.16,
+    "effective_leverage": 5.0,
+    "notional": 10226.8,
+    "stop_distance": 306.804,
+    "limit_distance": 30.2874,
+    "confluence_detail": "get_term_structure agrees with bullish",
+    "reason": "Brent oil is in a short-term bullish setup with SMA-20 above SMA-50 and RSI at 50.9, indicating bullish momentum. The market is in backwardation, signaling tight supply. Recent news highlights geopolitical tensions with potential disruptions in Hormuz, which could further tighten supply.",
+    "llm_provider": "openai",
+    "status": "submitted",
+    "deal_id": "DIAAAAR9SXJPXAK",
+    "raw": {
+      "date": "2026-10-02T18:03:02.8",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "GJLNAL62PZETYNV",
+      "dealId": "DIAAAAR9SXJPXAK",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR9SXJPXAK",
+          "status": "OPENED"
+        }
+      ],
+      "level": 10235.1,
+      "size": 1.0,
+      "direction": "BUY",
+      "stopLevel": 9928.296,
+      "limitLevel": 10265.388,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-02T18:03:03.013741+00:00"
+  },
+  {
     "action": "CLOSE",
     "instrument": "BRENT_OIL",
     "status": "REJECTED",
@@ -4888,54 +4974,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-10-02T05:38:32.482690+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR9L4XNWAQ",
-    "old_limit_level": 10567.46,
-    "new_limit_level": 10562.66,
-    "old_stop_level": 10155.4,
-    "new_stop_level": 10155.4,
-    "reason": "Trailing-stop reconciliation (floor 0.15%, arm 0.3%, gap 0.1% once armed, continuous not stepped, Plan A active) -- amending both on IG directly (both always sent together, see incident note above).",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-10-02T05:37:50.451",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "ZYF7L7PPD4WTYNV",
-      "dealId": "DIAAAAR9L4XNWAQ",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR9L4XNWAQ",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 10151.5,
-      "size": 1.0,
-      "direction": "BUY",
-      "stopLevel": 10155.4,
-      "limitLevel": 10562.66,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-02T05:37:50.572343+00:00"
-  },
-  {
-    "action": "BROKER_CLOSE",
-    "instrument": "WTI_OIL",
-    "deal_id": "DIAAAAR9L4JLBAC",
-    "original_direction": "BUY",
-    "estimated_pnl": -5.26,
-    "status": "detected",
-    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-10-02T05:37:49.310515+00:00"
   }
 ]
