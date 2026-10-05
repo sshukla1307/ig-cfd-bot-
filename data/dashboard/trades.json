@@ -1,5 +1,90 @@
 [
   {
+    "action": "MIRROR_ROLLBACK",
+    "instrument": "BRENT_OIL",
+    "reason": "WTI mirror leg failed (Insufficient margin headroom for the WTI mirror leg) -- closing Brent back out.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-05T13:02:07.404",
+      "status": "CLOSED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "6D9VGBHMU9STYNV",
+      "dealId": "DIAAAAR9X73U4BA",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR9X73U4BA",
+          "status": "FULLY_CLOSED"
+        }
+      ],
+      "level": 10129.0,
+      "size": 1.0,
+      "direction": "SELL",
+      "stopLevel": null,
+      "limitLevel": null,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": -4.7,
+      "profitCurrency": "USD"
+    },
+    "logged_at": "2026-10-05T13:02:07.540166+00:00"
+  },
+  {
+    "action": "WTI_MIRROR_OPEN",
+    "instrument": "WTI_OIL",
+    "status": "rejected",
+    "reason": "Insufficient margin headroom for the WTI mirror leg",
+    "logged_at": "2026-10-05T13:02:07.289990+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "direction": "BUY",
+    "size": 1.0,
+    "margin_allocated": 2005.63,
+    "effective_leverage": 5.0,
+    "notional": 10140.9,
+    "stop_distance": 304.227,
+    "limit_distance": 30.0845,
+    "confluence_detail": "get_term_structure agrees with bullish",
+    "reason": "Brent oil is in a short-term bullish setup with SMA-20 above SMA-50 and the market in backwardation, signaling tight supply. Recent news highlights geopolitical tensions and a tightening physical market, supporting a bullish outlook.",
+    "llm_provider": "openai",
+    "status": "submitted",
+    "deal_id": "DIAAAAR9X73U4BA",
+    "raw": {
+      "date": "2026-10-05T13:02:07.153",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "E2TRGY39LFETYNV",
+      "dealId": "DIAAAAR9X73U4BA",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR9X73U4BA",
+          "status": "OPENED"
+        }
+      ],
+      "level": 10133.7,
+      "size": 1.0,
+      "direction": "BUY",
+      "stopLevel": 9829.473,
+      "limitLevel": 10163.784,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-05T13:02:07.289767+00:00"
+  },
+  {
     "action": "HOLD",
     "instrument": "SILVER",
     "status": "REJECTED",
@@ -3388,32 +3473,5 @@
     "agent_reason": "Brent Oil is oversold with an RSI of 12.3, indicating potential for a rebound. However, the current position is in a loss, and the market commentary suggests geopolitical risks that could impact prices. Closing the position to reassess the situation.",
     "llm_provider": "openai",
     "logged_at": "2026-10-02T14:32:41.538871+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 149 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "agent_reason": "Natural Gas is currently overbought with an RSI of 72.4, and the price is above both SMA-20 and SMA-50, indicating a strong upward momentum. However, the independent price check shows a discrepancy with the current price, suggesting potential data issues. Given the current unrealized loss and the potential for a reversal, it's prudent to close the position.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-02T14:32:41.538460+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 9 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "agent_reason": "Brent Oil is currently oversold with an RSI of 26.1, indicating potential for a rebound. However, the position is in a loss, and recent news suggests geopolitical tensions which could lead to volatility. The SMA-20 is above SMA-50, indicating a short-term bullish setup, but the oversold condition and recent losses suggest closing the position to reassess.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-02T14:02:59.395707+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 119 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "agent_reason": "Natural Gas is showing a short-term bearish setup with SMA-20 below SMA-50 and a contango structure indicating ample supply. However, the RSI is at 63.7, suggesting potential for a reversal. The current position is in a loss, and the market outlook is mixed with strong production and high storage inventories.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-02T14:02:59.395350+00:00"
   }
 ]
