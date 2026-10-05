@@ -3,6 +3,15 @@
     "action": "OPEN_LONG",
     "instrument": "BRENT_OIL",
     "status": "REJECTED",
+    "reason": "Same-direction cooldown: BRENT_OIL was closed at a loss 59 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
+    "agent_reason": "Brent oil is in a short-term bullish setup with SMA-20 above SMA-50 and RSI at 53.4, indicating neutral momentum. The market is in backwardation, signaling tight supply, which is bullish. Recent news highlights geopolitical tensions and a tightening physical market, supporting a bullish outlook.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-05T12:02:55.575200+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
     "reason": "Same-direction cooldown: BRENT_OIL was closed at a loss 30 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
     "agent_reason": "Brent oil is in a short-term bullish setup with SMA-20 above SMA-50 and RSI at 51.3, indicating neutral momentum. The market is in backwardation, signaling tight supply, which is bullish. Recent news highlights geopolitical tensions and a tightening physical market, supporting a bullish outlook.",
     "llm_provider": "openai",
@@ -3441,49 +3450,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-10-02T13:54:11.370093+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "direction": "BUY",
-    "size": 1.0,
-    "margin_allocated": 1982.45,
-    "effective_leverage": 5.0,
-    "notional": 9981.5,
-    "stop_distance": 499.075,
-    "limit_distance": 29.7368,
-    "confluence_detail": "get_term_structure agrees with bullish",
-    "reason": "Brent oil is currently oversold with an RSI of 23.2, indicating a potential rebound. The market is in backwardation, signaling tight supply, which is bullish. Recent news highlights geopolitical tensions with the US sending a third aircraft carrier to the Middle East, which could further tighten supply.",
-    "llm_provider": "openai",
-    "status": "submitted",
-    "deal_id": "DIAAAAR9QTQV3A2",
-    "raw": {
-      "date": "2026-10-02T13:54:10.804",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "UGHFK7QW45WTYNV",
-      "dealId": "DIAAAAR9QTQV3A2",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR9QTQV3A2",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9977.3,
-      "size": 1.0,
-      "direction": "BUY",
-      "stopLevel": 9478.225,
-      "limitLevel": 10007.037,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-02T13:54:11.066885+00:00"
   }
 ]
