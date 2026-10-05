@@ -1,5 +1,32 @@
 [
   {
+    "action": "OPEN_LONG",
+    "instrument": "SILVER",
+    "status": "REJECTED",
+    "reason": "SILVER already has an open position -- CLOSE it first",
+    "agent_reason": "Silver's managed-money net-short positioning is near a multi-month extreme, providing a contrarian bullish signal. The technicals show a short-term bullish setup with the SMA-20 above SMA-50. Despite the neutral RSI, the crowded short positioning suggests a potential upward move.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-05T00:02:34.083607+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "GOLD",
+    "status": "REJECTED",
+    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for GOLD this tick -- a technical read or a generic news search alone can't open a position",
+    "agent_reason": "Gold's managed-money positioning is within a normal range, and the technicals show a potential upward move with the SMA-20 above SMA-50. The RSI is neutral, providing room for an upward move. The independent price check shows agreement between sources, supporting a stable price environment.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-05T00:02:34.083458+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Confluence requirement not met: BRENT_OIL's independent signal(s) checked this tick (get_term_structure=bullish) do not support a bearish thesis -- a technical read alone, or signals pointing the other way, aren't enough to open",
+    "agent_reason": "Brent oil is currently overbought with an RSI of 75.1, indicating a potential pullback. The market is in backwardation, signaling tight supply, but the recent price surge suggests a correction is likely. The technicals show a short-term bullish setup, but the overbought RSI suggests a short-term reversal.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-05T00:02:34.083220+00:00"
+  },
+  {
     "action": "OPEN_SHORT",
     "instrument": "BRENT_OIL",
     "status": "REJECTED",
@@ -4376,64 +4403,5 @@
     "status": "detected",
     "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
     "logged_at": "2026-10-02T06:14:04.885219+00:00"
-  },
-  {
-    "action": "BROKER_CLOSE",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR9L7PFEA9",
-    "original_direction": "BUY",
-    "estimated_pnl": -3.4,
-    "status": "detected",
-    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-10-02T06:14:04.885014+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "GOLD",
-    "status": "REJECTED",
-    "reason": "This trade's margin ($1610.36) would leave available at $1509.91, below the 30.0% safety buffer of balance $8051.79 -- rejected to avoid risking a forced closure on this or other open positions",
-    "logged_at": "2026-10-02T06:13:16.794840+00:00"
-  },
-  {
-    "action": "WTI_MIRROR_OPEN",
-    "instrument": "WTI_OIL",
-    "direction": "BUY",
-    "size": 1.12,
-    "margin_allocated": 2012.95,
-    "effective_leverage": 5.0,
-    "notional": 10247.33,
-    "stop_distance": 6.0,
-    "limit_distance": 359.4554,
-    "reason": "Auto-mirrored from BRENT_OIL: Brent oil is in a strong uptrend with SMA-20 above SMA-50 and RSI at 57.7, indicating bullish momentum. The market is in backwardation, signaling tight supply. Geopolitical tensions with the U.S. sending a third aircraft carrier to the Middle East have pushed prices higher. Despite a recent inventory build, the geopolitical situation and technical indicators suggest further upside potential.",
-    "status": "submitted",
-    "deal_id": "DIAAAAR9L8PWCAN",
-    "raw": {
-      "date": "2026-10-02T06:13:16.616",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "83LUCQ8APNATYNV",
-      "dealId": "DIAAAAR9L8PWCAN",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR9L8PWCAN",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9140.8,
-      "size": 1.12,
-      "direction": "BUY",
-      "stopLevel": 9134.8,
-      "limitLevel": 9500.256,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-02T06:13:16.794499+00:00"
   }
 ]
