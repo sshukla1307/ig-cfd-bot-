@@ -1,5 +1,24 @@
 [
   {
+    "action": "OPEN_LONG",
+    "instrument": "SILVER",
+    "status": "REJECTED",
+    "reason": "Same-direction cooldown: SILVER was closed at a loss 1 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
+    "agent_reason": "Silver is showing a contrarian bullish signal with managed-money net-short positioning near a multi-month extreme, indicating a crowded short position. The term structure is in backwardation, suggesting tight supply, which is bullish. Despite the strong dollar and high yields, these factors provide a compelling bullish case for silver.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-05T07:54:15.107253+00:00"
+  },
+  {
+    "action": "BROKER_CLOSE",
+    "instrument": "SILVER",
+    "deal_id": "DIAAAAR9UT5DKAT",
+    "original_direction": "BUY",
+    "estimated_pnl": -26.4,
+    "status": "detected",
+    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
+    "logged_at": "2026-10-05T07:53:38.271931+00:00"
+  },
+  {
     "action": "CLOSE",
     "instrument": "SILVER",
     "status": "REJECTED",
@@ -3733,25 +3752,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-10-02T06:36:02.651450+00:00"
-  },
-  {
-    "action": "BROKER_CLOSE",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR9L93JZBB",
-    "original_direction": "BUY",
-    "estimated_pnl": -5.0,
-    "status": "detected",
-    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-10-02T06:36:01.000469+00:00"
-  },
-  {
-    "action": "BROKER_CLOSE",
-    "instrument": "WTI_OIL",
-    "deal_id": "DIAAAAR9MAEZWBC",
-    "original_direction": "BUY",
-    "estimated_pnl": -3.46,
-    "status": "detected",
-    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-10-02T06:36:01.000212+00:00"
   }
 ]
