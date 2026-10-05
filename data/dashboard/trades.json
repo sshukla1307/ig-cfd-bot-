@@ -3,6 +3,33 @@
     "action": "CLOSE",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 162 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "agent_reason": "Natural Gas is in a bearish setup with a larger-than-typical inventory build, indicating ample supply. The market is in contango, and weather-driven demand is moderate, providing no strong bullish signal. The current unrealized loss suggests the initial bearish thesis is not playing out as expected.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-05T16:17:02.559959+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "SILVER",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: SILVER has only been open for 285 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "agent_reason": "Silver's technicals show a short-term bullish setup with SMA-20 above SMA-50, but the market is in contango, suggesting ample supply. Managed-money net-short positioning is near a multi-month extreme, a contrarian bullish signal, but the current unrealized loss and neutral RSI suggest the position is not performing as expected.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-05T16:17:02.559874+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "GOLD",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: GOLD has only been open for 485 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "agent_reason": "Gold is currently in a short-term bearish setup with SMA-20 below SMA-50 and the market in contango, indicating ample supply. The RSI is neutral, providing room for further downside. Managed-money positioning is within a normal range, offering no contrarian signal. The current unrealized loss suggests the initial bullish thesis is no longer valid.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-05T16:17:02.559698+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 148 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "agent_reason": "Natural Gas is in a short-term bullish setup with SMA-20 above SMA-50 and RSI at 65.3, indicating neutral momentum. However, the market is in steep contango, signaling ample supply, which is bearish. The recent inventory report showed a larger-than-typical build, reinforcing the bearish outlook. The current short position is not performing well, and the mixed signals suggest it's prudent to close it.",
     "llm_provider": "openai",
@@ -3397,93 +3424,5 @@
     "agent_reason": "Natural Gas is currently overbought with an RSI of 82.8, indicating a potential reversal. The price is above both SMA-20 and SMA-50, suggesting a short-term bullish trend, but the extreme RSI suggests caution. Closing the current short position to avoid further losses.",
     "llm_provider": "openai",
     "logged_at": "2026-10-02T17:16:09.558055+00:00"
-  },
-  {
-    "action": "BROKER_CLOSE",
-    "instrument": "WTI_OIL",
-    "deal_id": "DIAAAAR9SPX3RA2",
-    "original_direction": "BUY",
-    "estimated_pnl": -5.15,
-    "status": "detected",
-    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-10-02T17:15:36.340642+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR9SPWUEA9",
-    "old_limit_level": 10219.9556,
-    "new_limit_level": 10220.4697,
-    "old_stop_level": 9884.158,
-    "new_stop_level": 9884.158,
-    "reason": "Agent-discretion take-profit reconciliation (fixed 1.5% of margin, 2026-09-21 refinement) -- stop left exactly as the agent set it at open, amending the limit only.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-10-02T17:03:27.2",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "WFVH4SX7HWWTYNV",
-      "dealId": "DIAAAAR9SPWUEA9",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR9SPWUEA9",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 10189.9,
-      "size": 1.0,
-      "direction": "BUY",
-      "stopLevel": 9884.158,
-      "limitLevel": 10220.47,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-02T17:03:27.456992+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "WTI_OIL",
-    "deal_id": "DIAAAAR9SPX3RA2",
-    "old_limit_level": 9091.1354,
-    "new_limit_level": 9091.4929,
-    "old_stop_level": 8792.245,
-    "new_stop_level": 8792.245,
-    "reason": "Agent-discretion take-profit reconciliation (fixed 1.5% of margin, 2026-09-21 refinement) -- stop left exactly as the agent set it at open, amending the limit only.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-10-02T17:03:26.756",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "BXYZJFWL39ETYNV",
-      "dealId": "DIAAAAR9SPX3RA2",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR9SPX3RA2",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 9064.3,
-      "size": 1.12,
-      "direction": "BUY",
-      "stopLevel": 8792.245,
-      "limitLevel": 9091.493,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-02T17:03:27.092349+00:00"
   }
 ]
