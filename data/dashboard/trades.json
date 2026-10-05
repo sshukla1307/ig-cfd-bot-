@@ -1,6 +1,54 @@
 [
   {
     "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Same-direction cooldown: BRENT_OIL was closed at a loss 30 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
+    "agent_reason": "Brent oil is in a short-term bullish setup with SMA-20 above SMA-50 and RSI at 51.3, indicating neutral momentum. The market is in backwardation, signaling tight supply, which is bullish. Recent news highlights geopolitical tensions and a tightening physical market, supporting a bullish outlook.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-05T11:33:18.447338+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "SILVER",
+    "deal_id": "DIAAAAR9XS4GBBF",
+    "old_limit_level": 6217.6134,
+    "new_limit_level": 6217.3964,
+    "old_stop_level": 6012.851,
+    "new_stop_level": 6012.851,
+    "reason": "Agent-discretion take-profit reconciliation (fixed 1.5% of margin, 2026-09-21 refinement) -- stop left exactly as the agent set it at open, amending the limit only.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-05T11:32:44.173",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDSILVER.DBI.IP",
+      "expiry": "-",
+      "dealReference": "NYVLV88VU92TYNV",
+      "dealId": "DIAAAAR9XS4GBBF",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR9XS4GBBF",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 6198.8,
+      "size": 1.6,
+      "direction": "BUY",
+      "stopLevel": 6012.851,
+      "limitLevel": 6217.3965,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-05T11:32:44.411274+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
     "instrument": "SILVER",
     "direction": "BUY",
     "size": 1.6,
@@ -3437,24 +3485,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-10-02T13:54:11.066885+00:00"
-  },
-  {
-    "action": "BROKER_CLOSE",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR9NWFR2AK",
-    "original_direction": "BUY",
-    "estimated_pnl": 3.0,
-    "status": "detected",
-    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-10-02T13:53:32.167686+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 109 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "agent_reason": "The current short position in Natural Gas is underperforming with a significant unrealized loss. The technicals show a neutral RSI and a price above the SMA-20, indicating potential upward momentum. Additionally, the market is well-supplied, but the recent price action suggests a potential reversal. Closing the position to prevent further losses.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-02T13:52:27.467843+00:00"
   }
 ]
