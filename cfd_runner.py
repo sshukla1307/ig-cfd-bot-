@@ -561,7 +561,13 @@ PLANS = {
         # 2026-09-25) and wasn't asked to be removed -- kept active as an extra safety net (it
         # only ever closes a position already in substantial profit, which doesn't conflict with
         # "agent sets its own stop/target"), unlike the trailing-stop machinery itself.
-        "momentum_filtered_instruments": set(),  # didn't exist on Sep 1 (added 2026-09-25)
+        "momentum_filtered_instruments": {"NATURAL_GAS", "BRENT_OIL"},  # RE-ENABLED 2026-10-06
+        # (user's own choice, "enable both [circuit breaker and momentum filter]") -- didn't
+        # exist on Sep 1 (added 2026-09-25) so this is a deliberate departure from faithfully
+        # replaying that date, same as the circuit breakers and the Sep-21 take-profit override.
+        # NATURAL_GAS and BRENT_OIL are each separately validated in this account's backtest
+        # history (see _check_momentum_confirms' and this module's own historical comments) --
+        # not assumed to generalize to GOLD/SILVER/WTI_OIL without their own validation.
         "second_opinion_enabled": False,  # didn't exist on Sep 1 (added 2026-09-29)
         "trailing_stop_instruments": set(),  # none -- see agent_discretion_instruments
         "agent_discretion_instruments": {"BRENT_OIL", "WTI_OIL", "NATURAL_GAS", "GOLD", "SILVER"},

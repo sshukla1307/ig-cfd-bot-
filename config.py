@@ -116,19 +116,19 @@ class SystemRules:
                                                 # this many minutes of opening -- the real stop/limit and
                                                 # the stop-breach backstop still protect capital
                                                 # independently of this rule the whole time.
-    max_consecutive_same_direction_losses: int = 999999  # TEMPORARILY DISABLED 2026-09-30
-                                                # (user's own choice, "disable cooldown... temporarily") --
-                                                # was 2, restore to 2 to re-enable. NOTE: the last time this
-                                                # was disabled together with same_direction_cooldown_minutes
-                                                # and require_confluence (2026-09-24), it promptly reproduced
-                                                # the exact failure pattern it exists to prevent: Brent Oil
-                                                # got re-opened LONG 5 times in ~12 minutes on essentially the
-                                                # same "strong uptrend / bullish backwardation" thesis,
-                                                # losing the same ~$6.02 three times in a row (the floor,
-                                                # never even reaching the trailing stop's arm) -- an entry-
-                                                # quality problem this circuit breaker would otherwise catch
-                                                # after the 2nd loss. Watch closely; re-enable promptly if a
-                                                # similar repeat-losing pattern shows up again.
+    max_consecutive_same_direction_losses: int = 2  # RE-ENABLED 2026-10-06 (user's own choice,
+                                                # "enable both [circuit breaker and momentum filter]") --
+                                                # prompted by the 2026-10-04/06 NATURAL_GAS incident: the
+                                                # agent re-shorted NG repeatedly over several days, citing
+                                                # fresh-looking reasoning (RSI, contango, inventory data)
+                                                # each time while real price kept rising ~4% -- exactly the
+                                                # repeated-losing-thesis pattern this breaker exists to catch.
+                                                # Was temporarily disabled 2026-09-30; the last time it was
+                                                # disabled together with same_direction_cooldown_minutes and
+                                                # require_confluence (2026-09-24), it promptly reproduced the
+                                                # exact failure pattern it exists to prevent: Brent Oil got
+                                                # re-opened LONG 5 times in ~12 minutes on essentially the
+                                                # same thesis, losing the same ~$6.02 three times in a row.
                                                 # Originally added after a real, observed overnight incident
                                                 # (2026-09-23/24: the agent re-shorted Natural Gas 8 times in
                                                 # ~13 hours into a persistent rally, losing 7, each re-entry
@@ -140,13 +140,20 @@ class SystemRules:
                                                 # the SAME direction, that direction is blocked for
                                                 # consecutive_loss_cooldown_minutes below, regardless of how
                                                 # much time has passed since the last one.
-    consecutive_loss_cooldown_minutes: int = 480  # 8h -- deliberately much longer than
-                                                # same_direction_cooldown_minutes, since the whole point is
-                                                # surviving a trend/repeating thesis that a short cooldown
-                                                # doesn't survive.
-    max_consecutive_losses_any_direction: int = 999999  # TEMPORARILY DISABLED 2026-09-30 (user's
-                                                # own choice, "disable cooldown... temporarily") -- was 2,
-                                                # restore to 2 to re-enable. ADDED 2026-09-29 after finding a real gap in
+    consecutive_loss_cooldown_minutes: int = 60  # LOWERED 2026-10-06 from 480 (8h) to 60 (1h) per
+                                                # explicit user instruction, alongside re-enabling both
+                                                # breakers -- deliberately much shorter than the original
+                                                # 8h design intent (see the circuit breaker's own comment:
+                                                # "the whole point is surviving a trend/repeating thesis
+                                                # that a short cooldown doesn't survive"), so this is a
+                                                # conscious tradeoff toward faster re-entry over the
+                                                # breaker's original rationale -- watch for the same
+                                                # repeated-losing-thesis pattern resuming once this shorter
+                                                # window expires.
+    max_consecutive_losses_any_direction: int = 2  # RE-ENABLED 2026-10-06, same prompting
+                                                # incident/request as max_consecutive_same_direction_losses
+                                                # above. Was temporarily disabled 2026-09-30. ADDED
+                                                # 2026-09-29 after finding a real gap in
                                                 # max_consecutive_same_direction_losses above: that breaker
                                                 # resets to 0 the instant direction flips, so BRENT_OIL could
                                                 # (and did) escape it by simply switching sides -- 2026-09-28
@@ -161,9 +168,9 @@ class SystemRules:
                                                 # EITHER direction continues the streak, only a WIN resets it
                                                 # -- so flipping sides no longer resets the count to zero.
                                                 # Same threshold (2) as the same-direction breaker because
-                                                # that's what the actual incident took to trip; same
-                                                # consecutive_loss_cooldown_minutes (480) block duration,
-                                                # applied to BOTH directions at once.
+                                                # that's what the actual incident took to trip; shares the
+                                                # same consecutive_loss_cooldown_minutes (now 60) block
+                                                # duration above, applied to BOTH directions at once.
 
 
 RULES = SystemRules()
