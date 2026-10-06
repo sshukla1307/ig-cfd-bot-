@@ -3,6 +3,24 @@
     "action": "CLOSE",
     "instrument": "BRENT_OIL",
     "status": "REJECTED",
+    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 95 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "agent_reason": "Brent oil is in backwardation, indicating tight supply, which is bullish. However, the technicals show a short-term bearish setup with SMA-20 below SMA-50 and RSI at 31.1, suggesting potential for further downside. The recent inventory data shows a build, which is not supportive of a bullish outlook. The current position is at a loss, and the overall signals do not strongly support a continued long position.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-06T04:02:42.286969+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "SILVER",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: SILVER has only been open for 180 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "agent_reason": "Silver is currently in a contango structure, indicating ample supply, which is bearish. The RSI is at 34.2, suggesting potential for further downside. Managed-money positioning is at a multi-month extreme short, which is a contrarian bullish signal, but the technicals and term structure suggest a bearish outlook. The current position is at a loss, and the overall signals do not strongly support a continued long position.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-06T04:02:42.286663+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
     "reason": "Minimum hold time not met: BRENT_OIL has only been open for 64 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "agent_reason": "Brent oil is in backwardation, indicating tight supply, which is bullish. However, the current position is at a loss, and the recent inventory data shows a build, which is not supportive of a strong bullish move. Closing the position to prevent further losses.",
     "llm_provider": "openai",
@@ -3237,56 +3255,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-10-05T00:35:35.195589+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "This trade's margin ($1554.45) would leave available at $1710.14, below the 30.0% safety buffer of balance $7772.25 -- rejected to avoid risking a forced closure on this or other open positions",
-    "logged_at": "2026-10-05T00:34:29.807515+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "GOLD",
-    "direction": "BUY",
-    "size": 1.88,
-    "margin_allocated": 1554.45,
-    "effective_leverage": 5.0,
-    "notional": 7809.18,
-    "stop_distance": 83.0764,
-    "limit_distance": 12.4025,
-    "confluence_detail": "get_term_structure agrees with bullish",
-    "reason": "Gold is showing a short-term bearish setup with SMA-20 below SMA-50, but the market is in backwardation, indicating tight supply, which is bullish. The RSI is neutral at 42.8, providing room for an upward move. The backwardation suggests a potential upward move, making it a good opportunity to go long.",
-    "llm_provider": "openai",
-    "status": "submitted",
-    "deal_id": "DIAAAAR9URVRTAD",
-    "raw": {
-      "date": "2026-10-05T00:34:29.681",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDGOLD.DBI.IP",
-      "expiry": "-",
-      "dealReference": "K6GMDT35TKJTYNV",
-      "dealId": "DIAAAAR9URVRTAD",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR9URVRTAD",
-          "status": "OPENED"
-        }
-      ],
-      "level": 4153.98,
-      "size": 1.88,
-      "direction": "BUY",
-      "stopLevel": 4070.9036,
-      "limitLevel": 4166.3823,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-05T00:34:29.807100+00:00"
   }
 ]
