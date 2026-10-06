@@ -3,6 +3,24 @@
     "action": "CLOSE",
     "instrument": "SILVER",
     "status": "REJECTED",
+    "reason": "Minimum hold time not met: SILVER has only been open for 601 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "agent_reason": "Silver is showing a contrarian bullish signal with managed-money net-short positioning near a multi-month extreme. However, the technicals are bearish with SMA-20 below SMA-50 and the market is in contango, indicating ample supply. The current position is slightly negative, and the mixed signals suggest closing the position to reassess.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-06T11:02:55.554766+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 515 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "agent_reason": "Brent Oil is currently oversold with an RSI of 21.1, indicating a potential rebound. However, the market is in backwardation, signaling tight supply, which is bullish. Despite this, the current position is significantly in the red, and the technicals suggest a bearish trend with SMA-20 below SMA-50. Closing the position to prevent further losses.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-06T11:02:55.554380+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "SILVER",
+    "status": "REJECTED",
     "reason": "Minimum hold time not met: SILVER has only been open for 570 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "agent_reason": "Silver is showing a contrarian bullish signal with managed-money net-short positioning near a multi-month extreme and backwardation in the term structure, indicating tight supply. However, the current position is slightly negative, and the technicals are not strongly supportive of a bullish move at this moment.",
     "llm_provider": "openai",
@@ -3205,24 +3223,5 @@
     "agent_reason": "The current Brent Oil position is showing a loss, and the technicals indicate a bearish setup with the RSI at 33.3, suggesting potential further downside. The market is in backwardation, which is typically bullish, but the recent inventory build, although smaller than average, does not support a strong bullish case. Closing the position to prevent further losses.",
     "llm_provider": "openai",
     "logged_at": "2026-10-05T08:02:26.259253+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "Same-direction cooldown: SILVER was closed at a loss 1 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
-    "agent_reason": "Silver is showing a contrarian bullish signal with managed-money net-short positioning near a multi-month extreme, indicating a crowded short position. The term structure is in backwardation, suggesting tight supply, which is bullish. Despite the strong dollar and high yields, these factors provide a compelling bullish case for silver.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-05T07:54:15.107253+00:00"
-  },
-  {
-    "action": "BROKER_CLOSE",
-    "instrument": "SILVER",
-    "deal_id": "DIAAAAR9UT5DKAT",
-    "original_direction": "BUY",
-    "estimated_pnl": -26.4,
-    "status": "detected",
-    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-10-05T07:53:38.271931+00:00"
   }
 ]
