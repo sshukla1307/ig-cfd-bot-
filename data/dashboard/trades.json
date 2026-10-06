@@ -1,12 +1,66 @@
 [
   {
+    "action": "OPEN_LONG",
+    "instrument": "SILVER",
+    "status": "REJECTED",
+    "reason": "Same-direction cooldown: SILVER was closed at a loss 1 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
+    "agent_reason": "Silver is showing a contrarian bullish signal with managed-money net-short positioning near a multi-month extreme. The market is in backwardation, indicating tight supply, which is bullish. Despite recent bearish price action, the oversold condition and backwardation suggest a potential upward move.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-06T19:05:26.825228+00:00"
+  },
+  {
     "action": "OPEN_SHORT",
     "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "NATURAL_GAS momentum filter: proposed OPEN_SHORT conflicts with price action over the last 30 minutes (current 3.117 vs 30-min SMA 3.116, trending up) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Natural Gas is in a contango structure, indicating ample supply, and the recent inventory report showed a larger-than-typical build, reinforcing the bearish outlook. Weather-driven demand is low, with shoulder-season conditions, further supporting a bearish stance.",
+    "direction": "SELL",
+    "size": 2.76,
+    "margin_allocated": 1784.72,
+    "effective_leverage": 5.0,
+    "notional": 8892.72,
+    "stop_distance": 45.2646,
+    "limit_distance": 16.1659,
+    "confluence_detail": "get_inventory_data agrees with bearish",
+    "reason": "Natural Gas is showing a short-term bullish setup with SMA-20 above SMA-50 and RSI at 68.0, indicating overbought conditions. However, the market is in contango, indicating ample supply, and the recent inventory report showed a larger-than-typical build, reinforcing the bearish outlook. The technicals suggest a potential downward move.",
     "llm_provider": "openai",
-    "logged_at": "2026-10-06T19:03:09.697516+00:00"
+    "status": "submitted",
+    "deal_id": "DIAAAAR99CPPCAB",
+    "raw": {
+      "date": "2026-10-06T19:05:26.678",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "UV4XBKW88YWTYNV",
+      "dealId": "DIAAAAR99CPPCAB",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR99CPPCAB",
+          "status": "OPENED"
+        }
+      ],
+      "level": 3219.0,
+      "size": 2.76,
+      "direction": "SELL",
+      "stopLevel": 3264.2646,
+      "limitLevel": 3202.834,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-06T19:05:26.824826+00:00"
+  },
+  {
+    "action": "BROKER_CLOSE",
+    "instrument": "SILVER",
+    "deal_id": "DIAAAAR989A48AM",
+    "original_direction": "BUY",
+    "estimated_pnl": -5.76,
+    "status": "detected",
+    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
+    "logged_at": "2026-10-06T19:04:39.547296+00:00"
   },
   {
     "action": "MARGIN_EXIT_SYNC",
@@ -3054,23 +3108,5 @@
     "agent_reason": "Gold is currently in a short-term bearish setup with SMA-20 below SMA-50 and the market in contango, indicating ample supply. The RSI is neutral, providing room for further downside. Managed-money positioning is within a normal range, offering no contrarian signal. The current unrealized loss suggests the initial bullish thesis is no longer valid.",
     "llm_provider": "openai",
     "logged_at": "2026-10-05T16:17:02.559698+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 148 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "agent_reason": "Natural Gas is in a short-term bullish setup with SMA-20 above SMA-50 and RSI at 65.3, indicating neutral momentum. However, the market is in steep contango, signaling ample supply, which is bearish. The recent inventory report showed a larger-than-typical build, reinforcing the bearish outlook. The current short position is not performing well, and the mixed signals suggest it's prudent to close it.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-05T16:03:10.471244+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: SILVER has only been open for 271 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "agent_reason": "Silver's technicals show a short-term bullish setup with SMA-20 above SMA-50, but the RSI is neutral at 46.5. Managed-money net-short positioning is near a multi-month extreme, which is a contrarian bullish signal. However, recent news indicates pressure from high yields and a strong US dollar. The current long position is not performing well, and the mixed signals suggest it's prudent to close it.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-05T16:03:10.471069+00:00"
   }
 ]
