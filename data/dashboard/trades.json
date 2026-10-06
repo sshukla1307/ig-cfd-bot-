@@ -1,6 +1,33 @@
 [
   {
     "action": "CLOSE",
+    "instrument": "SILVER",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: SILVER has only been open for 481 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "agent_reason": "Silver is showing a contrarian bullish signal with managed-money net-short positioning near a multi-month extreme and backwardation in the term structure, indicating tight supply. The position is currently at a slight loss, but the technicals and positioning suggest a potential upward move.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-06T09:03:00.751900+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 271 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "agent_reason": "Natural Gas is showing a short-term bullish setup with SMA-20 above SMA-50 and an RSI of 68.5, indicating potential further upside. However, the position is a short, and the inventory data shows a larger-than-typical build, which is bearish. The position is currently at a loss, and the technicals do not support a continuation of the short position.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-06T09:03:00.751748+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 395 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "agent_reason": "Brent Oil is currently in a short-term bearish setup with SMA-20 below SMA-50 and an oversold RSI of 28.9. The recent inventory data shows a build, which is not supportive of a bullish thesis. The position is currently at a loss, and the technicals do not support a continuation of the long position.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-06T09:03:00.751419+00:00"
+  },
+  {
+    "action": "CLOSE",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
     "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 240 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
@@ -3197,33 +3224,5 @@
     "agent_reason": "Gold's technicals show a bearish setup with SMA-20 below SMA-50 and the market in contango, indicating ample supply. Managed-money positioning is within a normal range, providing no strong bullish signal. Closing the position to prevent further losses.",
     "llm_provider": "openai",
     "logged_at": "2026-10-05T06:18:12.855729+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 366 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "agent_reason": "Brent oil is currently experiencing a bearish sentiment with a recent inventory build, and the market is reacting to increased Middle East crude exports and potential G7 stockpile releases. The technicals show a neutral RSI and a slight bearish tilt in recent price action. Closing the position to prevent further losses.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-05T06:18:12.855386+00:00"
-  },
-  {
-    "action": "BROKER_CLOSE",
-    "instrument": "NATURAL_GAS",
-    "deal_id": "DIAAAAR9UQBMUAP",
-    "original_direction": "SELL",
-    "estimated_pnl": -3.12,
-    "status": "detected",
-    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-10-05T06:17:37.181333+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: SILVER has only been open for 300 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "agent_reason": "Silver is showing a contrarian bullish signal with managed-money net-short positioning near a multi-month extreme. The market is in backwardation, signaling tight supply, which is bullish. However, the position is currently at a loss, and the technicals do not strongly support a continued upward move. Closing the position to reassess the market conditions.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-05T06:02:32.422100+00:00"
   }
 ]
