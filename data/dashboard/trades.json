@@ -3,6 +3,15 @@
     "action": "OPEN_SHORT",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 36 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
+    "agent_reason": "Natural Gas is in a contango structure, indicating ample supply. The recent inventory report showed a larger-than-typical build, reinforcing the bearish outlook. The technicals show a neutral RSI, but the overall supply situation suggests a bearish tilt.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-06T02:39:24.355736+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 29 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
     "agent_reason": "Natural Gas is in a contango structure, indicating ample supply. The recent inventory report showed a larger-than-typical build, reinforcing the bearish outlook. The technicals show a neutral RSI, but the overall supply situation suggests a bearish stance.",
     "llm_provider": "openai",
@@ -3310,49 +3319,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-10-05T00:33:07.580343+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "direction": "SELL",
-    "size": 3.12,
-    "margin_allocated": 1935.62,
-    "effective_leverage": 5.0,
-    "notional": 9731.28,
-    "stop_distance": 311.9,
-    "limit_distance": 9.3059,
-    "confluence_detail": "get_term_structure, get_inventory_data agrees with bearish",
-    "reason": "Natural Gas is currently overbought with an RSI of 77.2, and the market is in a steep contango, indicating ample supply. The recent inventory report showed a larger-than-typical build, reinforcing the bearish outlook. Despite the recent uptrend, these factors suggest a potential pullback.",
-    "llm_provider": "openai",
-    "status": "submitted",
-    "deal_id": "DIAAAAR9UQBMUAP",
-    "raw": {
-      "date": "2026-10-05T00:32:20.706",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": "-",
-      "dealReference": "KRMJ5LSBPJTYNV",
-      "dealId": "DIAAAAR9UQBMUAP",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR9UQBMUAP",
-          "status": "OPENED"
-        }
-      ],
-      "level": 3116.0,
-      "size": 3.12,
-      "direction": "SELL",
-      "stopLevel": 3427.9,
-      "limitLevel": 3106.694,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-05T00:32:20.856108+00:00"
   }
 ]
