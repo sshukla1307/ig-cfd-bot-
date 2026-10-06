@@ -140,16 +140,17 @@ class SystemRules:
                                                 # the SAME direction, that direction is blocked for
                                                 # consecutive_loss_cooldown_minutes below, regardless of how
                                                 # much time has passed since the last one.
-    consecutive_loss_cooldown_minutes: int = 60  # LOWERED 2026-10-06 from 480 (8h) to 60 (1h) per
-                                                # explicit user instruction, alongside re-enabling both
-                                                # breakers -- deliberately much shorter than the original
-                                                # 8h design intent (see the circuit breaker's own comment:
-                                                # "the whole point is surviving a trend/repeating thesis
-                                                # that a short cooldown doesn't survive"), so this is a
+    consecutive_loss_cooldown_minutes: int = 120  # 2026-10-06: set to 60 (1h) first, then raised
+                                                # to 120 (2h) same day per explicit user instruction
+                                                # ("in that case change it to 2 hour") -- both still
+                                                # well short of the original 8h design intent (see the
+                                                # circuit breaker's own comment: "the whole point is
+                                                # surviving a trend/repeating thesis that a short
+                                                # cooldown doesn't survive"), so this remains a
                                                 # conscious tradeoff toward faster re-entry over the
                                                 # breaker's original rationale -- watch for the same
-                                                # repeated-losing-thesis pattern resuming once this shorter
-                                                # window expires.
+                                                # repeated-losing-thesis pattern resuming once this
+                                                # shorter window expires.
     max_consecutive_losses_any_direction: int = 2  # RE-ENABLED 2026-10-06, same prompting
                                                 # incident/request as max_consecutive_same_direction_losses
                                                 # above. Was temporarily disabled 2026-09-30. ADDED
@@ -169,7 +170,7 @@ class SystemRules:
                                                 # -- so flipping sides no longer resets the count to zero.
                                                 # Same threshold (2) as the same-direction breaker because
                                                 # that's what the actual incident took to trip; shares the
-                                                # same consecutive_loss_cooldown_minutes (now 60) block
+                                                # same consecutive_loss_cooldown_minutes (now 120) block
                                                 # duration above, applied to BOTH directions at once.
 
 
