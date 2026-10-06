@@ -1,30 +1,106 @@
 [
   {
     "action": "OPEN_LONG",
-    "instrument": "GOLD",
+    "instrument": "SILVER",
     "status": "REJECTED",
-    "reason": "Confluence requirement not met: GOLD's independent signal(s) checked this tick (get_term_structure=bearish) do not support a bullish thesis -- a technical read alone, or signals pointing the other way, aren't enough to open",
-    "agent_reason": "Gold is in a short-term bullish setup with SMA-20 above SMA-50 and RSI at 66.3. Despite the contango in the term structure, the technicals suggest a potential upward move. Recent news indicates potential volatility due to upcoming economic data releases.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-06T18:04:00.316699+00:00"
+    "reason": "This trade's margin ($1773.53) would leave available at $1773.51, below the 30.0% safety buffer of balance $7094.10 -- rejected to avoid risking a forced closure on this or other open positions",
+    "logged_at": "2026-10-06T18:05:42.571889+00:00"
   },
   {
-    "action": "OPEN_LONG",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 3.104 vs 30-min SMA 3.1117, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Natural Gas is in a short-term bullish setup with SMA-20 above SMA-50 and RSI at 64.1. Despite the recent inventory build, managed-money net-short positioning is near a multi-month extreme, suggesting a contrarian bullish signal.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-06T18:04:00.316428+00:00"
+    "action": "WTI_MIRROR_OPEN",
+    "instrument": "WTI_OIL",
+    "direction": "BUY",
+    "size": 1.0,
+    "margin_allocated": 1773.53,
+    "effective_leverage": 5.0,
+    "notional": 8879.1,
+    "stop_distance": 124.1471,
+    "limit_distance": 44.3383,
+    "reason": "Auto-mirrored from BRENT_OIL: Brent oil is in backwardation, indicating tight supply, which is bullish. Despite the recent bearish price action, the market is showing signs of stabilization with the RSI at 48.4, which is neutral. The term structure supports a bullish outlook, and recent news suggests upward revisions in price forecasts.",
+    "status": "submitted",
+    "deal_id": "DIAAAAR985U4XAR",
+    "raw": {
+      "date": "2026-10-06T18:05:42.339",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "EJDGUYB4BBSTYNV",
+      "dealId": "DIAAAAR985U4XAR",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR985U4XAR",
+          "status": "OPENED"
+        }
+      ],
+      "level": 8878.4,
+      "size": 1.0,
+      "direction": "BUY",
+      "stopLevel": 8754.253,
+      "limitLevel": 8922.738,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-06T18:05:42.571514+00:00"
   },
   {
     "action": "OPEN_LONG",
     "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
-    "agent_reason": "Brent Oil is showing a neutral RSI and is in backwardation, indicating tight supply. Recent news suggests geopolitical tensions and reduced SPR releases, which could support prices. Despite the SMA-20 being below SMA-50, the backwardation and geopolitical factors provide a bullish tilt.",
+    "direction": "BUY",
+    "size": 0.88,
+    "margin_allocated": 1773.53,
+    "effective_leverage": 5.0,
+    "notional": 8770.26,
+    "stop_distance": 141.0763,
+    "limit_distance": 50.3844,
+    "confluence_detail": "get_term_structure agrees with bullish",
+    "reason": "Brent oil is in backwardation, indicating tight supply, which is bullish. Despite the recent bearish price action, the market is showing signs of stabilization with the RSI at 48.4, which is neutral. The term structure supports a bullish outlook, and recent news suggests upward revisions in price forecasts.",
     "llm_provider": "openai",
-    "logged_at": "2026-10-06T18:04:00.257584+00:00"
+    "status": "submitted",
+    "deal_id": "DIAAAAR986CU7AY",
+    "raw": {
+      "date": "2026-10-06T18:05:41.973",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "HS42LLCVMASTYNV",
+      "dealId": "DIAAAAR986CU7AY",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR986CU7AY",
+          "status": "OPENED"
+        }
+      ],
+      "level": 9965.4,
+      "size": 0.88,
+      "direction": "BUY",
+      "stopLevel": 9824.323,
+      "limitLevel": 10015.784,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-06T18:05:42.222055+00:00"
+  },
+  {
+    "action": "BROKER_CLOSE",
+    "instrument": "SILVER",
+    "deal_id": "DIAAAAR979UUUAW",
+    "original_direction": "BUY",
+    "estimated_pnl": 11.25,
+    "status": "detected",
+    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
+    "logged_at": "2026-10-06T18:04:52.455337+00:00"
   },
   {
     "action": "OPEN_LONG",
@@ -2929,14 +3005,5 @@
     "agent_reason": "Silver is showing a contrarian bullish signal with managed-money net-short positioning near a multi-month extreme. However, the market is in contango, indicating ample supply, which is bearish. The technicals are neutral with RSI at 46.7. Recent news suggests pressure from high yields and a strong dollar. Given the current unrealized loss and mixed signals, it's prudent to close the position.",
     "llm_provider": "openai",
     "logged_at": "2026-10-05T14:32:23.630018+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "GOLD",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: GOLD has only been open for 380 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "agent_reason": "Gold is currently in a short-term bearish setup with SMA-20 below SMA-50 and RSI at 42.3, indicating neutral momentum. The market is in contango, signaling ample supply, which is bearish. Managed-money positioning is within a normal range, providing no contrarian signal. Recent news suggests pressure on gold prices due to higher yields and weaker investor demand. Given the current unrealized loss and lack of bullish signals, it's prudent to close the position.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-05T14:32:23.629812+00:00"
   }
 ]
