@@ -1,5 +1,92 @@
 [
   {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 29 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
+    "agent_reason": "Natural Gas is in a contango structure, indicating ample supply. The recent inventory report showed a larger-than-typical build, reinforcing the bearish outlook. The technicals show a neutral RSI, but the overall supply situation suggests a bearish stance.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-06T02:32:08.258486+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "WTI_OIL",
+    "deal_id": "DIAAAAR93RQBNA4",
+    "old_limit_level": 8933.7743,
+    "new_limit_level": 8934.0219,
+    "old_stop_level": 8640.024,
+    "new_stop_level": 8640.024,
+    "reason": "Agent-discretion take-profit reconciliation (fixed 1.5% of margin, 2026-09-21 refinement) -- stop left exactly as the agent set it at open, amending the limit only.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-06T02:29:32.116",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "BR24MVH37A2TYNV",
+      "dealId": "DIAAAAR93RQBNA4",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR93RQBNA4",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 8907.3,
+      "size": 1.08,
+      "direction": "BUY",
+      "stopLevel": 8640.024,
+      "limitLevel": 8934.021,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-06T02:29:32.260021+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "BRENT_OIL",
+    "deal_id": "DIAAAAR93SHARA3",
+    "old_limit_level": 10038.2836,
+    "new_limit_level": 10038.5255,
+    "old_stop_level": 9708.287,
+    "new_stop_level": 9708.287,
+    "reason": "Agent-discretion take-profit reconciliation (fixed 1.5% of margin, 2026-09-21 refinement) -- stop left exactly as the agent set it at open, amending the limit only.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-06T02:29:31.882",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "CW8X7YWLJXATYNV",
+      "dealId": "DIAAAAR93SHARA3",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAAR93SHARA3",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 10008.5,
+      "size": 0.96,
+      "direction": "BUY",
+      "stopLevel": 9708.287,
+      "limitLevel": 10038.525,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-06T02:29:32.026111+00:00"
+  },
+  {
     "action": "OPEN_LONG",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
@@ -3267,90 +3354,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-10-05T00:32:20.856108+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "WTI_OIL",
-    "deal_id": "DIAAAAR9UM5A3AY",
-    "old_limit_level": 9015.8836,
-    "new_limit_level": 9015.967,
-    "old_stop_level": 8540.02,
-    "new_stop_level": 8540.02,
-    "reason": "Agent-discretion take-profit reconciliation (fixed 1.5% of margin, 2026-09-21 refinement) -- stop left exactly as the agent set it at open, amending the limit only.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-10-05T00:13:26.128",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "ZKR8UDZQ24WTYNV",
-      "dealId": "DIAAAAR9UM5A3AY",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR9UM5A3AY",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 8989.0,
-      "size": 1.08,
-      "direction": "BUY",
-      "stopLevel": 8540.02,
-      "limitLevel": 9015.967,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-05T00:13:26.330555+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR9UNBMPAT",
-    "old_limit_level": 10166.1441,
-    "new_limit_level": 10166.3077,
-    "old_stop_level": 9629.585,
-    "new_stop_level": 9629.585,
-    "reason": "Agent-discretion take-profit reconciliation (fixed 1.5% of margin, 2026-09-21 refinement) -- stop left exactly as the agent set it at open, amending the limit only.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-10-05T00:13:25.796",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "985B6HQMGAATYNV",
-      "dealId": "DIAAAAR9UNBMPAT",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR9UNBMPAT",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 10135.9,
-      "size": 0.96,
-      "direction": "BUY",
-      "stopLevel": 9629.585,
-      "limitLevel": 10166.308,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-05T00:13:26.009993+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "This trade's margin ($1935.62) would leave available at $957.85, below the 30.0% safety buffer of balance $7742.49 -- rejected to avoid risking a forced closure on this or other open positions",
-    "logged_at": "2026-10-05T00:12:15.578913+00:00"
   }
 ]
