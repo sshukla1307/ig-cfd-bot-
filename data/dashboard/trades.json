@@ -1,6 +1,15 @@
 [
   {
     "action": "OPEN_LONG",
+    "instrument": "SILVER",
+    "status": "REJECTED",
+    "reason": "Same-direction cooldown: SILVER was closed at a loss 7 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
+    "agent_reason": "Silver is showing a contrarian bullish signal with managed-money net-short positioning near a multi-month extreme. The RSI is oversold at 23.1, suggesting a potential rebound. Despite the contango in the term structure, the extreme short positioning and oversold RSI suggest a potential upward move.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-07T08:32:45.468415+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
     "instrument": "GOLD",
     "status": "REJECTED",
     "reason": "Confluence requirement not met: GOLD's independent signal(s) checked this tick (get_term_structure=bearish) do not support a bullish thesis -- a technical read alone, or signals pointing the other way, aren't enough to open",
@@ -3180,14 +3189,5 @@
     "agent_reason": "Natural Gas is showing a short-term bullish setup with SMA-20 above SMA-50, but the RSI is neutral. The independent price check shows a significant discrepancy between sources, indicating potential data quality issues. The current position is slightly negative, and the market outlook is uncertain.",
     "llm_provider": "openai",
     "logged_at": "2026-10-06T10:32:49.194808+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 485 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "agent_reason": "Brent oil is currently oversold with an RSI of 24.1, indicating a potential rebound. However, the SMA-20 is below the SMA-50, suggesting a bearish trend. The recent news indicates a tightening physical market, but the current position is significantly in the red, and the technicals do not support a strong bullish case at this moment.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-06T10:32:49.194581+00:00"
   }
 ]
