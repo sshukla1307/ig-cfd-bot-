@@ -2,6 +2,73 @@
   {
     "action": "OPEN_LONG",
     "instrument": "SILVER",
+    "status": "REJECTED",
+    "reason": "Same-direction cooldown: SILVER was closed at a loss 1 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
+    "agent_reason": "Silver is oversold with an RSI of 13.2, and managed-money net-short positioning is near a multi-month extreme, suggesting a contrarian bullish signal. Despite the short-term bearish technicals, the extreme short positioning and oversold RSI indicate a potential rebound.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-07T12:58:23.675889+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for NATURAL_GAS this tick -- a technical read or a generic news search alone can't open a position",
+    "agent_reason": "Natural Gas is currently overbought with an RSI of 80.2, indicating a potential pullback. Despite the short-term bullish setup with SMA-20 above SMA-50, the market is in contango, suggesting ample supply. Recent news indicates tightening supply-demand balances, but the overbought RSI suggests a mean-reversion opportunity.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-07T12:58:23.675590+00:00"
+  },
+  {
+    "action": "BROKER_CLOSE",
+    "instrument": "SILVER",
+    "deal_id": "DIAAAASADLEMMAL",
+    "original_direction": "BUY",
+    "estimated_pnl": -6.99,
+    "status": "detected",
+    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
+    "logged_at": "2026-10-07T12:57:45.582292+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "SILVER",
+    "deal_id": "DIAAAASADLEMMAL",
+    "old_limit_level": 5964.722,
+    "new_limit_level": 5964.9765,
+    "old_stop_level": 5852.9183,
+    "new_stop_level": 5852.9183,
+    "reason": "Agent-discretion take-profit reconciliation (fixed 2.5% of margin, 2026-09-21 refinement) -- stop left exactly as the agent set it at open, amending the limit only.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-07T12:41:43.878",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDSILVER.DBI.IP",
+      "expiry": "-",
+      "dealReference": "PWH3RZELP72TYNV",
+      "dealId": "DIAAAASADLEMMAL",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASADLEMMAL",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 5935.3,
+      "size": 1.52,
+      "direction": "BUY",
+      "stopLevel": 5852.9185,
+      "limitLevel": 5964.9766,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-07T12:41:44.095896+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "SILVER",
     "direction": "BUY",
     "size": 1.52,
     "margin_allocated": 1788.86,
@@ -3474,43 +3541,5 @@
     "agent_reason": "Natural Gas is currently overbought with an RSI of 70.3, indicating potential for a pullback. However, the market is in contango, suggesting ample supply, and managed-money positioning is at a multi-month short extreme, which is a contrarian bullish signal. Given the mixed signals and the current loss on the position, it's prudent to close the position to prevent further losses.",
     "llm_provider": "openai",
     "logged_at": "2026-10-06T13:32:26.988829+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "Same-direction cooldown: SILVER was closed at a loss 8 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
-    "agent_reason": "Silver is showing a contrarian bullish signal with managed-money net-short positioning near a multi-month extreme. Despite the short-term bearish technicals, the extreme short positioning suggests a potential upward move.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-06T13:21:04.623384+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Same-direction cooldown: BRENT_OIL was closed at a loss 1 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
-    "agent_reason": "Brent oil is currently oversold with an RSI of 21.2, indicating a potential rebound. The market is in backwardation, signaling tight supply, which is bullish. Despite recent bearish price action, the oversold condition and backwardation suggest a potential upward move.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-06T13:21:04.623200+00:00"
-  },
-  {
-    "action": "BROKER_CLOSE",
-    "instrument": "WTI_OIL",
-    "deal_id": "DIAAAAR963MR9AY",
-    "original_direction": "BUY",
-    "estimated_pnl": -5.41,
-    "status": "detected",
-    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-10-06T13:20:14.997119+00:00"
-  },
-  {
-    "action": "BROKER_CLOSE",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAAR963RPGAB",
-    "original_direction": "BUY",
-    "estimated_pnl": -4.05,
-    "status": "detected",
-    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-10-06T13:20:14.996896+00:00"
   }
 ]
