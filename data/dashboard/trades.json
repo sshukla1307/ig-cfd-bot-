@@ -4,6 +4,93 @@
     "instrument": "GOLD",
     "status": "REJECTED",
     "reason": "Confluence requirement not met: GOLD's independent signal(s) checked this tick (get_term_structure=bearish) do not support a bullish thesis -- a technical read alone, or signals pointing the other way, aren't enough to open",
+    "agent_reason": "Gold is currently oversold with an RSI of 16.3, indicating a potential rebound. Despite the contango in the term structure, the technicals suggest a potential upward move. Managed-money positioning is within a normal range, providing room for an upward move.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-07T11:32:06.830412+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "BRENT_OIL",
+    "deal_id": "DIAAAASACZCW6AH",
+    "old_limit_level": 10190.2114,
+    "new_limit_level": 10189.9965,
+    "old_stop_level": 9996.7482,
+    "new_stop_level": 9996.7482,
+    "reason": "Agent-discretion take-profit reconciliation (fixed 2.5% of margin, 2026-09-21 refinement) -- stop left exactly as the agent set it at open, amending the limit only.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-07T11:29:45.409",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "XHRLRTRAGATYNV",
+      "dealId": "DIAAAASACZCW6AH",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASACZCW6AH",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 10139.3,
+      "size": 0.88,
+      "direction": "BUY",
+      "stopLevel": 9996.748,
+      "limitLevel": 10189.996,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-07T11:29:45.642125+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "WTI_OIL",
+    "deal_id": "DIAAAASACZDTXBF",
+    "old_limit_level": 9032.002,
+    "new_limit_level": 9032.136,
+    "old_stop_level": 8861.7544,
+    "new_stop_level": 8861.7544,
+    "reason": "Agent-discretion take-profit reconciliation (fixed 2.5% of margin, 2026-09-21 refinement) -- stop left exactly as the agent set it at open, amending the limit only.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-07T11:29:44.979",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "SP46GTYE88ATYNV",
+      "dealId": "DIAAAASACZDTXBF",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASACZDTXBF",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 8987.2,
+      "size": 1.0,
+      "direction": "BUY",
+      "stopLevel": 8861.755,
+      "limitLevel": 9032.136,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-07T11:29:45.266859+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "GOLD",
+    "status": "REJECTED",
+    "reason": "Confluence requirement not met: GOLD's independent signal(s) checked this tick (get_term_structure=bearish) do not support a bullish thesis -- a technical read alone, or signals pointing the other way, aren't enough to open",
     "agent_reason": "Gold is oversold with an RSI of 16.7, indicating a potential rebound. Despite the contango in the term structure, the oversold condition suggests a potential upward move. Recent news indicates that gold prices are expected to be moderately volatile this week amid key economic releases, providing room for a rebound.",
     "llm_provider": "openai",
     "logged_at": "2026-10-07T11:28:05.410037+00:00"
@@ -3352,68 +3439,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-10-06T13:13:55.863861+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "direction": "BUY",
-    "size": 0.92,
-    "margin_allocated": 1782.26,
-    "effective_leverage": 5.0,
-    "notional": 8949.21,
-    "stop_distance": 486.37,
-    "limit_distance": 29.0586,
-    "confluence_detail": "get_term_structure agrees with bullish",
-    "reason": "Brent Oil is currently oversold with an RSI of 21.5, indicating a potential rebound. The market is in backwardation, signaling tight supply, which is bullish. Despite recent bearish price action, the oversold condition and backwardation suggest a potential upward move.",
-    "llm_provider": "openai",
-    "status": "submitted",
-    "deal_id": "DIAAAAR963RPGAB",
-    "raw": {
-      "date": "2026-10-06T13:13:55.277",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "CS832NZ6W2JTYNV",
-      "dealId": "DIAAAAR963RPGAB",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAAR963RPGAB",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9730.7,
-      "size": 0.92,
-      "direction": "BUY",
-      "stopLevel": 9244.33,
-      "limitLevel": 9759.759,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-06T13:13:55.503229+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 522 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "agent_reason": "Natural Gas is currently in a contango structure, indicating ample supply, which is bearish. However, managed-money net-short positioning is near a multi-month extreme, suggesting a contrarian bullish signal. The RSI is neutral, and the recent price action shows a potential for a rebound. Given the mixed signals and the current unrealized loss, it's prudent to close the position to prevent further losses.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-06T13:13:55.113322+00:00"
-  },
-  {
-    "action": "BROKER_CLOSE",
-    "instrument": "SILVER",
-    "deal_id": "DIAAAAR96ZVRCBF",
-    "original_direction": "BUY",
-    "estimated_pnl": -3.94,
-    "status": "detected",
-    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-10-06T13:13:03.240751+00:00"
   }
 ]
