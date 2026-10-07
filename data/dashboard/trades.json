@@ -1,5 +1,32 @@
 [
   {
+    "action": "CLOSE",
+    "instrument": "SILVER",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: SILVER has only been open for 114 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "agent_reason": "Silver is showing a contrarian bullish signal with managed-money net-short positioning near a multi-month extreme. The current long position is at a loss, and the market may reverse.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-07T03:02:29.314400+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 477 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "agent_reason": "Natural Gas is showing a contrarian bullish signal with managed-money net-short positioning near a multi-month extreme. The current short position is at a loss, and the market may reverse.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-07T03:02:29.314192+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Confluence requirement not met: BRENT_OIL's independent signal(s) checked this tick (get_term_structure=bullish) do not support a bearish thesis -- a technical read alone, or signals pointing the other way, aren't enough to open",
+    "agent_reason": "Brent oil is currently overbought with an RSI of 89.7, indicating a potential pullback. Despite the backwardation signaling tight supply, the extreme overbought condition suggests a short-term correction is likely.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-07T03:02:29.313937+00:00"
+  },
+  {
     "action": "OPEN_LONG",
     "instrument": "SILVER",
     "status": "REJECTED",
@@ -3097,32 +3124,5 @@
     "agent_reason": "Brent oil is in backwardation, indicating tight supply, which is bullish. However, the current position is at a loss, and the recent inventory data shows a build, which is not supportive of a strong bullish move. Closing the position to prevent further losses.",
     "llm_provider": "openai",
     "logged_at": "2026-10-06T03:32:21.841880+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: SILVER has only been open for 150 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "agent_reason": "Silver is currently showing a contrarian bullish signal with managed-money net-short positioning near a multi-month extreme. However, the technicals are not supportive of a strong bullish move, with the RSI at 34.6 indicating potential further downside. The current position is at a loss, and the lack of strong bullish technicals suggests closing the position to prevent further losses.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-06T03:32:21.841685+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 59 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
-    "agent_reason": "Natural Gas is in a contango structure, indicating ample supply, and the recent inventory report showed a larger-than-typical build, reinforcing the bearish outlook. Weather-driven demand is moderate, providing no strong bullish signal. The technicals show a neutral RSI, but the overall supply situation suggests a bearish tilt.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-06T03:02:21.525411+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 36 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
-    "agent_reason": "Natural Gas is in a contango structure, indicating ample supply. The recent inventory report showed a larger-than-typical build, reinforcing the bearish outlook. The technicals show a neutral RSI, but the overall supply situation suggests a bearish tilt.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-06T02:39:24.355736+00:00"
   }
 ]
