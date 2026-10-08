@@ -1,5 +1,23 @@
 [
   {
+    "action": "CLOSE",
+    "instrument": "SILVER",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: SILVER has only been open for 479 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "agent_reason": "Silver is in a short-term bearish setup with SMA-20 below SMA-50 and RSI at 33.8, indicating potential downward momentum. However, managed-money net-short positioning is near a multi-month extreme, suggesting a contrarian bullish signal. The current position is at a loss, and the contrarian signal suggests a potential reversal.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-08T19:02:45.203576+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 104.37 vs 30-min SMA 104.4167, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50 and RSI at 62.5, indicating bullish momentum. Recent news supports upward price movement due to supply disruptions and geopolitical tensions. The recent inventory data shows a larger-than-typical draw, reinforcing the bullish outlook.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-08T19:02:45.203295+00:00"
+  },
+  {
     "action": "OPEN_LONG",
     "instrument": "BRENT_OIL",
     "status": "REJECTED",
@@ -3439,54 +3457,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-10-07T19:07:33.804855+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "This trade's margin ($1838.81) would leave available at $432.99, below the 30.0% safety buffer of balance $7355.22 -- rejected to avoid risking a forced closure on this or other open positions",
-    "logged_at": "2026-10-07T19:06:26.558674+00:00"
-  },
-  {
-    "action": "WTI_MIRROR_OPEN",
-    "instrument": "WTI_OIL",
-    "direction": "BUY",
-    "size": 1.04,
-    "margin_allocated": 1838.81,
-    "effective_leverage": 5.0,
-    "notional": 9197.45,
-    "stop_distance": 123.7661,
-    "limit_distance": 44.2022,
-    "reason": "Auto-mirrored from BRENT_OIL: Brent Oil is in backwardation, indicating tight supply, which is bullish. The RSI is at 40.3, suggesting potential for a rebound. Recent news indicates upward revisions in price forecasts by major financial institutions, supporting a bullish outlook.",
-    "status": "submitted",
-    "deal_id": "DIAAAASAGAP3XBF",
-    "raw": {
-      "date": "2026-10-07T19:06:26.254",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "GLMCNZM9JMSTYNV",
-      "dealId": "DIAAAASAGAP3XBF",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASAGAP3XBF",
-          "status": "OPENED"
-        }
-      ],
-      "level": 8857.1,
-      "size": 1.04,
-      "direction": "BUY",
-      "stopLevel": 8733.334,
-      "limitLevel": 8901.302,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-07T19:06:26.386707+00:00"
   }
 ]
