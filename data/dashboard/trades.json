@@ -1,5 +1,90 @@
 [
   {
+    "action": "MIRROR_ROLLBACK",
+    "instrument": "BRENT_OIL",
+    "reason": "WTI mirror leg failed (Insufficient margin headroom for the WTI mirror leg) -- closing Brent back out.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-08T03:01:52.73",
+      "status": "CLOSED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "SDPMKHKVA2NTYNV",
+      "dealId": "DIAAAASAHPTMFA5",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASAHPTMFA5",
+          "status": "FULLY_CLOSED"
+        }
+      ],
+      "level": 10126.7,
+      "size": 0.92,
+      "direction": "SELL",
+      "stopLevel": null,
+      "limitLevel": null,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": -3.96,
+      "profitCurrency": "USD"
+    },
+    "logged_at": "2026-10-08T03:01:52.954798+00:00"
+  },
+  {
+    "action": "WTI_MIRROR_OPEN",
+    "instrument": "WTI_OIL",
+    "status": "rejected",
+    "reason": "Insufficient margin headroom for the WTI mirror leg",
+    "logged_at": "2026-10-08T03:01:52.598297+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "direction": "BUY",
+    "size": 0.92,
+    "margin_allocated": 1868.95,
+    "effective_leverage": 5.0,
+    "notional": 9322.54,
+    "stop_distance": 142.2027,
+    "limit_distance": 50.7867,
+    "confluence_detail": "get_term_structure agrees with bullish",
+    "reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50 and RSI at 60.5, suggesting bullish momentum. Recent news indicates upward revisions in price forecasts by major financial institutions, supporting a bullish outlook.",
+    "llm_provider": "openai",
+    "status": "submitted",
+    "deal_id": "DIAAAASAHPTMFA5",
+    "raw": {
+      "date": "2026-10-08T03:01:52.372",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "J6KZHNA4H32TYNV",
+      "dealId": "DIAAAASAHPTMFA5",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASAHPTMFA5",
+          "status": "OPENED"
+        }
+      ],
+      "level": 10131.0,
+      "size": 0.92,
+      "direction": "BUY",
+      "stopLevel": 9988.797,
+      "limitLevel": 10181.787,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-08T03:01:52.598074+00:00"
+  },
+  {
     "action": "HOLD",
     "instrument": "SILVER",
     "status": "REJECTED",
@@ -3368,32 +3453,5 @@
     "agent_reason": "Brent oil is currently overbought with an RSI of 89.7, indicating a potential pullback. Despite the backwardation signaling tight supply, the extreme overbought condition suggests a short-term correction is likely.",
     "llm_provider": "openai",
     "logged_at": "2026-10-07T03:02:29.313937+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "SILVER already has an open position -- CLOSE it first",
-    "agent_reason": "Silver is showing a contrarian bullish signal with managed-money net-short positioning near a multi-month extreme. Despite the contango in the term structure, the extreme short positioning suggests a potential upward move.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-07T02:32:13.383182+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Confluence requirement not met: BRENT_OIL's independent signal(s) checked this tick (get_term_structure=bullish) do not support a bearish thesis -- a technical read alone, or signals pointing the other way, aren't enough to open",
-    "agent_reason": "Brent Oil is currently overbought with an RSI of 89.5, indicating a potential pullback. The market is in backwardation, signaling tight supply, but the extreme overbought condition suggests a short-term correction is likely.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-07T02:32:13.382994+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 447 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "agent_reason": "Natural Gas is experiencing a larger-than-typical inventory build, indicating ample supply. The market is in contango, and weather-driven demand is neutral, providing no strong bullish signal. The current position is in loss, and the bearish outlook remains intact.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-07T02:32:13.382712+00:00"
   }
 ]
