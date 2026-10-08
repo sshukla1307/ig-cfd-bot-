@@ -1,5 +1,62 @@
 [
   {
+    "action": "CLOSE",
+    "instrument": "SILVER",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: SILVER has only been open for 30 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "agent_reason": "Silver is in a short-term bearish setup with SMA-20 below SMA-50 and RSI at 29.7, indicating oversold conditions. Managed-money net-short positioning is near a multi-month extreme, suggesting a contrarian bullish signal. However, the market is in contango, signaling ample supply, which is bearish. The current position is not performing as expected, and the market outlook is mixed.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-08T11:32:55.615793+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 119 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "agent_reason": "Natural Gas is showing a short-term bullish setup with SMA-20 above SMA-50, but the market is in contango, indicating ample supply, which is bearish. The recent inventory report showed a larger-than-typical build, reinforcing the bearish outlook. However, the current position is not performing as expected, and the market outlook is mixed with moderate weather-driven demand.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-08T11:32:55.615520+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "SILVER",
+    "deal_id": "DIAAAASAK73MYAY",
+    "old_limit_level": 5847.4428,
+    "new_limit_level": 5847.217,
+    "old_stop_level": 5958.2401,
+    "new_stop_level": 5958.2401,
+    "reason": "Agent-discretion take-profit reconciliation (fixed 2.5% of margin, 2026-09-21 refinement) -- stop left exactly as the agent set it at open, amending the limit only.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-08T11:04:08.989",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDSILVER.DBI.IP",
+      "expiry": "-",
+      "dealReference": "E8CSEN556CJTYNV",
+      "dealId": "DIAAAASAK73MYAY",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASAK73MYAY",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 5876.6,
+      "size": 1.64,
+      "direction": "SELL",
+      "stopLevel": 5958.24,
+      "limitLevel": 5847.217,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-08T11:04:09.231863+00:00"
+  },
+  {
     "action": "OPEN_SHORT",
     "instrument": "SILVER",
     "direction": "SELL",
@@ -3606,67 +3663,5 @@
     "agent_reason": "Brent Oil is currently in a short-term bullish setup with SMA-20 above SMA-50 and RSI at 61.1, indicating bullish momentum. However, the position is currently at a loss, and the market outlook suggests a potential for further downside due to recent news of G7 countries releasing emergency reserves, which could alleviate supply tightness.",
     "llm_provider": "openai",
     "logged_at": "2026-10-07T14:09:47.261631+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "direction": "BUY",
-    "size": 1.52,
-    "margin_allocated": 1811.55,
-    "effective_leverage": 5.0,
-    "notional": 9056.92,
-    "stop_distance": 83.4266,
-    "limit_distance": 29.7952,
-    "confluence_detail": "get_positioning_data agrees with bullish",
-    "reason": "Silver is showing a contrarian bullish signal with managed-money net-short positioning near a multi-month extreme, suggesting a potential upward move. The RSI is oversold at 14.1, indicating a potential rebound. Despite the short-term bearish technicals, the extreme short positioning and oversold RSI suggest a strong contrarian buy opportunity.",
-    "llm_provider": "openai",
-    "status": "submitted",
-    "deal_id": "DIAAAASAEHJ53AR",
-    "raw": {
-      "date": "2026-10-07T14:03:39.92",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDSILVER.DBI.IP",
-      "expiry": "-",
-      "dealReference": "E4G44QRELT2TYNV",
-      "dealId": "DIAAAASAEHJ53AR",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASAEHJ53AR",
-          "status": "OPENED"
-        }
-      ],
-      "level": 5958.7,
-      "size": 1.52,
-      "direction": "BUY",
-      "stopLevel": 5875.2734,
-      "limitLevel": 5988.495,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-07T14:03:40.101495+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "Same-direction cooldown: SILVER was closed at a loss 42 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
-    "agent_reason": "Silver is oversold with an RSI of 17.1, and managed-money net-short positioning is near a multi-month extreme, suggesting a contrarian bullish signal. Despite the short-term bearish technicals, the extreme short positioning and oversold RSI indicate a potential rebound.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-07T13:40:09.950148+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "NATURAL_GAS momentum filter: proposed OPEN_SHORT conflicts with price action over the last 30 minutes (current 3.177 vs 30-min SMA 3.1713, trending up) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Natural Gas is currently overbought with an RSI of 74.2, indicating potential for a pullback. The market is in contango, suggesting ample supply, and the recent inventory report showed a larger-than-typical build, reinforcing the bearish outlook. Despite the contrarian bullish signal from managed-money net-short positioning, the technicals and inventory data suggest a short position is warranted.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-07T13:40:09.949758+00:00"
   }
 ]
