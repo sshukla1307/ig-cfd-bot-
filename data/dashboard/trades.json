@@ -3,6 +3,33 @@
     "action": "OPEN_LONG",
     "instrument": "BRENT_OIL",
     "status": "REJECTED",
+    "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 104.42 vs 30-min SMA 104.425, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Brent Oil is in a strong bullish trend with SMA-20 above SMA-50 and RSI at 99.4, indicating overbought conditions but supported by backwardation in the term structure, signaling tight supply. Recent news supports upward revisions in price forecasts, and the market outlook remains bullish.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-08T10:32:26.528015+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "SILVER",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: SILVER has only been open for 176 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "agent_reason": "The current short position in Silver is slightly profitable, but the market is showing signs of a potential reversal. Managed-money net-short positioning is near a multi-month extreme, indicating a contrarian bullish signal. The technicals show a neutral RSI, and the independent price check data is stale, adding uncertainty.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-08T10:32:26.455194+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 58 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "agent_reason": "The current short position in Natural Gas is facing a loss, and the market is showing signs of a potential reversal. Managed-money net-short positioning is near a multi-month extreme, indicating a contrarian bullish signal. Additionally, the independent price check shows a significant recent price increase, suggesting upward momentum.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-08T10:32:26.454797+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
     "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 104.39 vs 30-min SMA 104.435, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
     "agent_reason": "Brent Oil is in a strong bullish trend with SMA-20 above SMA-50 and RSI at 99.1, indicating overbought conditions but supported by backwardation in the term structure, signaling tight supply. Recent news also supports upward revisions in price forecasts by major financial institutions.",
     "llm_provider": "openai",
@@ -3577,97 +3604,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-10-07T12:03:59.910460+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "NATURAL_GAS",
-    "direction": "BUY",
-    "size": 2.72,
-    "margin_allocated": 1792.08,
-    "effective_leverage": 5.0,
-    "notional": 8965.12,
-    "stop_distance": 46.1197,
-    "limit_distance": 16.4713,
-    "confluence_detail": "get_positioning_data agrees with bullish",
-    "reason": "Natural Gas is showing a contrarian bullish signal with managed-money net-short positioning near a multi-month extreme. Despite the moderate weather-driven demand, the extreme short positioning suggests a potential upward move.",
-    "llm_provider": "openai",
-    "status": "submitted",
-    "deal_id": "DIAAAASAC9DK5AY",
-    "raw": {
-      "date": "2026-10-07T12:03:15.051",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": "-",
-      "dealReference": "6UURX5EPKQ2TYNV",
-      "dealId": "DIAAAASAC9DK5AY",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASAC9DK5AY",
-          "status": "OPENED"
-        }
-      ],
-      "level": 3301.0,
-      "size": 2.72,
-      "direction": "BUY",
-      "stopLevel": 3254.8804,
-      "limitLevel": 3317.4712,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-07T12:03:15.254752+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "GOLD",
-    "status": "REJECTED",
-    "reason": "Confluence requirement not met: GOLD's independent signal(s) checked this tick (get_term_structure=bearish) do not support a bullish thesis -- a technical read alone, or signals pointing the other way, aren't enough to open",
-    "agent_reason": "Gold is currently oversold with an RSI of 16.3, indicating a potential rebound. Despite the contango in the term structure, the technicals suggest a potential upward move. Managed-money positioning is within a normal range, providing room for an upward move.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-07T11:32:06.830412+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAASACZCW6AH",
-    "old_limit_level": 10190.2114,
-    "new_limit_level": 10189.9965,
-    "old_stop_level": 9996.7482,
-    "new_stop_level": 9996.7482,
-    "reason": "Agent-discretion take-profit reconciliation (fixed 2.5% of margin, 2026-09-21 refinement) -- stop left exactly as the agent set it at open, amending the limit only.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-10-07T11:29:45.409",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "XHRLRTRAGATYNV",
-      "dealId": "DIAAAASACZCW6AH",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASACZCW6AH",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 10139.3,
-      "size": 0.88,
-      "direction": "BUY",
-      "stopLevel": 9996.748,
-      "limitLevel": 10189.996,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-07T11:29:45.642125+00:00"
   }
 ]
