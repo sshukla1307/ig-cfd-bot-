@@ -1,6 +1,24 @@
 [
   {
     "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Same-direction cooldown: BRENT_OIL was closed at a loss 45 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
+    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. Recent news supports upward price movement due to supply disruptions and geopolitical tensions. The technicals confirm a bullish trend, making this a strong setup for a long position.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-08T18:32:49.536625+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "SILVER",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: SILVER has only been open for 450 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "agent_reason": "The current short position in Silver is underperforming with an unrealized loss. The technicals show a short-term bearish setup with SMA-20 below SMA-50 and RSI at 32.5, indicating potential downward momentum. However, managed-money net-short positioning is near a multi-month extreme, suggesting a contrarian bullish signal. Given the mixed signals and the current loss, it's prudent to close the position.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-08T18:32:49.474449+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
     "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 3.142 vs 30-min SMA 3.146, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
@@ -3470,59 +3488,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-10-07T19:06:26.386707+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "direction": "BUY",
-    "size": 0.92,
-    "margin_allocated": 1838.81,
-    "effective_leverage": 5.0,
-    "notional": 9202.12,
-    "stop_distance": 139.9095,
-    "limit_distance": 49.9677,
-    "confluence_detail": "get_term_structure agrees with bullish",
-    "reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The RSI is at 40.3, suggesting potential for a rebound. Recent news indicates upward revisions in price forecasts by major financial institutions, supporting a bullish outlook.",
-    "llm_provider": "openai",
-    "status": "submitted",
-    "deal_id": "DIAAAASAGA6VGAH",
-    "raw": {
-      "date": "2026-10-07T19:06:25.986",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "BC5FP96WGT2TYNV",
-      "dealId": "DIAAAASAGA6VGAH",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASAGA6VGAH",
-          "status": "OPENED"
-        }
-      ],
-      "level": 10019.9,
-      "size": 0.92,
-      "direction": "BUY",
-      "stopLevel": 9879.99,
-      "limitLevel": 10069.868,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-07T19:06:26.129486+00:00"
-  },
-  {
-    "action": "BROKER_CLOSE",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAASAF8NHWAK",
-    "original_direction": "BUY",
-    "estimated_pnl": 32.2,
-    "status": "detected",
-    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-10-07T19:05:48.349192+00:00"
   }
 ]
