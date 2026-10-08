@@ -1,5 +1,49 @@
 [
   {
+    "action": "OPEN_LONG",
+    "instrument": "SILVER",
+    "direction": "BUY",
+    "size": 1.52,
+    "margin_allocated": 1852.97,
+    "effective_leverage": 5.0,
+    "notional": 9184.3,
+    "stop_distance": 85.3341,
+    "limit_distance": 30.4765,
+    "confluence_detail": "get_positioning_data agrees with bullish",
+    "reason": "Silver is showing a contrarian bullish signal with managed-money net-short positioning near a multi-month extreme, suggesting a potential upward move. Despite the short-term bearish technicals, the extreme short positioning provides a strong contrarian signal for a potential rebound.",
+    "llm_provider": "openai",
+    "status": "submitted",
+    "deal_id": "DIAAAASAG8GPFAP",
+    "raw": {
+      "date": "2026-10-08T01:02:10.307",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDSILVER.DBI.IP",
+      "expiry": "-",
+      "dealReference": "FF32K8W56PATYNV",
+      "dealId": "DIAAAASAG8GPFAP",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASAG8GPFAP",
+          "status": "OPENED"
+        }
+      ],
+      "level": 6048.0,
+      "size": 1.52,
+      "direction": "BUY",
+      "stopLevel": 5962.666,
+      "limitLevel": 6078.4766,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-08T01:02:10.507847+00:00"
+  },
+  {
     "action": "CLOSE",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
@@ -3184,14 +3228,5 @@
     "agent_reason": "Natural Gas is showing a strong bullish signal with managed-money net-short positioning near a multi-month extreme, indicating a contrarian bullish signal. The technicals show a short-term bullish setup with SMA-20 above SMA-50 and RSI nearing overbought levels. Despite the contango structure, the crowded short positioning suggests potential for a rebound, making the current short position less favorable.",
     "llm_provider": "openai",
     "logged_at": "2026-10-07T00:32:49.685629+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: SILVER has only been open for 270 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "agent_reason": "Silver is showing a contrarian bullish signal with managed-money net-short positioning near a multi-month extreme. The technicals are neutral, but the crowded short positioning suggests a potential upward move.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-07T00:02:30.006437+00:00"
   }
 ]
