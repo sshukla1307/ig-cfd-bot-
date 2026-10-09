@@ -513,6 +513,7 @@ PLANS = {
         # instruments under Plan A, take-profit is the trailing scheme's own limit ceiling.
         "agent_discretion_max_stoploss_pct_of_margin": None,  # unused, same reasoning
         "agent_discretion_profit_ratchet_step_pct": None,  # unused, same reasoning
+        "agent_discretion_profit_ratchet_gap_pct": None,  # unused, same reasoning
     },
     "B": {
         "floor": {"BRENT_OIL": 0.45, "WTI_OIL": 0.45, "NATURAL_GAS": 0.45, "GOLD": 0.2, "SILVER": 0.4},
@@ -526,6 +527,7 @@ PLANS = {
         "agent_discretion_takeprofit_pct_of_margin": None,  # unused, same reasoning as Plan A
         "agent_discretion_max_stoploss_pct_of_margin": None,  # unused, same reasoning as Plan A
         "agent_discretion_profit_ratchet_step_pct": None,  # unused, same reasoning as Plan A
+        "agent_discretion_profit_ratchet_gap_pct": None,  # unused, same reasoning as Plan A
     },
     "C": {
         # ADDED 2026-10-02 per explicit user instruction ("switch to 1st September setup and
@@ -614,28 +616,54 @@ PLANS = {
         # any time on either profit or loss -- it only changes the system-enforced stop/limit
         # TARGETS that would otherwise fire automatically.
         #
-        # Mechanics (see the agent-discretion branch of _sync_margin_based_exits): once this
-        # position's PEAK favorable % of margin reaches AGENT_DISCRETION_TAKEPROFIT_PCT (the
-        # base, 2.5), the fixed single take-profit target is abandoned in favor of a STEPPED
-        # ratchet in increments of this value (0.5): letting base=2.5, step=0.5, and n = the
-        # number of full 0.5 increments peak has cleared past base --
-        #   floor_pct (new stop, a PROFIT LOCK)   = base + step*n
-        #   target_pct (new take-profit limit)    = base + step*(n+1)
-        # e.g. peak=2.5% -> floor=2.5%, target=3.0% (matches the user's first example exactly).
-        # peak=3.0% -> floor=3.0%, target=3.5% (matches the second example). peak=3.5% ->
-        # floor=3.5%, target=4.0%, and so on indefinitely -- "to keep increasing profit
-        # potential" was read as an open-ended staircase, not capped at the two examples given.
-        # Below the base (peak < 2.5%), nothing changes from the existing behavior: the fixed
-        # 2.5% target and the agent's own open-time stop (capped per
+        # UPDATED same day, same request thread ("once it reaches 2.5% profit, change stop to
+        # 2.2 and limit to 3, then when it reaches 3% change stop to 2.7 and limit to 3.5 and
+        # so on") -- the stop no longer locks to EXACTLY the milestone just reached; it locks
+        # to (milestone - agent_discretion_profit_ratchet_gap_pct) below, # see that key just
+        # below. The limit formula (milestone + step) is UNCHANGED from the first version.
+        #
+        # Mechanics (see the agent-discretion branch of _sync_margin_based_exits, and
+        # _agent_discretion_profit_ratchet): once this position's PEAK favorable % of margin
+        # reaches AGENT_DISCRETION_TAKEPROFIT_PCT (the base, 2.5), the fixed single take-profit
+        # target is abandoned in favor of a STEPPED ratchet in increments of this value (0.5).
+        # Letting base=2.5, step=0.5, gap=0.3 (see the key below), and n = the number of full
+        # 0.5 increments peak has cleared past base, first compute the MILESTONE just reached --
+        #   milestone_pct = base + step*n
+        # then:
+        #   floor_pct (new stop, a PROFIT LOCK)   = milestone_pct - gap_pct
+        #   target_pct (new take-profit limit)    = milestone_pct + step_pct
+        # e.g. peak=2.5% -> milestone=2.5% -> floor=2.2%, target=3.0% (matches the user's first
+        # example exactly). peak=3.0% -> milestone=3.0% -> floor=2.7%, target=3.5% (matches the
+        # second example). peak=3.5% -> milestone=3.5% -> floor=3.2%, target=4.0%, and so on
+        # indefinitely -- "and so on" was read the same way as the first version's "keep
+        # increasing profit potential": an open-ended staircase, not capped at the two given
+        # examples. Below the base (peak < 2.5%), nothing changes from the pre-ratchet
+        # behavior: the fixed 2.5% target and the agent's own open-time stop (capped per
         # agent_discretion_max_stoploss_pct_of_margin above) still apply untouched.
         #
         # This is the FIRST mechanism in this account's history where an agent-discretion
         # instrument's STOP is actively tightened after open, rather than being set once and
         # never touched -- a deliberate, explicit departure from that longstanding invariant,
         # requested directly by the user. The stop is still one-way ratcheted (never loosens)
-        # same as every other stop-management mechanism in this file, so "at a minimum do 2.5%
-        # or more profit" holds once armed: the floor can only ever increase from 2.5% upward,
-        # never fall back toward breakeven or a loss.
+        # same as every other stop-management mechanism in this file -- once armed, the floor
+        # can only ever increase from (2.5 - gap)% upward as peak keeps growing, never fall
+        # back toward breakeven or a loss.
+        #
+        # KNOWN LIMITATION, flagged to the user but not addressed by this change: the resting
+        # take-profit LIMIT order is still the exact FIXED 2.5% target right up until arming is
+        # first detected -- since that detection only happens on the next ~2-min sync cycle
+        # (run_watch_check) or ~30-min tick, a fast move straight through 2.5% can fill that
+        # resting order on IG's side before any sync ever runs to extend it, same race condition
+        # already observed live (2026-10-09, BRENT_OIL closed at its plain 2.5% target before
+        # the ratchet got a chance to arm). This update only changes what happens AFTER arming
+        # is detected, not the race at the moment of first crossing 2.5%.
+        "agent_discretion_profit_ratchet_gap_pct": 0.3,  # ADDED 2026-10-09, same request as
+        # agent_discretion_profit_ratchet_step_pct above -- the stop locks to this far BELOW
+        # the milestone just reached (not the milestone itself), while the limit target is
+        # unaffected (still milestone + step). See that key's comment for the full worked
+        # formula/examples. Mirrors the SAME floor/gap relationship the Plan A/B continuous
+        # trailing-stop scheme already uses elsewhere in this file (TRAILING_STOP_GAP_PCT),
+        # just applied in discrete steps here instead of continuously.
     },
 }
 ACTIVE_PLAN = "C"  # "A", "B", or "C" -- THE single switch. Change this one line (and push) to
@@ -833,6 +861,13 @@ AGENT_DISCRETION_PROFIT_RATCHET_STEP_PCT = PLANS[ACTIVE_PLAN]["agent_discretion_
 # value, indefinitely, as peak keeps growing. None under Plan A/B and a valid Plan C value too
 # (None there reverts to the single fixed take-profit target with the stop never touched after
 # open, the pre-2026-10-09 Plan C behavior).
+AGENT_DISCRETION_PROFIT_RATCHET_GAP_PCT = PLANS[ACTIVE_PLAN]["agent_discretion_profit_ratchet_gap_pct"]
+# ADDED 2026-10-09, same-day follow-up request ("change stop to 2.2 and limit to 3... then
+# 2.7 and limit to 3.5") -- once armed, the stop locks to (milestone_pct - this value) rather
+# than exactly milestone_pct; the limit target is unaffected by this constant (still
+# milestone_pct + AGENT_DISCRETION_PROFIT_RATCHET_STEP_PCT). None under Plan A/B. A valid Plan
+# C value too -- setting this back to 0.0 (not None) would make the stop lock to exactly the
+# milestone again, matching the very first version of this ratchet from earlier the same day.
 # PLAN B (deployed 2026-09-28, superseding the uniform 1.6%/1.2% "Plan A" config --
 # see git tag plan-a-uniform-1.6floor-1.2arm-0.10gap to revert to that snapshot).
 # Per-instrument floor/arm, replacing the single global TRAILING_STOP_FLOOR_PCT/
@@ -1161,15 +1196,18 @@ def _agent_discretion_profit_ratchet(pos: dict, margin: float, entry_level: floa
       - armed=False while peak_fav_pct hasn't yet reached AGENT_DISCRETION_TAKEPROFIT_PCT --
         caller should fall back to its existing pre-ratchet behavior entirely (fixed target,
         stop untouched).
-      - armed=True once it has: floor_pct/target_pct step upward together in
-        AGENT_DISCRETION_PROFIT_RATCHET_STEP_PCT increments as peak keeps growing (floor_pct is
-        always a real, growing profit lock -- never a loss -- and target_pct is always
-        floor_pct + one more step past it). The caller converts these to actual stop/limit
-        price levels and applies its own one-way ratchet / IG min-distance clamp on top, same
-        pattern as _trailing_stop_and_limit's caller."""
+      - armed=True once it has: let milestone_pct be the furthest AGENT_DISCRETION_PROFIT_
+        RATCHET_STEP_PCT-sized step peak has cleared past the base. floor_pct (the new stop, a
+        profit lock) is milestone_pct - AGENT_DISCRETION_PROFIT_RATCHET_GAP_PCT (clamped at 0 --
+        never actually a loss, purely a defensive floor since this account's own numbers never
+        require it); target_pct (the new limit) is milestone_pct + the step, unaffected by the
+        gap. Both keep climbing together as peak keeps growing. The caller converts these to
+        actual stop/limit price levels and applies its own one-way ratchet / IG min-distance
+        clamp on top, same pattern as _trailing_stop_and_limit's caller."""
     deal_id = pos.get("deal_id")
     base_pct = AGENT_DISCRETION_TAKEPROFIT_PCT
     step_pct = AGENT_DISCRETION_PROFIT_RATCHET_STEP_PCT
+    gap_pct = AGENT_DISCRETION_PROFIT_RATCHET_GAP_PCT or 0.0
     pnl = _estimate_unrealized_pnl(pos)
     current_fav_pct = (pnl / margin * 100) if pnl is not None else 0.0
     peak_fav_pct = max(peak_state.get(deal_id, 0.0), current_fav_pct)
@@ -1179,8 +1217,9 @@ def _agent_discretion_profit_ratchet(pos: dict, margin: float, entry_level: floa
         return False, None, None
 
     n = int((peak_fav_pct - base_pct) / step_pct)  # floor division -- peak_fav_pct >= base_pct here, so n >= 0
-    floor_pct = base_pct + step_pct * n
-    target_pct = base_pct + step_pct * (n + 1)
+    milestone_pct = base_pct + step_pct * n
+    floor_pct = max(0.0, milestone_pct - gap_pct)
+    target_pct = milestone_pct + step_pct
     return True, floor_pct, target_pct
 
 
@@ -1390,10 +1429,10 @@ def _sync_margin_based_exits(broker, positions: dict, snapshots: dict, max_lever
                     else agent_discretion_entry - agent_discretion_target_limit_distance, 4,
                 )
                 agent_discretion_reason = (
-                    f"Agent-discretion profit ratchet ARMED (2026-10-09 refinement): peak favorable "
-                    f"profit reached the {agent_discretion_floor_pct}% floor -- stop locked to "
-                    f"guarantee at least that much profit, limit extended to the next {agent_discretion_target_pct}% "
-                    f"target to keep upside open."
+                    f"Agent-discretion profit ratchet ARMED (2026-10-09 refinement): stop locked to "
+                    f"guarantee at least {agent_discretion_floor_pct}% profit (a "
+                    f"{AGENT_DISCRETION_PROFIT_RATCHET_GAP_PCT}% gap below the milestone just reached), "
+                    f"limit extended to the next {agent_discretion_target_pct}% target to keep upside open."
                 )
 
             agent_discretion_limit_ok = agent_discretion_current_limit is not None and abs(agent_discretion_current_limit - agent_discretion_target_limit) <= MARGIN_LIMIT_SYNC_TOLERANCE
