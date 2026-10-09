@@ -512,6 +512,7 @@ PLANS = {
         "agent_discretion_takeprofit_pct_of_margin": None,  # unused -- no agent-discretion
         # instruments under Plan A, take-profit is the trailing scheme's own limit ceiling.
         "agent_discretion_max_stoploss_pct_of_margin": None,  # unused, same reasoning
+        "agent_discretion_profit_ratchet_step_pct": None,  # unused, same reasoning
     },
     "B": {
         "floor": {"BRENT_OIL": 0.45, "WTI_OIL": 0.45, "NATURAL_GAS": 0.45, "GOLD": 0.2, "SILVER": 0.4},
@@ -524,6 +525,7 @@ PLANS = {
         "agent_discretion_instruments": set(),
         "agent_discretion_takeprofit_pct_of_margin": None,  # unused, same reasoning as Plan A
         "agent_discretion_max_stoploss_pct_of_margin": None,  # unused, same reasoning as Plan A
+        "agent_discretion_profit_ratchet_step_pct": None,  # unused, same reasoning as Plan A
     },
     "C": {
         # ADDED 2026-10-02 per explicit user instruction ("switch to 1st September setup and
@@ -557,8 +559,10 @@ PLANS = {
         "floor": {"BRENT_OIL": 1.6, "WTI_OIL": 1.6, "NATURAL_GAS": 1.6, "GOLD": 1.6, "SILVER": 1.6},
         "arm": {"BRENT_OIL": 1.2, "WTI_OIL": 1.2, "NATURAL_GAS": 1.2, "GOLD": 1.2, "SILVER": 1.2},
         "gap": 0.10,
-        "profit_take_pct_of_balance": 1.2,  # _check_balance_profit_target postdates Sep 1 (added
-        # 2026-09-25) and wasn't asked to be removed -- kept active as an extra safety net (it
+        "profit_take_pct_of_balance": 1.7,  # RAISED 2026-10-09 from 1.2 to 1.7 per explicit user
+        # instruction, alongside building the stepped profit ratchet below. _check_balance_
+        # profit_target postdates Sep 1 (added 2026-09-25) and wasn't asked to be removed --
+        # kept active as an extra safety net (it
         # only ever closes a position already in substantial profit, which doesn't conflict with
         # "agent sets its own stop/target"), unlike the trailing-stop machinery itself.
         "momentum_filtered_instruments": {"NATURAL_GAS", "BRENT_OIL"},  # RE-ENABLED 2026-10-06
@@ -594,10 +598,44 @@ PLANS = {
         # converted to its margin-% equivalent -- the agent still fully chooses direction/
         # timing/conviction (allocation_pct) and anything tighter than 3% of margin passes
         # through completely unchanged; only an unusually wide choice gets pulled in. Applied
-        # once at OPEN (both the primary leg and the WTI mirror leg) -- like the uncapped
-        # agent-discretion stop before it, this is NOT synced/ratcheted afterward; the
-        # position's actual resting stop is whichever of (agent's own, this cap) was tighter at
-        # open time, forever.
+        # once at OPEN (both the primary leg and the WTI mirror leg). UPDATED 2026-10-09: this
+        # cap still governs the stop ONLY up to the point the new profit ratchet below first
+        # arms (see agent_discretion_profit_ratchet_step_pct) -- once peak favorable profit
+        # reaches AGENT_DISCRETION_TAKEPROFIT_PCT, the ratchet takes over the stop entirely and
+        # this cap no longer applies (the ratchet's own floor_pct, always a positive profit
+        # lock from that point on, replaces it). Before that point, the position's resting stop
+        # is still whichever of (agent's own, this cap) was tighter at open time, untouched.
+        "agent_discretion_profit_ratchet_step_pct": 0.5,  # ADDED 2026-10-09 per explicit user
+        # instruction: "After the position make 2.5% profit margin instead of selling change
+        # profit take out to +0.5% to 3.0 and change stop loss to 2.5%, when it reaches 3%
+        # profit then change profit threshold to 3.5% and stop loss to 3% to keep increasing
+        # profit potential but at a minimum do 2.5% or more profit." This is a NEW mechanism,
+        # layered on top of (never replacing) the agent's own ability to CLOSE a position at
+        # any time on either profit or loss -- it only changes the system-enforced stop/limit
+        # TARGETS that would otherwise fire automatically.
+        #
+        # Mechanics (see the agent-discretion branch of _sync_margin_based_exits): once this
+        # position's PEAK favorable % of margin reaches AGENT_DISCRETION_TAKEPROFIT_PCT (the
+        # base, 2.5), the fixed single take-profit target is abandoned in favor of a STEPPED
+        # ratchet in increments of this value (0.5): letting base=2.5, step=0.5, and n = the
+        # number of full 0.5 increments peak has cleared past base --
+        #   floor_pct (new stop, a PROFIT LOCK)   = base + step*n
+        #   target_pct (new take-profit limit)    = base + step*(n+1)
+        # e.g. peak=2.5% -> floor=2.5%, target=3.0% (matches the user's first example exactly).
+        # peak=3.0% -> floor=3.0%, target=3.5% (matches the second example). peak=3.5% ->
+        # floor=3.5%, target=4.0%, and so on indefinitely -- "to keep increasing profit
+        # potential" was read as an open-ended staircase, not capped at the two examples given.
+        # Below the base (peak < 2.5%), nothing changes from the existing behavior: the fixed
+        # 2.5% target and the agent's own open-time stop (capped per
+        # agent_discretion_max_stoploss_pct_of_margin above) still apply untouched.
+        #
+        # This is the FIRST mechanism in this account's history where an agent-discretion
+        # instrument's STOP is actively tightened after open, rather than being set once and
+        # never touched -- a deliberate, explicit departure from that longstanding invariant,
+        # requested directly by the user. The stop is still one-way ratcheted (never loosens)
+        # same as every other stop-management mechanism in this file, so "at a minimum do 2.5%
+        # or more profit" holds once armed: the floor can only ever increase from 2.5% upward,
+        # never fall back toward breakeven or a loss.
     },
 }
 ACTIVE_PLAN = "C"  # "A", "B", or "C" -- THE single switch. Change this one line (and push) to
@@ -782,9 +820,19 @@ AGENT_DISCRETION_MAX_STOPLOSS_PCT = PLANS[ACTIVE_PLAN]["agent_discretion_max_sto
 # agent-discretion instrument's OPEN-time stop_distance to this % of MARGIN, converted via
 # _margin_based_distance, regardless of how wide the agent's own stop_loss_pct (a % of PRICE)
 # would otherwise compute to. Applied once at open (see the OPEN call sites), same as the
-# uncapped stop before it -- not synced/re-evaluated afterward. None under Plan A/B (no
+# uncapped stop before it -- not synced/re-evaluated afterward UNLESS the profit ratchet
+# below takes over (see AGENT_DISCRETION_PROFIT_RATCHET_STEP_PCT). None under Plan A/B (no
 # agent-discretion instruments) and a valid Plan C value too (None there reverts to the
 # agent's stop_loss_pct being fully uncapped, the original Sep 1/16/21 behavior).
+AGENT_DISCRETION_PROFIT_RATCHET_STEP_PCT = PLANS[ACTIVE_PLAN]["agent_discretion_profit_ratchet_step_pct"]
+# ADDED 2026-10-09 -- see PLANS["C"]'s own comment for the full mechanics and the user's exact
+# request. When not None, _sync_margin_based_exits' agent-discretion branch stops treating
+# AGENT_DISCRETION_TAKEPROFIT_PCT as a single fixed target once a position's peak favorable %
+# of margin reaches it -- from that point on, both the stop (now a one-way-ratcheted profit
+# lock) and the limit (the next target to aim for) step upward together in increments of this
+# value, indefinitely, as peak keeps growing. None under Plan A/B and a valid Plan C value too
+# (None there reverts to the single fixed take-profit target with the stop never touched after
+# open, the pre-2026-10-09 Plan C behavior).
 # PLAN B (deployed 2026-09-28, superseding the uniform 1.6%/1.2% "Plan A" config --
 # see git tag plan-a-uniform-1.6floor-1.2arm-0.10gap to revert to that snapshot).
 # Per-instrument floor/arm, replacing the single global TRAILING_STOP_FLOOR_PCT/
@@ -1103,6 +1151,39 @@ def _trailing_stop_and_limit(pos: dict, margin: float, entry_level: float, size:
     return stop_price, limit_price
 
 
+def _agent_discretion_profit_ratchet(pos: dict, margin: float, entry_level: float, size: float, is_long: bool,
+                                      peak_state: dict) -> tuple:
+    """ADDED 2026-10-09 -- see AGENT_DISCRETION_PROFIT_RATCHET_STEP_PCT's module comment for
+    the full design and the user's exact request. Tracks this position's peak favorable % of
+    margin in peak_state (mutated in place, keyed by deal_id -- same shared dict/file the
+    trailing-stop scheme uses, persisted by the caller), then returns
+    (armed: bool, floor_pct, target_pct):
+      - armed=False while peak_fav_pct hasn't yet reached AGENT_DISCRETION_TAKEPROFIT_PCT --
+        caller should fall back to its existing pre-ratchet behavior entirely (fixed target,
+        stop untouched).
+      - armed=True once it has: floor_pct/target_pct step upward together in
+        AGENT_DISCRETION_PROFIT_RATCHET_STEP_PCT increments as peak keeps growing (floor_pct is
+        always a real, growing profit lock -- never a loss -- and target_pct is always
+        floor_pct + one more step past it). The caller converts these to actual stop/limit
+        price levels and applies its own one-way ratchet / IG min-distance clamp on top, same
+        pattern as _trailing_stop_and_limit's caller."""
+    deal_id = pos.get("deal_id")
+    base_pct = AGENT_DISCRETION_TAKEPROFIT_PCT
+    step_pct = AGENT_DISCRETION_PROFIT_RATCHET_STEP_PCT
+    pnl = _estimate_unrealized_pnl(pos)
+    current_fav_pct = (pnl / margin * 100) if pnl is not None else 0.0
+    peak_fav_pct = max(peak_state.get(deal_id, 0.0), current_fav_pct)
+    peak_state[deal_id] = peak_fav_pct
+
+    if peak_fav_pct < base_pct:
+        return False, None, None
+
+    n = int((peak_fav_pct - base_pct) / step_pct)  # floor division -- peak_fav_pct >= base_pct here, so n >= 0
+    floor_pct = base_pct + step_pct * n
+    target_pct = base_pct + step_pct * (n + 1)
+    return True, floor_pct, target_pct
+
+
 def _ratchet_stop_target(pos: dict, margin: float, entry_level: float, size: float, is_long: bool,
                           min_stop_distance: float = None, instrument: str = None) -> float:
     """Computes this tick's CANDIDATE stop level: the original MARGIN_STOP_LOSS_PCT
@@ -1238,30 +1319,98 @@ def _sync_margin_based_exits(broker, positions: dict, snapshots: dict, max_lever
             if not agent_discretion_margin or agent_discretion_entry is None or not agent_discretion_size or agent_discretion_current_stop is None:
                 continue
             agent_discretion_is_long = pos["direction"] == "BUY"
-            agent_discretion_limit_distance = _margin_based_distance(
-                AGENT_DISCRETION_TAKEPROFIT_PCT, agent_discretion_margin, agent_discretion_size,
-            )
-            agent_discretion_target_limit = round(
-                agent_discretion_entry + agent_discretion_limit_distance if agent_discretion_is_long
-                else agent_discretion_entry - agent_discretion_limit_distance, 4,
-            )
-            if agent_discretion_current_limit is not None and abs(agent_discretion_current_limit - agent_discretion_target_limit) <= MARGIN_LIMIT_SYNC_TOLERANCE:
+
+            # ADDED 2026-10-09: once peak favorable profit reaches AGENT_DISCRETION_TAKEPROFIT_PCT,
+            # the fixed single target below is superseded by a stepped ratchet -- see
+            # _agent_discretion_profit_ratchet and AGENT_DISCRETION_PROFIT_RATCHET_STEP_PCT's
+            # module comment for the full mechanics and the user's exact request.
+            agent_discretion_armed = False
+            agent_discretion_floor_pct = agent_discretion_target_pct = None
+            if AGENT_DISCRETION_PROFIT_RATCHET_STEP_PCT is not None:
+                agent_discretion_armed, agent_discretion_floor_pct, agent_discretion_target_pct = _agent_discretion_profit_ratchet(
+                    pos, agent_discretion_margin, agent_discretion_entry, agent_discretion_size,
+                    agent_discretion_is_long, peak_state,
+                )
+
+            if not agent_discretion_armed:
+                # Pre-ratchet (or ratchet disabled): unchanged from the original 2026-09-21
+                # behavior -- fixed target, stop untouched.
+                agent_discretion_limit_distance = _margin_based_distance(
+                    AGENT_DISCRETION_TAKEPROFIT_PCT, agent_discretion_margin, agent_discretion_size,
+                )
+                agent_discretion_target_limit = round(
+                    agent_discretion_entry + agent_discretion_limit_distance if agent_discretion_is_long
+                    else agent_discretion_entry - agent_discretion_limit_distance, 4,
+                )
+                agent_discretion_target_stop = agent_discretion_current_stop
+                agent_discretion_reason = (
+                    f"Agent-discretion take-profit reconciliation (fixed {AGENT_DISCRETION_TAKEPROFIT_PCT}% "
+                    f"of margin, 2026-09-21 refinement) -- stop left exactly as the agent set it at open, "
+                    f"amending the limit only."
+                )
+            else:
+                # ARMED: both stop (now a profit lock) and limit (the next target) step
+                # upward together -- see PLANS["C"]'s own comment for the floor/target
+                # formula and worked examples.
+                agent_discretion_floor_distance = _margin_based_distance(
+                    agent_discretion_floor_pct, agent_discretion_margin, agent_discretion_size,
+                )
+                agent_discretion_candidate_stop = round(
+                    agent_discretion_entry + agent_discretion_floor_distance if agent_discretion_is_long
+                    else agent_discretion_entry - agent_discretion_floor_distance, 4,
+                )
+                # Same IG-min-stop-distance-from-CURRENT-price clamp as the main trailing path
+                # below (see its own 2026-09-24 incident note) -- a profit lock tightening
+                # toward live price can otherwise land closer than IG's real minimum allows.
+                agent_discretion_min_stop_distance = (agent_discretion_snapshot or {}).get("min_stop_distance")
+                if agent_discretion_min_stop_distance:
+                    agent_discretion_current_price_for_stop = pos.get("current_bid") if agent_discretion_is_long else pos.get("current_offer")
+                    if agent_discretion_current_price_for_stop is not None:
+                        if agent_discretion_is_long:
+                            agent_discretion_max_allowed_stop = agent_discretion_current_price_for_stop - agent_discretion_min_stop_distance
+                            if agent_discretion_candidate_stop > agent_discretion_max_allowed_stop:
+                                agent_discretion_candidate_stop = agent_discretion_max_allowed_stop
+                        else:
+                            agent_discretion_min_allowed_stop = agent_discretion_current_price_for_stop + agent_discretion_min_stop_distance
+                            if agent_discretion_candidate_stop < agent_discretion_min_allowed_stop:
+                                agent_discretion_candidate_stop = agent_discretion_min_allowed_stop
+                # One-way ratchet: never loosen versus the stop's current live value -- same
+                # invariant as every other stop-management mechanism in this file. This is
+                # what makes "at a minimum 2.5% or more profit" hold once armed.
+                if agent_discretion_is_long:
+                    agent_discretion_target_stop = round(max(agent_discretion_current_stop, agent_discretion_candidate_stop), 4)
+                else:
+                    agent_discretion_target_stop = round(min(agent_discretion_current_stop, agent_discretion_candidate_stop), 4)
+
+                agent_discretion_target_limit_distance = _margin_based_distance(
+                    agent_discretion_target_pct, agent_discretion_margin, agent_discretion_size,
+                )
+                agent_discretion_target_limit = round(
+                    agent_discretion_entry + agent_discretion_target_limit_distance if agent_discretion_is_long
+                    else agent_discretion_entry - agent_discretion_target_limit_distance, 4,
+                )
+                agent_discretion_reason = (
+                    f"Agent-discretion profit ratchet ARMED (2026-10-09 refinement): peak favorable "
+                    f"profit reached the {agent_discretion_floor_pct}% floor -- stop locked to "
+                    f"guarantee at least that much profit, limit extended to the next {agent_discretion_target_pct}% "
+                    f"target to keep upside open."
+                )
+
+            agent_discretion_limit_ok = agent_discretion_current_limit is not None and abs(agent_discretion_current_limit - agent_discretion_target_limit) <= MARGIN_LIMIT_SYNC_TOLERANCE
+            agent_discretion_stop_ok = abs(agent_discretion_current_stop - agent_discretion_target_stop) <= MARGIN_LIMIT_SYNC_TOLERANCE
+            if agent_discretion_limit_ok and agent_discretion_stop_ok:
                 continue  # already correct
             result = broker.update_position(
                 deal_id=pos["deal_id"], limit_level=agent_discretion_target_limit,
-                stop_level=agent_discretion_current_stop,  # always reassert the stop explicitly when
+                stop_level=agent_discretion_target_stop,  # always reassert the stop explicitly when
                 # amending -- see the 2026-09-18 incident note below: omitting it is not "leave
                 # unchanged", IG deletes it.
             )
             _log_order_event({
                 "action": "MARGIN_EXIT_SYNC", "instrument": instrument, "deal_id": pos["deal_id"],
                 "old_limit_level": agent_discretion_current_limit, "new_limit_level": agent_discretion_target_limit,
-                "old_stop_level": agent_discretion_current_stop, "new_stop_level": agent_discretion_current_stop,
-                "reason": (
-                    f"Agent-discretion take-profit reconciliation (fixed {AGENT_DISCRETION_TAKEPROFIT_PCT}% "
-                    f"of margin, 2026-09-21 refinement) -- stop left exactly as the agent set it at open, "
-                    f"amending the limit only."
-                ),
+                "old_stop_level": agent_discretion_current_stop, "new_stop_level": agent_discretion_target_stop,
+                "reason": agent_discretion_reason,
                 **result,
             })
             if result.get("status") == "submitted":
@@ -1372,8 +1521,16 @@ def _sync_margin_based_exits(broker, positions: dict, snapshots: dict, max_lever
         if result.get("status") == "submitted":
             synced.append(instrument)
 
-    if any(inst in TRAILING_STOP_INSTRUMENTS for inst in positions):
-        _save_trailing_peaks(peak_state)
+    # UPDATED 2026-10-09: used to only save when a TRAILING_STOP_INSTRUMENTS position was
+    # present, since that scheme was the only consumer of peak_state. Now
+    # _agent_discretion_profit_ratchet also writes into this same shared dict (for
+    # AGENT_DISCRETION_INSTRUMENTS, keyed by the same deal_id), and under Plan C
+    # TRAILING_STOP_INSTRUMENTS is empty -- the old condition would have silently discarded
+    # the agent-discretion ratchet's peak tracking every single call, resetting peak_fav_pct
+    # to the CURRENT (not best-ever) reading each time and breaking the one-way ratchet
+    # entirely. Saving unconditionally is always safe (peak_state was already pruned to live
+    # deal_ids above) and correct for both schemes.
+    _save_trailing_peaks(peak_state)
 
     return synced
 
