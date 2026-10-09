@@ -1,5 +1,14 @@
 [
   {
+    "action": "OPEN_LONG",
+    "instrument": "SILVER",
+    "status": "REJECTED",
+    "reason": "Same-direction cooldown: SILVER was closed at a loss 34 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
+    "agent_reason": "Silver is showing a contrarian bullish signal due to extreme managed-money net-short positioning, which is near a multi-month extreme. Despite the overbought RSI, the positioning data suggests a potential for a short squeeze. The technicals show a short-term bearish setup with SMA-20 below SMA-50, but the contrarian signal from positioning is strong enough to justify a long position.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-09T06:28:55.438447+00:00"
+  },
+  {
     "action": "OPEN_SHORT",
     "instrument": "SILVER",
     "status": "REJECTED",
@@ -3362,14 +3371,5 @@
     "agent_reason": "Silver is showing a contrarian bullish signal with managed-money net-short positioning near a multi-month extreme, suggesting a potential upward move. Despite the short-term bearish technicals, the extreme short positioning provides a strong contrarian signal.",
     "llm_provider": "openai",
     "logged_at": "2026-10-08T07:32:52.312821+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "Consecutive-loss circuit breaker: SILVER has lost 2 times in a row going BUY (most recently 89 min ago) -- blocked for 120 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
-    "agent_reason": "Silver is in a contango structure, indicating ample supply, which is bearish. However, the RSI is neutral, and the market is showing signs of potential upward movement. The recent news suggests a lack of momentum, but the overall market conditions could support a short-term bullish move.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-08T07:02:04.002182+00:00"
   }
 ]
