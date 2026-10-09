@@ -1,6 +1,33 @@
 [
   {
     "action": "CLOSE",
+    "instrument": "SILVER",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: SILVER has only been open for 108 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "agent_reason": "Silver is showing a contrarian bullish signal due to extreme managed-money net-short positioning. However, the independent price check shows discrepancies, and the market is under pressure. Closing the position to secure current gains.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-09T03:01:41.139475+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 443 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "agent_reason": "Natural Gas is showing oversold conditions with RSI at 21.2, but the price data from independent sources is inconsistent, suggesting potential data issues. Closing the position to avoid further losses.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-09T03:01:41.139335+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Consecutive-loss circuit breaker: BRENT_OIL has lost 2 times in a row going BUY (most recently 115 min ago) -- blocked for 120 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
+    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50. Recent news supports upward price movement due to supply disruptions and geopolitical tensions.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-09T03:01:41.139117+00:00"
+  },
+  {
+    "action": "CLOSE",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
     "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 413 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
@@ -3361,55 +3388,5 @@
     "agent_reason": "Brent Oil is currently overbought with an RSI of 97.2, indicating a potential pullback. Despite the backwardation, which signals tight supply, the extreme RSI suggests a short-term correction is likely. Recent news also indicates that G7 countries are releasing emergency reserves, which could temporarily ease supply constraints.",
     "llm_provider": "openai",
     "logged_at": "2026-10-08T04:02:06.134804+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 102.29 vs 30-min SMA 102.3317, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The SMA-20 is above the SMA-50, confirming a short-term bullish trend. Recent news suggests upward revisions in price forecasts by major financial institutions, supporting a bullish outlook.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-08T03:32:15.129779+00:00"
-  },
-  {
-    "action": "MIRROR_ROLLBACK",
-    "instrument": "BRENT_OIL",
-    "reason": "WTI mirror leg failed (Insufficient margin headroom for the WTI mirror leg) -- closing Brent back out.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-10-08T03:01:52.73",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "SDPMKHKVA2NTYNV",
-      "dealId": "DIAAAASAHPTMFA5",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASAHPTMFA5",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 10126.7,
-      "size": 0.92,
-      "direction": "SELL",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": -3.96,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-10-08T03:01:52.954798+00:00"
-  },
-  {
-    "action": "WTI_MIRROR_OPEN",
-    "instrument": "WTI_OIL",
-    "status": "rejected",
-    "reason": "Insufficient margin headroom for the WTI mirror leg",
-    "logged_at": "2026-10-08T03:01:52.598297+00:00"
   }
 ]
