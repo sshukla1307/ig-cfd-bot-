@@ -3,6 +3,24 @@
     "action": "OPEN_LONG",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 3.203 vs 30-min SMA 3.2053, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Natural Gas is showing a contrarian bullish signal due to extreme managed-money net-short positioning, suggesting potential for a short squeeze. Despite the contango structure indicating ample supply, the positioning data suggests a potential for a short squeeze.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-09T19:12:56.189660+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 103.87 vs 30-min SMA 103.995, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50 and RSI at 55.9, suggesting potential for a continued upward move.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-09T19:12:56.129660+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 3.205 vs 30-min SMA 3.2103, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
     "agent_reason": "Natural Gas is showing a contrarian bullish signal due to extreme managed-money net-short positioning, suggesting potential for a short squeeze. Despite the contango structure indicating ample supply, the positioning data suggests a potential for a short squeeze. Technicals show RSI at 66.5, indicating room for upward movement.",
     "llm_provider": "openai",
@@ -3710,23 +3728,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-10-09T04:01:55.719300+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 503 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "agent_reason": "The current Natural Gas position is slightly negative, and the market conditions are not strongly favoring a continuation of the short position. The inventory data shows a larger-than-typical build, which is bearish, but the weather-driven demand is moderate with no strong signal. Additionally, the independent price checks show a significant discrepancy, indicating potential data quality issues. Closing the position to reassess the market.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-09T04:01:55.337970+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: SILVER has only been open for 138 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "agent_reason": "Silver is showing a contrarian bullish signal due to extreme managed-money net-short positioning. The RSI is overbought, suggesting potential for a pullback, but the crowded short positioning could lead to a short squeeze, making it prudent to close the current long position and reassess.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-09T03:31:40.086175+00:00"
   }
 ]
