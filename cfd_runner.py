@@ -514,6 +514,7 @@ PLANS = {
         "agent_discretion_max_stoploss_pct_of_margin": None,  # unused, same reasoning
         "agent_discretion_profit_ratchet_step_pct": None,  # unused, same reasoning
         "agent_discretion_profit_ratchet_gap_pct": None,  # unused, same reasoning
+        "agent_discretion_pre_arm_limit_pct_of_margin": None,  # unused, same reasoning
     },
     "B": {
         "floor": {"BRENT_OIL": 0.45, "WTI_OIL": 0.45, "NATURAL_GAS": 0.45, "GOLD": 0.2, "SILVER": 0.4},
@@ -528,6 +529,7 @@ PLANS = {
         "agent_discretion_max_stoploss_pct_of_margin": None,  # unused, same reasoning as Plan A
         "agent_discretion_profit_ratchet_step_pct": None,  # unused, same reasoning as Plan A
         "agent_discretion_profit_ratchet_gap_pct": None,  # unused, same reasoning as Plan A
+        "agent_discretion_pre_arm_limit_pct_of_margin": None,  # unused, same reasoning as Plan A
     },
     "C": {
         # ADDED 2026-10-02 per explicit user instruction ("switch to 1st September setup and
@@ -649,14 +651,16 @@ PLANS = {
         # can only ever increase from (2.5 - gap)% upward as peak keeps growing, never fall
         # back toward breakeven or a loss.
         #
-        # KNOWN LIMITATION, flagged to the user but not addressed by this change: the resting
-        # take-profit LIMIT order is still the exact FIXED 2.5% target right up until arming is
-        # first detected -- since that detection only happens on the next ~2-min sync cycle
-        # (run_watch_check) or ~30-min tick, a fast move straight through 2.5% can fill that
-        # resting order on IG's side before any sync ever runs to extend it, same race condition
-        # already observed live (2026-10-09, BRENT_OIL closed at its plain 2.5% target before
-        # the ratchet got a chance to arm). This update only changes what happens AFTER arming
-        # is detected, not the race at the moment of first crossing 2.5%.
+        # RACE CONDITION, flagged earlier the same day then FIXED by a further same-day
+        # request ("ok in that case put the pre-arm resting limit to 10%") -- the problem was:
+        # the resting take-profit LIMIT order was the exact FIXED base target (2.5%) right up
+        # until arming was first detected on the next ~2-min sync cycle, so a fast move
+        # straight through 2.5% could fill that resting order on IG's side before any sync
+        # ever ran to extend it (observed live, 2026-10-09: BRENT_OIL closed at its plain 2.5%
+        # target before the ratchet got a chance to arm). See
+        # agent_discretion_pre_arm_limit_pct_of_margin below for the fix -- the pre-arm resting
+        # limit is now a wide 10% ceiling instead of the tight 2.5% arm threshold itself, so
+        # there's no longer a real order sitting exactly where arming gets detected.
         "agent_discretion_profit_ratchet_gap_pct": 0.3,  # ADDED 2026-10-09, same request as
         # agent_discretion_profit_ratchet_step_pct above -- the stop locks to this far BELOW
         # the milestone just reached (not the milestone itself), while the limit target is
@@ -664,6 +668,19 @@ PLANS = {
         # formula/examples. Mirrors the SAME floor/gap relationship the Plan A/B continuous
         # trailing-stop scheme already uses elsewhere in this file (TRAILING_STOP_GAP_PCT),
         # just applied in discrete steps here instead of continuously.
+        "agent_discretion_pre_arm_limit_pct_of_margin": 10.0,  # ADDED 2026-10-09, per explicit
+        # user instruction after discussing whether the tight pre-arm take-profit was even
+        # needed given the ratchet already existed ("can we now cancel this 2.5% take profit
+        # rule?" -> "put the pre-arm resting limit to 10%"). AGENT_DISCRETION_TAKEPROFIT_PCT
+        # (2.5) remains the ratchet's ARM threshold (_agent_discretion_profit_ratchet still
+        # compares peak against it, unchanged) but no longer dictates the actual resting LIMIT
+        # order before arming -- that's this value instead, applied at OPEN (both the primary
+        # leg and the WTI mirror leg) and kept in sync every cycle same as before. Pre-arm, the
+        # STOP is still the agent's own choice (capped per
+        # agent_discretion_max_stoploss_pct_of_margin) -- this key only changes the limit side.
+        # Once peak reaches AGENT_DISCRETION_TAKEPROFIT_PCT, the ratchet's own ARMED target
+        # (milestone + step) immediately supersedes this 10% ceiling, same as it already
+        # superseded the old 2.5% target.
     },
 }
 ACTIVE_PLAN = "C"  # "A", "B", or "C" -- THE single switch. Change this one line (and push) to
@@ -868,6 +885,18 @@ AGENT_DISCRETION_PROFIT_RATCHET_GAP_PCT = PLANS[ACTIVE_PLAN]["agent_discretion_p
 # milestone_pct + AGENT_DISCRETION_PROFIT_RATCHET_STEP_PCT). None under Plan A/B. A valid Plan
 # C value too -- setting this back to 0.0 (not None) would make the stop lock to exactly the
 # milestone again, matching the very first version of this ratchet from earlier the same day.
+AGENT_DISCRETION_PRE_ARM_LIMIT_PCT = PLANS[ACTIVE_PLAN]["agent_discretion_pre_arm_limit_pct_of_margin"]
+# ADDED 2026-10-09 ("put the pre-arm resting limit to 10%") -- this, not
+# AGENT_DISCRETION_TAKEPROFIT_PCT, is what the OPEN call sites and _sync_margin_based_exits'
+# pre-arm branch now use for the actual resting LIMIT order before the ratchet arms.
+# AGENT_DISCRETION_TAKEPROFIT_PCT (2.5) still is the ratchet's ARM threshold (unchanged,
+# compared against peak inside _agent_discretion_profit_ratchet) -- the two values are
+# decoupled now specifically to kill the race condition described in PLANS["C"]'s own comment:
+# with the pre-arm limit sitting at a wide 10% instead of the tight 2.5% arm threshold, there's
+# no real order resting exactly where arming gets detected, so a fast move through 2.5% no
+# longer has anything to prematurely fill. None under Plan A/B (and would also be a valid Plan
+# C value -- None there would make the agent-discretion branch fall back to treating
+# AGENT_DISCRETION_TAKEPROFIT_PCT itself as the pre-arm limit again, the pre-2026-10-09 state).
 # PLAN B (deployed 2026-09-28, superseding the uniform 1.6%/1.2% "Plan A" config --
 # see git tag plan-a-uniform-1.6floor-1.2arm-0.10gap to revert to that snapshot).
 # Per-instrument floor/arm, replacing the single global TRAILING_STOP_FLOOR_PCT/
@@ -1372,10 +1401,16 @@ def _sync_margin_based_exits(broker, positions: dict, snapshots: dict, max_lever
                 )
 
             if not agent_discretion_armed:
-                # Pre-ratchet (or ratchet disabled): unchanged from the original 2026-09-21
-                # behavior -- fixed target, stop untouched.
+                # Pre-ratchet (or ratchet disabled): stop untouched, same as always. The LIMIT
+                # is UPDATED 2026-10-09 ("put the pre-arm resting limit to 10%") -- a wide
+                # ceiling (AGENT_DISCRETION_PRE_ARM_LIMIT_PCT), not the tight
+                # AGENT_DISCRETION_TAKEPROFIT_PCT arm threshold itself, specifically so there's
+                # no real resting order sitting exactly where arming gets detected (see that
+                # constant's module comment -- this is what fixed the race condition observed
+                # live the same day).
+                agent_discretion_pre_arm_limit_pct = AGENT_DISCRETION_PRE_ARM_LIMIT_PCT if AGENT_DISCRETION_PRE_ARM_LIMIT_PCT is not None else AGENT_DISCRETION_TAKEPROFIT_PCT
                 agent_discretion_limit_distance = _margin_based_distance(
-                    AGENT_DISCRETION_TAKEPROFIT_PCT, agent_discretion_margin, agent_discretion_size,
+                    agent_discretion_pre_arm_limit_pct, agent_discretion_margin, agent_discretion_size,
                 )
                 agent_discretion_target_limit = round(
                     agent_discretion_entry + agent_discretion_limit_distance if agent_discretion_is_long
@@ -1383,8 +1418,9 @@ def _sync_margin_based_exits(broker, positions: dict, snapshots: dict, max_lever
                 )
                 agent_discretion_target_stop = agent_discretion_current_stop
                 agent_discretion_reason = (
-                    f"Agent-discretion take-profit reconciliation (fixed {AGENT_DISCRETION_TAKEPROFIT_PCT}% "
-                    f"of margin, 2026-09-21 refinement) -- stop left exactly as the agent set it at open, "
+                    f"Agent-discretion pre-arm limit reconciliation (wide {agent_discretion_pre_arm_limit_pct}% "
+                    f"of margin ceiling, kept out of the way until the profit ratchet arms at "
+                    f"{AGENT_DISCRETION_TAKEPROFIT_PCT}%) -- stop left exactly as the agent set it at open, "
                     f"amending the limit only."
                 )
             else:
@@ -2466,9 +2502,14 @@ def run_cfd_tick():
                         # UPDATED 2026-10-02 (2026-09-21 refinement): take-profit is a fixed %
                         # of MARGIN instead of the agent's own take_profit_pct -- synced every
                         # cycle by _sync_margin_based_exits' agent-discretion branch, same as
-                        # the real 2026-09-21 mechanism.
+                        # the real 2026-09-21 mechanism. UPDATED AGAIN 2026-10-09 ("put the
+                        # pre-arm resting limit to 10%"): the actual resting limit pre-arm is
+                        # now AGENT_DISCRETION_PRE_ARM_LIMIT_PCT, a wide ceiling, NOT the tight
+                        # 2.5% arm threshold itself -- see that constant's module comment for
+                        # why (kills a real race condition observed live the same day).
+                        pre_arm_limit_pct = AGENT_DISCRETION_PRE_ARM_LIMIT_PCT if AGENT_DISCRETION_PRE_ARM_LIMIT_PCT is not None else AGENT_DISCRETION_TAKEPROFIT_PCT
                         limit_distance = _margin_based_distance(
-                            AGENT_DISCRETION_TAKEPROFIT_PCT, sizing["margin_allocated"], sizing["size"],
+                            pre_arm_limit_pct, sizing["margin_allocated"], sizing["size"],
                         )
                     else:
                         limit_distance = round(price * (trade["take_profit_pct"] / 100), 4)
@@ -2535,8 +2576,11 @@ def run_cfd_tick():
                                     )
                                     wti_stop_distance = min(wti_stop_distance, wti_max_stop_distance)
                                 if AGENT_DISCRETION_TAKEPROFIT_PCT is not None:
+                                    # Same wide-ceiling pre-arm limit as the Brent leg -- see
+                                    # AGENT_DISCRETION_PRE_ARM_LIMIT_PCT's module comment.
+                                    wti_pre_arm_limit_pct = AGENT_DISCRETION_PRE_ARM_LIMIT_PCT if AGENT_DISCRETION_PRE_ARM_LIMIT_PCT is not None else AGENT_DISCRETION_TAKEPROFIT_PCT
                                     wti_limit_distance = _margin_based_distance(
-                                        AGENT_DISCRETION_TAKEPROFIT_PCT, wti_sizing["margin_allocated"], wti_sizing["size"],
+                                        wti_pre_arm_limit_pct, wti_sizing["margin_allocated"], wti_sizing["size"],
                                     )
                                 else:
                                     wti_limit_distance = round(wti_price * (trade["take_profit_pct"] / 100), 4)
