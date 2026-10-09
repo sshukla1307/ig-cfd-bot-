@@ -591,24 +591,26 @@ PLANS = {
         # mistake in replaying it. Overrides the agent's own take_profit_pct for every
         # agent-discretion instrument -- see _margin_based_distance(2.5, margin, size) at the
         # OPEN call sites and the dedicated limit-only sync branch in _sync_margin_based_exits.
-        "agent_discretion_max_stoploss_pct_of_margin": 3.0,  # LOWERED 2026-10-08 from 7.0 to 3.0
-        # per explicit user instruction ("change stop to 3%"). Originally ADDED 2026-10-06
-        # ("change stop loss to max 7%") after real trades in the preceding 48h showed the agent
+        "agent_discretion_max_stoploss_pct_of_margin": 1.6,  # LOWERED 2026-10-09 from 3.0 to 1.6
+        # per explicit user instruction ("change stop loss from 3% to 1.6"). Originally ADDED
+        # 2026-10-06 at 7.0 ("change stop loss to max 7%") after real trades showed the agent
         # choosing stop_loss_pct values that worked out to 10-50% of margin (most commonly
         # 15-25%), a risk:reward of 7:1 to 33:1 against the (then 1.5%, now 2.5%) fixed take-
-        # profit. At 3%, the worst-case risk:reward ceiling is now 3:2.5 ~= 1.2:1 against the
-        # live 2.5% take-profit -- tighter than the original 7% cap's ~2.8:1. This caps (never
-        # widens) whatever price-%-based stop_distance the agent's own stop_loss_pct produces,
-        # converted to its margin-% equivalent -- the agent still fully chooses direction/
-        # timing/conviction (allocation_pct) and anything tighter than 3% of margin passes
-        # through completely unchanged; only an unusually wide choice gets pulled in. Applied
-        # once at OPEN (both the primary leg and the WTI mirror leg). UPDATED 2026-10-09: this
-        # cap still governs the stop ONLY up to the point the new profit ratchet below first
-        # arms (see agent_discretion_profit_ratchet_step_pct) -- once peak favorable profit
-        # reaches AGENT_DISCRETION_TAKEPROFIT_PCT, the ratchet takes over the stop entirely and
-        # this cap no longer applies (the ratchet's own floor_pct, always a positive profit
-        # lock from that point on, replaces it). Before that point, the position's resting stop
-        # is still whichever of (agent's own, this cap) was tighter at open time, untouched.
+        # profit; lowered to 3.0 on 2026-10-08. At 1.6%, the worst-case risk:reward ceiling
+        # against the live 2.5% take-profit target is now roughly 0.64:1 -- i.e. the capped
+        # worst-case LOSS is now smaller than the pre-arm profit target, tighter than both the
+        # original 7% cap (~2.8:1) and the 3% cap (~1.2:1) that preceded this one. This caps
+        # (never widens) whatever price-%-based stop_distance the agent's own stop_loss_pct
+        # produces, converted to its margin-% equivalent -- the agent still fully chooses
+        # direction/timing/conviction (allocation_pct) and anything tighter than 1.6% of
+        # margin passes through completely unchanged; only an unusually wide choice gets
+        # pulled in. Applied once at OPEN (both the primary leg and the WTI mirror leg). This
+        # cap still governs the stop ONLY up to the point the profit ratchet below first arms
+        # (see agent_discretion_profit_ratchet_step_pct) -- once peak favorable profit reaches
+        # AGENT_DISCRETION_TAKEPROFIT_PCT, the ratchet takes over the stop entirely and this
+        # cap no longer applies (the ratchet's own floor_pct, always a positive profit lock
+        # from that point on, replaces it). Before that point, the position's resting stop is
+        # still whichever of (agent's own, this cap) was tighter at open time, untouched.
         "agent_discretion_profit_ratchet_step_pct": 0.5,  # ADDED 2026-10-09 per explicit user
         # instruction: "After the position make 2.5% profit margin instead of selling change
         # profit take out to +0.5% to 3.0 and change stop loss to 2.5%, when it reaches 3%
