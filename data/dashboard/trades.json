@@ -1,6 +1,33 @@
 [
   {
     "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 90 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "agent_reason": "Natural Gas is in a contango structure, indicating ample supply, which is bearish. The recent inventory report showed a larger-than-typical build, reinforcing the bearish outlook. The current short position is slightly unprofitable, but given the bearish fundamentals, it is prudent to close the position to prevent further losses.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-09T11:32:42.030246+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "SILVER",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: SILVER has only been open for 270 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "agent_reason": "Silver is in a short-term bullish setup with SMA-20 above SMA-50 and an overbought RSI of 83.1. The market is in backwardation, indicating tight supply, which is bullish. The current long position is slightly profitable, and given the overbought RSI, it is prudent to close the position to lock in gains.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-09T11:32:42.030096+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "GOLD",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: GOLD has only been open for 301 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "agent_reason": "Gold is currently in a short-term bullish setup with SMA-20 above SMA-50 and an overbought RSI of 78.8. The market is in contango, indicating ample supply, which is bearish. However, the current short position is slightly profitable, and given the overbought RSI, it is prudent to close the position to lock in gains.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-09T11:32:42.029858+00:00"
+  },
+  {
+    "action": "CLOSE",
     "instrument": "SILVER",
     "status": "REJECTED",
     "reason": "Minimum hold time not met: SILVER has only been open for 241 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
@@ -3301,98 +3328,5 @@
     "agent_reason": "Natural Gas is showing a short-term bullish setup with SMA-20 above SMA-50 and RSI at 66.3, indicating potential upward momentum. Managed-money net-short positioning is near a multi-month extreme, suggesting a contrarian bullish signal. The current short position is at a loss, and the technicals and positioning data suggest a potential reversal.",
     "llm_provider": "openai",
     "logged_at": "2026-10-08T10:52:35.113891+00:00"
-  },
-  {
-    "action": "BROKER_CLOSE",
-    "instrument": "SILVER",
-    "deal_id": "DIAAAASAK2GVRAJ",
-    "original_direction": "BUY",
-    "estimated_pnl": -6.14,
-    "status": "detected",
-    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-10-08T10:52:03.705343+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "SILVER",
-    "deal_id": "DIAAAASAK2GVRAJ",
-    "old_limit_level": 5886.2381,
-    "new_limit_level": 5885.7825,
-    "old_stop_level": 5773.2334,
-    "new_stop_level": 5773.2334,
-    "reason": "Agent-discretion take-profit reconciliation (fixed 2.5% of margin, 2026-09-21 refinement) -- stop left exactly as the agent set it at open, amending the limit only.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-10-08T10:36:36.899",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDSILVER.DBI.IP",
-      "expiry": "-",
-      "dealReference": "QTPZNKMGDRNTYNV",
-      "dealId": "DIAAAASAK2GVRAJ",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASAK2GVRAJ",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 5856.5,
-      "size": 1.28,
-      "direction": "BUY",
-      "stopLevel": 5773.2334,
-      "limitLevel": 5885.7827,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-08T10:36:37.091320+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "direction": "BUY",
-    "size": 1.28,
-    "margin_allocated": 1522.59,
-    "effective_leverage": 5.0,
-    "notional": 7496.7,
-    "stop_distance": 83.2666,
-    "limit_distance": 29.7381,
-    "confluence_detail": "get_positioning_data agrees with bullish",
-    "reason": "Silver is in a short-term bearish setup with SMA-20 below SMA-50, but managed-money net-short positioning is near a multi-month extreme, suggesting a contrarian bullish signal. The RSI is neutral, and the market is in contango, signaling ample supply. However, the extreme short positioning provides a potential for a rebound.",
-    "llm_provider": "openai",
-    "status": "submitted",
-    "deal_id": "DIAAAASAK2GVRAJ",
-    "raw": {
-      "date": "2026-10-08T10:35:40.169",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDSILVER.DBI.IP",
-      "expiry": "-",
-      "dealReference": "75J6AKANBBETYNV",
-      "dealId": "DIAAAASAK2GVRAJ",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASAK2GVRAJ",
-          "status": "OPENED"
-        }
-      ],
-      "level": 5856.5,
-      "size": 1.28,
-      "direction": "BUY",
-      "stopLevel": 5773.2334,
-      "limitLevel": 5886.2383,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-08T10:35:40.323005+00:00"
   }
 ]
