@@ -3,6 +3,15 @@
     "action": "OPEN_SHORT",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 59 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
+    "agent_reason": "Natural Gas is in a contango structure, indicating ample supply, which is bearish. The recent inventory build is larger than typical, reinforcing the bearish supply outlook. Technicals show a short-term bearish setup with SMA-20 below SMA-50. Despite the RSI being neutral, the overall bearish signals suggest a short position.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-12T23:03:04.923645+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 28 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
     "agent_reason": "Natural Gas is in a contango structure, indicating ample supply, which is bearish. The recent inventory build is larger than typical, reinforcing the bearish supply outlook. The technicals show a short-term bearish setup with SMA-20 below SMA-50. Despite the neutral RSI, the contango and inventory data suggest a bearish tilt.",
     "llm_provider": "openai",
@@ -3975,14 +3984,5 @@
     "agent_reason": "Gold is showing a short-term bullish setup with SMA-20 above SMA-50 and RSI at 62.3, suggesting potential for a continued upward move. The market is in contango, but the technicals support a bullish outlook.",
     "llm_provider": "openai",
     "logged_at": "2026-10-12T03:03:06.775917+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
-    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. Recent inventory data shows a larger-than-typical draw, reinforcing the bullish outlook. The technicals show a short-term bullish setup with SMA-20 above SMA-50 and RSI at 58.6, suggesting potential for a continued upward move.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-12T03:03:06.775498+00:00"
   }
 ]
