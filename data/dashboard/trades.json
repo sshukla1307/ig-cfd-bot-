@@ -3,41 +3,46 @@
     "action": "OPEN_LONG",
     "instrument": "SILVER",
     "status": "REJECTED",
-    "reason": "Same-direction cooldown: SILVER was closed at a loss 21 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
-    "agent_reason": "Silver is showing a contrarian bullish signal due to extreme managed-money net-short positioning, suggesting potential for a short squeeze. The technicals show a short-term bullish setup with SMA-20 above SMA-50, supporting a potential upward move. Despite the neutral RSI, the crowded short positioning provides a strong contrarian bullish signal.",
+    "reason": "Same-direction cooldown: SILVER was closed at a loss 23 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
+    "agent_reason": "Silver is showing a contrarian bullish signal due to extreme managed-money net-short positioning, suggesting potential for a short squeeze. The technicals show a short-term bullish setup with SMA-20 above SMA-50, supporting a potential upward move.",
     "llm_provider": "openai",
-    "logged_at": "2026-10-12T11:32:07.426147+00:00"
+    "logged_at": "2026-10-12T11:33:41.165060+00:00"
   },
   {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "WTI_OIL",
-    "deal_id": "DIAAAASAZT96FA3",
-    "old_limit_level": 9389.304,
-    "new_limit_level": 9260.4312,
-    "old_stop_level": 9176.2454,
-    "new_stop_level": 9245.7029,
-    "reason": "Agent-discretion profit ratchet ARMED (2026-10-09 refinement): stop locked to guarantee at least 2.2% profit (a 0.3% gap below the milestone just reached), limit extended to the next 3.0% target to keep upside open.",
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "direction": "SELL",
+    "size": 2.84,
+    "margin_allocated": 1881.03,
+    "effective_leverage": 5.0,
+    "notional": 9374.84,
+    "stop_distance": 10.5974,
+    "limit_distance": 66.2335,
+    "confluence_detail": "get_weather_demand, get_term_structure agrees with bearish",
+    "reason": "Natural Gas is in a contango structure, indicating ample supply, which is bearish. The RSI is oversold at 18.7, suggesting potential for a rebound, but the current weather demand is neutral, and the term structure suggests bearishness. Recent news indicates high storage levels and warm weather, which are likely to cap any rally.",
+    "llm_provider": "openai",
     "status": "submitted",
+    "deal_id": "DIAAAASAZ7PLJBF",
     "raw": {
-      "date": "2026-10-12T11:31:30.758",
-      "status": "AMENDED",
+      "date": "2026-10-12T11:33:41.004",
+      "status": "OPEN",
       "reason": "SUCCESS",
       "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
+      "epic": "CC.D.NG.DBI.IP",
       "expiry": "-",
-      "dealReference": "3WA7P4R7PLSTYNV",
-      "dealId": "DIAAAASAZT96FA3",
+      "dealReference": "5WQ9SW8JCLWTYNV",
+      "dealId": "DIAAAASAZ7PLJBF",
       "affectedDeals": [
         {
-          "dealId": "DIAAAASAZT96FA3",
-          "status": "AMENDED"
+          "dealId": "DIAAAASAZ7PLJBF",
+          "status": "OPENED"
         }
       ],
-      "level": 9205.2,
-      "size": 1.04,
-      "direction": "BUY",
-      "stopLevel": 9245.703,
-      "limitLevel": 9260.432,
+      "level": 3298.0,
+      "size": 2.84,
+      "direction": "SELL",
+      "stopLevel": 3308.5974,
+      "limitLevel": 3231.7666,
       "stopDistance": null,
       "limitDistance": null,
       "guaranteedStop": false,
@@ -45,7 +50,17 @@
       "profit": null,
       "profitCurrency": null
     },
-    "logged_at": "2026-10-12T11:31:31.140433+00:00"
+    "logged_at": "2026-10-12T11:33:41.164503+00:00"
+  },
+  {
+    "action": "BROKER_CLOSE",
+    "instrument": "WTI_OIL",
+    "deal_id": "DIAAAASAZT96FA3",
+    "original_direction": "BUY",
+    "estimated_pnl": 21.84,
+    "status": "detected",
+    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
+    "logged_at": "2026-10-12T11:33:01.956377+00:00"
   },
   {
     "action": "OPEN_LONG",
@@ -3964,14 +3979,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-10-09T16:57:09.277577+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 104.21 vs 30-min SMA 104.375, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50 and RSI at 57.2, suggesting potential for a continued upward move. Recent inventory data shows a larger-than-typical draw, reinforcing the bullish outlook.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-09T16:32:18.303032+00:00"
   }
 ]
