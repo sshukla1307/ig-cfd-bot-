@@ -3,6 +3,33 @@
     "action": "OPEN_SHORT",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "NATURAL_GAS momentum filter: proposed OPEN_SHORT conflicts with price action over the last 30 minutes (current 3.158 vs 30-min SMA 3.1443, trending up) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Natural Gas is in a contango structure, indicating ample supply, which is bearish. The recent inventory build is larger than typical, reinforcing the bearish supply outlook. Weather demand is neutral, and the technicals show a bearish setup. Opening a short position to capitalize on the bearish outlook.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-12T18:32:31.847161+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "SILVER",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: SILVER has only been open for 119 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "agent_reason": "Silver is showing a contrarian bullish signal due to extreme managed-money net-short positioning, suggesting potential for a short squeeze. However, the current position is negative, and the RSI is oversold at 20.6, indicating potential for further downside. Closing the position to reassess.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-12T18:32:31.597048+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 265 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "agent_reason": "Brent Oil is currently overbought with an RSI of 89.1, and the market is in backwardation, signaling tight supply, which is bullish. However, the current position is slightly negative, and the RSI suggests a potential pullback. Closing the position to avoid further losses.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-12T18:32:31.596658+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 1 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
     "agent_reason": "Natural Gas is in a contango structure, indicating ample supply, which is bearish. The recent inventory build is larger than typical, reinforcing the bearish supply outlook. Weather demand is neutral, providing no bullish support. The technicals do not show a strong trend, but the fundamental bearish signals are strong enough to justify a short position.",
     "llm_provider": "openai",
@@ -4084,32 +4111,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-10-12T01:02:12.725191+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "Same-direction cooldown: SILVER was closed at a loss 7 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
-    "agent_reason": "Silver is showing a contrarian bullish signal due to extreme managed-money net-short positioning, suggesting potential for a short squeeze. The market is in backwardation, indicating tight supply, which is bullish.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-12T00:31:53.954847+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "GOLD",
-    "status": "REJECTED",
-    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for GOLD this tick -- a technical read or a generic news search alone can't open a position",
-    "agent_reason": "Gold is showing a short-term bullish setup with SMA-20 above SMA-50 and RSI at 60.4, suggesting potential for a continued upward move. The market is in backwardation, indicating tight supply, which is bullish.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-12T00:31:53.954707+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 3.166 vs 30-min SMA 3.1707, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Natural Gas is showing a contrarian bullish signal due to extreme managed-money net-short positioning, suggesting potential for a short squeeze. Despite the contango structure indicating ample supply, the positioning data suggests a potential for a short squeeze.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-12T00:31:53.954430+00:00"
   }
 ]
