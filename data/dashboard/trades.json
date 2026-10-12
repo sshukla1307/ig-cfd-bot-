@@ -3,6 +3,33 @@
     "action": "OPEN_LONG",
     "instrument": "SILVER",
     "status": "REJECTED",
+    "reason": "Same-direction cooldown: SILVER was closed at a loss 39 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
+    "agent_reason": "Silver is showing a contrarian bullish signal due to extreme managed-money net-short positioning, suggesting potential for a short squeeze. The technicals show a short-term bullish setup with SMA-20 above SMA-50 and RSI at 56.2, suggesting potential for a continued upward move.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-12T08:02:09.035393+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 3.152 vs 30-min SMA 3.1572, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Natural Gas is showing a contrarian bullish signal due to extreme managed-money net-short positioning, suggesting potential for a short squeeze. The RSI is oversold at 26.5, indicating potential for a rebound.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-12T08:02:09.035034+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 104.0 vs 30-min SMA 104.0233, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50 and RSI at 50.3, suggesting potential for a continued upward move.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-12T08:02:08.952781+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "SILVER",
+    "status": "REJECTED",
     "reason": "Same-direction cooldown: SILVER was closed at a loss 12 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
     "agent_reason": "Silver is showing a contrarian bullish signal due to extreme managed-money net-short positioning, suggesting potential for a short squeeze. The technicals show a short-term bullish setup with SMA-20 above SMA-50, supporting a bullish outlook.",
     "llm_provider": "openai",
@@ -3880,130 +3907,5 @@
     "agent_reason": "Natural Gas is overbought with an RSI of 79.1, and the market is in contango, indicating ample supply. Despite the contrarian bullish signal from managed-money net-short positioning, the technicals and market outlook suggest a potential pullback.",
     "llm_provider": "openai",
     "logged_at": "2026-10-09T15:03:01.143283+00:00"
-  },
-  {
-    "action": "WTI_MIRROR_OPEN",
-    "instrument": "WTI_OIL",
-    "direction": "BUY",
-    "size": 1.04,
-    "margin_allocated": 1866.22,
-    "effective_leverage": 5.0,
-    "notional": 9504.04,
-    "stop_distance": 53.8333,
-    "limit_distance": 44.8611,
-    "reason": "Auto-mirrored from BRENT_OIL: Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50 and RSI at 56.3, suggesting potential for a continued upward move. Recent news supports upward price movement due to supply disruptions.",
-    "status": "submitted",
-    "deal_id": "DIAAAASAU87S7AJ",
-    "raw": {
-      "date": "2026-10-09T15:03:01.001",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "2QBWA4EMAGWTYNV",
-      "dealId": "DIAAAASAU87S7AJ",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASAU87S7AJ",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9119.4,
-      "size": 1.04,
-      "direction": "BUY",
-      "stopLevel": 9065.566,
-      "limitLevel": 9164.261,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-09T15:03:01.142952+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "direction": "BUY",
-    "size": 0.92,
-    "margin_allocated": 1866.22,
-    "effective_leverage": 5.0,
-    "notional": 9525.22,
-    "stop_distance": 60.855,
-    "limit_distance": 50.7125,
-    "confluence_detail": "get_term_structure agrees with bullish",
-    "reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50 and RSI at 56.3, suggesting potential for a continued upward move. Recent news supports upward price movement due to supply disruptions.",
-    "llm_provider": "openai",
-    "status": "submitted",
-    "deal_id": "DIAAAASAU8UYZBA",
-    "raw": {
-      "date": "2026-10-09T15:03:00.758",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "P7QGZJU3YPETYNV",
-      "dealId": "DIAAAASAU8UYZBA",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASAU8UYZBA",
-          "status": "OPENED"
-        }
-      ],
-      "level": 10340.9,
-      "size": 0.92,
-      "direction": "BUY",
-      "stopLevel": 10280.045,
-      "limitLevel": 10391.612,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-09T15:03:00.909989+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAASAUZEV5AM",
-    "old_limit_level": 10348.5509,
-    "new_limit_level": 10347.681,
-    "old_stop_level": 10233.379,
-    "new_stop_level": 10233.379,
-    "reason": "Agent-discretion take-profit reconciliation (fixed 2.5% of margin, 2026-09-21 refinement) -- stop left exactly as the agent set it at open, amending the limit only.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-10-09T14:34:03.366",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "SQPNYY687BJTYNV",
-      "dealId": "DIAAAASAUZEV5AM",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASAUZEV5AM",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 10296.2,
-      "size": 0.88,
-      "direction": "BUY",
-      "stopLevel": 10233.379,
-      "limitLevel": 10347.681,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-09T14:34:03.503744+00:00"
   }
 ]
