@@ -1,5 +1,59 @@
 [
   {
+    "action": "OPEN_SHORT",
+    "instrument": "GOLD",
+    "direction": "SELL",
+    "size": 2.2,
+    "margin_allocated": 1849.25,
+    "effective_leverage": 5.0,
+    "notional": 9185.0,
+    "stop_distance": 13.4491,
+    "limit_distance": 84.0568,
+    "confluence_detail": "get_term_structure agrees with bearish",
+    "reason": "Gold is currently in a contango structure, indicating ample supply, which is bearish. The technicals show a short-term bearish setup with SMA-20 above SMA-50 and RSI at 38.0, suggesting potential for a downward move. Recent news indicates a firm US dollar and potential for tighter monetary policy, which could further pressure gold prices.",
+    "llm_provider": "openai",
+    "status": "submitted",
+    "deal_id": "DIAAAASA4U8BQBE",
+    "raw": {
+      "date": "2026-10-12T22:05:08.723",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDGOLD.DBI.IP",
+      "expiry": "-",
+      "dealReference": "FLK28YNHAVSTYNV",
+      "dealId": "DIAAAASA4U8BQBE",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASA4U8BQBE",
+          "status": "OPENED"
+        }
+      ],
+      "level": 4174.45,
+      "size": 2.2,
+      "direction": "SELL",
+      "stopLevel": 4187.899,
+      "limitLevel": 4090.3933,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-12T22:05:08.929805+00:00"
+  },
+  {
+    "action": "BROKER_CLOSE",
+    "instrument": "NATURAL_GAS",
+    "deal_id": "DIAAAASA4PVQ4BD",
+    "original_direction": "SELL",
+    "estimated_pnl": -22.4,
+    "status": "detected",
+    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
+    "logged_at": "2026-10-12T22:04:32.595745+00:00"
+  },
+  {
     "action": "OPEN_LONG",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
