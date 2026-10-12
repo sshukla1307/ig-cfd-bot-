@@ -1,5 +1,14 @@
 [
   {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 105.92 vs 30-min SMA 106.0183, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50 and RSI at 68.1, suggesting potential for a continued upward move. Recent news highlights supply risks in the Middle East, further supporting a bullish outlook.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-12T21:32:52.549600+00:00"
+  },
+  {
     "action": "MIRROR_ROLLBACK",
     "instrument": "BRENT_OIL",
     "reason": "WTI mirror leg failed (WTI market not tradeable) -- closing Brent back out.",
@@ -4040,14 +4049,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-10-12T02:32:02.461350+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Consecutive-loss circuit breaker: BRENT_OIL has lost 2 times in a row going BUY (most recently 71 min ago) -- blocked for 120 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
-    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50 and RSI at 52.5, suggesting potential for a continued upward move. Recent news and term structure support a bullish outlook.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-12T02:32:02.144665+00:00"
   }
 ]
