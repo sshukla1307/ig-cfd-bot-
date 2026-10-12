@@ -3,6 +3,54 @@
     "action": "OPEN_LONG",
     "instrument": "SILVER",
     "status": "REJECTED",
+    "reason": "Same-direction cooldown: SILVER was closed at a loss 21 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
+    "agent_reason": "Silver is showing a contrarian bullish signal due to extreme managed-money net-short positioning, suggesting potential for a short squeeze. The technicals show a short-term bullish setup with SMA-20 above SMA-50, supporting a potential upward move. Despite the neutral RSI, the crowded short positioning provides a strong contrarian bullish signal.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-12T11:32:07.426147+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "WTI_OIL",
+    "deal_id": "DIAAAASAZT96FA3",
+    "old_limit_level": 9389.304,
+    "new_limit_level": 9260.4312,
+    "old_stop_level": 9176.2454,
+    "new_stop_level": 9245.7029,
+    "reason": "Agent-discretion profit ratchet ARMED (2026-10-09 refinement): stop locked to guarantee at least 2.2% profit (a 0.3% gap below the milestone just reached), limit extended to the next 3.0% target to keep upside open.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-12T11:31:30.758",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "3WA7P4R7PLSTYNV",
+      "dealId": "DIAAAASAZT96FA3",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASAZT96FA3",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 9205.2,
+      "size": 1.04,
+      "direction": "BUY",
+      "stopLevel": 9245.703,
+      "limitLevel": 9260.432,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-12T11:31:31.140433+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "SILVER",
+    "status": "REJECTED",
     "reason": "Same-direction cooldown: SILVER was closed at a loss 7 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
     "agent_reason": "Silver is showing a contrarian bullish signal due to extreme managed-money net-short positioning, suggesting potential for a short squeeze. The technicals show a short-term bullish setup with SMA-20 above SMA-50, supporting the bullish outlook.",
     "llm_provider": "openai",
@@ -3925,53 +3973,5 @@
     "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50 and RSI at 57.2, suggesting potential for a continued upward move. Recent inventory data shows a larger-than-typical draw, reinforcing the bullish outlook.",
     "llm_provider": "openai",
     "logged_at": "2026-10-09T16:32:18.303032+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 104.16 vs 30-min SMA 104.425, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50 and RSI at 56.5, suggesting potential for a continued upward move. Recent news and price checks confirm a bullish outlook.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-09T16:27:54.433777+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "SILVER",
-    "deal_id": "DIAAAASAVP5MJAD",
-    "old_limit_level": 6113.9089,
-    "new_limit_level": 6114.018,
-    "old_stop_level": 6047.2293,
-    "new_stop_level": 6047.2293,
-    "reason": "Agent-discretion take-profit reconciliation (fixed 2.5% of margin, 2026-09-21 refinement) -- stop left exactly as the agent set it at open, amending the limit only.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-10-09T16:27:16.658",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDSILVER.DBI.IP",
-      "expiry": "-",
-      "dealReference": "CAL5YP4NY8WTYNV",
-      "dealId": "DIAAAASAVP5MJAD",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASAVP5MJAD",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 6083.6,
-      "size": 1.52,
-      "direction": "BUY",
-      "stopLevel": 6047.2295,
-      "limitLevel": 6114.018,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-09T16:27:16.857302+00:00"
   }
 ]
