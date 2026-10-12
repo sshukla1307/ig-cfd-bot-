@@ -1,6 +1,50 @@
 [
   {
     "action": "OPEN_LONG",
+    "instrument": "SILVER",
+    "direction": "BUY",
+    "size": 1.56,
+    "margin_allocated": 1883.64,
+    "effective_leverage": 5.0,
+    "notional": 9416.63,
+    "stop_distance": 19.3194,
+    "limit_distance": 120.7462,
+    "confluence_detail": "get_positioning_data agrees with bullish",
+    "reason": "Silver is showing a contrarian bullish signal due to extreme managed-money net-short positioning, suggesting potential for a short squeeze. The technicals show a short-term bullish setup with SMA-20 above SMA-50 and RSI at 25.3, indicating oversold conditions. This combination of technical and positioning data suggests a potential upward move.",
+    "llm_provider": "openai",
+    "status": "submitted",
+    "deal_id": "DIAAAASA34VF3A7",
+    "raw": {
+      "date": "2026-10-12T16:34:01.752",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDSILVER.DBI.IP",
+      "expiry": "-",
+      "dealReference": "E9EMEBWYNANTYNV",
+      "dealId": "DIAAAASA34VF3A7",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASA34VF3A7",
+          "status": "OPENED"
+        }
+      ],
+      "level": 6034.7,
+      "size": 1.56,
+      "direction": "BUY",
+      "stopLevel": 6015.3804,
+      "limitLevel": 6155.4463,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-12T16:34:01.948391+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
     "instrument": "GOLD",
     "status": "REJECTED",
     "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for GOLD this tick -- a technical read or a generic news search alone can't open a position",
@@ -3970,15 +4014,5 @@
     "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50 and RSI at 68.1, suggesting potential for a continued upward move. Recent inventory data shows a larger-than-typical draw, reinforcing the bullish outlook.",
     "llm_provider": "openai",
     "logged_at": "2026-10-11T23:21:47.059344+00:00"
-  },
-  {
-    "action": "BROKER_CLOSE",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAASAXCCRMBF",
-    "original_direction": "BUY",
-    "estimated_pnl": -20.15,
-    "status": "detected",
-    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-10-11T23:21:15.815968+00:00"
   }
 ]
