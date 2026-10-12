@@ -2,6 +2,59 @@
   {
     "action": "OPEN_LONG",
     "instrument": "SILVER",
+    "direction": "BUY",
+    "size": 1.52,
+    "margin_allocated": 1837.07,
+    "effective_leverage": 5.0,
+    "notional": 9260.75,
+    "stop_distance": 19.3376,
+    "limit_distance": 120.8599,
+    "confluence_detail": "get_positioning_data agrees with bullish",
+    "reason": "Silver is showing a contrarian bullish signal due to extreme managed-money net-short positioning, suggesting potential for a short squeeze. The technicals show a short-term bullish setup with SMA-20 above SMA-50, supporting a bullish outlook.",
+    "llm_provider": "openai",
+    "status": "submitted",
+    "deal_id": "DIAAAASAXN42HAN",
+    "raw": {
+      "date": "2026-10-12T00:01:43.889",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDSILVER.DBI.IP",
+      "expiry": "-",
+      "dealReference": "L8525NWGHQJTYNV",
+      "dealId": "DIAAAASAXN42HAN",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASAXN42HAN",
+          "status": "OPENED"
+        }
+      ],
+      "level": 6098.4,
+      "size": 1.52,
+      "direction": "BUY",
+      "stopLevel": 6079.0625,
+      "limitLevel": 6219.26,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-12T00:01:44.020283+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 103.52 vs 30-min SMA 103.865, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50 and RSI at 56.5, suggesting potential for a continued upward move. Recent news indicates escalating tensions in the Middle East, which could further support prices.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-12T00:01:43.793332+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "SILVER",
     "status": "REJECTED",
     "reason": "Same-direction cooldown: SILVER was closed at a loss 52 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
     "agent_reason": "Silver is showing a contrarian bullish signal due to extreme managed-money net-short positioning. The technicals show a short-term bullish setup with SMA-20 above SMA-50 and RSI at 63.5, suggesting potential for a continued upward move.",
@@ -3678,53 +3731,5 @@
     "agent_reason": "Natural Gas inventory report showed a larger-than-typical build, indicating ample supply, which is bearish. The current position is slightly profitable, and given the bearish inventory data, it's prudent to close the position to lock in gains.",
     "llm_provider": "openai",
     "logged_at": "2026-10-09T07:02:18.955125+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "GOLD",
-    "deal_id": "DIAAAASAR4GELBC",
-    "old_limit_level": 4169.3592,
-    "new_limit_level": 4169.2291,
-    "old_stop_level": 4215.1649,
-    "new_stop_level": 4215.1649,
-    "reason": "Agent-discretion take-profit reconciliation (fixed 2.5% of margin, 2026-09-21 refinement) -- stop left exactly as the agent set it at open, amending the limit only.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-10-09T06:32:35.715",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDGOLD.DBI.IP",
-      "expiry": "-",
-      "dealReference": "ZA3MUCTM86TYNV",
-      "dealId": "DIAAAASAR4GELBC",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASAR4GELBC",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 4190.18,
-      "size": 2.12,
-      "direction": "SELL",
-      "stopLevel": 4215.165,
-      "limitLevel": 4169.229,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-09T06:32:35.900348+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "Confluence requirement not met: SILVER's independent signal(s) checked this tick (get_positioning_data=bullish, get_term_structure=bullish, get_positioning_data=bullish) do not support a bearish thesis -- a technical read alone, or signals pointing the other way, aren't enough to open",
-    "agent_reason": "Silver is overbought with an RSI of 95.9, and despite the backwardation indicating tight supply, the extreme managed-money net-short positioning suggests a contrarian bullish signal. However, the technical overbought condition and recent price action suggest a potential pullback.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-09T06:31:58.914814+00:00"
   }
 ]
