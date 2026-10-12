@@ -2,6 +2,78 @@
   {
     "action": "OPEN_LONG",
     "instrument": "SILVER",
+    "direction": "BUY",
+    "size": 1.56,
+    "margin_allocated": 1905.03,
+    "effective_leverage": 5.0,
+    "notional": 9515.53,
+    "stop_distance": 19.5388,
+    "limit_distance": 122.1173,
+    "confluence_detail": "get_positioning_data agrees with bullish",
+    "reason": "Silver is showing a contrarian bullish signal due to extreme managed-money net-short positioning. The technicals show a short-term bullish setup with SMA-20 above SMA-50, suggesting potential for a continued upward move.",
+    "llm_provider": "openai",
+    "status": "submitted",
+    "deal_id": "DIAAAASAYYTR5BF",
+    "raw": {
+      "date": "2026-10-12T07:06:53.085",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDSILVER.DBI.IP",
+      "expiry": "-",
+      "dealReference": "DFT27JXL9H2TYNV",
+      "dealId": "DIAAAASAYYTR5BF",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASAYYTR5BF",
+          "status": "OPENED"
+        }
+      ],
+      "level": 6101.3,
+      "size": 1.56,
+      "direction": "BUY",
+      "stopLevel": 6081.761,
+      "limitLevel": 6223.4175,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-12T07:06:53.256373+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 3.175 vs 30-min SMA 3.1772, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Natural Gas is showing a contrarian bullish signal due to extreme managed-money net-short positioning, suggesting potential for a short squeeze. The technicals show a short-term bullish setup with SMA-20 above SMA-50, supporting the bullish outlook.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-12T07:06:52.932318+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 104.56 vs 30-min SMA 104.5967, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50. Despite the neutral RSI, the backwardation and recent price action suggest potential for a continued upward move.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-12T07:06:52.868976+00:00"
+  },
+  {
+    "action": "BROKER_CLOSE",
+    "instrument": "NATURAL_GAS",
+    "deal_id": "DIAAAASAX4ZLPBA",
+    "original_direction": "BUY",
+    "estimated_pnl": 28.0,
+    "status": "detected",
+    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
+    "logged_at": "2026-10-12T07:06:13.519419+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "SILVER",
     "status": "REJECTED",
     "reason": "Consecutive-loss circuit breaker: SILVER has lost 4 times in a row going BUY (most recently 119 min ago) -- blocked for 120 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
     "agent_reason": "Silver is showing a contrarian bullish signal due to extreme managed-money net-short positioning. The technicals show a short-term bullish setup with SMA-20 above SMA-50, suggesting potential for a continued upward move.",
