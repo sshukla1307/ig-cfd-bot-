@@ -1,5 +1,49 @@
 [
   {
+    "action": "OPEN_SHORT",
+    "instrument": "GOLD",
+    "direction": "SELL",
+    "size": 2.16,
+    "margin_allocated": 1820.71,
+    "effective_leverage": 5.0,
+    "notional": 9056.51,
+    "stop_distance": 13.4867,
+    "limit_distance": 84.2921,
+    "confluence_detail": "get_term_structure agrees with bearish",
+    "reason": "Gold is in a contango structure, indicating ample supply, which is bearish. The technicals show a short-term bearish setup with SMA-20 below SMA-50 and RSI at 38.0, suggesting potential for a downward move. Recent macro data shows a strong dollar and high Treasury yields, which are typically bearish for gold.",
+    "llm_provider": "openai",
+    "status": "submitted",
+    "deal_id": "DIAAAASA6M789A3",
+    "raw": {
+      "date": "2026-10-13T06:02:57.577",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDGOLD.DBI.IP",
+      "expiry": "-",
+      "dealReference": "BUQV6C4UKLNTYNV",
+      "dealId": "DIAAAASA6M789A3",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASA6M789A3",
+          "status": "OPENED"
+        }
+      ],
+      "level": 4191.91,
+      "size": 2.16,
+      "direction": "SELL",
+      "stopLevel": 4205.3965,
+      "limitLevel": 4107.6177,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-13T06:02:57.714506+00:00"
+  },
+  {
     "action": "CLOSE",
     "instrument": "SILVER",
     "status": "REJECTED",
@@ -3937,15 +3981,5 @@
     "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50 and RSI at 53.3, suggesting potential for a continued upward move. The backwardation structure supports a bullish outlook.",
     "llm_provider": "openai",
     "logged_at": "2026-10-12T07:35:47.356518+00:00"
-  },
-  {
-    "action": "BROKER_CLOSE",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAASAY4VGJAB",
-    "original_direction": "BUY",
-    "estimated_pnl": -2.3,
-    "status": "detected",
-    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-10-12T07:35:15.668554+00:00"
   }
 ]
