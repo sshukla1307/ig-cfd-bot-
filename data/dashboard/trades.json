@@ -1,5 +1,68 @@
 [
   {
+    "action": "OPEN_LONG",
+    "instrument": "SILVER",
+    "direction": "BUY",
+    "size": 1.56,
+    "margin_allocated": 1850.53,
+    "effective_leverage": 5.0,
+    "notional": 9371.39,
+    "stop_distance": 18.9798,
+    "limit_distance": 118.6237,
+    "confluence_detail": "get_positioning_data agrees with bullish",
+    "reason": "Silver is showing a contrarian bullish signal due to extreme managed-money net-short positioning, suggesting potential for a short squeeze. The RSI is oversold at 21.3, supporting a potential rebound. Recent news indicates geopolitical instability, which can increase demand for safe-haven assets like silver.",
+    "llm_provider": "openai",
+    "status": "submitted",
+    "deal_id": "DIAAAASA49VCDBB",
+    "raw": {
+      "date": "2026-10-13T00:14:43.206",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDSILVER.DBI.IP",
+      "expiry": "-",
+      "dealReference": "CHKT74EKAKWTYNV",
+      "dealId": "DIAAAASA49VCDBB",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASA49VCDBB",
+          "status": "OPENED"
+        }
+      ],
+      "level": 6007.3,
+      "size": 1.56,
+      "direction": "BUY",
+      "stopLevel": 5988.3203,
+      "limitLevel": 6125.924,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-13T00:14:43.420462+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 105.92 vs 30-min SMA 105.9633, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50 and RSI at 54.5, suggesting potential for a continued upward move. Recent news highlights geopolitical risks and increased demand from China, supporting a bullish outlook.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-13T00:14:43.064400+00:00"
+  },
+  {
+    "action": "BROKER_CLOSE",
+    "instrument": "SILVER",
+    "deal_id": "DIAAAASA4KKGTAX",
+    "original_direction": "BUY",
+    "estimated_pnl": 3.72,
+    "status": "detected",
+    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
+    "logged_at": "2026-10-13T00:14:02.463541+00:00"
+  },
+  {
     "action": "HOLD",
     "instrument": "SILVER",
     "status": "REJECTED",
@@ -3864,92 +3927,5 @@
     "status": "rejected",
     "reason": "Insufficient margin headroom for the WTI mirror leg",
     "logged_at": "2026-10-12T04:01:38.138320+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "direction": "BUY",
-    "size": 0.92,
-    "margin_allocated": 1870.01,
-    "effective_leverage": 5.0,
-    "notional": 9354.19,
-    "stop_distance": 32.5219,
-    "limit_distance": 203.262,
-    "confluence_detail": "get_term_structure agrees with bullish",
-    "reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50 and RSI at 50.4, suggesting potential for a continued upward move. Recent news indicates geopolitical tensions that could further support prices.",
-    "llm_provider": "openai",
-    "status": "submitted",
-    "deal_id": "DIAAAASAYDNQZAM",
-    "raw": {
-      "date": "2026-10-12T04:01:37.952",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "MFL8FNKWL4JTYNV",
-      "dealId": "DIAAAASAYDNQZAM",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASAYDNQZAM",
-          "status": "OPENED"
-        }
-      ],
-      "level": 10160.5,
-      "size": 0.92,
-      "direction": "BUY",
-      "stopLevel": 10127.979,
-      "limitLevel": 10363.762,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-12T04:01:38.137976+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "GOLD",
-    "status": "REJECTED",
-    "reason": "Confluence requirement not met: GOLD's independent signal(s) checked this tick (get_term_structure=bearish) do not support a bullish thesis -- a technical read alone, or signals pointing the other way, aren't enough to open",
-    "agent_reason": "Gold is showing a short-term bullish setup with SMA-20 above SMA-50 and RSI at 66.2, suggesting potential for a continued upward move. Despite the contango structure, the technicals support a bullish outlook.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-12T03:52:16.130511+00:00"
-  },
-  {
-    "action": "MIRROR_ROLLBACK",
-    "instrument": "BRENT_OIL",
-    "reason": "WTI mirror leg failed (Insufficient margin headroom for the WTI mirror leg) -- closing Brent back out.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-10-12T03:52:15.902",
-      "status": "CLOSED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "LM5AA7D7X6ETYNV",
-      "dealId": "DIAAAASAYCVW7AZ",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASAYCVW7AZ",
-          "status": "FULLY_CLOSED"
-        }
-      ],
-      "level": 10159.7,
-      "size": 0.92,
-      "direction": "SELL",
-      "stopLevel": null,
-      "limitLevel": null,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": -2.3,
-      "profitCurrency": "USD"
-    },
-    "logged_at": "2026-10-12T03:52:16.130225+00:00"
   }
 ]
