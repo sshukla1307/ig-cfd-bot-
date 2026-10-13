@@ -3,6 +3,24 @@
     "action": "OPEN_LONG",
     "instrument": "GOLD",
     "status": "REJECTED",
+    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for GOLD this tick -- a technical read or a generic news search alone can't open a position",
+    "agent_reason": "Gold is showing a short-term bullish setup with SMA-20 above SMA-50. The macro environment with a high 10Y Treasury yield and a stable VIX suggests potential for a safe-haven bid. Managed-money positioning is neutral, allowing room for upside.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-13T03:03:03.921101+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 105.37 vs 30-min SMA 105.475, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50. Recent news highlights supply risks in the Middle East, supporting a bullish outlook.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-13T03:03:03.920783+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "GOLD",
+    "status": "REJECTED",
     "reason": "Confluence requirement not met: GOLD's independent signal(s) checked this tick (get_term_structure=bearish) do not support a bullish thesis -- a technical read alone, or signals pointing the other way, aren't enough to open",
     "agent_reason": "Gold is showing a confirmed weekly bottom with improving daily price action. Despite the short-term bearish technicals, the news suggests a potential bullish outlook with moderate volatility expected.",
     "llm_provider": "openai",
@@ -3847,23 +3865,5 @@
     "status": "detected",
     "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
     "logged_at": "2026-10-12T07:04:54.899655+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "Consecutive-loss circuit breaker: SILVER has lost 4 times in a row going BUY (most recently 115 min ago) -- blocked for 120 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
-    "agent_reason": "Silver is showing a contrarian bullish signal due to extreme managed-money net-short positioning, suggesting potential for a short squeeze. The technicals show a short-term bullish setup with SMA-20 above SMA-50, supporting a potential upward move.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-12T07:01:43.078923+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 104.62 vs 30-min SMA 104.6533, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50. Despite the neutral RSI, the backwardation and recent price action suggest potential for a continued upward move. Recent news indicates a bullish outlook with geopolitical tensions affecting supply.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-12T07:01:43.078606+00:00"
   }
 ]
