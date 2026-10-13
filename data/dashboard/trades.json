@@ -1,5 +1,12 @@
 [
   {
+    "action": "OPEN_SHORT",
+    "instrument": "GOLD",
+    "status": "REJECTED",
+    "reason": "This trade's margin ($1828.18) would leave available at $1826.97, below the 30.0% safety buffer of balance $7312.74 -- rejected to avoid risking a forced closure on this or other open positions",
+    "logged_at": "2026-10-13T05:03:18.030196+00:00"
+  },
+  {
     "action": "MARGIN_EXIT_SYNC",
     "instrument": "SILVER",
     "deal_id": "DIAAAASA59BAWAV",
@@ -4068,14 +4075,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-10-12T07:31:34.674145+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "Same-direction cooldown: SILVER was closed at a loss 1 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
-    "agent_reason": "Silver is showing a contrarian bullish signal due to extreme managed-money net-short positioning, suggesting potential for a short squeeze. The technicals show a short-term bullish setup with SMA-20 above SMA-50, supporting a potential upward move.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-12T07:23:55.824882+00:00"
   }
 ]
