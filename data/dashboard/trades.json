@@ -1,5 +1,44 @@
 [
   {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "SILVER",
+    "deal_id": "DIAAAASA59BAWAV",
+    "old_limit_level": 6170.975,
+    "new_limit_level": 6171.714,
+    "old_stop_level": 6031.456,
+    "new_stop_level": 6031.456,
+    "reason": "Agent-discretion pre-arm limit reconciliation (wide 10.0% of margin ceiling, kept out of the way until the profit ratchet arms at 2.5%) -- stop left exactly as the agent set it at open, amending the limit only.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-13T04:03:48.619",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDSILVER.DBI.IP",
+      "expiry": "-",
+      "dealReference": "7BK44PVAKVETYNV",
+      "dealId": "DIAAAASA59BAWAV",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASA59BAWAV",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 6050.7,
+      "size": 1.52,
+      "direction": "BUY",
+      "stopLevel": 6031.456,
+      "limitLevel": 6171.714,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-13T04:03:48.757646+00:00"
+  },
+  {
     "action": "OPEN_LONG",
     "instrument": "SILVER",
     "direction": "BUY",
@@ -4038,14 +4077,5 @@
     "agent_reason": "Silver is showing a contrarian bullish signal due to extreme managed-money net-short positioning, suggesting potential for a short squeeze. The technicals show a short-term bullish setup with SMA-20 above SMA-50, supporting a potential upward move.",
     "llm_provider": "openai",
     "logged_at": "2026-10-12T07:23:55.824882+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 3.169 vs 30-min SMA 3.1748, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Natural Gas is showing a contrarian bullish signal due to extreme managed-money net-short positioning, suggesting potential for a short squeeze. Despite the contango structure indicating ample supply, the positioning data and oversold RSI at 29.5 support a potential upward move.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-12T07:23:55.824574+00:00"
   }
 ]
