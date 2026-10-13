@@ -2,6 +2,103 @@
   {
     "action": "OPEN_LONG",
     "instrument": "SILVER",
+    "direction": "BUY",
+    "size": 1.48,
+    "margin_allocated": 1761.76,
+    "effective_leverage": 5.0,
+    "notional": 8776.1,
+    "stop_distance": 19.0461,
+    "limit_distance": 119.0378,
+    "confluence_detail": "get_positioning_data agrees with bullish",
+    "reason": "Silver is showing a contrarian bullish signal due to extreme managed-money net-short positioning, suggesting potential for a short squeeze. The RSI is oversold, and the positioning data indicates a crowded short, which could lead to a rebound.",
+    "llm_provider": "openai",
+    "status": "submitted",
+    "deal_id": "DIAAAASBA6A53A3",
+    "raw": {
+      "date": "2026-10-13T16:35:09.258",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDSILVER.DBI.IP",
+      "expiry": "-",
+      "dealReference": "FRDRUWUFZNWTYNV",
+      "dealId": "DIAAAASBA6A53A3",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASBA6A53A3",
+          "status": "OPENED"
+        }
+      ],
+      "level": 5930.9,
+      "size": 1.48,
+      "direction": "BUY",
+      "stopLevel": 5911.854,
+      "limitLevel": 6049.938,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-13T16:35:09.472516+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "direction": "BUY",
+    "size": 2.56,
+    "margin_allocated": 1761.76,
+    "effective_leverage": 5.0,
+    "notional": 8788.48,
+    "stop_distance": 11.011,
+    "limit_distance": 68.8188,
+    "confluence_detail": "get_positioning_data agrees with bullish",
+    "reason": "Natural Gas is showing extreme net-short positioning, which is a contrarian bullish signal. The RSI is overbought, but the positioning suggests potential for a short squeeze. Despite the recent inventory build, the crowded short positioning is a strong bullish signal.",
+    "llm_provider": "openai",
+    "status": "submitted",
+    "deal_id": "DIAAAASBA6JJZAJ",
+    "raw": {
+      "date": "2026-10-13T16:35:08.912",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "DA5EM96DTLETYNV",
+      "dealId": "DIAAAASBA6JJZAJ",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASBA6JJZAJ",
+          "status": "OPENED"
+        }
+      ],
+      "level": 3438.0,
+      "size": 2.56,
+      "direction": "BUY",
+      "stopLevel": 3426.989,
+      "limitLevel": 3506.8188,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-13T16:35:09.160989+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 105.6 vs 30-min SMA 105.7, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50 and RSI at 55.5, suggesting potential for a continued upward move. Recent inventory data shows a larger-than-typical draw, reinforcing the bullish outlook.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-13T16:35:08.708817+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "SILVER",
     "status": "REJECTED",
     "reason": "Same-direction cooldown: SILVER was closed at a loss 4 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
     "agent_reason": "Silver is showing a contrarian bullish signal due to extreme managed-money net-short positioning, suggesting potential for a short squeeze. Despite the short-term bearish technicals, the crowded short positioning is a strong contrarian signal.",
@@ -3698,32 +3795,5 @@
     "agent_reason": "Silver is showing a contrarian bullish signal due to extreme managed-money net-short positioning, suggesting potential for a short squeeze. The technicals show an oversold RSI at 18.9, indicating potential for a rebound. Despite the SMA-20 being above SMA-50, the extreme positioning and oversold RSI provide a strong contrarian bullish setup.",
     "llm_provider": "openai",
     "logged_at": "2026-10-12T15:34:29.526868+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "Same-direction cooldown: SILVER was closed at a loss 45 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
-    "agent_reason": "Silver is showing a contrarian bullish signal due to extreme managed-money net-short positioning, suggesting potential for a short squeeze. The technicals show an oversold RSI at 18.5, indicating potential for a rebound. Despite the stale price data, the positioning data indicates a crowded short, which supports a bullish stance.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-12T15:04:15.164556+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "Same-direction cooldown: SILVER was closed at a loss 19 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
-    "agent_reason": "Silver is showing a contrarian bullish signal due to extreme managed-money net-short positioning, suggesting potential for a short squeeze. The technicals show an oversold RSI at 18.9, indicating potential for a rebound. Despite the SMA-20 being above SMA-50, the oversold condition and crowded short positioning provide a strong bullish catalyst.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-12T14:38:07.514551+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "GOLD",
-    "status": "REJECTED",
-    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for GOLD this tick -- a technical read or a generic news search alone can't open a position",
-    "agent_reason": "Gold is showing a short-term bullish setup with SMA-20 above SMA-50, and RSI is oversold at 24.3, indicating potential for a rebound. Although managed-money positioning is within a normal range, the oversold condition suggests a potential upward move.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-12T14:19:38.834064+00:00"
   }
 ]
