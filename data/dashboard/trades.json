@@ -1,5 +1,54 @@
 [
   {
+    "action": "OPEN_LONG",
+    "instrument": "SILVER",
+    "status": "REJECTED",
+    "reason": "Same-direction cooldown: SILVER was closed at a loss 36 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
+    "agent_reason": "Silver is showing a contrarian bullish signal due to extreme managed-money net-short positioning, suggesting potential for a short squeeze. The RSI is oversold, and the positioning data indicates a crowded short, which could lead to a rebound.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-13T21:02:55.712179+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Cannot open BRENT_OIL -- its WTI_OIL mirror slot is already occupied by an existing WTI position (shouldn't happen in normal operation; investigate if this recurs)",
+    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50 and RSI at 66.4, suggesting potential for a continued upward move. Recent inventory data shows a larger-than-typical draw, reinforcing the bullish supply outlook.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-13T21:02:55.712005+00:00"
+  },
+  {
+    "action": "ORPHANED_WTI_CLEANUP",
+    "instrument": "WTI_OIL",
+    "deal_id": "DIAAAASBBYGVFAQ",
+    "original_direction": "BUY",
+    "reason": "MARKET_CLOSED_WITH_EDITS",
+    "status": "rejected",
+    "raw": {
+      "date": "2026-10-13T21:02:06.43",
+      "status": null,
+      "reason": "MARKET_CLOSED_WITH_EDITS",
+      "dealStatus": "REJECTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": null,
+      "dealReference": "ZMD8ETLK4Y6TYNV",
+      "dealId": "DIAAAASBBY3W3BA",
+      "affectedDeals": [],
+      "level": null,
+      "size": null,
+      "direction": "SELL",
+      "stopLevel": null,
+      "limitLevel": null,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-13T21:02:06.662212+00:00"
+  },
+  {
     "action": "OPEN_SHORT",
     "instrument": "SILVER",
     "status": "REJECTED",
@@ -3923,97 +3972,5 @@
     "agent_reason": "Natural Gas is in a contango structure, indicating ample supply, which is bearish. The recent inventory build is larger than typical, reinforcing the bearish supply outlook. Technicals show a short-term bearish setup with SMA-20 below SMA-50. Despite the RSI being neutral, the overall bearish signals suggest a short position.",
     "llm_provider": "openai",
     "logged_at": "2026-10-12T23:03:04.923645+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 28 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
-    "agent_reason": "Natural Gas is in a contango structure, indicating ample supply, which is bearish. The recent inventory build is larger than typical, reinforcing the bearish supply outlook. The technicals show a short-term bearish setup with SMA-20 below SMA-50. Despite the neutral RSI, the contango and inventory data suggest a bearish tilt.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-12T22:32:46.526938+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "GOLD",
-    "deal_id": "DIAAAASA4U8BQBE",
-    "old_limit_level": 4090.3932,
-    "new_limit_level": 4090.961,
-    "old_stop_level": 4187.8991,
-    "new_stop_level": 4187.8991,
-    "reason": "Agent-discretion pre-arm limit reconciliation (wide 10.0% of margin ceiling, kept out of the way until the profit ratchet arms at 2.5%) -- stop left exactly as the agent set it at open, amending the limit only.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-10-12T22:06:08.214",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDGOLD.DBI.IP",
-      "expiry": "-",
-      "dealReference": "UW4V6J25RK6TYNV",
-      "dealId": "DIAAAASA4U8BQBE",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASA4U8BQBE",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 4174.45,
-      "size": 2.2,
-      "direction": "SELL",
-      "stopLevel": 4187.899,
-      "limitLevel": 4090.961,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-12T22:06:08.445624+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "GOLD",
-    "direction": "SELL",
-    "size": 2.2,
-    "margin_allocated": 1849.25,
-    "effective_leverage": 5.0,
-    "notional": 9185.0,
-    "stop_distance": 13.4491,
-    "limit_distance": 84.0568,
-    "confluence_detail": "get_term_structure agrees with bearish",
-    "reason": "Gold is currently in a contango structure, indicating ample supply, which is bearish. The technicals show a short-term bearish setup with SMA-20 above SMA-50 and RSI at 38.0, suggesting potential for a downward move. Recent news indicates a firm US dollar and potential for tighter monetary policy, which could further pressure gold prices.",
-    "llm_provider": "openai",
-    "status": "submitted",
-    "deal_id": "DIAAAASA4U8BQBE",
-    "raw": {
-      "date": "2026-10-12T22:05:08.723",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDGOLD.DBI.IP",
-      "expiry": "-",
-      "dealReference": "FLK28YNHAVSTYNV",
-      "dealId": "DIAAAASA4U8BQBE",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASA4U8BQBE",
-          "status": "OPENED"
-        }
-      ],
-      "level": 4174.45,
-      "size": 2.2,
-      "direction": "SELL",
-      "stopLevel": 4187.899,
-      "limitLevel": 4090.3933,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-12T22:05:08.929805+00:00"
   }
 ]
