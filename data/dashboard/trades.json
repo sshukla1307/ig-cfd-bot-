@@ -1,5 +1,44 @@
 [
   {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "GOLD",
+    "deal_id": "DIAAAASA6M789A3",
+    "old_limit_level": 4107.6179,
+    "new_limit_level": 4108.0718,
+    "old_stop_level": 4205.3967,
+    "new_stop_level": 4205.3967,
+    "reason": "Agent-discretion pre-arm limit reconciliation (wide 10.0% of margin ceiling, kept out of the way until the profit ratchet arms at 2.5%) -- stop left exactly as the agent set it at open, amending the limit only.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-13T06:03:49.787",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDGOLD.DBI.IP",
+      "expiry": "-",
+      "dealReference": "FVKW6TJXEUJTYNV",
+      "dealId": "DIAAAASA6M789A3",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASA6M789A3",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 4191.91,
+      "size": 2.16,
+      "direction": "SELL",
+      "stopLevel": 4205.3965,
+      "limitLevel": 4108.072,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-13T06:03:50.060966+00:00"
+  },
+  {
     "action": "OPEN_SHORT",
     "instrument": "GOLD",
     "direction": "SELL",
@@ -3972,14 +4011,5 @@
     "agent_reason": "Natural Gas is showing a contrarian bullish signal due to extreme managed-money net-short positioning, suggesting potential for a short squeeze. The RSI is oversold at 28.3, indicating a potential rebound. Despite the contango structure, the positioning data supports a bullish outlook.",
     "llm_provider": "openai",
     "logged_at": "2026-10-12T07:35:47.424697+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Same-direction cooldown: BRENT_OIL was closed at a loss 1 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
-    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50 and RSI at 53.3, suggesting potential for a continued upward move. The backwardation structure supports a bullish outlook.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-12T07:35:47.356518+00:00"
   }
 ]
