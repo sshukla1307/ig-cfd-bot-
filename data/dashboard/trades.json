@@ -1,5 +1,23 @@
 [
   {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "NATURAL_GAS momentum filter: proposed OPEN_SHORT conflicts with price action over the last 30 minutes (current 3.324 vs 30-min SMA 3.322, trending up) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Natural Gas is currently overbought with an RSI of 98.6, and the market is in contango, indicating ample supply. Despite recent bullish momentum, the overbought condition and contango structure suggest a potential pullback.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-14T00:31:39.004481+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Confluence requirement not met: BRENT_OIL's independent signal(s) checked this tick (get_term_structure=bullish) do not support a bearish thesis -- a technical read alone, or signals pointing the other way, aren't enough to open",
+    "agent_reason": "Brent Oil is currently overbought with an RSI of 80.2, and the market is in backwardation, indicating tight supply. However, recent news suggests mixed sentiment with potential downward pressure due to geopolitical tensions and supply concerns. The technicals show a short-term bullish setup, but the overbought condition suggests a potential pullback.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-14T00:31:38.945238+00:00"
+  },
+  {
     "action": "OPEN_LONG",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
@@ -3817,23 +3835,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-10-13T01:32:11.445651+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "Same-direction cooldown: SILVER was closed at a loss 9 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
-    "agent_reason": "Silver is showing a contrarian bullish signal due to extreme managed-money net-short positioning, suggesting potential for a short squeeze. The RSI is oversold at 19.5, supporting a potential rebound. Recent news indicates geopolitical instability, which could drive safe-haven demand for silver.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-13T01:12:26.599697+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 105.75 vs 30-min SMA 105.94, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50 and RSI at 53.3, suggesting potential for a continued upward move. Recent geopolitical tensions and supply risks further support a bullish outlook.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-13T01:12:26.599428+00:00"
   }
 ]
