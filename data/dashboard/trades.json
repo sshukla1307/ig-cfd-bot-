@@ -2,6 +2,50 @@
   {
     "action": "OPEN_LONG",
     "instrument": "SILVER",
+    "direction": "BUY",
+    "size": 1.52,
+    "margin_allocated": 1680.61,
+    "effective_leverage": 5.0,
+    "notional": 8451.5,
+    "stop_distance": 17.6906,
+    "limit_distance": 110.5664,
+    "confluence_detail": "get_positioning_data agrees with bullish",
+    "reason": "Silver is showing extreme net-short positioning, which is a contrarian bullish signal. The RSI is extremely oversold at 3.5, suggesting potential for a rebound. Despite the bearish technicals, the crowded short positioning and oversold RSI indicate a potential for a short squeeze.",
+    "llm_provider": "openai",
+    "status": "submitted",
+    "deal_id": "DIAAAASBKPM9FA8",
+    "raw": {
+      "date": "2026-10-14T20:31:47.34",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDSILVER.DBI.IP",
+      "expiry": "-",
+      "dealReference": "G9B5CNECH6JTYNV",
+      "dealId": "DIAAAASBKPM9FA8",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASBKPM9FA8",
+          "status": "OPENED"
+        }
+      ],
+      "level": 5560.2,
+      "size": 1.52,
+      "direction": "BUY",
+      "stopLevel": 5542.5093,
+      "limitLevel": 5670.7666,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-14T20:31:47.521609+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "SILVER",
     "status": "REJECTED",
     "reason": "Same-direction cooldown: SILVER was closed at a loss 55 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
     "agent_reason": "Silver is showing extreme net-short positioning, which is a contrarian bullish signal. The RSI is oversold at 3.6, suggesting potential for a rebound. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. The technicals and positioning data support a bullish move.",
@@ -3819,44 +3863,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-10-14T01:32:52.676960+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "WTI_OIL",
-    "deal_id": "DIAAAASBCLMDMA2",
-    "old_limit_level": 9630.3489,
-    "new_limit_level": 9628.392,
-    "old_stop_level": 9409.0802,
-    "new_stop_level": 9409.0802,
-    "reason": "Agent-discretion pre-arm limit reconciliation (wide 10.0% of margin ceiling, kept out of the way until the profit ratchet arms at 2.5%) -- stop left exactly as the agent set it at open, amending the limit only.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-10-14T01:31:57.311",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "MC89EZM5NS2TYNV",
-      "dealId": "DIAAAASBCLMDMA2",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASBCLMDMA2",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 9439.6,
-      "size": 0.92,
-      "direction": "BUY",
-      "stopLevel": 9409.08,
-      "limitLevel": 9628.392,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-14T01:31:57.501519+00:00"
   }
 ]
