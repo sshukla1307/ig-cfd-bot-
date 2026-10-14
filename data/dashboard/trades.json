@@ -3,6 +3,24 @@
     "action": "OPEN_LONG",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 3.322 vs 30-min SMA 3.3238, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Natural Gas is showing extreme net-short positioning, which is a contrarian bullish signal. Despite the recent inventory build, the crowded short positioning suggests potential for a short squeeze. Weather-driven demand is moderate, but the positioning data supports a bullish stance.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-14T03:32:10.077058+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 106.52 vs 30-min SMA 106.525, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50 and RSI at 70.7, suggesting potential for a continued upward move. Recent news indicates mixed factors, but the overall supply tightness supports a bullish stance.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-14T03:32:09.917379+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "Confluence requirement not met: NATURAL_GAS's independent signal(s) checked this tick (get_inventory_data=bearish) do not support a bullish thesis -- a technical read alone, or signals pointing the other way, aren't enough to open",
     "agent_reason": "Natural Gas is showing extreme net-short positioning, which is a contrarian bullish signal. Despite the recent inventory build, the crowded short positioning suggests potential for a short squeeze.",
     "llm_provider": "openai",
@@ -3797,58 +3815,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-10-13T06:03:50.060966+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "GOLD",
-    "direction": "SELL",
-    "size": 2.16,
-    "margin_allocated": 1820.71,
-    "effective_leverage": 5.0,
-    "notional": 9056.51,
-    "stop_distance": 13.4867,
-    "limit_distance": 84.2921,
-    "confluence_detail": "get_term_structure agrees with bearish",
-    "reason": "Gold is in a contango structure, indicating ample supply, which is bearish. The technicals show a short-term bearish setup with SMA-20 below SMA-50 and RSI at 38.0, suggesting potential for a downward move. Recent macro data shows a strong dollar and high Treasury yields, which are typically bearish for gold.",
-    "llm_provider": "openai",
-    "status": "submitted",
-    "deal_id": "DIAAAASA6M789A3",
-    "raw": {
-      "date": "2026-10-13T06:02:57.577",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDGOLD.DBI.IP",
-      "expiry": "-",
-      "dealReference": "BUQV6C4UKLNTYNV",
-      "dealId": "DIAAAASA6M789A3",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASA6M789A3",
-          "status": "OPENED"
-        }
-      ],
-      "level": 4191.91,
-      "size": 2.16,
-      "direction": "SELL",
-      "stopLevel": 4205.3965,
-      "limitLevel": 4107.6177,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-13T06:02:57.714506+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: SILVER has only been open for 90 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "agent_reason": "Silver is showing a contrarian bullish signal due to extreme managed-money net-short positioning, but the independent price check shows discrepancies, indicating potential data issues. Closing the position to avoid potential risks from data inconsistencies.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-13T05:32:46.754667+00:00"
   }
 ]
