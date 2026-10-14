@@ -1,21 +1,98 @@
 [
   {
-    "action": "CLOSE",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: SILVER has only been open for 9 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "agent_reason": "Silver is showing extreme net-short positioning, which is a contrarian bullish signal. However, the current position is in a loss, and the market is in contango, indicating ample supply. The RSI is oversold, but the lack of a strong upward catalyst suggests closing the position to limit losses.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-14T18:02:22.147054+00:00"
+    "action": "MIRROR_ROLLBACK",
+    "instrument": "BRENT_OIL",
+    "reason": "WTI mirror leg failed (Insufficient margin headroom for the WTI mirror leg) -- closing Brent back out.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-14T18:03:57.883",
+      "status": "CLOSED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "JLUDE2DFW8NTYNV",
+      "dealId": "DIAAAASBJZQX6AF",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASBJZQX6AF",
+          "status": "FULLY_CLOSED"
+        }
+      ],
+      "level": 10500.3,
+      "size": 0.8,
+      "direction": "SELL",
+      "stopLevel": null,
+      "limitLevel": null,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": -2.64,
+      "profitCurrency": "USD"
+    },
+    "logged_at": "2026-10-14T18:03:58.085767+00:00"
   },
   {
-    "action": "CLOSE",
+    "action": "WTI_MIRROR_OPEN",
+    "instrument": "WTI_OIL",
+    "status": "rejected",
+    "reason": "Insufficient margin headroom for the WTI mirror leg",
+    "logged_at": "2026-10-14T18:03:57.753992+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
     "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 60 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "agent_reason": "Brent Oil is currently showing a short-term bullish setup with SMA-20 above SMA-50, but the position is slightly negative and has not moved significantly in our favor. Given the recent history of mixed results and the current unrealized loss, it's prudent to close this position and reassess.",
+    "direction": "BUY",
+    "size": 0.8,
+    "margin_allocated": 1695.83,
+    "effective_leverage": 5.0,
+    "notional": 8397.68,
+    "stop_distance": 33.9166,
+    "limit_distance": 211.9787,
+    "confluence_detail": "get_term_structure agrees with bullish",
+    "reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50 and RSI at 56.4, suggesting potential for a continued upward move. Recent news highlights supply disruptions and upward revisions in price forecasts, supporting a bullish outlook.",
     "llm_provider": "openai",
-    "logged_at": "2026-10-14T18:02:22.146719+00:00"
+    "status": "submitted",
+    "deal_id": "DIAAAASBJZQX6AF",
+    "raw": {
+      "date": "2026-10-14T18:03:57.584",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "M78A8UV6M3STYNV",
+      "dealId": "DIAAAASBJZQX6AF",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASBJZQX6AF",
+          "status": "OPENED"
+        }
+      ],
+      "level": 10503.6,
+      "size": 0.8,
+      "direction": "BUY",
+      "stopLevel": 10469.684,
+      "limitLevel": 10715.579,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-14T18:03:57.753637+00:00"
+  },
+  {
+    "action": "BROKER_CLOSE",
+    "instrument": "BRENT_OIL",
+    "deal_id": "DIAAAASBJMNRYAD",
+    "original_direction": "BUY",
+    "estimated_pnl": 4.56,
+    "status": "detected",
+    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
+    "logged_at": "2026-10-14T18:03:20.716144+00:00"
   },
   {
     "action": "MARGIN_EXIT_SYNC",
@@ -3904,56 +3981,5 @@
       "profitCurrency": "USD"
     },
     "logged_at": "2026-10-14T00:02:08.171029+00:00"
-  },
-  {
-    "action": "WTI_MIRROR_OPEN",
-    "instrument": "WTI_OIL",
-    "status": "rejected",
-    "reason": "Insufficient margin headroom for the WTI mirror leg",
-    "logged_at": "2026-10-14T00:02:07.959642+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "direction": "BUY",
-    "size": 0.84,
-    "margin_allocated": 1733.65,
-    "effective_leverage": 5.0,
-    "notional": 8808.58,
-    "stop_distance": 33.0219,
-    "limit_distance": 206.3869,
-    "confluence_detail": "get_term_structure agrees with bullish",
-    "reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50 and RSI at 68.1, suggesting potential for a continued upward move. Recent news indicates mixed sentiment, but the overall supply concerns due to geopolitical tensions support a bullish stance.",
-    "llm_provider": "openai",
-    "status": "submitted",
-    "deal_id": "DIAAAASBCAZYCAF",
-    "raw": {
-      "date": "2026-10-14T00:02:07.837",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "CX7RQXMD55JTYNV",
-      "dealId": "DIAAAASBCAZYCAF",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASBCAZYCAF",
-          "status": "OPENED"
-        }
-      ],
-      "level": 10483.5,
-      "size": 0.84,
-      "direction": "BUY",
-      "stopLevel": 10450.479,
-      "limitLevel": 10689.887,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-14T00:02:07.959289+00:00"
   }
 ]
