@@ -2,6 +2,69 @@
   {
     "action": "OPEN_LONG",
     "instrument": "SILVER",
+    "direction": "BUY",
+    "size": 1.2,
+    "margin_allocated": 1359.04,
+    "effective_leverage": 5.0,
+    "notional": 6769.32,
+    "stop_distance": 18.1205,
+    "limit_distance": 113.2533,
+    "confluence_detail": "get_positioning_data agrees with bullish",
+    "reason": "Silver is showing extreme net-short positioning, which is a contrarian bullish signal. The RSI is oversold at 12.5, suggesting potential for a rebound. Despite the contango structure indicating ample supply, the crowded short positioning and oversold condition suggest potential for a rebound.",
+    "llm_provider": "openai",
+    "status": "submitted",
+    "deal_id": "DIAAAASBHEQCLA2",
+    "raw": {
+      "date": "2026-10-14T14:46:33.298",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDSILVER.DBI.IP",
+      "expiry": "-",
+      "dealReference": "8ZKJ9GN48STYNV",
+      "dealId": "DIAAAASBHEQCLA2",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASBHEQCLA2",
+          "status": "OPENED"
+        }
+      ],
+      "level": 5646.9,
+      "size": 1.2,
+      "direction": "BUY",
+      "stopLevel": 5628.7793,
+      "limitLevel": 5760.1533,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-14T14:46:33.508546+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 3.173 vs 30-min SMA 3.1763, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Natural Gas is showing extreme net-short positioning, which is a contrarian bullish signal. The RSI is oversold at 7.7, indicating potential for a rebound. Despite the contango structure, the crowded short positioning suggests potential for a short squeeze. The independent price check shows a recent uptick, supporting a potential reversal.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-14T14:46:33.195852+00:00"
+  },
+  {
+    "action": "BROKER_CLOSE",
+    "instrument": "WTI_OIL",
+    "deal_id": "DIAAAASBGMCDBAC",
+    "original_direction": "BUY",
+    "estimated_pnl": -5.24,
+    "status": "detected",
+    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
+    "logged_at": "2026-10-14T14:45:14.535576+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "SILVER",
     "status": "REJECTED",
     "reason": "Same-direction cooldown: SILVER was closed at a loss 47 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
     "agent_reason": "Silver is showing extreme net-short positioning, which is a contrarian bullish signal. The RSI is oversold at 12.2, suggesting potential for a rebound. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze.",
@@ -3855,132 +3918,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-10-13T19:36:32.343093+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "NATURAL_GAS",
-    "deal_id": "DIAAAASBBQNYCA5",
-    "old_limit_level": 3560.848,
-    "new_limit_level": 3560.82,
-    "old_stop_level": 3479.8243,
-    "new_stop_level": 3479.8243,
-    "reason": "Agent-discretion pre-arm limit reconciliation (wide 10.0% of margin ceiling, kept out of the way until the profit ratchet arms at 2.5%) -- stop left exactly as the agent set it at open, amending the limit only.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-10-13T19:36:31.886",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": "-",
-      "dealReference": "FZMBGCUGWMNTYNV",
-      "dealId": "DIAAAASBBQNYCA5",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASBBQNYCA5",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 3491.0,
-      "size": 2.52,
-      "direction": "BUY",
-      "stopLevel": 3479.8242,
-      "limitLevel": 3560.82,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-13T19:36:32.073664+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "direction": "BUY",
-    "size": 1.2,
-    "margin_allocated": 1408.14,
-    "effective_leverage": 5.0,
-    "notional": 7117.56,
-    "stop_distance": 18.7752,
-    "limit_distance": 117.345,
-    "confluence_detail": "get_positioning_data agrees with bullish",
-    "reason": "Silver is showing a contrarian bullish signal due to extreme managed-money net-short positioning, suggesting potential for a short squeeze. The RSI is oversold, and the positioning data indicates a crowded short, which could lead to a rebound.",
-    "llm_provider": "openai",
-    "status": "submitted",
-    "deal_id": "DIAAAASBBQ597BC",
-    "raw": {
-      "date": "2026-10-13T19:18:01.253",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDSILVER.DBI.IP",
-      "expiry": "-",
-      "dealReference": "6TJ8DAVENVSTYNV",
-      "dealId": "DIAAAASBBQ597BC",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASBBQ597BC",
-          "status": "OPENED"
-        }
-      ],
-      "level": 5928.3,
-      "size": 1.2,
-      "direction": "BUY",
-      "stopLevel": 5909.525,
-      "limitLevel": 6045.645,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-13T19:18:01.510671+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "NATURAL_GAS",
-    "direction": "BUY",
-    "size": 2.52,
-    "margin_allocated": 1760.17,
-    "effective_leverage": 5.0,
-    "notional": 8797.32,
-    "stop_distance": 11.1757,
-    "limit_distance": 69.848,
-    "confluence_detail": "get_positioning_data agrees with bullish",
-    "reason": "Natural Gas is showing extreme net-short positioning, which is a contrarian bullish signal. The RSI is overbought, but the positioning suggests potential for a short squeeze. Despite the recent inventory build, the crowded short positioning is a strong bullish signal.",
-    "llm_provider": "openai",
-    "status": "submitted",
-    "deal_id": "DIAAAASBBQNYCA5",
-    "raw": {
-      "date": "2026-10-13T19:18:00.947",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": "-",
-      "dealReference": "64W55SCJM26TYNV",
-      "dealId": "DIAAAASBBQNYCA5",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASBBQNYCA5",
-          "status": "OPENED"
-        }
-      ],
-      "level": 3491.0,
-      "size": 2.52,
-      "direction": "BUY",
-      "stopLevel": 3479.8242,
-      "limitLevel": 3560.848,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-13T19:18:01.149155+00:00"
   }
 ]
