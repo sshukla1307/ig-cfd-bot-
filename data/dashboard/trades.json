@@ -3,6 +3,63 @@
     "action": "OPEN_LONG",
     "instrument": "SILVER",
     "status": "REJECTED",
+    "reason": "Consecutive-loss circuit breaker: SILVER has lost 3 times in a row going BUY (most recently 99 min ago) -- blocked for 120 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
+    "agent_reason": "Silver is showing extreme net-short positioning, which is a contrarian bullish signal. The RSI is oversold at 5.3, suggesting potential for a rebound. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-14T16:32:07.892544+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 3.175 vs 30-min SMA 3.1818, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Natural Gas is showing extreme net-short positioning, which is a contrarian bullish signal. The RSI is oversold at 7.4, indicating potential for a rebound. Despite the contango structure, the crowded short positioning suggests potential for a short squeeze.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-14T16:32:07.892270+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "BRENT_OIL",
+    "deal_id": "DIAAAASBGMK2PBF",
+    "old_limit_level": 10659.102,
+    "new_limit_level": 10512.8006,
+    "old_stop_level": 10415.9856,
+    "new_stop_level": 10496.0804,
+    "reason": "Agent-discretion profit ratchet ARMED (2026-10-09 refinement): stop locked to guarantee at least 2.2% profit (a 0.3% gap below the milestone just reached), limit extended to the next 3.0% target to keep upside open.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-14T16:31:15.218",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "BPMC3YHKJLSTYNV",
+      "dealId": "DIAAAASBGMK2PBF",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASBGMK2PBF",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 10450.1,
+      "size": 0.8,
+      "direction": "BUY",
+      "stopLevel": 10496.08,
+      "limitLevel": 10512.801,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-14T16:31:15.454245+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "SILVER",
+    "status": "REJECTED",
     "reason": "Consecutive-loss circuit breaker: SILVER has lost 3 times in a row going BUY (most recently 69 min ago) -- blocked for 120 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
     "agent_reason": "Silver is showing extreme net-short positioning, which is a contrarian bullish signal. The RSI is oversold at 11.2, suggesting potential for a rebound. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze.",
     "llm_provider": "openai",
@@ -3610,92 +3667,5 @@
     "agent_reason": "Silver is in a contango structure, indicating ample supply, which is bearish. The technicals show a short-term bearish setup with SMA-20 below SMA-50 and RSI at 20.6, suggesting potential for a downward move. Recent positioning data indicates a crowded short, but the technicals and term structure support a bearish outlook.",
     "llm_provider": "openai",
     "logged_at": "2026-10-13T20:36:59.710510+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAASBBXSFRBB",
-    "old_limit_level": 10724.7179,
-    "new_limit_level": 10726.32,
-    "old_stop_level": 10482.6051,
-    "new_stop_level": 10482.6051,
-    "reason": "Agent-discretion pre-arm limit reconciliation (wide 10.0% of margin ceiling, kept out of the way until the profit ratchet arms at 2.5%) -- stop left exactly as the agent set it at open, amending the limit only.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-10-13T20:30:54.241",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "BCF5L97YM6WTYNV",
-      "dealId": "DIAAAASBBXSFRBB",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASBBXSFRBB",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 10516.0,
-      "size": 0.84,
-      "direction": "BUY",
-      "stopLevel": 10482.605,
-      "limitLevel": 10726.32,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-13T20:30:54.591846+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "WTI_OIL",
-    "deal_id": "DIAAAASBBYGVFAQ",
-    "old_limit_level": 9610.5685,
-    "new_limit_level": 9608.4,
-    "old_stop_level": 9389.509,
-    "new_stop_level": 9389.509,
-    "reason": "Agent-discretion pre-arm limit reconciliation (wide 10.0% of margin ceiling, kept out of the way until the profit ratchet arms at 2.5%) -- stop left exactly as the agent set it at open, amending the limit only.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-10-13T20:30:53.871",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "HUMSLFXYHK2TYNV",
-      "dealId": "DIAAAASBBYGVFAQ",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASBBYGVFAQ",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 9420.0,
-      "size": 0.92,
-      "direction": "BUY",
-      "stopLevel": 9389.509,
-      "limitLevel": 9608.4,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-13T20:30:54.120881+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "Same-direction cooldown: SILVER was closed at a loss 1 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
-    "agent_reason": "Silver is showing a contrarian bullish signal due to extreme managed-money net-short positioning, suggesting potential for a short squeeze. The RSI is oversold, and the positioning data indicates a crowded short, which could lead to a rebound.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-13T20:27:41.996430+00:00"
   }
 ]
