@@ -3,6 +3,15 @@
     "action": "OPEN_SHORT",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "NATURAL_GAS momentum filter: proposed OPEN_SHORT conflicts with price action over the last 30 minutes (current 3.327 vs 30-min SMA 3.3245, trending up) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Natural Gas is currently overbought with an RSI of 98.6, indicating a potential for a pullback. The market is in contango, signaling ample supply, which is bearish. Despite the extreme net-short positioning, the recent inventory build is larger than typical, reinforcing the bearish supply outlook.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-14T00:50:52.454486+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "NATURAL_GAS momentum filter: proposed OPEN_SHORT conflicts with price action over the last 30 minutes (current 3.324 vs 30-min SMA 3.322, trending up) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
     "agent_reason": "Natural Gas is currently overbought with an RSI of 98.6, and the market is in contango, indicating ample supply. Despite recent bullish momentum, the overbought condition and contango structure suggest a potential pullback.",
     "llm_provider": "openai",
@@ -3796,44 +3805,5 @@
     "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. Recent inventory data shows a larger-than-typical draw, reinforcing the bullish outlook. Technicals show a short-term bullish setup with SMA-20 above SMA-50 and RSI at 57.2, suggesting potential for a continued upward move. Geopolitical risks and Chinese demand further support the bullish case.",
     "llm_provider": "openai",
     "logged_at": "2026-10-13T01:32:40.597267+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "GOLD",
-    "deal_id": "DIAAAASA4U8BQBE",
-    "old_limit_level": 4090.961,
-    "new_limit_level": 4149.4033,
-    "old_stop_level": 4187.8991,
-    "new_stop_level": 4156.0824,
-    "reason": "Agent-discretion profit ratchet ARMED (2026-10-09 refinement): stop locked to guarantee at least 2.2% profit (a 0.3% gap below the milestone just reached), limit extended to the next 3.0% target to keep upside open.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-10-13T01:32:11.329",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDGOLD.DBI.IP",
-      "expiry": "-",
-      "dealReference": "UC3RNZQN9S6TYNV",
-      "dealId": "DIAAAASA4U8BQBE",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASA4U8BQBE",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 4174.45,
-      "size": 2.2,
-      "direction": "SELL",
-      "stopLevel": 4156.0825,
-      "limitLevel": 4149.4033,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-13T01:32:11.445651+00:00"
   }
 ]
