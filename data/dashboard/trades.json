@@ -2,6 +2,94 @@
   {
     "action": "OPEN_SHORT",
     "instrument": "SILVER",
+    "direction": "SELL",
+    "size": 1.44,
+    "margin_allocated": 1710.14,
+    "effective_leverage": 5.0,
+    "notional": 8451.65,
+    "stop_distance": 19.0016,
+    "limit_distance": 118.7597,
+    "confluence_detail": "get_term_structure agrees with bearish",
+    "reason": "Silver is in a contango structure, indicating ample supply, which is bearish. Despite extreme net-short positioning suggesting a contrarian bullish signal, the technicals show a short-term bearish setup with SMA-20 below SMA-50 and RSI at 37.1, suggesting potential for a continued downward move.",
+    "llm_provider": "openai",
+    "status": "submitted",
+    "deal_id": "DIAAAASBD3QXVAC",
+    "raw": {
+      "date": "2026-10-14T08:02:33.787",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDSILVER.DBI.IP",
+      "expiry": "-",
+      "dealReference": "MC53ZRKNY7ATYNV",
+      "dealId": "DIAAAASBD3QXVAC",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASBD3QXVAC",
+          "status": "OPENED"
+        }
+      ],
+      "level": 5866.3,
+      "size": 1.44,
+      "direction": "SELL",
+      "stopLevel": 5885.302,
+      "limitLevel": 5747.5405,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-14T08:02:34.021219+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "direction": "SELL",
+    "size": 2.44,
+    "margin_allocated": 1710.14,
+    "effective_leverage": 5.0,
+    "notional": 8547.32,
+    "stop_distance": 11.214,
+    "limit_distance": 70.0877,
+    "confluence_detail": "get_inventory_data, get_term_structure agrees with bearish",
+    "reason": "Natural Gas is in a contango structure, indicating ample supply, which is bearish. Despite extreme net-short positioning suggesting a contrarian bullish signal, the recent inventory build is larger than typical, reinforcing the bearish supply outlook. Weather-driven demand is moderate, providing no strong bullish signal.",
+    "llm_provider": "openai",
+    "status": "submitted",
+    "deal_id": "DIAAAASBD2Y2BAU",
+    "raw": {
+      "date": "2026-10-14T08:02:33.439",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "VYHA4PALAQJTYNV",
+      "dealId": "DIAAAASBD2Y2BAU",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASBD2Y2BAU",
+          "status": "OPENED"
+        }
+      ],
+      "level": 3501.0,
+      "size": 2.44,
+      "direction": "SELL",
+      "stopLevel": 3512.214,
+      "limitLevel": 3430.9124,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-14T08:02:33.673081+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "SILVER",
     "status": "REJECTED",
     "reason": "Any-direction circuit breaker: SILVER has lost 2 times in a row REGARDLESS OF DIRECTION (most recently 107 min ago) -- blocked for 120 min in EITHER direction. This exists because the same-direction breaker alone can be escaped by simply flipping sides (a real 2026-09-28 BRENT_OIL incident: 2 consecutive LONG losses, then immediately SHORT with a fresh streak, losing again within 20 minutes with no new evidence) -- a full direction reversal right now needs to wait out this cooldown like any other repeat.",
     "agent_reason": "Silver is in a contango structure, indicating ample supply, which is bearish. Despite the extreme net-short positioning suggesting a contrarian bullish signal, the technicals show a short-term bearish setup with SMA-20 below SMA-50 and RSI at 35.6. The independent price check shows a discrepancy, indicating potential volatility. Given these factors, a short position is warranted.",
@@ -3769,23 +3857,5 @@
     "agent_reason": "Silver is showing a contrarian bullish signal due to extreme managed-money net-short positioning, suggesting potential for a short squeeze. The RSI is neutral, but the positioning data indicates a crowded short, which could lead to a rebound.",
     "llm_provider": "openai",
     "logged_at": "2026-10-13T11:09:47.208470+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 104.55 vs 30-min SMA 104.59, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show an oversold RSI at 22.9, suggesting potential for a rebound. Recent news highlights geopolitical risks and Chinese demand, supporting a bullish outlook.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-13T11:09:47.208144+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "Same-direction cooldown: SILVER was closed at a loss 0 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
-    "agent_reason": "Silver is showing a contrarian bullish signal due to extreme managed-money net-short positioning, suggesting potential for a short squeeze. The RSI is neutral, but the positioning data indicates a crowded short, which could lead to a rebound.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-13T10:47:06.932647+00:00"
   }
 ]
