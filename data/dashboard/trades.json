@@ -1,6 +1,111 @@
 [
   {
     "action": "OPEN_LONG",
+    "instrument": "SILVER",
+    "status": "REJECTED",
+    "reason": "Same-direction cooldown: SILVER was closed at a loss 1 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
+    "agent_reason": "Silver is showing extreme net-short positioning, which is a contrarian bullish signal. The RSI is oversold at 3.1, suggesting potential for a rebound. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-14T19:07:59.483957+00:00"
+  },
+  {
+    "action": "WTI_MIRROR_OPEN",
+    "instrument": "WTI_OIL",
+    "direction": "BUY",
+    "size": 0.88,
+    "margin_allocated": 1687.43,
+    "effective_leverage": 5.0,
+    "notional": 8280.71,
+    "stop_distance": 30.6805,
+    "limit_distance": 191.7534,
+    "reason": "Auto-mirrored from BRENT_OIL: Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50. Recent geopolitical tensions and supply concerns further support a bullish outlook.",
+    "status": "submitted",
+    "deal_id": "DIAAAASBKBQJ8AH",
+    "raw": {
+      "date": "2026-10-14T19:07:59.282",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "ZN3XLZNSP9WTYNV",
+      "dealId": "DIAAAASBKBQJ8AH",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASBKBQJ8AH",
+          "status": "OPENED"
+        }
+      ],
+      "level": 9411.0,
+      "size": 0.88,
+      "direction": "BUY",
+      "stopLevel": 9380.319,
+      "limitLevel": 9602.753,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-14T19:07:59.483618+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "direction": "BUY",
+    "size": 0.8,
+    "margin_allocated": 1687.43,
+    "effective_leverage": 5.0,
+    "notional": 8372.88,
+    "stop_distance": 33.7486,
+    "limit_distance": 210.9288,
+    "confluence_detail": "get_term_structure agrees with bullish",
+    "reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50. Recent geopolitical tensions and supply concerns further support a bullish outlook.",
+    "llm_provider": "openai",
+    "status": "submitted",
+    "deal_id": "DIAAAASBKBTL4A7",
+    "raw": {
+      "date": "2026-10-14T19:07:58.928",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "UCA75FDEEMSTYNV",
+      "dealId": "DIAAAASBKBTL4A7",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASBKBTL4A7",
+          "status": "OPENED"
+        }
+      ],
+      "level": 10467.0,
+      "size": 0.8,
+      "direction": "BUY",
+      "stopLevel": 10433.251,
+      "limitLevel": 10677.929,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-14T19:07:59.184993+00:00"
+  },
+  {
+    "action": "BROKER_CLOSE",
+    "instrument": "SILVER",
+    "deal_id": "DIAAAASBJXCLJAH",
+    "original_direction": "BUY",
+    "estimated_pnl": -10.34,
+    "status": "detected",
+    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
+    "logged_at": "2026-10-14T19:07:05.257177+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
     "instrument": "GOLD",
     "status": "REJECTED",
     "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for GOLD this tick -- a technical read or a generic news search alone can't open a position",
@@ -3887,71 +3992,5 @@
     "status": "detected",
     "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
     "logged_at": "2026-10-14T01:18:58.420381+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "SILVER",
-    "deal_id": "DIAAAASBB4HT4AN",
-    "old_limit_level": 5796.112,
-    "new_limit_level": 5878.9136,
-    "old_stop_level": 5933.2158,
-    "new_stop_level": 5888.3766,
-    "reason": "Agent-discretion profit ratchet ARMED (2026-10-09 refinement): stop locked to guarantee at least 2.2% profit (a 0.3% gap below the milestone just reached), limit extended to the next 3.0% target to keep upside open.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-10-14T01:16:38.116",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDSILVER.DBI.IP",
-      "expiry": "-",
-      "dealReference": "4W4726QBZGNTYNV",
-      "dealId": "DIAAAASBB4HT4AN",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASBB4HT4AN",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 5914.4,
-      "size": 1.48,
-      "direction": "SELL",
-      "stopLevel": 5888.3765,
-      "limitLevel": 5878.9136,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-14T01:16:38.301373+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Confluence requirement not met: NATURAL_GAS's independent signal(s) checked this tick (get_positioning_data=bullish) do not support a bearish thesis -- a technical read alone, or signals pointing the other way, aren't enough to open",
-    "agent_reason": "Natural Gas is extremely overbought with an RSI of 98.6, despite the bullish positioning data. The recent price action shows a strong upward trend, but the extreme RSI suggests a potential for a pullback. The weather-driven demand is moderate, providing no strong support for the current price levels.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-14T01:01:30.582876+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Confluence requirement not met: BRENT_OIL's independent signal(s) checked this tick (get_term_structure=bullish) do not support a bearish thesis -- a technical read alone, or signals pointing the other way, aren't enough to open",
-    "agent_reason": "Brent Oil is currently overbought with an RSI of 81.0, and the market is in backwardation, indicating tight supply. However, recent news suggests mixed sentiment with potential downward pressure due to geopolitical tensions and market instability. The technicals show a short-term bullish setup, but the overbought condition suggests a potential pullback.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-14T01:01:30.582497+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "NATURAL_GAS momentum filter: proposed OPEN_SHORT conflicts with price action over the last 30 minutes (current 3.327 vs 30-min SMA 3.3245, trending up) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Natural Gas is currently overbought with an RSI of 98.6, indicating a potential for a pullback. The market is in contango, signaling ample supply, which is bearish. Despite the extreme net-short positioning, the recent inventory build is larger than typical, reinforcing the bearish supply outlook.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-14T00:50:52.454486+00:00"
   }
 ]
