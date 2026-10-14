@@ -1,5 +1,23 @@
 [
   {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 59 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "agent_reason": "Natural Gas is currently overbought with an RSI of 95.5, indicating a potential pullback. However, the market is in contango, suggesting ample supply, and recent inventory data shows a larger-than-typical build, reinforcing a bearish outlook. Despite the extreme net-short positioning suggesting a contrarian bullish signal, the overall supply outlook remains bearish. Closing the long position to mitigate risk.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-14T05:01:57.160757+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "GOLD",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: GOLD has only been open for 516 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "agent_reason": "The current technical setup for Gold shows a short-term bearish trend with SMA-20 below SMA-50 and a neutral RSI. The market is in contango, indicating ample supply, which is bearish. Recent news suggests pressure from a strong US dollar and potential rate hikes, which could further weigh on Gold prices. Closing the short position to avoid further losses.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-14T05:01:57.160432+00:00"
+  },
+  {
     "action": "OPEN_LONG",
     "instrument": "SILVER",
     "status": "REJECTED",
@@ -3830,24 +3848,5 @@
     "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50 and RSI at 21.7, suggesting potential for a rebound. Recent news indicates supply concerns due to Middle East tensions.",
     "llm_provider": "openai",
     "logged_at": "2026-10-13T08:12:07.413281+00:00"
-  },
-  {
-    "action": "BROKER_CLOSE",
-    "instrument": "NATURAL_GAS",
-    "deal_id": "DIAAAASA5V6VABB",
-    "original_direction": "BUY",
-    "estimated_pnl": -8.16,
-    "status": "detected",
-    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-10-13T08:11:39.659500+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 105.05 vs 30-min SMA 105.2267, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50 and RSI at 23.5, suggesting potential for a rebound. Recent news indicates supply concerns due to Middle East tensions.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-13T08:03:26.959939+00:00"
   }
 ]
