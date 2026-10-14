@@ -1,6 +1,74 @@
 [
   {
     "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 106.84 vs 30-min SMA 106.895, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50 and RSI at 79.4, suggesting potential for a continued upward move. Recent news supports a bullish outlook with forecasts revised upward.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-14T02:21:26.052468+00:00"
+  },
+  {
+    "action": "BROKER_CLOSE",
+    "instrument": "BRENT_OIL",
+    "deal_id": "DIAAAASBCK7UTAN",
+    "original_direction": "BUY",
+    "estimated_pnl": -4.87,
+    "status": "detected",
+    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
+    "logged_at": "2026-10-14T02:20:58.037450+00:00"
+  },
+  {
+    "action": "BROKER_CLOSE",
+    "instrument": "WTI_OIL",
+    "deal_id": "DIAAAASBCLMDMA2",
+    "original_direction": "BUY",
+    "estimated_pnl": -9.48,
+    "status": "detected",
+    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
+    "logged_at": "2026-10-14T02:20:58.037026+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "SILVER",
+    "deal_id": "DIAAAASBCRD6RAV",
+    "old_limit_level": 6037.9542,
+    "new_limit_level": 6039.114,
+    "old_stop_level": 5901.9393,
+    "new_stop_level": 5901.9393,
+    "reason": "Agent-discretion pre-arm limit reconciliation (wide 10.0% of margin ceiling, kept out of the way until the profit ratchet arms at 2.5%) -- stop left exactly as the agent set it at open, amending the limit only.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-14T02:10:46.815",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDSILVER.DBI.IP",
+      "expiry": "-",
+      "dealReference": "VXV36MK5B4JTYNV",
+      "dealId": "DIAAAASBCRD6RAV",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASBCRD6RAV",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 5920.7,
+      "size": 1.2,
+      "direction": "BUY",
+      "stopLevel": 5901.9395,
+      "limitLevel": 6039.114,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-14T02:10:47.022834+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
     "instrument": "SILVER",
     "direction": "BUY",
     "size": 1.2,
@@ -3780,166 +3848,5 @@
     "status": "REJECTED",
     "reason": "This trade's margin ($1828.18) would leave available at $1826.97, below the 30.0% safety buffer of balance $7312.74 -- rejected to avoid risking a forced closure on this or other open positions",
     "logged_at": "2026-10-13T05:03:18.030196+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "SILVER",
-    "deal_id": "DIAAAASA59BAWAV",
-    "old_limit_level": 6170.975,
-    "new_limit_level": 6171.714,
-    "old_stop_level": 6031.456,
-    "new_stop_level": 6031.456,
-    "reason": "Agent-discretion pre-arm limit reconciliation (wide 10.0% of margin ceiling, kept out of the way until the profit ratchet arms at 2.5%) -- stop left exactly as the agent set it at open, amending the limit only.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-10-13T04:03:48.619",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDSILVER.DBI.IP",
-      "expiry": "-",
-      "dealReference": "7BK44PVAKVETYNV",
-      "dealId": "DIAAAASA59BAWAV",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASA59BAWAV",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 6050.7,
-      "size": 1.52,
-      "direction": "BUY",
-      "stopLevel": 6031.456,
-      "limitLevel": 6171.714,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-13T04:03:48.757646+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "direction": "BUY",
-    "size": 1.52,
-    "margin_allocated": 1828.18,
-    "effective_leverage": 5.0,
-    "notional": 9197.06,
-    "stop_distance": 19.244,
-    "limit_distance": 120.275,
-    "confluence_detail": "get_positioning_data agrees with bullish",
-    "reason": "Silver is showing a contrarian bullish signal due to extreme managed-money net-short positioning, suggesting potential for a short squeeze. The RSI is neutral, but the positioning data indicates a crowded short, which could lead to a rebound. Despite the contango structure, the extreme positioning provides a strong contrarian bullish signal.",
-    "llm_provider": "openai",
-    "status": "submitted",
-    "deal_id": "DIAAAASA59BAWAV",
-    "raw": {
-      "date": "2026-10-13T04:02:58.25",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDSILVER.DBI.IP",
-      "expiry": "-",
-      "dealReference": "88CVT66HX4NTYNV",
-      "dealId": "DIAAAASA59BAWAV",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASA59BAWAV",
-          "status": "OPENED"
-        }
-      ],
-      "level": 6050.7,
-      "size": 1.52,
-      "direction": "BUY",
-      "stopLevel": 6031.456,
-      "limitLevel": 6170.975,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-13T04:02:58.439185+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAASA58U23AJ",
-    "old_limit_level": 10585.2477,
-    "new_limit_level": 10585.05,
-    "old_stop_level": 10344.2604,
-    "new_stop_level": 10344.2604,
-    "reason": "Agent-discretion pre-arm limit reconciliation (wide 10.0% of margin ceiling, kept out of the way until the profit ratchet arms at 2.5%) -- stop left exactly as the agent set it at open, amending the limit only.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-10-13T04:02:27.279",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "HC49T7ZZV26TYNV",
-      "dealId": "DIAAAASA58U23AJ",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASA58U23AJ",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 10377.5,
-      "size": 0.88,
-      "direction": "BUY",
-      "stopLevel": 10344.261,
-      "limitLevel": 10585.05,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-13T04:02:27.458385+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "WTI_OIL",
-    "deal_id": "DIAAAASA58JBJAC",
-    "old_limit_level": 9374.618,
-    "new_limit_level": 9375.636,
-    "old_stop_level": 9162.5491,
-    "new_stop_level": 9162.5491,
-    "reason": "Agent-discretion pre-arm limit reconciliation (wide 10.0% of margin ceiling, kept out of the way until the profit ratchet arms at 2.5%) -- stop left exactly as the agent set it at open, amending the limit only.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-10-13T04:02:26.975",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "B9R2NSD4YB2TYNV",
-      "dealId": "DIAAAASA58JBJAC",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASA58JBJAC",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 9191.8,
-      "size": 1.0,
-      "direction": "BUY",
-      "stopLevel": 9162.549,
-      "limitLevel": 9375.636,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-13T04:02:27.165352+00:00"
   }
 ]
