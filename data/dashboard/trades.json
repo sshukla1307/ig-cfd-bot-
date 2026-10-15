@@ -3,6 +3,24 @@
     "action": "OPEN_LONG",
     "instrument": "SILVER",
     "status": "REJECTED",
+    "reason": "Same-direction cooldown: SILVER was closed at a loss 30 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
+    "agent_reason": "Silver is showing extreme net-short positioning, which is a contrarian bullish signal. The RSI is neutral, but the crowded short positioning suggests potential for a rebound. Despite the bearish technicals, the positioning data supports a bullish outlook.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-15T06:03:05.867040+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 3.251 vs 30-min SMA 3.2543, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Natural Gas is showing extreme net-short positioning, which is a contrarian bullish signal. The RSI is neutral, but the crowded short positioning suggests potential for a short squeeze. Despite the contango structure, the positioning data supports a bullish outlook.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-15T06:03:05.866753+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "SILVER",
+    "status": "REJECTED",
     "reason": "Same-direction cooldown: SILVER was closed at a loss 25 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
     "agent_reason": "Silver is showing extreme net-short positioning, which is a contrarian bullish signal. The term structure is in backwardation, indicating tight supply, which is bullish. Despite the recent bearish technicals, the crowded short positioning suggests potential for a short squeeze.",
     "llm_provider": "openai",
@@ -3694,88 +3712,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-10-14T11:00:55.385556+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "SILVER",
-    "deal_id": "DIAAAASBEQVD4AF",
-    "old_limit_level": 5977.9694,
-    "new_limit_level": 5977.404,
-    "old_stop_level": 5841.3569,
-    "new_stop_level": 5841.3569,
-    "reason": "Agent-discretion pre-arm limit reconciliation (wide 10.0% of margin ceiling, kept out of the way until the profit ratchet arms at 2.5%) -- stop left exactly as the agent set it at open, amending the limit only.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-10-14T10:32:14.788",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDSILVER.DBI.IP",
-      "expiry": "-",
-      "dealReference": "T7UA4V545LSTYNV",
-      "dealId": "DIAAAASBEQVD4AF",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASBEQVD4AF",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 5860.2,
-      "size": 1.44,
-      "direction": "BUY",
-      "stopLevel": 5841.357,
-      "limitLevel": 5977.404,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-14T10:32:15.039786+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "direction": "BUY",
-    "size": 1.44,
-    "margin_allocated": 1695.88,
-    "effective_leverage": 5.0,
-    "notional": 8437.97,
-    "stop_distance": 18.8431,
-    "limit_distance": 117.7694,
-    "confluence_detail": "get_positioning_data agrees with bullish",
-    "reason": "Silver is showing extreme net-short positioning, which is a contrarian bullish signal. Despite the contango structure, the oversold RSI and positioning suggest potential for a rebound.",
-    "llm_provider": "openai",
-    "status": "submitted",
-    "deal_id": "DIAAAASBEQVD4AF",
-    "raw": {
-      "date": "2026-10-14T10:31:38.446",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDSILVER.DBI.IP",
-      "expiry": "-",
-      "dealReference": "YH4853A4YCATYNV",
-      "dealId": "DIAAAASBEQVD4AF",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASBEQVD4AF",
-          "status": "OPENED"
-        }
-      ],
-      "level": 5860.2,
-      "size": 1.44,
-      "direction": "BUY",
-      "stopLevel": 5841.357,
-      "limitLevel": 5977.969,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-14T10:31:38.751758+00:00"
   }
 ]
