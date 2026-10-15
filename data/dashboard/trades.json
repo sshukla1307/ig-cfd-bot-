@@ -1,5 +1,62 @@
 [
   {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 30 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "agent_reason": "Natural Gas is showing extreme net-short positioning, which is a contrarian bullish signal. However, the contango structure indicates ample supply, and recent inventory data shows a larger-than-typical build, which is bearish. The current short position is slightly negative, and the market outlook is mixed.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-15T08:32:05.087222+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 103.73 vs 30-min SMA 103.925, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. Despite the recent bearish technicals with SMA-20 below SMA-50, the backwardation suggests a bullish tilt. The RSI is oversold at 11.9, indicating potential for a rebound. Recent geopolitical tensions and supply concerns further support a bullish outlook.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-15T08:32:05.086957+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "NATURAL_GAS",
+    "deal_id": "DIAAAASBNZG8SA3",
+    "old_limit_level": 3397.4534,
+    "new_limit_level": 3397.66,
+    "old_stop_level": 3478.1274,
+    "new_stop_level": 3478.1274,
+    "reason": "Agent-discretion pre-arm limit reconciliation (wide 10.0% of margin ceiling, kept out of the way until the profit ratchet arms at 2.5%) -- stop left exactly as the agent set it at open, amending the limit only.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-15T08:03:21.304",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "Z5RWV7Y57N6TYNV",
+      "dealId": "DIAAAASBNZG8SA3",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASBNZG8SA3",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 3467.0,
+      "size": 2.32,
+      "direction": "SELL",
+      "stopLevel": 3478.1274,
+      "limitLevel": 3397.66,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-15T08:03:21.471954+00:00"
+  },
+  {
     "action": "OPEN_SHORT",
     "instrument": "NATURAL_GAS",
     "direction": "SELL",
@@ -3695,62 +3752,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-10-14T13:32:00.260989+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "NATURAL_GAS already has an open position -- CLOSE it first",
-    "agent_reason": "Natural Gas is showing extreme net-short positioning, which is a contrarian bullish signal. The RSI is oversold at 27.4, suggesting potential for a rebound. Despite the contango structure indicating ample supply, the crowded short positioning and oversold RSI suggest a potential short squeeze.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-14T13:31:59.969189+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "NATURAL_GAS",
-    "deal_id": "DIAAAASBFYZ6GA5",
-    "old_limit_level": 3509.8194,
-    "new_limit_level": 3461.646,
-    "old_stop_level": 3429.9889,
-    "new_stop_level": 3449.0,
-    "reason": "Agent-discretion profit ratchet ARMED (2026-10-09 refinement): stop locked to guarantee at least 2.2% profit (a 0.3% gap below the milestone just reached), limit extended to the next 3.0% target to keep upside open.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-10-14T13:31:26.628",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": "-",
-      "dealReference": "V5BW5T2HSBSTYNV",
-      "dealId": "DIAAAASBFYZ6GA5",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASBFYZ6GA5",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 3441.0,
-      "size": 2.48,
-      "direction": "BUY",
-      "stopLevel": 3449.0,
-      "limitLevel": 3461.646,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-14T13:31:26.796757+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "Any-direction circuit breaker: SILVER has lost 4 times in a row REGARDLESS OF DIRECTION (most recently 118 min ago) -- blocked for 120 min in EITHER direction. This exists because the same-direction breaker alone can be escaped by simply flipping sides (a real 2026-09-28 BRENT_OIL incident: 2 consecutive LONG losses, then immediately SHORT with a fresh streak, losing again within 20 minutes with no new evidence) -- a full direction reversal right now needs to wait out this cooldown like any other repeat.",
-    "agent_reason": "Silver is showing extreme net-short positioning, which is a contrarian bullish signal. The RSI is oversold, and the positioning data indicates a crowded short, which could lead to a short squeeze. Despite the contango structure, the oversold condition and positioning suggest potential for a rebound.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-14T13:02:22.625155+00:00"
   }
 ]
