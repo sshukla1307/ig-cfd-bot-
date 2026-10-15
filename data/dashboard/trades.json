@@ -3,6 +3,15 @@
     "action": "OPEN_LONG",
     "instrument": "SILVER",
     "status": "REJECTED",
+    "reason": "Consecutive-loss circuit breaker: SILVER has lost 2 times in a row going BUY (most recently 119 min ago) -- blocked for 120 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
+    "agent_reason": "Silver is showing extreme net-short positioning, which is a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. The RSI is oversold, supporting a potential rebound.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-15T07:32:03.109398+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "SILVER",
+    "status": "REJECTED",
     "reason": "Consecutive-loss circuit breaker: SILVER has lost 2 times in a row going BUY (most recently 89 min ago) -- blocked for 120 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
     "agent_reason": "Silver is showing extreme net-short positioning, which is a contrarian bullish signal. Despite the bearish technicals, the crowded short positioning suggests potential for a short squeeze. The RSI is neutral, indicating room for upward movement.",
     "llm_provider": "openai",
@@ -3677,15 +3686,5 @@
     "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50 and RSI at 50.7, suggesting potential for a continued upward move. Recent inventory data shows a larger-than-typical draw, reinforcing the bullish supply outlook.",
     "llm_provider": "openai",
     "logged_at": "2026-10-14T12:17:52.677986+00:00"
-  },
-  {
-    "action": "BROKER_CLOSE",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAASBEMMM3BC",
-    "original_direction": "BUY",
-    "estimated_pnl": 6.08,
-    "status": "detected",
-    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-10-14T12:17:18.170011+00:00"
   }
 ]
