@@ -1,5 +1,44 @@
 [
   {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "SILVER",
+    "deal_id": "DIAAAASBP2X6ZAG",
+    "old_limit_level": 5567.4208,
+    "new_limit_level": 5566.204,
+    "old_stop_level": 5697.7807,
+    "new_stop_level": 5697.7807,
+    "reason": "Agent-discretion pre-arm limit reconciliation (wide 10.0% of margin ceiling, kept out of the way until the profit ratchet arms at 2.5%) -- stop left exactly as the agent set it at open, amending the limit only.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-15T11:33:30.745",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDSILVER.DBI.IP",
+      "expiry": "-",
+      "dealReference": "XMQJWNE4JXNTYNV",
+      "dealId": "DIAAAASBP2X6ZAG",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASBP2X6ZAG",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 5679.8,
+      "size": 1.44,
+      "direction": "SELL",
+      "stopLevel": 5697.781,
+      "limitLevel": 5566.204,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-15T11:33:30.922243+00:00"
+  },
+  {
     "action": "OPEN_SHORT",
     "instrument": "SILVER",
     "direction": "SELL",
@@ -3827,14 +3866,5 @@
     "agent_reason": "Natural Gas is showing extreme net-short positioning, which is a contrarian bullish signal. The RSI is oversold at 10.8, indicating potential for a rebound. Despite the contango structure, the crowded short positioning suggests potential for a short squeeze.",
     "llm_provider": "openai",
     "logged_at": "2026-10-14T15:32:18.275354+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "Same-direction cooldown: SILVER was closed at a loss 10 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
-    "agent_reason": "Silver is showing extreme net-short positioning, which is a contrarian bullish signal. The RSI is oversold at 12.0, suggesting potential for a rebound. Despite the contango structure, the crowded short positioning suggests potential for a short squeeze.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-14T15:03:21.097468+00:00"
   }
 ]
