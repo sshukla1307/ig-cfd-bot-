@@ -43,7 +43,10 @@ INSTRUMENTS = {
     "WTI_OIL": Instrument(epic="CC.D.CL.DBI.IP", display_name="WTI Crude Oil"),
     "NATURAL_GAS": Instrument(epic="CC.D.NG.DBI.IP", display_name="Natural Gas"),
     "GOLD": Instrument(epic="CS.D.CFDGOLD.DBI.IP", display_name="Spot Gold"),
-    "SILVER": Instrument(epic="CS.D.CFDSILVER.DBI.IP", display_name="Spot Silver"),
+    "SILVER": Instrument(epic="", display_name="Spot Silver (excluded 2026-10-15 per explicit user "
+                          "instruction -- Silver was the one instrument that lost money across every "
+                          "stop-cap scenario tested in that day's backtest; re-add the real epic "
+                          "'CS.D.CFDSILVER.DBI.IP' to resume trading it)"),
     "PALLADIUM": Instrument(epic="", display_name="Palladium (excluded -- no rolling contract, see note above)"),
 }
 
