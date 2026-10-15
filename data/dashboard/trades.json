@@ -3,6 +3,24 @@
     "action": "OPEN_LONG",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "Consecutive-loss circuit breaker: NATURAL_GAS has lost 2 times in a row going BUY (most recently 79 min ago) -- blocked for 120 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
+    "agent_reason": "Natural Gas is showing extreme net-short positioning, which is a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. Weather demand is neutral, but the extreme positioning provides a strong contrarian signal.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-15T01:02:07.226009+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 105.38 vs 30-min SMA 105.3967, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50. Recent geopolitical tensions and supply concerns further support a bullish outlook. Despite recent price pressure, the backwardation structure suggests a bullish tilt.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-15T01:02:07.004080+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 3.284 vs 30-min SMA 3.2857, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
     "agent_reason": "Natural Gas is showing extreme net-short positioning, which is a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze.",
     "llm_provider": "openai",
@@ -3740,53 +3758,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-10-14T06:03:11.501382+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAASBDFWE2AJ",
-    "old_limit_level": 10678.044,
-    "new_limit_level": 10682.256,
-    "old_stop_level": 10439.961,
-    "new_stop_level": 10439.961,
-    "reason": "Agent-discretion pre-arm limit reconciliation (wide 10.0% of margin ceiling, kept out of the way until the profit ratchet arms at 2.5%) -- stop left exactly as the agent set it at open, amending the limit only.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-10-14T06:03:10.876",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "VRBEABZ2PXATYNV",
-      "dealId": "DIAAAASBDFWE2AJ",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASBDFWE2AJ",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 10472.8,
-      "size": 0.84,
-      "direction": "BUY",
-      "stopLevel": 10439.961,
-      "limitLevel": 10682.256,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-14T06:03:11.146160+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "Same-direction cooldown: SILVER was closed at a loss 17 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
-    "agent_reason": "Silver is showing a contrarian bullish signal due to extreme managed-money net-short positioning, suggesting potential for a short squeeze. Despite the short-term bearish technicals, the positioning data indicates a crowded short, which could lead to a rebound.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-14T06:02:16.319953+00:00"
   }
 ]
