@@ -3,6 +3,101 @@
     "action": "OPEN_LONG",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 3.111 vs 30-min SMA 3.123, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Natural Gas is showing extreme net-short positioning, which is a contrarian bullish signal. The RSI is near oversold, suggesting a potential rebound. Despite the contango structure, the crowded short positioning suggests potential for a short squeeze. The independent price check shows a recent decline, but the positioning data supports a bullish outlook.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-16T18:32:15.683110+00:00"
+  },
+  {
+    "action": "WTI_MIRROR_OPEN",
+    "instrument": "WTI_OIL",
+    "direction": "BUY",
+    "size": 0.76,
+    "margin_allocated": 1491.98,
+    "effective_leverage": 5.0,
+    "notional": 7559.42,
+    "stop_distance": 78.5253,
+    "limit_distance": 196.3132,
+    "reason": "Auto-mirrored from BRENT_OIL: Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50. Recent geopolitical tensions and supply concerns support a bullish outlook. Additionally, the independent price check shows a significant upward movement, reinforcing the bullish sentiment.",
+    "status": "submitted",
+    "deal_id": "DIAAAASB24LC9AQ",
+    "raw": {
+      "date": "2026-10-16T18:32:15.43",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "9F4PBQMACU6TYNV",
+      "dealId": "DIAAAASB24LC9AQ",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASB24LC9AQ",
+          "status": "OPENED"
+        }
+      ],
+      "level": 9957.0,
+      "size": 0.76,
+      "direction": "BUY",
+      "stopLevel": 9878.475,
+      "limitLevel": 10153.313,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-16T18:32:15.607393+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "direction": "BUY",
+    "size": 0.68,
+    "margin_allocated": 1491.98,
+    "effective_leverage": 5.0,
+    "notional": 7352.02,
+    "stop_distance": 87.7635,
+    "limit_distance": 219.4088,
+    "confluence_detail": "get_term_structure agrees with bullish",
+    "reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50. Recent geopolitical tensions and supply concerns support a bullish outlook. Additionally, the independent price check shows a significant upward movement, reinforcing the bullish sentiment.",
+    "llm_provider": "openai",
+    "status": "submitted",
+    "deal_id": "DIAAAASB2369LBA",
+    "raw": {
+      "date": "2026-10-16T18:32:15.149",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "U8LB5YQMBQNTYNV",
+      "dealId": "DIAAAASB2369LBA",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASB2369LBA",
+          "status": "OPENED"
+        }
+      ],
+      "level": 10816.5,
+      "size": 0.68,
+      "direction": "BUY",
+      "stopLevel": 10728.736,
+      "limitLevel": 11035.909,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-16T18:32:15.333780+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 3.133 vs 30-min SMA 3.1345, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
     "agent_reason": "Natural Gas is showing extreme net-short positioning, which is a contrarian bullish signal. The RSI is near oversold, suggesting a potential rebound. Despite the contango structure, the crowded short positioning suggests potential for a short squeeze. Independent price check shows a lower price, indicating a potential buying opportunity.",
     "llm_provider": "openai",
@@ -3302,97 +3397,5 @@
     "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. Recent inventory data shows a larger-than-typical draw, reinforcing the bullish supply outlook. Despite recent price declines, the backwardation and inventory draw suggest a potential upward move.",
     "llm_provider": "openai",
     "logged_at": "2026-10-15T16:03:36.859944+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "GOLD",
-    "deal_id": "DIAAAASBSRQTJBG",
-    "old_limit_level": 4071.8574,
-    "new_limit_level": 4072.0078,
-    "old_stop_level": 4168.4304,
-    "new_stop_level": 4168.4304,
-    "reason": "Agent-discretion pre-arm limit reconciliation (wide 10.0% of margin ceiling, kept out of the way until the profit ratchet arms at 2.5%) -- stop left exactly as the agent set it at open, amending the limit only.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-10-15T15:35:32.52",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDGOLD.DBI.IP",
-      "expiry": "-",
-      "dealReference": "TSP82XRCHEETYNV",
-      "dealId": "DIAAAASBSRQTJBG",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASBSRQTJBG",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 4155.11,
-      "size": 1.92,
-      "direction": "SELL",
-      "stopLevel": 4168.43,
-      "limitLevel": 4072.0078,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-15T15:35:32.679920+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "Consecutive-loss circuit breaker: SILVER has lost 2 times in a row going BUY (most recently 99 min ago) -- blocked for 120 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
-    "agent_reason": "Silver is showing extreme net-short positioning, which is a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-15T15:33:00.894407+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "GOLD",
-    "direction": "SELL",
-    "size": 1.92,
-    "margin_allocated": 1598.45,
-    "effective_leverage": 5.0,
-    "notional": 7977.68,
-    "stop_distance": 13.3204,
-    "limit_distance": 83.2526,
-    "confluence_detail": "get_term_structure agrees with bearish",
-    "reason": "Gold is in a contango structure, indicating ample supply, which is bearish. The SMA-20 is below the SMA-50, suggesting a short-term bearish trend. Recent news indicates a stronger-than-expected US inflation report, which could lead to a reassessment of the Federal Reserve's rate outlook, potentially pressuring gold prices.",
-    "llm_provider": "openai",
-    "status": "submitted",
-    "deal_id": "DIAAAASBSRQTJBG",
-    "raw": {
-      "date": "2026-10-15T15:33:00.758",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDGOLD.DBI.IP",
-      "expiry": "-",
-      "dealReference": "JQVUSH28QVJTYNV",
-      "dealId": "DIAAAASBSRQTJBG",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASBSRQTJBG",
-          "status": "OPENED"
-        }
-      ],
-      "level": 4155.11,
-      "size": 1.92,
-      "direction": "SELL",
-      "stopLevel": 4168.43,
-      "limitLevel": 4071.8574,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-15T15:33:00.894039+00:00"
   }
 ]
