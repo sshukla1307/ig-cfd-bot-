@@ -1,6 +1,77 @@
 [
   {
     "action": "OPEN_LONG",
+    "instrument": "SILVER",
+    "status": "REJECTED",
+    "reason": "SILVER's epic is not configured yet -- see config.py instructions",
+    "agent_reason": "Silver is in backwardation, indicating tight supply, which is bullish. The extreme net-short positioning is a contrarian bullish signal, suggesting potential for a short squeeze.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-16T14:32:54.269224+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "GOLD",
+    "status": "REJECTED",
+    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for GOLD this tick -- a technical read or a generic news search alone can't open a position",
+    "agent_reason": "Gold is in a short-term bullish trend with SMA-20 above SMA-50. The RSI is neutral, and the macro environment with a softer dollar supports a bullish outlook.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-16T14:32:54.269098+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "direction": "BUY",
+    "size": 2.24,
+    "margin_allocated": 1458.22,
+    "effective_leverage": 5.0,
+    "notional": 7353.92,
+    "stop_distance": 26.0396,
+    "limit_distance": 65.0991,
+    "confluence_detail": "get_positioning_data agrees with bullish",
+    "reason": "Natural Gas is showing extreme net-short positioning, which is a contrarian bullish signal. The RSI is oversold, suggesting a potential rebound. Despite the contango structure, the crowded short positioning suggests potential for a short squeeze.",
+    "llm_provider": "openai",
+    "status": "submitted",
+    "deal_id": "DIAAAASBY4FB8BD",
+    "raw": {
+      "date": "2026-10-16T14:32:54.054",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "LGV2MU5UFX2TYNV",
+      "dealId": "DIAAAASBY4FB8BD",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASBY4FB8BD",
+          "status": "OPENED"
+        }
+      ],
+      "level": 3285.0,
+      "size": 2.24,
+      "direction": "BUY",
+      "stopLevel": 3258.9604,
+      "limitLevel": 3350.099,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-16T14:32:54.268776+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 105.31 vs 30-min SMA 105.4233, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The recent inventory data shows a larger-than-typical draw, reinforcing the bullish supply outlook. Technicals show SMA-20 above SMA-50, suggesting a short-term bullish trend.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-16T14:32:53.622477+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
     "instrument": "GOLD",
     "status": "REJECTED",
     "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for GOLD this tick -- a technical read or a generic news search alone can't open a position",
@@ -3233,134 +3304,5 @@
     "status": "REJECTED",
     "reason": "This trade's margin ($1589.63) would leave available at $1623.41, below the 30.0% safety buffer of balance $6358.54 -- rejected to avoid risking a forced closure on this or other open positions",
     "logged_at": "2026-10-15T13:32:45.782595+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "direction": "SELL",
-    "size": 2.32,
-    "margin_allocated": 1589.63,
-    "effective_leverage": 5.0,
-    "notional": 7969.2,
-    "stop_distance": 10.963,
-    "limit_distance": 68.5185,
-    "confluence_detail": "get_inventory_data, get_term_structure agrees with bearish",
-    "reason": "Natural Gas is in a contango structure, indicating ample supply, which is bearish. The recent inventory data shows a larger-than-typical build, reinforcing the bearish supply outlook. Weather-driven demand is moderate, providing no strong bullish signal. The technicals were not retrievable, but the fundamental bearish signals are strong enough to justify a short position.",
-    "llm_provider": "openai",
-    "status": "submitted",
-    "deal_id": "DIAAAASBQZU5EAM",
-    "raw": {
-      "date": "2026-10-15T13:32:45.626",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": "-",
-      "dealReference": "LDLAVA57SNNTYNV",
-      "dealId": "DIAAAASBQZU5EAM",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASBQZU5EAM",
-          "status": "OPENED"
-        }
-      ],
-      "level": 3432.0,
-      "size": 2.32,
-      "direction": "SELL",
-      "stopLevel": 3442.963,
-      "limitLevel": 3363.4814,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-15T13:32:45.782171+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAASBQTWYGAV",
-    "old_limit_level": 10555.6618,
-    "new_limit_level": 10553.43,
-    "old_stop_level": 10313.0341,
-    "new_stop_level": 10313.0341,
-    "reason": "Agent-discretion pre-arm limit reconciliation (wide 10.0% of margin ceiling, kept out of the way until the profit ratchet arms at 2.5%) -- stop left exactly as the agent set it at open, amending the limit only.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-10-15T13:19:34.666",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "RP9RVSD4AKSTYNV",
-      "dealId": "DIAAAASBQTWYGAV",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASBQTWYGAV",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 10346.5,
-      "size": 0.76,
-      "direction": "BUY",
-      "stopLevel": 10313.034,
-      "limitLevel": 10553.43,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-15T13:19:34.902703+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "WTI_OIL",
-    "deal_id": "DIAAAASBQTJFNAG",
-    "old_limit_level": 9653.0417,
-    "new_limit_level": 9653.076,
-    "old_stop_level": 9433.5213,
-    "new_stop_level": 9433.5213,
-    "reason": "Agent-discretion pre-arm limit reconciliation (wide 10.0% of margin ceiling, kept out of the way until the profit ratchet arms at 2.5%) -- stop left exactly as the agent set it at open, amending the limit only.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-10-15T13:19:34.314",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "6CBLZJH84ESTYNV",
-      "dealId": "DIAAAASBQTJFNAG",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASBQTJFNAG",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 9463.8,
-      "size": 0.84,
-      "direction": "BUY",
-      "stopLevel": 9433.521,
-      "limitLevel": 9653.076,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-15T13:19:34.542240+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "GOLD",
-    "status": "REJECTED",
-    "reason": "This trade's margin ($1589.63) would leave available at $1589.65, below the 30.0% safety buffer of balance $6358.54 -- rejected to avoid risking a forced closure on this or other open positions",
-    "logged_at": "2026-10-15T13:18:14.030178+00:00"
   }
 ]
