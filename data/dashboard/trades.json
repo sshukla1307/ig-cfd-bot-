@@ -4,6 +4,54 @@
     "instrument": "SILVER",
     "status": "REJECTED",
     "reason": "SILVER's epic is not configured yet -- see config.py instructions",
+    "agent_reason": "Silver is in backwardation, indicating tight supply, which is bullish. Managed-money net-short positioning is near a multi-month extreme, suggesting a potential short squeeze. Recent commentary indicates a bullish outlook for precious metals.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-16T11:32:11.311704+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "BRENT_OIL",
+    "deal_id": "DIAAAASBW4GXMBE",
+    "old_limit_level": 10622.79,
+    "new_limit_level": 10476.987,
+    "old_stop_level": 10331.2244,
+    "new_stop_level": 10460.3238,
+    "reason": "Agent-discretion profit ratchet ARMED (2026-10-09 refinement): stop locked to guarantee at least 2.2% profit (a 0.3% gap below the milestone just reached), limit extended to the next 3.0% target to keep upside open.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-16T11:31:39.342",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "PLUCHSPH4CSTYNV",
+      "dealId": "DIAAAASBW4GXMBE",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASBW4GXMBE",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 10414.5,
+      "size": 0.72,
+      "direction": "BUY",
+      "stopLevel": 10460.324,
+      "limitLevel": 10476.987,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-16T11:31:39.593254+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "SILVER",
+    "status": "REJECTED",
+    "reason": "SILVER's epic is not configured yet -- see config.py instructions",
     "agent_reason": "Silver is showing extreme net-short positioning, which is a contrarian bullish signal. The technicals show a short-term bullish setup with SMA-20 above SMA-50, and the RSI is neutral. Despite the bearish news, the crowded short positioning suggests potential for a short squeeze, justifying a long position.",
     "llm_provider": "openai",
     "logged_at": "2026-10-16T11:30:07.868690+00:00"
@@ -3415,53 +3463,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-10-15T11:02:05.436722+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "GOLD",
-    "deal_id": "DIAAAASBPSHXSA8",
-    "old_limit_level": 4071.4857,
-    "new_limit_level": 4070.969,
-    "old_stop_level": 4167.2603,
-    "new_stop_level": 4167.2603,
-    "reason": "Agent-discretion pre-arm limit reconciliation (wide 10.0% of margin ceiling, kept out of the way until the profit ratchet arms at 2.5%) -- stop left exactly as the agent set it at open, amending the limit only.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-10-15T10:33:31.299",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDGOLD.DBI.IP",
-      "expiry": "-",
-      "dealReference": "2QX72MP7TCSTYNV",
-      "dealId": "DIAAAASBPSHXSA8",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASBPSHXSA8",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 4154.05,
-      "size": 1.96,
-      "direction": "SELL",
-      "stopLevel": 4167.2603,
-      "limitLevel": 4070.969,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-15T10:33:31.463346+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "Same-direction cooldown: SILVER was closed at a loss 23 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
-    "agent_reason": "Silver is showing extreme net-short positioning, which is a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-15T10:32:33.972190+00:00"
   }
 ]
