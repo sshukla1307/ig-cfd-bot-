@@ -1,6 +1,54 @@
 [
   {
     "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Consecutive-loss circuit breaker: BRENT_OIL has lost 2 times in a row going BUY (most recently 71 min ago) -- blocked for 120 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
+    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50. Recent inventory data shows a larger-than-typical draw, reinforcing the bullish supply outlook. Despite some recent losses, the overall setup remains bullish.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-16T17:02:38.872078+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "NATURAL_GAS",
+    "deal_id": "DIAAAASBZMWSSAH",
+    "old_limit_level": 3372.12,
+    "new_limit_level": 3325.836,
+    "old_stop_level": 3279.7504,
+    "new_stop_level": 3314.0,
+    "reason": "Agent-discretion profit ratchet ARMED (2026-10-09 refinement): stop locked to guarantee at least 2.2% profit (a 0.3% gap below the milestone just reached), limit extended to the next 3.0% target to keep upside open.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-16T17:01:43.652",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "HDVEUHBL9E6TYNV",
+      "dealId": "DIAAAASBZMWSSAH",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASBZMWSSAH",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 3306.0,
+      "size": 2.24,
+      "direction": "BUY",
+      "stopLevel": 3314.0,
+      "limitLevel": 3325.836,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-16T17:01:43.881454+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
     "instrument": "SILVER",
     "status": "REJECTED",
     "reason": "SILVER's epic is not configured yet -- see config.py instructions",
@@ -3371,53 +3419,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-10-15T14:34:01.102666+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAASBRZF6ZAH",
-    "old_limit_level": 10603.6158,
-    "new_limit_level": 10605.45,
-    "old_stop_level": 10364.5215,
-    "new_stop_level": 10364.5215,
-    "reason": "Agent-discretion pre-arm limit reconciliation (wide 10.0% of margin ceiling, kept out of the way until the profit ratchet arms at 2.5%) -- stop left exactly as the agent set it at open, amending the limit only.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-10-15T14:34:00.571",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "HTXUL6TNS7ATYNV",
-      "dealId": "DIAAAASBRZF6ZAH",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASBRZF6ZAH",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 10397.5,
-      "size": 0.76,
-      "direction": "BUY",
-      "stopLevel": 10364.521,
-      "limitLevel": 10605.45,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-15T14:34:00.774797+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "Same-direction cooldown: SILVER was closed at a loss 39 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
-    "agent_reason": "Silver is showing extreme net-short positioning, which is a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. Technicals show a neutral RSI, but the positioning data supports a bullish outlook.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-15T14:32:17.728597+00:00"
   }
 ]
