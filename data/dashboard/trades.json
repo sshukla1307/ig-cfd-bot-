@@ -1,5 +1,88 @@
 [
   {
+    "action": "OPEN_SHORT",
+    "instrument": "GOLD",
+    "direction": "SELL",
+    "size": 1.44,
+    "margin_allocated": 1193.58,
+    "effective_leverage": 5.0,
+    "notional": 6002.94,
+    "stop_distance": 33.155,
+    "limit_distance": 82.8875,
+    "confluence_detail": "get_term_structure agrees with bearish",
+    "reason": "Gold is in a contango structure, indicating ample supply, which is bearish. The technicals show a short-term bearish setup with SMA-20 below SMA-50. Recent news indicates a stronger-than-expected US inflation report, which could lead to a stronger dollar and pressure gold prices.",
+    "llm_provider": "openai",
+    "status": "submitted",
+    "deal_id": "DIAAAASB3PXRTBD",
+    "raw": {
+      "date": "2026-10-16T20:32:25.624",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDGOLD.DBI.IP",
+      "expiry": "-",
+      "dealReference": "XFTCLUMURMNTYNV",
+      "dealId": "DIAAAASB3PXRTBD",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASB3PXRTBD",
+          "status": "OPENED"
+        }
+      ],
+      "level": 4168.18,
+      "size": 1.44,
+      "direction": "SELL",
+      "stopLevel": 4201.335,
+      "limitLevel": 4085.2925,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-16T20:32:25.908007+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "NATURAL_GAS",
+    "deal_id": "DIAAAASB3M7NSA5",
+    "old_limit_level": 3355.4377,
+    "new_limit_level": 3355.8,
+    "old_stop_level": 3263.8249,
+    "new_stop_level": 3263.8249,
+    "reason": "Agent-discretion pre-arm limit reconciliation (wide 10.0% of margin ceiling, kept out of the way until the profit ratchet arms at 2.5%) -- stop left exactly as the agent set it at open, amending the limit only.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-16T20:03:15.086",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "L9G4QMXYQVNTYNV",
+      "dealId": "DIAAAASB3M7NSA5",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASB3M7NSA5",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 3290.0,
+      "size": 2.28,
+      "direction": "BUY",
+      "stopLevel": 3263.825,
+      "limitLevel": 3355.8,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-16T20:03:15.281405+00:00"
+  },
+  {
     "action": "OPEN_LONG",
     "instrument": "NATURAL_GAS",
     "direction": "BUY",
@@ -3311,53 +3394,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-10-15T16:33:26.123966+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAASBS5KB2AA",
-    "old_limit_level": 10689.3224,
-    "new_limit_level": 10688.58,
-    "old_stop_level": 10445.3484,
-    "new_stop_level": 10445.3484,
-    "reason": "Agent-discretion pre-arm limit reconciliation (wide 10.0% of margin ceiling, kept out of the way until the profit ratchet arms at 2.5%) -- stop left exactly as the agent set it at open, amending the limit only.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-10-15T16:33:25.629",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "882QXDWPMFATYNV",
-      "dealId": "DIAAAASBS5KB2AA",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASBS5KB2AA",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 10479.0,
-      "size": 0.76,
-      "direction": "BUY",
-      "stopLevel": 10445.349,
-      "limitLevel": 10688.58,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-15T16:33:25.827457+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for NATURAL_GAS this tick -- a technical read or a generic news search alone can't open a position",
-    "agent_reason": "Natural Gas is in a contango structure, indicating ample supply, which is bearish. The recent inventory data shows a larger-than-typical build, reinforcing the bearish supply outlook. Weather-driven demand is moderate, providing no strong bullish signal.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-15T16:32:30.548962+00:00"
   }
 ]
