@@ -1,6 +1,15 @@
 [
   {
     "action": "OPEN_LONG",
+    "instrument": "SILVER",
+    "status": "REJECTED",
+    "reason": "SILVER's epic is not configured yet -- see config.py instructions",
+    "agent_reason": "Silver is showing extreme net-short positioning, which is a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. The technicals show a short-term bullish setup with SMA-20 above SMA-50.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-16T16:02:19.637741+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
     "instrument": "GOLD",
     "status": "REJECTED",
     "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for GOLD this tick -- a technical read or a generic news search alone can't open a position",
@@ -3441,49 +3450,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-10-15T14:32:17.679665+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "direction": "BUY",
-    "size": 0.76,
-    "margin_allocated": 1566.48,
-    "effective_leverage": 5.0,
-    "notional": 7903.39,
-    "stop_distance": 32.9785,
-    "limit_distance": 206.1158,
-    "confluence_detail": "get_term_structure agrees with bullish",
-    "reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a neutral RSI and a short-term bearish SMA setup, but the backwardation suggests a bullish tilt. Recent geopolitical tensions and supply concerns support a bullish outlook.",
-    "llm_provider": "openai",
-    "status": "submitted",
-    "deal_id": "DIAAAASBRZF6ZAH",
-    "raw": {
-      "date": "2026-10-15T14:32:16.684",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "KXHDV5ZXBPJTYNV",
-      "dealId": "DIAAAASBRZF6ZAH",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASBRZF6ZAH",
-          "status": "OPENED"
-        }
-      ],
-      "level": 10397.5,
-      "size": 0.76,
-      "direction": "BUY",
-      "stopLevel": 10364.521,
-      "limitLevel": 10603.616,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-15T14:32:17.205891+00:00"
   }
 ]
