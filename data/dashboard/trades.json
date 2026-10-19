@@ -4,6 +4,63 @@
     "instrument": "GOLD",
     "status": "REJECTED",
     "reason": "Confluence requirement not met: GOLD's independent signal(s) checked this tick (get_term_structure=bearish) do not support a bullish thesis -- a technical read alone, or signals pointing the other way, aren't enough to open",
+    "agent_reason": "Gold is currently oversold with an RSI of 12.8, suggesting a potential rebound. Despite the contango structure indicating ample supply, the extreme oversold condition presents a buying opportunity. The macro environment with high bond yields and a strong dollar may limit upside, but the technical setup supports a short-term long position.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-19T20:01:58.041933+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Consecutive-loss circuit breaker: BRENT_OIL has lost 3 times in a row going BUY (most recently 83 min ago) -- blocked for 120 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
+    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50. Recent geopolitical tensions and supply concerns support a bullish outlook. Despite the price discrepancy between sources, the overall trend and market structure support a long position.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-19T20:01:58.041726+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "NATURAL_GAS",
+    "deal_id": "DIAAAASCBCVBAA4",
+    "old_limit_level": 3332.6153,
+    "new_limit_level": 3332.34,
+    "old_stop_level": 3240.7539,
+    "new_stop_level": 3240.7539,
+    "reason": "Agent-discretion pre-arm limit reconciliation (wide 10.0% of margin ceiling, kept out of the way until the profit ratchet arms at 2.5%) -- stop left exactly as the agent set it at open, amending the limit only.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-19T19:34:54.075",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "T64CARVPT2NTYNV",
+      "dealId": "DIAAAASCBCVBAA4",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASCBCVBAA4",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 3267.0,
+      "size": 1.76,
+      "direction": "BUY",
+      "stopLevel": 3240.754,
+      "limitLevel": 3332.34,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-19T19:34:54.212966+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "GOLD",
+    "status": "REJECTED",
+    "reason": "Confluence requirement not met: GOLD's independent signal(s) checked this tick (get_term_structure=bearish) do not support a bullish thesis -- a technical read alone, or signals pointing the other way, aren't enough to open",
     "agent_reason": "Gold is currently oversold with an RSI of 12.4, suggesting a potential rebound. Despite the contango structure indicating ample supply, the oversold condition presents a buying opportunity.",
     "llm_provider": "openai",
     "logged_at": "2026-10-19T19:32:37.905819+00:00"
@@ -3338,32 +3395,5 @@
     "agent_reason": "Silver is currently overbought with an RSI of 72.4, and the term structure is in contango, indicating ample supply. Despite the extreme net-short positioning, the technicals suggest a potential pullback. Opening a short position to capitalize on the overbought condition.",
     "llm_provider": "openai",
     "logged_at": "2026-10-15T18:32:37.178864+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "NATURAL_GAS momentum filter: proposed OPEN_SHORT conflicts with price action over the last 30 minutes (current 3.225 vs 30-min SMA 3.2217, trending up) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Natural Gas is in a contango structure, indicating ample supply, which is bearish. The technicals show a short-term bearish setup with SMA-20 below SMA-50 and RSI at 37.3, suggesting potential for a downward move. Weather-driven demand is moderate, providing no strong bullish signal.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-15T18:32:37.178673+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
-    "agent_reason": "Brent Oil is currently in a contango structure, indicating ample supply, which is bearish. Recent news suggests potential volatility due to geopolitical tensions, but the technicals show a bearish setup with SMA-20 below SMA-50. The RSI is neutral, not indicating oversold conditions, supporting a short position.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-15T18:32:37.091035+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "Any-direction circuit breaker: SILVER has lost 3 times in a row REGARDLESS OF DIRECTION (most recently 88 min ago) -- blocked for 120 min in EITHER direction. This exists because the same-direction breaker alone can be escaped by simply flipping sides (a real 2026-09-28 BRENT_OIL incident: 2 consecutive LONG losses, then immediately SHORT with a fresh streak, losing again within 20 minutes with no new evidence) -- a full direction reversal right now needs to wait out this cooldown like any other repeat.",
-    "agent_reason": "Silver is currently overbought with an RSI of 76.2, and the term structure is in contango, indicating ample supply. Despite the extreme net-short positioning, the technicals suggest a potential pullback. Opening a short position to capitalize on the overbought condition and contango structure.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-15T18:03:43.065084+00:00"
   }
 ]
