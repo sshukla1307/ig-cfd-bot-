@@ -1,5 +1,14 @@
 [
   {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 109.21 vs 30-min SMA 109.3567, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50. Recent news and forecasts suggest a bullish outlook for Brent.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-19T21:31:31.471355+00:00"
+  },
+  {
     "action": "MIRROR_ROLLBACK",
     "instrument": "BRENT_OIL",
     "reason": "WTI mirror leg failed (WTI market not tradeable) -- closing Brent back out.",
@@ -3378,14 +3387,5 @@
     "status": "detected",
     "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
     "logged_at": "2026-10-15T19:43:46.548099+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 105.77 vs 30-min SMA 105.8333, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50. Despite recent bearish news, the backwardation suggests a bullish tilt, and the current price is above the 200-day average, indicating a potential upward move.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-15T19:32:41.878133+00:00"
   }
 ]
