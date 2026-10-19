@@ -1,6 +1,24 @@
 [
   {
     "action": "OPEN_LONG",
+    "instrument": "SILVER",
+    "status": "REJECTED",
+    "reason": "SILVER's epic is not configured yet -- see config.py instructions",
+    "agent_reason": "Silver is showing extreme net-short positioning, which is a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. The technicals show a neutral RSI, but the positioning data provides a strong bullish catalyst.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-19T22:32:05.496052+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "GOLD",
+    "status": "REJECTED",
+    "reason": "Confluence requirement not met: GOLD's independent signal(s) checked this tick (get_term_structure=bearish) do not support a bullish thesis -- a technical read alone, or signals pointing the other way, aren't enough to open",
+    "agent_reason": "Gold is currently oversold with an RSI of 15.2, indicating a potential rebound. Despite the contango structure, the oversold condition suggests a short-term bullish opportunity. Additionally, the commentary indicates that gold prices are edging higher due to a softer dollar and expectations of the Fed holding interest rates steady, which could support a rebound.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-19T22:32:05.495790+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
     "instrument": "GOLD",
     "status": "REJECTED",
     "reason": "Confluence requirement not met: GOLD's independent signal(s) checked this tick (get_term_structure=bearish) do not support a bullish thesis -- a technical read alone, or signals pointing the other way, aren't enough to open",
@@ -3300,91 +3318,5 @@
     "agent_reason": "Natural Gas is showing extreme net-short positioning, which is a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze.",
     "llm_provider": "openai",
     "logged_at": "2026-10-15T19:44:24.953927+00:00"
-  },
-  {
-    "action": "WTI_MIRROR_OPEN",
-    "instrument": "WTI_OIL",
-    "direction": "BUY",
-    "size": 0.8,
-    "margin_allocated": 1559.88,
-    "effective_leverage": 5.0,
-    "notional": 7723.6,
-    "stop_distance": 77.994,
-    "limit_distance": 194.985,
-    "reason": "Auto-mirrored from BRENT_OIL: Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50. Recent geopolitical tensions and supply concerns support a bullish outlook.",
-    "status": "submitted",
-    "deal_id": "DIAAAASBTXZP6BC",
-    "raw": {
-      "date": "2026-10-15T19:44:24.592",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "H7JXQRLB2G2TYNV",
-      "dealId": "DIAAAASBTXZP6BC",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASBTXZP6BC",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9650.6,
-      "size": 0.8,
-      "direction": "BUY",
-      "stopLevel": 9572.606,
-      "limitLevel": 9845.585,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-15T19:44:24.883836+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "direction": "BUY",
-    "size": 0.76,
-    "margin_allocated": 1559.88,
-    "effective_leverage": 5.0,
-    "notional": 7932.27,
-    "stop_distance": 82.0989,
-    "limit_distance": 205.2474,
-    "confluence_detail": "get_term_structure agrees with bullish",
-    "reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50. Recent geopolitical tensions and supply concerns support a bullish outlook.",
-    "llm_provider": "openai",
-    "status": "submitted",
-    "deal_id": "DIAAAASBTX9EEBF",
-    "raw": {
-      "date": "2026-10-15T19:44:24.216",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "N8AG5D49MLETYNV",
-      "dealId": "DIAAAASBTX9EEBF",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASBTX9EEBF",
-          "status": "OPENED"
-        }
-      ],
-      "level": 10432.6,
-      "size": 0.76,
-      "direction": "BUY",
-      "stopLevel": 10350.501,
-      "limitLevel": 10637.848,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-15T19:44:24.453901+00:00"
   }
 ]
