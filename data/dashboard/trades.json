@@ -1,6 +1,15 @@
 [
   {
     "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 2.987 vs 30-min SMA 2.9893, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Natural Gas is showing extreme net-short positioning, which is a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. The RSI is near oversold, suggesting a potential rebound.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-20T13:02:27.882474+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
     "instrument": "SILVER",
     "status": "REJECTED",
     "reason": "SILVER's epic is not configured yet -- see config.py instructions",
@@ -3608,14 +3617,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-10-16T14:32:54.268776+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 105.31 vs 30-min SMA 105.4233, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The recent inventory data shows a larger-than-typical draw, reinforcing the bullish supply outlook. Technicals show SMA-20 above SMA-50, suggesting a short-term bullish trend.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-16T14:32:53.622477+00:00"
   }
 ]
