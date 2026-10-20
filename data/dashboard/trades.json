@@ -1,5 +1,49 @@
 [
   {
+    "action": "OPEN_SHORT",
+    "instrument": "GOLD",
+    "direction": "SELL",
+    "size": 1.76,
+    "margin_allocated": 1453.53,
+    "effective_leverage": 5.0,
+    "notional": 7259.08,
+    "stop_distance": 33.0348,
+    "limit_distance": 82.5869,
+    "confluence_detail": "get_term_structure agrees with bearish",
+    "reason": "Gold is currently in a contango structure, indicating ample supply, which is bearish. The technicals show a short-term bearish setup with SMA-20 below SMA-50 and RSI at 41.0, suggesting potential for a downward move. Recent news indicates a bearish outlook with falling energy prices and elevated US bond yields.",
+    "llm_provider": "openai",
+    "status": "submitted",
+    "deal_id": "DIAAAASCEYJ8UAU",
+    "raw": {
+      "date": "2026-10-20T11:31:33.654",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDGOLD.DBI.IP",
+      "expiry": "-",
+      "dealReference": "WNHQ5DGF7SSTYNV",
+      "dealId": "DIAAAASCEYJ8UAU",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASCEYJ8UAU",
+          "status": "OPENED"
+        }
+      ],
+      "level": 4123.83,
+      "size": 1.76,
+      "direction": "SELL",
+      "stopLevel": 4156.8647,
+      "limitLevel": 4041.2432,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-20T11:31:33.791185+00:00"
+  },
+  {
     "action": "CLOSE",
     "instrument": "BRENT_OIL",
     "status": "REJECTED",
@@ -3474,44 +3518,5 @@
     "agent_reason": "Natural Gas is showing extreme net-short positioning, which is a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. Weather-driven demand is moderate, but the extreme positioning provides a strong contrarian signal.",
     "llm_provider": "openai",
     "logged_at": "2026-10-16T11:35:15.215174+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAASBXHYM7AN",
-    "old_limit_level": 10697.0903,
-    "new_limit_level": 10698.27,
-    "old_stop_level": 10405.0639,
-    "new_stop_level": 10405.0639,
-    "reason": "Agent-discretion pre-arm limit reconciliation (wide 10.0% of margin ceiling, kept out of the way until the profit ratchet arms at 2.5%) -- stop left exactly as the agent set it at open, amending the limit only.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-10-16T11:34:41.804",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "PXPJ9D7G66STYNV",
-      "dealId": "DIAAAASBXHYM7AN",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASBXHYM7AN",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 10488.5,
-      "size": 0.72,
-      "direction": "BUY",
-      "stopLevel": 10405.063,
-      "limitLevel": 10698.27,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-16T11:34:42.052196+00:00"
   }
 ]
