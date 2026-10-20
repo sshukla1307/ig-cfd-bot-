@@ -1,5 +1,49 @@
 [
   {
+    "action": "OPEN_SHORT",
+    "instrument": "GOLD",
+    "direction": "SELL",
+    "size": 1.72,
+    "margin_allocated": 1438.49,
+    "effective_leverage": 5.0,
+    "notional": 7118.36,
+    "stop_distance": 33.4533,
+    "limit_distance": 83.6331,
+    "confluence_detail": "get_term_structure agrees with bearish",
+    "reason": "Gold is currently in a contango structure, indicating ample supply, which is bearish. The technicals show a short-term bearish setup with SMA-20 below SMA-50 and RSI at 23.6, suggesting potential for a downward move. The macro environment with a strong dollar and high treasury yields further supports a bearish outlook.",
+    "llm_provider": "openai",
+    "status": "submitted",
+    "deal_id": "DIAAAASCCJUJMAV",
+    "raw": {
+      "date": "2026-10-20T02:32:05.57",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDGOLD.DBI.IP",
+      "expiry": "-",
+      "dealReference": "RLNNPE56VLSTYNV",
+      "dealId": "DIAAAASCCJUJMAV",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASCCJUJMAV",
+          "status": "OPENED"
+        }
+      ],
+      "level": 4136.08,
+      "size": 1.72,
+      "direction": "SELL",
+      "stopLevel": 4169.533,
+      "limitLevel": 4052.447,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-20T02:32:05.745315+00:00"
+  },
+  {
     "action": "OPEN_LONG",
     "instrument": "GOLD",
     "status": "REJECTED",
@@ -3311,14 +3355,5 @@
     "agent_reason": "Silver is currently overbought with an RSI of 78.8, and the term structure is in contango, indicating ample supply. Despite the extreme net-short positioning, the technicals suggest a potential pullback. Opening a short position to capitalize on the overbought condition and contango structure.",
     "llm_provider": "openai",
     "logged_at": "2026-10-15T22:02:20.382903+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Any-direction circuit breaker: NATURAL_GAS has lost 3 times in a row REGARDLESS OF DIRECTION (most recently 63 min ago) -- blocked for 120 min in EITHER direction. This exists because the same-direction breaker alone can be escaped by simply flipping sides (a real 2026-09-28 BRENT_OIL incident: 2 consecutive LONG losses, then immediately SHORT with a fresh streak, losing again within 20 minutes with no new evidence) -- a full direction reversal right now needs to wait out this cooldown like any other repeat.",
-    "agent_reason": "Natural Gas is in a contango structure, indicating ample supply, which is bearish. The technicals show a short-term bearish setup with SMA-20 below SMA-50 and RSI at 39.4, suggesting potential for a downward move. The recent inventory data shows a build, reinforcing the bearish supply outlook. Despite the extreme net-short positioning, the technicals and inventory data suggest a bearish tilt.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-15T22:02:20.382664+00:00"
   }
 ]
