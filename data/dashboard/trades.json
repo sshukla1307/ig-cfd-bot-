@@ -1,6 +1,54 @@
 [
   {
     "action": "OPEN_SHORT",
+    "instrument": "SILVER",
+    "status": "REJECTED",
+    "reason": "SILVER's epic is not configured yet -- see config.py instructions",
+    "agent_reason": "Silver is currently overbought with an RSI of 71.7, and the term structure is in contango, indicating ample supply. Despite the extreme net-short positioning, the technicals suggest a potential pullback. Opening a short position to capitalize on the expected correction.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-20T03:01:46.319416+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "GOLD",
+    "deal_id": "DIAAAASCCJUJMAV",
+    "old_limit_level": 4052.4469,
+    "new_limit_level": 4053.3584,
+    "old_stop_level": 4169.5333,
+    "new_stop_level": 4169.5333,
+    "reason": "Agent-discretion pre-arm limit reconciliation (wide 10.0% of margin ceiling, kept out of the way until the profit ratchet arms at 2.5%) -- stop left exactly as the agent set it at open, amending the limit only.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-20T02:32:54.01",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDGOLD.DBI.IP",
+      "expiry": "-",
+      "dealReference": "DX4GM4HN3DJTYNV",
+      "dealId": "DIAAAASCCJUJMAV",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASCCJUJMAV",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 4136.08,
+      "size": 1.72,
+      "direction": "SELL",
+      "stopLevel": 4169.533,
+      "limitLevel": 4053.3584,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-20T02:32:54.145257+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
     "instrument": "GOLD",
     "direction": "SELL",
     "size": 1.72,
@@ -3337,23 +3385,5 @@
     "agent_reason": "Gold is in a short-term bullish trend with SMA-20 above SMA-50 and RSI at 64.1, indicating potential for further upside. The term structure is in contango, but the technicals suggest a continuation of the upward momentum.",
     "llm_provider": "openai",
     "logged_at": "2026-10-15T22:32:21.962786+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Any-direction circuit breaker: NATURAL_GAS has lost 3 times in a row REGARDLESS OF DIRECTION (most recently 93 min ago) -- blocked for 120 min in EITHER direction. This exists because the same-direction breaker alone can be escaped by simply flipping sides (a real 2026-09-28 BRENT_OIL incident: 2 consecutive LONG losses, then immediately SHORT with a fresh streak, losing again within 20 minutes with no new evidence) -- a full direction reversal right now needs to wait out this cooldown like any other repeat.",
-    "agent_reason": "Natural Gas is showing extreme net-short positioning, which is a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. The RSI is neutral, and the recent price action shows a potential for a rebound.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-15T22:32:21.962500+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "SILVER's epic is not configured yet -- see config.py instructions",
-    "agent_reason": "Silver is currently overbought with an RSI of 78.8, and the term structure is in contango, indicating ample supply. Despite the extreme net-short positioning, the technicals suggest a potential pullback. Opening a short position to capitalize on the overbought condition and contango structure.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-15T22:02:20.382903+00:00"
   }
 ]
