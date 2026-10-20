@@ -1,6 +1,15 @@
 [
   {
     "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 2.982 vs 30-min SMA 2.9838, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Natural Gas is showing extreme net-short positioning, which is a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. The RSI is near oversold, suggesting a potential rebound.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-20T14:32:43.145820+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
     "instrument": "BRENT_OIL",
     "status": "REJECTED",
     "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 109.35 vs 30-min SMA 109.74, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
@@ -3508,49 +3517,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-10-16T15:02:38.310450+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "direction": "BUY",
-    "size": 0.68,
-    "margin_allocated": 1458.22,
-    "effective_leverage": 5.0,
-    "notional": 7098.38,
-    "stop_distance": 85.7776,
-    "limit_distance": 214.4441,
-    "confluence_detail": "get_term_structure, get_inventory_data agrees with bullish",
-    "reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50. Recent inventory data shows a larger-than-typical draw, reinforcing the bullish supply outlook.",
-    "llm_provider": "openai",
-    "status": "submitted",
-    "deal_id": "DIAAAASBZDQNRAH",
-    "raw": {
-      "date": "2026-10-16T15:02:37.621",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "6CCT9MTAG4ETYNV",
-      "dealId": "DIAAAASBZDQNRAH",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASBZDQNRAH",
-          "status": "OPENED"
-        }
-      ],
-      "level": 10434.4,
-      "size": 0.68,
-      "direction": "BUY",
-      "stopLevel": 10348.622,
-      "limitLevel": 10648.844,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-16T15:02:38.052058+00:00"
   }
 ]
