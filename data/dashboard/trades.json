@@ -1,6 +1,15 @@
 [
   {
     "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 2.923 vs 30-min SMA 2.929, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Natural Gas is showing extreme net-short positioning, which is a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. The recent inventory build was not larger than typical, suggesting no immediate bearish pressure from storage.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-21T09:02:21.457689+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
     "instrument": "SILVER",
     "status": "REJECTED",
     "reason": "SILVER's epic is not configured yet -- see config.py instructions",
@@ -3604,15 +3613,5 @@
     "agent_reason": "Brent Oil is currently in backwardation, indicating tight supply, which is bullish. However, the RSI is overbought at 71.5, suggesting a potential pullback. The recent inventory data shows a larger-than-typical draw, reinforcing the bullish supply outlook, but the overbought RSI suggests it might be prudent to lock in gains.",
     "llm_provider": "openai",
     "logged_at": "2026-10-20T05:37:35.833741+00:00"
-  },
-  {
-    "action": "BROKER_CLOSE",
-    "instrument": "NATURAL_GAS",
-    "deal_id": "DIAAAASCBCVBAA4",
-    "original_direction": "BUY",
-    "estimated_pnl": -44.0,
-    "status": "detected",
-    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-10-20T05:37:02.690623+00:00"
   }
 ]
