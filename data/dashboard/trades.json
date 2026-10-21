@@ -1,6 +1,60 @@
 [
   {
     "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "direction": "BUY",
+    "size": 2.24,
+    "margin_allocated": 1396.77,
+    "effective_leverage": 5.0,
+    "notional": 6993.28,
+    "stop_distance": 24.9423,
+    "limit_distance": 62.3558,
+    "confluence_detail": "get_positioning_data agrees with bullish",
+    "reason": "Natural Gas is showing extreme net-short positioning, which is a contrarian bullish signal. The RSI is oversold, suggesting a potential rebound. Despite the contango structure indicating ample supply, the crowded short positioning and oversold RSI suggest a potential for a rebound.",
+    "llm_provider": "openai",
+    "status": "submitted",
+    "deal_id": "DIAAAASCRNFGABD",
+    "raw": {
+      "date": "2026-10-21T22:16:11.244",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "GKUHMBSNMQ6TYNV",
+      "dealId": "DIAAAASCRNFGABD",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASCRNFGABD",
+          "status": "OPENED"
+        }
+      ],
+      "level": 3121.0,
+      "size": 2.24,
+      "direction": "BUY",
+      "stopLevel": 3096.0576,
+      "limitLevel": 3183.3557,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-21T22:16:11.410032+00:00"
+  },
+  {
+    "action": "BROKER_CLOSE",
+    "instrument": "NATURAL_GAS",
+    "deal_id": "DIAAAASCRGCVXAV",
+    "original_direction": "BUY",
+    "estimated_pnl": 38.08,
+    "status": "detected",
+    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
+    "logged_at": "2026-10-21T22:15:36.803300+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
     "instrument": "SILVER",
     "status": "REJECTED",
     "reason": "SILVER's epic is not configured yet -- see config.py instructions",
@@ -3660,59 +3714,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-10-20T17:03:32.465692+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "direction": "BUY",
-    "size": 0.68,
-    "margin_allocated": 1449.62,
-    "effective_leverage": 5.0,
-    "notional": 7231.53,
-    "stop_distance": 85.2718,
-    "limit_distance": 213.1794,
-    "confluence_detail": "get_term_structure agrees with bullish",
-    "reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50. Recent news suggests persistent Middle East supply risks, supporting a bullish outlook.",
-    "llm_provider": "openai",
-    "status": "submitted",
-    "deal_id": "DIAAAASCH8KNEAT",
-    "raw": {
-      "date": "2026-10-20T17:03:31.788",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "VG9AZ2PW546TYNV",
-      "dealId": "DIAAAASCH8KNEAT",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASCH8KNEAT",
-          "status": "OPENED"
-        }
-      ],
-      "level": 10630.0,
-      "size": 0.68,
-      "direction": "BUY",
-      "stopLevel": 10544.729,
-      "limitLevel": 10843.18,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-20T17:03:32.087890+00:00"
-  },
-  {
-    "action": "BROKER_CLOSE",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAASCHQFEFAM",
-    "original_direction": "BUY",
-    "estimated_pnl": 15.84,
-    "status": "detected",
-    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-10-20T17:02:36.155809+00:00"
   }
 ]
