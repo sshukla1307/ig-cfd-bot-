@@ -1,5 +1,92 @@
 [
   {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 59 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "agent_reason": "Natural Gas is currently in a contango structure, indicating ample supply, which is bearish. The technicals show a short-term bearish setup with SMA-20 below SMA-50 and RSI at 31.1, suggesting potential for a downward move. Recent news indicates a bearish outlook with mild weather forecasts and strong production. The current position is slightly negative, and the bearish signals suggest it may not recover soon.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-21T04:01:38.406951+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "BRENT_OIL",
+    "deal_id": "DIAAAASCKQTS8AZ",
+    "old_limit_level": 10920.732,
+    "new_limit_level": 10770.8396,
+    "old_stop_level": 10618.9347,
+    "new_stop_level": 10753.709,
+    "reason": "Agent-discretion profit ratchet ARMED (2026-10-09 refinement): stop locked to guarantee at least 2.2% profit (a 0.3% gap below the milestone just reached), limit extended to the next 3.0% target to keep upside open.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-21T04:01:02.081",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "RW9FXGPY3X2TYNV",
+      "dealId": "DIAAAASCKQTS8AZ",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASCKQTS8AZ",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 10706.6,
+      "size": 0.68,
+      "direction": "BUY",
+      "stopLevel": 10753.709,
+      "limitLevel": 10770.84,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-21T04:01:02.310278+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "WTI_OIL",
+    "deal_id": "DIAAAASCKQ7BCBC",
+    "old_limit_level": 10069.338,
+    "new_limit_level": 9931.1314,
+    "old_stop_level": 9793.4626,
+    "new_stop_level": 9915.3364,
+    "reason": "Agent-discretion profit ratchet ARMED (2026-10-09 refinement): stop locked to guarantee at least 2.2% profit (a 0.3% gap below the milestone just reached), limit extended to the next 3.0% target to keep upside open.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-21T04:01:01.718",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "C97H8JDF7T6TYNV",
+      "dealId": "DIAAAASCKQ7BCBC",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASCKQ7BCBC",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 9871.9,
+      "size": 0.76,
+      "direction": "BUY",
+      "stopLevel": 9915.336,
+      "limitLevel": 9931.132,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-21T04:01:01.959913+00:00"
+  },
+  {
     "action": "MARGIN_EXIT_SYNC",
     "instrument": "NATURAL_GAS",
     "deal_id": "DIAAAASCK2A39AX",
@@ -3464,32 +3551,5 @@
     "agent_reason": "Gold is currently oversold with an RSI of 13.8, indicating a potential rebound. Despite the contango structure suggesting ample supply, the oversold condition presents a strong technical opportunity for a bounce. Additionally, the upcoming holiday and wedding season in India and China could increase physical demand for gold, providing further support for a potential upward move.",
     "llm_provider": "openai",
     "logged_at": "2026-10-19T23:01:55.976954+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "SILVER's epic is not configured yet -- see config.py instructions",
-    "agent_reason": "Silver is showing extreme net-short positioning, which is a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. The technicals show a neutral RSI, but the positioning data provides a strong bullish catalyst.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-19T22:32:05.496052+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "GOLD",
-    "status": "REJECTED",
-    "reason": "Confluence requirement not met: GOLD's independent signal(s) checked this tick (get_term_structure=bearish) do not support a bullish thesis -- a technical read alone, or signals pointing the other way, aren't enough to open",
-    "agent_reason": "Gold is currently oversold with an RSI of 15.2, indicating a potential rebound. Despite the contango structure, the oversold condition suggests a short-term bullish opportunity. Additionally, the commentary indicates that gold prices are edging higher due to a softer dollar and expectations of the Fed holding interest rates steady, which could support a rebound.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-19T22:32:05.495790+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "GOLD",
-    "status": "REJECTED",
-    "reason": "Confluence requirement not met: GOLD's independent signal(s) checked this tick (get_term_structure=bearish) do not support a bullish thesis -- a technical read alone, or signals pointing the other way, aren't enough to open",
-    "agent_reason": "Gold is currently oversold with an RSI of 12.3, indicating a potential rebound. Despite the contango structure suggesting ample supply, the extreme oversold condition presents a strong mean-reversion opportunity. Additionally, the upcoming holiday and wedding season in India and China could increase physical demand for gold, providing further support for a potential price increase.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-19T22:02:29.349980+00:00"
   }
 ]
