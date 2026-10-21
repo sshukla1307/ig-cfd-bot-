@@ -1,5 +1,91 @@
 [
   {
+    "action": "WTI_MIRROR_OPEN",
+    "instrument": "WTI_OIL",
+    "direction": "BUY",
+    "size": 0.76,
+    "margin_allocated": 1506.62,
+    "effective_leverage": 5.0,
+    "notional": 7521.19,
+    "stop_distance": 79.2958,
+    "limit_distance": 198.2395,
+    "reason": "Auto-mirrored from BRENT_OIL: Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50. Recent news suggests persistent Middle East supply risks, supporting a bullish outlook.",
+    "status": "submitted",
+    "deal_id": "DIAAAASCK9F7HAR",
+    "raw": {
+      "date": "2026-10-21T04:32:25.349",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "WMDDHNZ37H2TYNV",
+      "dealId": "DIAAAASCK9F7HAR",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASCK9F7HAR",
+          "status": "OPENED"
+        }
+      ],
+      "level": 9896.1,
+      "size": 0.76,
+      "direction": "BUY",
+      "stopLevel": 9816.805,
+      "limitLevel": 10094.34,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-21T04:32:25.475454+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "direction": "BUY",
+    "size": 0.72,
+    "margin_allocated": 1506.62,
+    "effective_leverage": 5.0,
+    "notional": 7733.74,
+    "stop_distance": 83.7011,
+    "limit_distance": 209.2528,
+    "confluence_detail": "get_term_structure agrees with bullish",
+    "reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50. Recent news suggests persistent Middle East supply risks, supporting a bullish outlook.",
+    "llm_provider": "openai",
+    "status": "submitted",
+    "deal_id": "DIAAAASCK9DEBAV",
+    "raw": {
+      "date": "2026-10-21T04:32:25.146",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "XHEH8MFK48ATYNV",
+      "dealId": "DIAAAASCK9DEBAV",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASCK9DEBAV",
+          "status": "OPENED"
+        }
+      ],
+      "level": 10740.7,
+      "size": 0.72,
+      "direction": "BUY",
+      "stopLevel": 10656.999,
+      "limitLevel": 10949.953,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-21T04:32:25.269896+00:00"
+  },
+  {
     "action": "OPEN_LONG",
     "instrument": "GOLD",
     "status": "REJECTED",
@@ -3594,23 +3680,5 @@
     "agent_reason": "Gold is currently oversold with an RSI of 13.7, indicating a potential rebound. Despite the contango structure, the oversold condition suggests a short-term buying opportunity. The recent commentary indicates a softer dollar, which could support gold prices.",
     "llm_provider": "openai",
     "logged_at": "2026-10-20T00:31:26.218944+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "SILVER's epic is not configured yet -- see config.py instructions",
-    "agent_reason": "Silver is showing extreme net-short positioning, which is a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. Recent commentary indicates a potential bounce from last week's low, despite elevated Treasury yields and a firm dollar.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-20T00:01:47.986690+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 109.22 vs 30-min SMA 109.265, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50. Recent geopolitical tensions and supply concerns support a bullish outlook. Additionally, the latest inventory data shows a larger-than-typical draw, reinforcing the bullish supply outlook.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-20T00:01:47.986255+00:00"
   }
 ]
