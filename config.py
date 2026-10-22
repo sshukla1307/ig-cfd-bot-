@@ -154,6 +154,21 @@ class SystemRules:
                                                 # breaker's original rationale -- watch for the same
                                                 # repeated-losing-thesis pattern resuming once this
                                                 # shorter window expires.
+    friday_flatten_utc_hour: int = 19  # ADDED 2026-10-22 after a real recurring pattern: positions
+                                    # still open going into the weekend closure kept resurfacing at
+                                    # Sunday reopen already deep in a loss -- e.g. a NATURAL_GAS short
+                                    # opened Fri 2026-10-02 lost -$360.80 the instant the market
+                                    # reopened Sun 2026-10-04, its stop never even breached (the
+                                    # weekend gap alone did the damage, well within the stop's own
+                                    # distance -- there's just no one/nothing watching price while
+                                    # the market is closed). Force-closes every open position and
+                                    # blocks new opens from this UTC hour onward every Friday until
+                                    # the market reopens (see _in_friday_flatten_window in
+                                    # cfd_runner.py). IG's market_status doesn't reliably flag an
+                                    # imminent close far enough ahead to react to, so this is a plain
+                                    # wall-clock cutoff -- chosen with a buffer ahead of this account's
+                                    # earliest-closing tracked instrument (Natural Gas, observed
+                                    # closing ~20:00-20:30 UTC on a Friday).
     max_consecutive_losses_any_direction: int = 2  # RE-ENABLED 2026-10-06, same prompting
                                                 # incident/request as max_consecutive_same_direction_losses
                                                 # above. Was temporarily disabled 2026-09-30. ADDED

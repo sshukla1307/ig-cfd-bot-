@@ -357,6 +357,48 @@ def _estimate_unrealized_pnl(pos: dict):
     return round((current_price - entry_level) * sign * pos["size"], 2)
 
 
+def _in_friday_flatten_window(now: datetime, rules) -> bool:
+    """True from RULES.friday_flatten_utc_hour onward every Friday (UTC) --
+    see SystemRules.friday_flatten_utc_hour for why this exists. Deliberately
+    scoped to Friday only, not the whole weekend: run_cfd_tick's existing
+    tradeable_instruments gate already blocks new opens once IG itself
+    reports a market as not TRADEABLE (true for the whole weekend), so there
+    is nothing extra for a Saturday/Sunday window to protect against -- the
+    one gap that gate doesn't cover is the hours on Friday where IG still
+    shows TRADEABLE right up to its own close."""
+    return now.weekday() == 4 and now.hour >= rules.friday_flatten_utc_hour
+
+
+def _check_weekend_flatten(broker, positions: dict) -> list:
+    """Force-closes EVERY currently open position ahead of the weekend
+    closure once _in_friday_flatten_window is true -- see
+    SystemRules.friday_flatten_utc_hour. Unlike _check_stop_breach_backstop,
+    this isn't conditional on price: every tracked instrument's open
+    position gets closed regardless of whether it's currently winning or
+    losing, since the whole point is to not be exposed to the weekend gap at
+    all. Returns the list of instrument keys that were successfully closed,
+    same convention as the other force-close helpers, so the caller can drop
+    them from its in-memory positions dict."""
+    closed_keys = []
+    for instrument, pos in list(positions.items()):
+        logger.warning(f"[IG-CFD] {instrument}: closing ahead of the weekend market closure (Friday flatten).")
+        result = broker.close_position(
+            deal_id=pos["deal_id"], direction=pos["direction"], epic=pos["epic"], size=pos["size"],
+        )
+        _log_order_event({
+            "action": "WEEKEND_FLATTEN", "instrument": instrument, "deal_id": pos["deal_id"],
+            "original_direction": pos["direction"],
+            "reason": "Force-closed ahead of the weekend market closure to avoid holding exposure "
+                      "over a period with no ability to react to news or price gaps.",
+            **result,
+        })
+        if result.get("status") == "submitted":
+            closed_keys.append(instrument)
+        else:
+            logger.error(f"[IG-CFD] Weekend flatten close FAILED for {instrument}: {result.get('reason')}")
+    return closed_keys
+
+
 def _check_stop_breach_backstop(broker, positions: dict) -> list:
     """Every open position always has a stop attached at open time (mandatory
     per _validate_trade) -- but that stop is a REGULAR (non-guaranteed) IG
@@ -2027,14 +2069,17 @@ def run_watch_check():
         logger.info("[IG-CFD] [watch] IG_LIVE_TRADING_ENABLED is not 'true'. Doing nothing.")
         return
 
-    last_known_positions = _last_known_positions_by_deal_id()
-    last_known_deal_ids = set(last_known_positions.keys())
-    if not last_known_deal_ids:
-        logger.info("[IG-CFD] [watch] No open positions as of the last snapshot (or no snapshot yet) -- nothing to check.")
-        return
-
     from config import RULES, INSTRUMENTS
     from ig_broker import IGBroker
+
+    now = datetime.now(timezone.utc)
+    in_flatten_window = _in_friday_flatten_window(now, RULES)
+
+    last_known_positions = _last_known_positions_by_deal_id()
+    last_known_deal_ids = set(last_known_positions.keys())
+    if not last_known_deal_ids and not in_flatten_window:
+        logger.info("[IG-CFD] [watch] No open positions as of the last snapshot (or no snapshot yet) -- nothing to check.")
+        return
 
     live = os.getenv("IG_LIVE", "").lower() == "true"
     username = os.getenv("IG_USERNAME")
@@ -2054,6 +2099,18 @@ def run_watch_check():
     if not epic_to_key:
         return
     positions = broker.get_positions(epic_to_key)
+
+    if in_flatten_window and positions:
+        flattened = _check_weekend_flatten(broker, positions)
+        logger.warning(
+            f"[IG-CFD] [watch] Weekend flatten "
+            f"{'closed ' + str(flattened) if flattened else 'attempted but closed nothing'} "
+            f"ahead of the weekend market closure -- escalating to a full tick to refresh the dashboard "
+            f"and retry anything that didn't close."
+        )
+        run_cfd_tick()
+        return
+
     current_deal_ids = {pos["deal_id"] for pos in positions.values()}
 
     vanished = last_known_deal_ids - current_deal_ids
@@ -2165,6 +2222,33 @@ def run_cfd_tick():
         return
 
     positions = broker.get_positions(epic_to_key)
+
+    # Weekend gap-risk rule: force-flat BEFORE anything else this tick, including
+    # the stop-breach backstop below -- there's no point evaluating stops on
+    # positions we're about to unconditionally close anyway. See
+    # SystemRules.friday_flatten_utc_hour for the incident this was added for.
+    now = datetime.now(timezone.utc)
+    if _in_friday_flatten_window(now, RULES):
+        flattened = _check_weekend_flatten(broker, positions)
+        if flattened:
+            for key in flattened:
+                positions.pop(key, None)
+        account = broker.get_account_state()
+        if positions:
+            logger.error(
+                f"[IG-CFD] Friday flatten window is active but {list(positions.keys())} could not be "
+                f"closed -- see this tick's WEEKEND_FLATTEN rejection reason(s) above."
+            )
+        logger.warning(
+            f"[IG-CFD] Within the Friday pre-weekend flatten window (UTC hour >= "
+            f"{RULES.friday_flatten_utc_hour}) -- flattened {flattened or '[] (already flat)'}, "
+            f"proposing no new trades until the market reopens. balance={account['balance']:.2f}"
+        )
+        for pos in positions.values():
+            pos["unrealized_pnl_usd"] = _estimate_unrealized_pnl(pos)
+        _record_snapshot(account, positions)
+        export_for_dashboard(DATA_DIR, DATA_DIR / "dashboard")
+        return
 
     # Rule: don't wait for a loss to deepen. Runs before the agent's turn so it
     # always sees already-resolved, accurate position state -- same timing
