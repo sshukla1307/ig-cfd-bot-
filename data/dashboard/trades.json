@@ -4,6 +4,24 @@
     "instrument": "GOLD",
     "status": "REJECTED",
     "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for GOLD this tick -- a technical read or a generic news search alone can't open a position",
+    "agent_reason": "Gold is oversold with an RSI of 26.9, indicating a potential rebound. The SMA-20 is below the SMA-50, suggesting a short-term bearish trend, but the oversold condition and potential seasonal demand from India and China could support a bounce.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-22T14:02:46.085697+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 2.783 vs 30-min SMA 2.7962, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Natural Gas is showing extreme net-short positioning, which is a contrarian bullish signal. The RSI is neutral, but the price is slightly below the SMA-20 and SMA-50, indicating potential for a rebound. Weather-driven demand is moderate, but the extreme short positioning suggests a potential for a short squeeze.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-22T14:02:46.085381+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "GOLD",
+    "status": "REJECTED",
+    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for GOLD this tick -- a technical read or a generic news search alone can't open a position",
     "agent_reason": "Gold is oversold with an RSI of 27.6, suggesting a potential rebound. The SMA-20 is below the SMA-50, indicating a short-term bearish trend, but the oversold condition presents a buying opportunity.",
     "llm_provider": "openai",
     "logged_at": "2026-10-22T13:48:06.345008+00:00"
@@ -3819,23 +3837,5 @@
     "agent_reason": "The current short position in Gold is not performing as expected. The price is above the entry level, and the technicals show a neutral RSI and a short-term bearish SMA setup. However, the market commentary suggests potential bearish pressure due to inflation concerns and upcoming Fed decisions. Closing the position to reassess the market.",
     "llm_provider": "openai",
     "logged_at": "2026-10-21T16:33:54.896904+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 108.47 vs 30-min SMA 108.6117, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The recent EIA report shows a larger-than-typical draw in U.S. crude oil stocks, supporting a bullish outlook. Despite recent losses, the backwardation and inventory data suggest a bullish setup.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-21T16:04:12.873826+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "NATURAL_GAS already has an open position -- CLOSE it first",
-    "agent_reason": "Natural Gas is showing extreme net-short positioning, which is a contrarian bullish signal. The RSI is oversold, suggesting a potential rebound. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-21T16:02:29.266716+00:00"
   }
 ]
