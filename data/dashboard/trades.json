@@ -1,5 +1,198 @@
 [
   {
+    "action": "OPEN_LONG",
+    "instrument": "SILVER",
+    "status": "REJECTED",
+    "reason": "SILVER's epic is not configured yet -- see config.py instructions",
+    "agent_reason": "Silver is oversold with an RSI of 26.6, and the term structure is in contango, indicating ample supply. However, the extreme net-short positioning is a contrarian bullish signal, suggesting potential for a rebound.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-22T07:51:55.672320+00:00"
+  },
+  {
+    "action": "WTI_MIRROR_OPEN",
+    "instrument": "WTI_OIL",
+    "direction": "BUY",
+    "size": 0.72,
+    "margin_allocated": 1454.69,
+    "effective_leverage": 5.0,
+    "notional": 7184.02,
+    "stop_distance": 80.8161,
+    "limit_distance": 202.0403,
+    "reason": "Auto-mirrored from BRENT_OIL: Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50 and RSI is overbought, suggesting strong momentum. Recent news highlights ongoing Middle East tensions, supporting a bullish outlook.",
+    "status": "submitted",
+    "deal_id": "DIAAAASCT9RM4A4",
+    "raw": {
+      "date": "2026-10-22T07:51:55.474",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "4ZFZH429QF6TYNV",
+      "dealId": "DIAAAASCT9RM4A4",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASCT9RM4A4",
+          "status": "OPENED"
+        }
+      ],
+      "level": 9970.6,
+      "size": 0.72,
+      "direction": "BUY",
+      "stopLevel": 9889.784,
+      "limitLevel": 10172.641,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-22T07:51:55.671988+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "direction": "BUY",
+    "size": 0.68,
+    "margin_allocated": 1454.69,
+    "effective_leverage": 5.0,
+    "notional": 7413.36,
+    "stop_distance": 85.57,
+    "limit_distance": 213.925,
+    "confluence_detail": "get_term_structure agrees with bullish",
+    "reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50 and RSI is overbought, suggesting strong momentum. Recent news highlights ongoing Middle East tensions, supporting a bullish outlook.",
+    "llm_provider": "openai",
+    "status": "submitted",
+    "deal_id": "DIAAAASCT8Z2VAS",
+    "raw": {
+      "date": "2026-10-22T07:51:55.155",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "D63CBT9MSQ6TYNV",
+      "dealId": "DIAAAASCT8Z2VAS",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASCT8Z2VAS",
+          "status": "OPENED"
+        }
+      ],
+      "level": 10896.5,
+      "size": 0.68,
+      "direction": "BUY",
+      "stopLevel": 10810.93,
+      "limitLevel": 11110.425,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-22T07:51:55.363608+00:00"
+  },
+  {
+    "action": "BROKER_CLOSE",
+    "instrument": "BRENT_OIL",
+    "deal_id": "DIAAAASCTHEEZAT",
+    "original_direction": "BUY",
+    "estimated_pnl": 21.62,
+    "status": "detected",
+    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
+    "logged_at": "2026-10-22T07:51:15.063225+00:00"
+  },
+  {
+    "action": "BROKER_CLOSE",
+    "instrument": "WTI_OIL",
+    "deal_id": "DIAAAASCTHCY8AV",
+    "original_direction": "BUY",
+    "estimated_pnl": 18.65,
+    "status": "detected",
+    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
+    "logged_at": "2026-10-22T07:51:15.062995+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "BRENT_OIL",
+    "deal_id": "DIAAAASCTHEEZAT",
+    "old_limit_level": 11036.91,
+    "new_limit_level": 10896.2435,
+    "old_stop_level": 10736.3171,
+    "new_stop_level": 10878.9307,
+    "reason": "Agent-discretion profit ratchet ARMED (2026-10-09 refinement): stop locked to guarantee at least 2.7% profit (a 0.3% gap below the milestone just reached), limit extended to the next 3.5% target to keep upside open.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-22T07:49:09.266",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "J8MRD5GWM6JTYNV",
+      "dealId": "DIAAAASCTHEEZAT",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASCTHEEZAT",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 10820.5,
+      "size": 0.68,
+      "direction": "BUY",
+      "stopLevel": 10878.931,
+      "limitLevel": 10896.243,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-22T07:49:09.446532+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "WTI_OIL",
+    "deal_id": "DIAAAASCTHCY8AV",
+    "old_limit_level": 10106.874,
+    "new_limit_level": 9968.1522,
+    "old_stop_level": 9829.1939,
+    "new_stop_level": 9952.2983,
+    "reason": "Agent-discretion profit ratchet ARMED (2026-10-09 refinement): stop locked to guarantee at least 2.2% profit (a 0.3% gap below the milestone just reached), limit extended to the next 3.0% target to keep upside open.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-22T07:49:08.983",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "7C4Z6MJUSHETYNV",
+      "dealId": "DIAAAASCTHCY8AV",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASCTHCY8AV",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 9908.7,
+      "size": 0.72,
+      "direction": "BUY",
+      "stopLevel": 9952.298,
+      "limitLevel": 9968.152,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-22T07:49:09.159279+00:00"
+  },
+  {
     "action": "CLOSE",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
@@ -3780,69 +3973,5 @@
     "agent_reason": "Silver is showing extreme net-short positioning, which is a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. The RSI is neutral, but the positioning data provides a strong contrarian signal.",
     "llm_provider": "openai",
     "logged_at": "2026-10-21T07:31:34.693663+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 2.951 vs 30-min SMA 2.9518, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Natural Gas is showing extreme net-short positioning, which is a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. The RSI is neutral, but the positioning data provides a strong contrarian signal.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-21T07:31:34.693362+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "SILVER's epic is not configured yet -- see config.py instructions",
-    "agent_reason": "Silver is showing extreme net-short positioning, which is a contrarian bullish signal. Despite the lack of a strong technical trend, the crowded short positioning suggests potential for a short squeeze.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-21T07:02:28.921224+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "SILVER's epic is not configured yet -- see config.py instructions",
-    "agent_reason": "Silver is showing extreme net-short positioning, which is a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. The RSI is neutral, but the positioning data provides a strong contrarian signal.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-21T06:43:45.225591+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 2.961 vs 30-min SMA 2.9658, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Natural Gas is showing extreme net-short positioning, which is a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. The RSI is neutral, but the positioning data provides a strong contrarian signal.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-21T06:43:45.225243+00:00"
-  },
-  {
-    "action": "BROKER_CLOSE",
-    "instrument": "NATURAL_GAS",
-    "deal_id": "DIAAAASCK2A39AX",
-    "original_direction": "BUY",
-    "estimated_pnl": -38.76,
-    "status": "detected",
-    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-10-21T06:43:01.199628+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "SILVER's epic is not configured yet -- see config.py instructions",
-    "agent_reason": "Silver is currently overbought with an RSI of 71.7, and the term structure is in contango, indicating ample supply. Despite the extreme net-short positioning, the technicals suggest a potential pullback. Opening a short position to capitalize on this potential correction.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-21T06:32:27.124062+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "GOLD",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: GOLD has only been open for 60 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "agent_reason": "The current short position in Gold is slightly negative, and the technical indicators are not strongly supportive of a continued bearish move. The SMA-20 is below the SMA-50, indicating a bearish trend, but the RSI is neutral. Given the lack of strong directional signals and the potential for market volatility, closing the position to reassess.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-21T06:02:42.158255+00:00"
   }
 ]
