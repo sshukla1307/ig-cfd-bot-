@@ -1,5 +1,43 @@
 [
   {
+    "action": "OPEN_LONG",
+    "instrument": "SILVER",
+    "status": "REJECTED",
+    "reason": "SILVER's epic is not configured yet -- see config.py instructions",
+    "agent_reason": "Silver is in a contango structure, indicating ample supply, but recent news suggests potential for a recovery. The RSI is not available, but the market conditions and potential for a short squeeze due to previous net-short positioning could drive prices higher.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-22T01:03:53.965207+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
+    "agent_reason": "Brent Oil is currently trading near $110, with recent news indicating supply risks in the Middle East. Despite a short-term bearish technical setup, the geopolitical risks and recent price recovery suggest a potential upward move. The market is in backwardation, indicating tight supply, which supports a bullish outlook.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-22T01:03:53.964948+00:00"
+  },
+  {
+    "action": "BROKER_CLOSE",
+    "instrument": "WTI_OIL",
+    "deal_id": "DIAAAASCRHUMKAV",
+    "original_direction": "BUY",
+    "estimated_pnl": 32.33,
+    "status": "detected",
+    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
+    "logged_at": "2026-10-22T01:03:21.249957+00:00"
+  },
+  {
+    "action": "BROKER_CLOSE",
+    "instrument": "BRENT_OIL",
+    "deal_id": "DIAAAASCRJKMXAE",
+    "original_direction": "BUY",
+    "estimated_pnl": 24.32,
+    "status": "detected",
+    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
+    "logged_at": "2026-10-22T01:03:21.249696+00:00"
+  },
+  {
     "action": "CLOSE",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
