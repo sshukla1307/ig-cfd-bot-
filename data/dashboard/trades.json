@@ -1,5 +1,53 @@
 [
   {
+    "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 44 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
+    "agent_reason": "Natural Gas is showing extreme net-short positioning, which is a contrarian bullish signal. The RSI is neutral, but the price is slightly below the SMA-20 and SMA-50, indicating potential for a rebound. The independent price check confirms the current price level.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-22T19:03:26.595166+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "GOLD",
+    "deal_id": "DIAAAASCW5GC3A7",
+    "old_limit_level": 3971.0678,
+    "new_limit_level": 4027.7973,
+    "old_stop_level": 4084.808,
+    "new_stop_level": 4034.2807,
+    "reason": "Agent-discretion profit ratchet ARMED (2026-10-09 refinement): stop locked to guarantee at least 2.2% profit (a 0.3% gap below the milestone just reached), limit extended to the next 3.0% target to keep upside open.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-22T18:59:22.195",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDGOLD.DBI.IP",
+      "expiry": "-",
+      "dealReference": "Q2W3M7SDBU2TYNV",
+      "dealId": "DIAAAASCW5GC3A7",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASCW5GC3A7",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 4052.11,
+      "size": 1.76,
+      "direction": "SELL",
+      "stopLevel": 4034.2808,
+      "limitLevel": 4027.7974,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-22T18:59:22.364998+00:00"
+  },
+  {
     "action": "CLOSE",
     "instrument": "GOLD",
     "status": "REJECTED",
@@ -3878,23 +3926,5 @@
     "agent_reason": "Natural Gas is showing an oversold RSI, but the weather-driven demand is moderate with no strong signal. The technicals are bearish with SMA-20 below SMA-50. The independent price check shows a disagreement, indicating potential data issues. Closing the position to avoid further risk.",
     "llm_provider": "openai",
     "logged_at": "2026-10-22T00:03:01.836113+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "GOLD",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: GOLD has only been open for 240 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "agent_reason": "Gold is currently in a contango structure, indicating ample supply, which is bearish. The technicals show a short-term bearish setup with SMA-20 below SMA-50. The RSI is neutral, and there is no extreme positioning signal. The current position is slightly negative, and the bearish signals suggest it may not recover soon.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-22T00:03:01.835879+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "GOLD",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: GOLD has only been open for 208 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "agent_reason": "The current technicals for Gold show a short-term bearish setup with the SMA-20 below the SMA-50 and a neutral RSI. The term structure is in contango, indicating ample supply, which is bearish. Additionally, recent news suggests a cautious outlook due to a strong dollar and rising real yields. Given these factors, it is prudent to close the current long position in Gold.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-21T23:31:13.383295+00:00"
   }
 ]
