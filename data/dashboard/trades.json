@@ -1,6 +1,15 @@
 [
   {
     "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 2.777 vs 30-min SMA 2.7792, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Natural Gas shows extreme net-short positioning, a contrarian bullish signal. Despite a neutral RSI, the positioning suggests potential for a rebound. Weather-driven demand is moderate, but the smaller-than-expected storage build supports prices.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-22T22:02:13.740895+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
     "instrument": "SILVER",
     "status": "REJECTED",
     "reason": "SILVER's epic is not configured yet -- see config.py instructions",
@@ -3823,44 +3832,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-10-22T01:46:23.117967+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAASCSDQCVAE",
-    "old_limit_level": 10916.3779,
-    "new_limit_level": 10921.548,
-    "old_stop_level": 10623.8088,
-    "new_stop_level": 10623.8088,
-    "reason": "Agent-discretion pre-arm limit reconciliation (wide 10.0% of margin ceiling, kept out of the way until the profit ratchet arms at 2.5%) -- stop left exactly as the agent set it at open, amending the limit only.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-10-22T01:46:22.704",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "SPDT4PUZ97NTYNV",
-      "dealId": "DIAAAASCSDQCVAE",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASCSDQCVAE",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 10707.4,
-      "size": 0.68,
-      "direction": "BUY",
-      "stopLevel": 10623.809,
-      "limitLevel": 10921.548,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-22T01:46:22.861222+00:00"
   }
 ]
