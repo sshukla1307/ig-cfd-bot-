@@ -3,6 +3,33 @@
     "action": "CLOSE",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 89 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "agent_reason": "Natural Gas is showing extreme net-short positioning, which is a contrarian bullish signal. However, the term structure is in contango, indicating ample supply, which is bearish. The technicals show an overbought RSI at 77.0, suggesting potential for a pullback. Closing the position to lock in current gains and reassess the market conditions.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-23T08:02:13.341732+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 118 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "agent_reason": "Brent Oil is currently experiencing a flat term structure, indicating no meaningful spread between near and far months. The technicals show a short-term bullish setup with SMA-20 above SMA-50, but the RSI is neutral. Recent news suggests geopolitical tensions, but the price has dropped significantly. Closing the position to limit losses and reassess the situation.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-23T08:02:13.341604+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "GOLD",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: GOLD has only been open for 240 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "agent_reason": "Gold is currently in a contango structure, indicating ample supply, which is bearish. The technicals show a short-term bearish setup with SMA-20 below SMA-50 and RSI at 42.2, suggesting potential for a downward move. However, the current position is slightly negative, and the market outlook is mixed with no extreme positioning signal. Closing the position to reassess.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-23T08:02:13.341346+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 60 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "agent_reason": "Natural Gas is showing extreme net-short positioning, which is a contrarian bullish signal. However, the technicals are bearish with SMA-20 below SMA-50 and RSI at 10.0, indicating oversold conditions. The term structure is in contango, suggesting ample supply. Closing the long position to reassess the situation.",
     "llm_provider": "openai",
@@ -3595,33 +3622,5 @@
     "agent_reason": "Gold is currently in a contango structure, indicating ample supply, which is bearish. The technicals show a short-term bearish setup with SMA-20 below SMA-50 and RSI at 33.9, suggesting potential for a downward move. However, recent news suggests that gold prices are under pressure due to inflation concerns and a strong dollar, which could lead to further declines. Given the current unrealized P&L is minimal, it's prudent to close the position and reassess.",
     "llm_provider": "openai",
     "logged_at": "2026-10-22T09:16:32.278903+00:00"
-  },
-  {
-    "action": "BROKER_CLOSE",
-    "instrument": "WTI_OIL",
-    "deal_id": "DIAAAASCT9RM4A4",
-    "original_direction": "BUY",
-    "estimated_pnl": 1.01,
-    "status": "detected",
-    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-10-22T09:15:22.329732+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 120 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "agent_reason": "Natural Gas is in a contango structure, indicating ample supply, which is bearish. However, the extreme net-short positioning is a contrarian bullish signal. The current position is slightly negative, and given the mixed signals, it's prudent to close and reassess.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-22T09:02:43.377258+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "GOLD",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: GOLD has only been open for 204 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "agent_reason": "Gold is currently oversold with an RSI of 29.2, indicating potential for a rebound. The SMA-20 is below the SMA-50, suggesting a bearish trend, but the oversold condition and lack of extreme positioning suggest it's prudent to close the short position and reassess.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-22T09:02:43.377000+00:00"
   }
 ]
