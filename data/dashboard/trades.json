@@ -1,6 +1,15 @@
 [
   {
     "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "NATURAL_GAS momentum filter: proposed OPEN_SHORT conflicts with price action over the last 30 minutes (current 3.115 vs 30-min SMA 3.1145, trending up) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Natural Gas is currently overbought with an RSI of 80.3, and the term structure is in contango, indicating ample supply. Despite the extreme net-short positioning, the recent price surge appears overextended, and the independent price check shows a significant discrepancy, suggesting potential for a pullback.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-23T13:02:57.428298+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
     "instrument": "BRENT_OIL",
     "status": "REJECTED",
     "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
@@ -3640,14 +3649,5 @@
     "agent_reason": "Gold is oversold with an RSI of 27.6, suggesting a potential rebound. The SMA-20 is below the SMA-50, indicating a short-term bearish trend, but the oversold condition presents a buying opportunity.",
     "llm_provider": "openai",
     "logged_at": "2026-10-22T13:48:06.345008+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 2.796 vs 30-min SMA 2.8052, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Natural Gas is showing extreme net-short positioning, which is a contrarian bullish signal. The RSI is neutral, but the price is slightly below the SMA-20 and SMA-50, indicating potential for a rebound. The independent price check confirms the current price is not stale.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-22T13:48:06.344741+00:00"
   }
 ]
