@@ -3,6 +3,63 @@
     "action": "CLOSE",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 32 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "agent_reason": "Natural Gas is showing extreme net-short positioning, which is a contrarian bullish signal. However, the market is in contango, indicating ample supply, and the RSI is overbought. The recent inventory build was larger than the trailing average, suggesting continued supply pressure. Given the mixed signals and the current unrealized gain, it's prudent to close the position to secure profits.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-23T11:01:56.142362+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "GOLD",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: GOLD has only been open for 420 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "agent_reason": "Gold is currently in a contango structure, indicating ample supply, which is bearish. The technicals show a short-term bearish setup with SMA-20 below SMA-50. However, the RSI is neutral, and recent news suggests potential demand from India and China due to seasonal factors. Given the mixed signals and the current unrealized loss, it's prudent to close the position to avoid further losses.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-23T11:01:56.141983+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "NATURAL_GAS",
+    "deal_id": "DIAAAASC42QS9AD",
+    "old_limit_level": 3033.1,
+    "new_limit_level": 3073.335,
+    "old_stop_level": 3119.9371,
+    "new_stop_level": 3084.0,
+    "reason": "Agent-discretion profit ratchet ARMED (2026-10-09 refinement): stop locked to guarantee at least 2.7% profit (a 0.3% gap below the milestone just reached), limit extended to the next 3.5% target to keep upside open.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-23T11:01:23.945",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "BE7RTUC3XNWTYNV",
+      "dealId": "DIAAAASC42QS9AD",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASC42QS9AD",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 3095.0,
+      "size": 2.36,
+      "direction": "SELL",
+      "stopLevel": 3084.0,
+      "limitLevel": 3073.335,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-23T11:01:24.148556+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 2 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "agent_reason": "Natural Gas is currently showing an overbought RSI and a bullish short-term trend with the SMA-20 above the SMA-50. However, the term structure is in contango, indicating ample supply, which is bearish. The recent inventory data shows a build, which is also bearish. Given the mixed signals and the current unrealized loss, it is prudent to close the short position to reassess the market.",
     "llm_provider": "openai",
@@ -3651,67 +3708,5 @@
     "agent_reason": "Gold is oversold with an RSI of 10.9, suggesting a potential rebound. The SMA-20 is below the SMA-50, indicating a bearish trend, but the extreme oversold condition presents a mean-reversion opportunity. Managed-money positioning is within a normal range, providing no extreme crowding signal.",
     "llm_provider": "openai",
     "logged_at": "2026-10-22T12:02:09.107014+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "NATURAL_GAS",
-    "direction": "BUY",
-    "size": 2.32,
-    "margin_allocated": 1437.32,
-    "effective_leverage": 5.0,
-    "notional": 7189.68,
-    "stop_distance": 24.7814,
-    "limit_distance": 61.9534,
-    "confluence_detail": "get_positioning_data agrees with bullish",
-    "reason": "Natural Gas is showing extreme net-short positioning, which is a contrarian bullish signal. The RSI is neutral, but the price is slightly below the SMA-20 and SMA-50, indicating potential for a rebound. The independent price check confirms the current price is not stale.",
-    "llm_provider": "openai",
-    "status": "submitted",
-    "deal_id": "DIAAAASCVNEF8AB",
-    "raw": {
-      "date": "2026-10-22T12:02:08.927",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": "-",
-      "dealReference": "NXBSB3XQRZ6TYNV",
-      "dealId": "DIAAAASCVNEF8AB",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASCVNEF8AB",
-          "status": "OPENED"
-        }
-      ],
-      "level": 3100.0,
-      "size": 2.32,
-      "direction": "BUY",
-      "stopLevel": 3075.2185,
-      "limitLevel": 3161.9534,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-22T12:02:09.106659+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "SILVER's epic is not configured yet -- see config.py instructions",
-    "agent_reason": "Silver is showing extreme net-short positioning, which is a contrarian bullish signal. The RSI is oversold, suggesting a potential rebound. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-22T11:33:24.054696+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 2.76 vs 30-min SMA 2.7685, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Natural Gas is showing extreme net-short positioning, which is a contrarian bullish signal. The RSI is oversold, suggesting a potential rebound. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. Weather-driven demand is moderate, but the extreme positioning provides a strong contrarian signal.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-22T11:33:24.054417+00:00"
   }
 ]
