@@ -1,6 +1,15 @@
 [
   {
     "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
+    "agent_reason": "Brent Oil is experiencing a draw in inventories, indicating tight supply. The market commentary suggests geopolitical tensions are supporting prices. The technicals show a bullish setup with SMA-20 above SMA-50.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-26T11:31:54.690600+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
     "reason": "NATURAL_GAS already has an open position -- CLOSE it first",
@@ -3127,49 +3136,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-10-23T03:32:09.547622+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "direction": "BUY",
-    "size": 0.68,
-    "margin_allocated": 1475.66,
-    "effective_leverage": 5.0,
-    "notional": 7476.33,
-    "stop_distance": 86.8035,
-    "limit_distance": 217.0088,
-    "confluence_detail": "get_term_structure agrees with bullish",
-    "reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50. Recent news suggests persistent Middle East supply risks, supporting a bullish outlook. The RSI is neutral, allowing room for further upside.",
-    "llm_provider": "openai",
-    "status": "submitted",
-    "deal_id": "DIAAAASC264MUA9",
-    "raw": {
-      "date": "2026-10-23T03:32:08.939",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "EKZYZVBRQRATYNV",
-      "dealId": "DIAAAASC264MUA9",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASC264MUA9",
-          "status": "OPENED"
-        }
-      ],
-      "level": 11000.8,
-      "size": 0.68,
-      "direction": "BUY",
-      "stopLevel": 10913.996,
-      "limitLevel": 11217.809,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-23T03:32:09.178188+00:00"
   }
 ]
