@@ -1,5 +1,72 @@
 [
   {
+    "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 1 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
+    "agent_reason": "Natural Gas is showing extreme net-short positioning, a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. The technicals show a short-term bullish setup with SMA-20 above SMA-50.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-27T19:17:58.476510+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
+    "agent_reason": "Brent Oil is currently in a short-term bearish setup with SMA-20 below SMA-50 and a neutral RSI. The recent inventory data shows a draw, but the geopolitical tensions are easing, which could lead to a decrease in prices. The term structure is in contango, indicating ample supply, which supports a bearish outlook.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-27T19:17:58.404074+00:00"
+  },
+  {
+    "action": "BROKER_CLOSE",
+    "instrument": "NATURAL_GAS",
+    "deal_id": "DIAAAASDNQSXMBR",
+    "original_direction": "BUY",
+    "estimated_pnl": -7.68,
+    "status": "detected",
+    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
+    "logged_at": "2026-10-27T19:17:22.335128+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "NATURAL_GAS",
+    "deal_id": "DIAAAASDNQSXMBR",
+    "old_limit_level": 3082.4348,
+    "new_limit_level": 3043.154,
+    "old_stop_level": 2997.8261,
+    "new_stop_level": 3031.0,
+    "reason": "Agent-discretion profit ratchet ARMED (2026-10-09 refinement): stop locked to guarantee at least 2.7% profit (a 0.3% gap below the milestone just reached), limit extended to the next 3.5% target to keep upside open.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-27T19:09:23.739",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "KCMB4C7KP4ETYNV",
+      "dealId": "DIAAAASDNQSXMBR",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASDNQSXMBR",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 3022.0,
+      "size": 2.56,
+      "direction": "BUY",
+      "stopLevel": 3031.0,
+      "limitLevel": 3043.154,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-27T19:09:23.861672+00:00"
+  },
+  {
     "action": "OPEN_SHORT",
     "instrument": "BRENT_OIL",
     "status": "REJECTED",
@@ -3078,106 +3145,5 @@
     "status": "detected",
     "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
     "logged_at": "2026-10-26T12:08:07.344645+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
-    "agent_reason": "Brent Oil is oversold with an RSI of 28.7, suggesting a potential rebound. The term structure is flat, indicating no strong supply/demand imbalance. Recent news suggests geopolitical tensions could support prices.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-26T12:06:58.782109+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "NATURAL_GAS",
-    "direction": "BUY",
-    "size": 2.52,
-    "margin_allocated": 1524.15,
-    "effective_leverage": 5.0,
-    "notional": 7580.16,
-    "stop_distance": 24.1929,
-    "limit_distance": 60.4821,
-    "confluence_detail": "get_positioning_data agrees with bullish",
-    "reason": "Natural Gas shows extreme net-short positioning, a contrarian bullish signal. Despite contango indicating ample supply, the technicals show a short-term bullish setup with SMA-20 above SMA-50. The RSI is neutral, but the positioning suggests potential for a short squeeze.",
-    "llm_provider": "openai",
-    "status": "submitted",
-    "deal_id": "DIAAAASDCWGG7B3",
-    "raw": {
-      "date": "2026-10-26T12:06:58.549",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": "-",
-      "dealReference": "LN6PHDQJXBWTYNV",
-      "dealId": "DIAAAASDCWGG7B3",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASDCWGG7B3",
-          "status": "OPENED"
-        }
-      ],
-      "level": 3010.0,
-      "size": 2.52,
-      "direction": "BUY",
-      "stopLevel": 2985.8071,
-      "limitLevel": 3070.4822,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-26T12:06:58.781733+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "NATURAL_GAS",
-    "deal_id": "DIAAAASDCVZF7AT",
-    "old_limit_level": 3093.1071,
-    "new_limit_level": 3092.64,
-    "old_stop_level": 3007.5571,
-    "new_stop_level": 3007.5571,
-    "reason": "Agent-discretion pre-arm limit reconciliation (wide 10.0% of margin ceiling, kept out of the way until the profit ratchet arms at 2.5%) -- stop left exactly as the agent set it at open, amending the limit only.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-10-26T12:03:07.453",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": "-",
-      "dealReference": "RHUVSN764LATYNV",
-      "dealId": "DIAAAASDCVZF7AT",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASDCVZF7AT",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 3032.0,
-      "size": 2.52,
-      "direction": "BUY",
-      "stopLevel": 3007.5571,
-      "limitLevel": 3092.64,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-26T12:03:07.615707+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
-    "agent_reason": "Brent Oil is in a contango structure, indicating ample supply, which is bearish. The technicals show a short-term bearish setup with SMA-20 below SMA-50 and RSI at 31.0, suggesting potential for a downward move. Recent news suggests potential geopolitical tensions, but the technicals and term structure lean bearish.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-26T12:02:05.802830+00:00"
   }
 ]
