@@ -4,6 +4,90 @@
     "instrument": "SILVER",
     "status": "REJECTED",
     "reason": "SILVER's epic is not configured yet -- see config.py instructions",
+    "agent_reason": "Silver is showing extreme net-short positioning, a contrarian bullish signal. Despite the bearish technical outlook, the crowded short positioning suggests potential for a short squeeze.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-27T06:31:56.866628+00:00"
+  },
+  {
+    "action": "ORPHANED_WTI_CLEANUP",
+    "instrument": "WTI_OIL",
+    "deal_id": "DIAAAASDG8LTSAX",
+    "original_direction": "BUY",
+    "reason": "WTI_OIL was open with no corresponding BRENT_OIL position -- WTI is a pure mirror and should never be open on its own (Brent likely closed via its own native stop/limit, WTI's own trailing-stop timeout fired independently, or this predates the mirroring feature). Closing it automatically so Brent can trade again.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-27T06:31:21.922",
+      "status": "CLOSED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "BJEYRCW7B9WTYNV",
+      "dealId": "DIAAAASDG8LTSAX",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASDG8LTSAX",
+          "status": "FULLY_CLOSED"
+        }
+      ],
+      "level": 10066.0,
+      "size": 0.76,
+      "direction": "SELL",
+      "stopLevel": null,
+      "limitLevel": null,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": 32.0,
+      "profitCurrency": "USD"
+    },
+    "logged_at": "2026-10-27T06:31:22.054181+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "BRENT_OIL",
+    "deal_id": "DIAAAASDG8446BE",
+    "old_limit_level": 11207.352,
+    "new_limit_level": 11053.5256,
+    "old_stop_level": 10897.4618,
+    "new_stop_level": 11035.9454,
+    "reason": "Agent-discretion profit ratchet ARMED (2026-10-09 refinement): stop locked to guarantee at least 2.2% profit (a 0.3% gap below the milestone just reached), limit extended to the next 3.0% target to keep upside open.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-27T06:23:20.579",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "ZBLW2FN5FMNTYNV",
+      "dealId": "DIAAAASDG8446BE",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASDG8446BE",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 10987.6,
+      "size": 0.68,
+      "direction": "BUY",
+      "stopLevel": 11035.945,
+      "limitLevel": 11053.525,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-27T06:23:20.777472+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "SILVER",
+    "status": "REJECTED",
+    "reason": "SILVER's epic is not configured yet -- see config.py instructions",
     "agent_reason": "Silver is showing extreme net-short positioning, which is a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze.",
     "llm_provider": "openai",
     "logged_at": "2026-10-27T06:03:06.267509+00:00"
@@ -3248,32 +3332,5 @@
     "agent_reason": "Natural Gas is currently overbought with an RSI of 76.8, and the term structure is in contango, indicating ample supply. Despite the extreme net-short positioning, the recent price surge appears overextended, and the technicals suggest a potential pullback.",
     "llm_provider": "openai",
     "logged_at": "2026-10-23T18:02:56.140060+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
-    "agent_reason": "Brent Oil is experiencing supply risks due to escalating geopolitical tensions in the Middle East, particularly with attacks on Saudi Arabia. The technicals show a short-term bullish setup with SMA-20 above SMA-50, and the RSI is neutral, indicating room for upward movement. The term structure is flat, but the geopolitical risk premium is likely to drive prices higher.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-23T18:02:56.139821+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Confluence requirement not met: NATURAL_GAS's independent signal(s) checked this tick (get_positioning_data=bullish) do not support a bearish thesis -- a technical read alone, or signals pointing the other way, aren't enough to open",
-    "agent_reason": "Natural Gas is currently overbought with an RSI of 76.2, and the term structure is in contango, indicating ample supply. Despite the extreme net-short positioning, the recent price surge appears overextended, and the independent price check shows a significant drop, suggesting a potential pullback.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-23T17:32:53.250383+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
-    "agent_reason": "Brent Oil is experiencing supply risks due to escalating attacks in Saudi Arabia, which has heightened geopolitical tensions and increased the risk premium. The technicals show a short-term bullish setup with SMA-20 above SMA-50, and the RSI is neutral, suggesting room for further upside. The recent inventory data shows a draw, supporting a bullish outlook.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-23T17:32:53.250094+00:00"
   }
 ]
