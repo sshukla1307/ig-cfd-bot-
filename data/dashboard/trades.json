@@ -4,6 +4,24 @@
     "instrument": "SILVER",
     "status": "REJECTED",
     "reason": "SILVER's epic is not configured yet -- see config.py instructions",
+    "agent_reason": "Silver is currently overbought with an RSI of 82.2, but managed-money net-short positioning is at a multi-month extreme, which is a contrarian bullish signal. Despite the technical overbought condition, the extreme short positioning suggests potential for a short squeeze.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-27T21:32:42.804729+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
+    "agent_reason": "Brent Oil is currently showing a short-term bearish setup with SMA-20 below SMA-50 and RSI at 38.4, indicating potential for further downside. The term structure is flat, providing no bullish signal, and recent news suggests easing tensions in the Middle East, which could reduce supply risks. Inventory data shows a draw, but it was not larger than typical, so it doesn't strongly support a bullish case.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-27T21:32:42.804494+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "SILVER",
+    "status": "REJECTED",
+    "reason": "SILVER's epic is not configured yet -- see config.py instructions",
     "agent_reason": "Silver is showing extreme net-short positioning, a contrarian bullish signal. Despite the overbought RSI, the crowded short positioning suggests potential for a short squeeze. The SMA-20 is below SMA-50, but the positioning data provides a strong bullish catalyst.",
     "llm_provider": "openai",
     "logged_at": "2026-10-27T21:02:06.817957+00:00"
@@ -3065,23 +3083,5 @@
     "status": "detected",
     "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
     "logged_at": "2026-10-26T12:34:01.503915+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "SILVER's epic is not configured yet -- see config.py instructions",
-    "agent_reason": "Silver is showing extreme net-short positioning, which is a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-26T12:32:50.124237+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 17 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
-    "agent_reason": "Natural Gas shows extreme net-short positioning, a contrarian bullish signal. Despite contango indicating ample supply, the technicals show a short-term bullish setup with SMA-20 above SMA-50. The RSI is neutral, but the extreme short positioning suggests potential for a short squeeze.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-26T12:32:50.124034+00:00"
   }
 ]
