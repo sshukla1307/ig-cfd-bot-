@@ -1,6 +1,63 @@
 [
   {
     "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 3.005 vs 30-min SMA 3.0115, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Natural Gas is showing extreme net-short positioning, which is a contrarian bullish signal. The technicals show a short-term bullish setup with SMA-20 above SMA-50. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. Weather-driven demand is moderate, but the positioning signal is strong enough to justify a long position.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-27T16:32:15.984948+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
+    "agent_reason": "Brent Oil is currently in a short-term bearish setup with SMA-20 below SMA-50 and neutral RSI. The recent inventory data shows a draw, but the market commentary suggests easing tensions in the Middle East, which could lead to a bearish outlook. The term structure is not available, but the technicals and geopolitical context support a short position.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-27T16:32:15.856672+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "GOLD",
+    "deal_id": "DIAAAASDMZ73CAZ",
+    "old_limit_level": 3982.2103,
+    "new_limit_level": 3981.5342,
+    "old_stop_level": 4095.0219,
+    "new_stop_level": 4095.0219,
+    "reason": "Agent-discretion pre-arm limit reconciliation (wide 10.0% of margin ceiling, kept out of the way until the profit ratchet arms at 2.5%) -- stop left exactly as the agent set it at open, amending the limit only.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-27T16:05:22.406",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDGOLD.DBI.IP",
+      "expiry": "-",
+      "dealReference": "G783JSU2S7STYNV",
+      "dealId": "DIAAAASDMZ73CAZ",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASDMZ73CAZ",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 4062.79,
+      "size": 1.92,
+      "direction": "SELL",
+      "stopLevel": 4095.022,
+      "limitLevel": 3981.5342,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-27T16:05:22.623206+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
     "instrument": "SILVER",
     "status": "REJECTED",
     "reason": "SILVER's epic is not configured yet -- see config.py instructions",
@@ -3153,32 +3210,5 @@
     "agent_reason": "The current technicals for Gold show a short-term bearish setup with SMA-20 below SMA-50 and a neutral RSI. The term structure is in contango, indicating ample supply, which is bearish. Additionally, the recent news suggests a cautious outlook due to rising bond yields and a strong dollar. Given the current unrealized loss and the bearish signals, it is prudent to close the short position.",
     "llm_provider": "openai",
     "logged_at": "2026-10-26T10:32:20.369538+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 115 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "agent_reason": "Natural Gas shows a short-term bullish setup with SMA-20 above SMA-50, but the RSI is neutral. The term structure is in contango, indicating ample supply, which is bearish. The independent price check shows a significant discrepancy between sources, suggesting potential data issues. Closing the position to reassess the situation.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-26T10:01:49.908543+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "GOLD",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: GOLD has only been open for 570 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "agent_reason": "The current technicals for Gold show a short-term bearish setup with SMA-20 below SMA-50, and the RSI is neutral. The term structure is in contango, indicating ample supply, which is bearish. However, the current position is a sell, and the market price has moved against it, resulting in a loss. Closing the position to prevent further losses.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-26T10:01:49.908242+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "GOLD",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: GOLD has only been open for 540 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "agent_reason": "The current price of Gold is above the entry level, and the RSI is neutral. The SMA-20 is below the SMA-50, indicating a bearish trend, but the price is near the stop level. Closing to prevent further losses.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-26T09:32:00.932072+00:00"
   }
 ]
