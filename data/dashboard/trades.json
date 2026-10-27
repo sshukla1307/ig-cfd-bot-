@@ -2,6 +2,50 @@
   {
     "action": "OPEN_LONG",
     "instrument": "NATURAL_GAS",
+    "direction": "BUY",
+    "size": 2.56,
+    "margin_allocated": 1546.76,
+    "effective_leverage": 5.0,
+    "notional": 7754.24,
+    "stop_distance": 24.1681,
+    "limit_distance": 60.4203,
+    "confluence_detail": "get_positioning_data agrees with bullish",
+    "reason": "Natural Gas is showing extreme net-short positioning, a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. The technicals show a short-term bullish setup with SMA-20 above SMA-50.",
+    "llm_provider": "openai",
+    "status": "submitted",
+    "deal_id": "DIAAAASDKREEAA9",
+    "raw": {
+      "date": "2026-10-27T11:32:48.757",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "TXHM32RU9NSTYNV",
+      "dealId": "DIAAAASDKREEAA9",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASDKREEAA9",
+          "status": "OPENED"
+        }
+      ],
+      "level": 3027.0,
+      "size": 2.56,
+      "direction": "BUY",
+      "stopLevel": 3002.8318,
+      "limitLevel": 3087.4204,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-27T11:32:49.065948+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
     "status": "REJECTED",
     "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 3.013 vs 30-min SMA 3.0162, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
     "agent_reason": "Natural Gas is showing extreme net-short positioning, a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. The technicals show a short-term bullish setup with SMA-20 above SMA-50. Weather-driven demand is moderate, but the extreme positioning provides a strong bullish catalyst.",
@@ -3196,14 +3240,5 @@
     "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50. Recent news suggests persistent Middle East supply risks, supporting a bullish outlook.",
     "llm_provider": "openai",
     "logged_at": "2026-10-26T03:01:52.120021+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 60 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "agent_reason": "The current long position in Natural Gas is slightly positive, but the RSI is oversold at 23.9, indicating potential for a rebound. However, the term structure is in contango, suggesting ample supply, and the inventory data shows a build, which is bearish. Closing the position to lock in the small gain and reassess the market conditions.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-26T02:32:00.128023+00:00"
   }
 ]
