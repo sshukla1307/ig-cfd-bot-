@@ -4,18 +4,28 @@
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
     "reason": "NATURAL_GAS momentum filter: proposed OPEN_SHORT conflicts with price action over the last 30 minutes (current 3.064 vs 30-min SMA 3.0628, trending up) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Natural Gas is overbought with an RSI of 71.8, suggesting a potential pullback. The market is in contango, indicating ample supply. Despite extreme net-short positioning, the recent inventory build and moderate weather-driven demand do not support a sustained rally. This setup provides an opportunity for a short position.",
+    "agent_reason": "Natural Gas is overbought with an RSI of 71.8, suggesting a potential pullback. The market is in contango, indicating ample supply. Despite extreme net-short positioning, the technicals suggest a short opportunity.",
     "llm_provider": "openai",
-    "logged_at": "2026-10-28T06:32:53.678146+00:00"
+    "logged_at": "2026-10-28T06:34:16.041805+00:00"
   },
   {
     "action": "OPEN_SHORT",
     "instrument": "BRENT_OIL",
     "status": "REJECTED",
     "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
-    "agent_reason": "Brent Oil is currently overbought with an RSI of 78.5, indicating potential for a pullback. The SMA-20 is below the SMA-50, suggesting a bearish trend. Despite recent inventory draws, the market is in contango, indicating ample supply. Recent commentary suggests prices may stabilize near current levels, providing an opportunity for a short position.",
+    "agent_reason": "Brent Oil is currently overbought with an RSI of 78.6, indicating a potential pullback. The SMA-20 is below the SMA-50, suggesting a short-term bearish trend. Despite recent geopolitical tensions, the market is in contango, indicating ample supply. This setup suggests a short opportunity.",
     "llm_provider": "openai",
-    "logged_at": "2026-10-28T06:32:53.567192+00:00"
+    "logged_at": "2026-10-28T06:34:15.981546+00:00"
+  },
+  {
+    "action": "BROKER_CLOSE",
+    "instrument": "NATURAL_GAS",
+    "deal_id": "DIAAAASDPCZY5AR",
+    "original_direction": "BUY",
+    "estimated_pnl": 10.08,
+    "status": "detected",
+    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
+    "logged_at": "2026-10-28T06:33:48.126993+00:00"
   },
   {
     "action": "MARGIN_EXIT_SYNC",
@@ -2871,15 +2881,5 @@
     "agent_reason": "Natural Gas is showing extreme net-short positioning, a contrarian bullish signal. The technicals show a short-term bullish setup with SMA-20 above SMA-50. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. The independent price check shows a recent price increase, supporting a bullish outlook.",
     "llm_provider": "openai",
     "logged_at": "2026-10-26T17:35:13.515801+00:00"
-  },
-  {
-    "action": "BROKER_CLOSE",
-    "instrument": "NATURAL_GAS",
-    "deal_id": "DIAAAASDE85LYBP",
-    "original_direction": "BUY",
-    "estimated_pnl": -27.72,
-    "status": "detected",
-    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-10-26T17:34:17.236144+00:00"
   }
 ]
