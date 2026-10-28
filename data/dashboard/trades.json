@@ -1,5 +1,14 @@
 [
   {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
+    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The recent inventory data shows a draw, supporting a bullish outlook. Technicals show a short-term bullish setup with SMA-20 above SMA-50.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-28T00:31:37.021156+00:00"
+  },
+  {
     "action": "OPEN_SHORT",
     "instrument": "BRENT_OIL",
     "status": "REJECTED",
@@ -3073,44 +3082,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-10-26T14:53:11.105199+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "NATURAL_GAS",
-    "deal_id": "DIAAAASDD8YDYBD",
-    "old_limit_level": 3065.4127,
-    "new_limit_level": 3065.1,
-    "old_stop_level": 2980.8349,
-    "new_stop_level": 2980.8349,
-    "reason": "Agent-discretion pre-arm limit reconciliation (wide 10.0% of margin ceiling, kept out of the way until the profit ratchet arms at 2.5%) -- stop left exactly as the agent set it at open, amending the limit only.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-10-26T14:35:26.256",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": "-",
-      "dealReference": "SN5KMVXX55ETYNV",
-      "dealId": "DIAAAASDD8YDYBD",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASDD8YDYBD",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 3005.0,
-      "size": 2.52,
-      "direction": "BUY",
-      "stopLevel": 2980.835,
-      "limitLevel": 3065.1,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-26T14:35:26.491074+00:00"
   }
 ]
