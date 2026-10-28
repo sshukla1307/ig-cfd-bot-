@@ -1,5 +1,14 @@
 [
   {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
+    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. Recent inventory data shows a draw, supporting a bullish outlook. Technicals show a short-term bullish setup with SMA-20 above SMA-50.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-28T08:31:55.349689+00:00"
+  },
+  {
     "action": "OPEN_SHORT",
     "instrument": "BRENT_OIL",
     "status": "REJECTED",
@@ -2872,44 +2881,5 @@
     "agent_reason": "The current technicals for Gold show a neutral RSI and a short-term bearish setup with SMA-20 below SMA-50. The term structure is in contango, indicating ample supply, which is bearish. Managed-money positioning is within a normal range, providing no extreme signal. Given the neutral to bearish outlook and the current small unrealized gain, it is prudent to close the position and secure the profit.",
     "llm_provider": "openai",
     "logged_at": "2026-10-26T20:02:19.834789+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "NATURAL_GAS",
-    "deal_id": "DIAAAASDF2YUTBG",
-    "old_limit_level": 3099.1127,
-    "new_limit_level": 3098.76,
-    "old_stop_level": 3013.5549,
-    "new_stop_level": 3013.5549,
-    "reason": "Agent-discretion pre-arm limit reconciliation (wide 10.0% of margin ceiling, kept out of the way until the profit ratchet arms at 2.5%) -- stop left exactly as the agent set it at open, amending the limit only.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-10-26T19:33:04.359",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": "-",
-      "dealReference": "5JH3PGMKWJSTYNV",
-      "dealId": "DIAAAASDF2YUTBG",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASDF2YUTBG",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 3038.0,
-      "size": 2.52,
-      "direction": "BUY",
-      "stopLevel": 3013.555,
-      "limitLevel": 3098.76,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-26T19:33:04.588673+00:00"
   }
 ]
