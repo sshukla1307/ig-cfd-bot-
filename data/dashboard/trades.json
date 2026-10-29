@@ -1,5 +1,14 @@
 [
   {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "NATURAL_GAS momentum filter: proposed OPEN_SHORT conflicts with price action over the last 30 minutes (current 2.961 vs 30-min SMA 2.9533, trending up) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Natural Gas is currently in a contango structure, indicating ample supply, which is bearish. The technicals show a short-term bearish setup with SMA-20 below SMA-50. Despite the extreme net-short positioning, the technicals suggest a potential pullback. Opening a short position to capitalize on the bearish technical setup.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-29T17:02:37.682594+00:00"
+  },
+  {
     "action": "OPEN_LONG",
     "instrument": "SILVER",
     "status": "REJECTED",
@@ -3101,14 +3110,5 @@
     "agent_reason": "Brent Oil is currently overbought with an RSI of 78.6, indicating potential for a pullback. The term structure is flat, suggesting no immediate supply concerns. Recent commentary indicates geopolitical tensions are easing, which could reduce risk premiums. Independent price checks show a slight discrepancy, but overall agreement on a high price level.",
     "llm_provider": "openai",
     "logged_at": "2026-10-28T07:02:29.248125+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "NATURAL_GAS momentum filter: proposed OPEN_SHORT conflicts with price action over the last 30 minutes (current 3.064 vs 30-min SMA 3.0628, trending up) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Natural Gas is overbought with an RSI of 71.8, suggesting a potential pullback. The market is in contango, indicating ample supply. Despite extreme net-short positioning, the technicals suggest a short opportunity.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-28T06:34:16.041805+00:00"
   }
 ]
