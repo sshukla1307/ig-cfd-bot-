@@ -3,6 +3,15 @@
     "action": "OPEN_LONG",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 2.945 vs 30-min SMA 2.9457, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Natural Gas is showing extreme net-short positioning, a contrarian bullish signal. The RSI is oversold, suggesting a potential rebound. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. Recent commentary indicates rising production, but the extreme short positioning and oversold RSI provide a strong contrarian bullish setup.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-29T14:03:48.301321+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "Consecutive-loss circuit breaker: NATURAL_GAS has lost 4 times in a row going BUY (most recently 73 min ago) -- blocked for 120 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
     "agent_reason": "Natural Gas is showing extreme net-short positioning, a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. Technicals show a short-term bearish setup with SMA-20 below SMA-50, but the RSI is near oversold, suggesting a potential rebound.",
     "llm_provider": "openai",
@@ -3066,14 +3075,5 @@
     "agent_reason": "Natural Gas is showing extreme net-short positioning, a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. The technicals show a short-term bullish setup with SMA-20 above SMA-50, and the RSI is neutral, suggesting room for further upside.",
     "llm_provider": "openai",
     "logged_at": "2026-10-28T05:02:00.651851+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
-    "agent_reason": "Brent Oil is currently trading with a flat term structure, indicating no significant supply/demand imbalance. However, recent inventory data shows a draw, which supports a bullish outlook. The technicals show a short-term bullish setup with SMA-20 above SMA-50, and the RSI is neutral, suggesting room for further upside.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-28T05:02:00.651634+00:00"
   }
 ]
