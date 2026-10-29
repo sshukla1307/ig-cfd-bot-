@@ -1,6 +1,24 @@
 [
   {
     "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
+    "agent_reason": "Brent Oil is in a flat term structure, indicating no significant supply/demand imbalance. However, recent news suggests potential supply disruptions due to geopolitical tensions, and UBS has raised its Brent forecast, expecting prices to stay near $110 a barrel at year-end. The technicals show a short-term bullish setup with SMA-20 above SMA-50.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-29T11:32:18.906625+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 3.033 vs 30-min SMA 3.0383, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Natural Gas is showing extreme net-short positioning, a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. Technicals show a neutral RSI, but the positioning data provides a strong bullish catalyst.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-29T11:32:18.906375+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
     "instrument": "SILVER",
     "status": "REJECTED",
     "reason": "SILVER's epic is not configured yet -- see config.py instructions",
@@ -3115,23 +3133,5 @@
     "agent_reason": "Silver is showing extreme net-short positioning, which is a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. The technicals are neutral, but the positioning data provides a strong bullish catalyst.",
     "llm_provider": "openai",
     "logged_at": "2026-10-28T02:32:06.898530+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
-    "agent_reason": "Brent Oil is currently trading with a short-term bullish technical setup, as indicated by the SMA-20 being above the SMA-50. The RSI is neutral, suggesting room for further upside. Additionally, recent inventory data shows a draw, which supports a bullish outlook. Despite the flat term structure, the technicals and inventory data provide a bullish signal.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-28T02:32:06.898226+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "GOLD",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: GOLD has only been open for 599 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "agent_reason": "Gold is currently overbought with an RSI of 74.7, and the term structure is in contango, indicating ample supply. Despite the short-term bullish technical setup, the overbought condition and contango suggest a potential pullback.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-28T02:01:02.556890+00:00"
   }
 ]
