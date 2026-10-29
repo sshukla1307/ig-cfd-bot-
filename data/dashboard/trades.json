@@ -1,5 +1,54 @@
 [
   {
+    "action": "BROKER_CLOSE",
+    "instrument": "GOLD",
+    "deal_id": "DIAAAASDWQM5UBE",
+    "original_direction": "SELL",
+    "estimated_pnl": 28.07,
+    "status": "detected",
+    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
+    "logged_at": "2026-10-29T05:51:44.686982+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "GOLD",
+    "deal_id": "DIAAAASDWQM5UBE",
+    "old_limit_level": 3974.2724,
+    "new_limit_level": 4031.0477,
+    "old_stop_level": 4087.9951,
+    "new_stop_level": 4037.5363,
+    "reason": "Agent-discretion profit ratchet ARMED (2026-10-09 refinement): stop locked to guarantee at least 2.2% profit (a 0.3% gap below the milestone just reached), limit extended to the next 3.0% target to keep upside open.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-29T05:45:37.247",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDGOLD.DBI.IP",
+      "expiry": "-",
+      "dealReference": "EEZG5FHM45NTYNV",
+      "dealId": "DIAAAASDWQM5UBE",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASDWQM5UBE",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 4055.38,
+      "size": 1.96,
+      "direction": "SELL",
+      "stopLevel": 4037.5364,
+      "limitLevel": 4031.0476,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-29T05:45:37.478355+00:00"
+  },
+  {
     "action": "OPEN_LONG",
     "instrument": "SILVER",
     "status": "REJECTED",
@@ -3062,23 +3111,5 @@
     "agent_reason": "Gold is currently overbought with an RSI of 73.0, and the term structure is in contango, indicating ample supply. Despite the short-term bullish setup with SMA-20 above SMA-50, the overbought RSI and contango suggest a potential pullback. Booking profits on the current short position.",
     "llm_provider": "openai",
     "logged_at": "2026-10-27T18:53:24.770614+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 2.993 vs 30-min SMA 2.9992, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Natural Gas is showing extreme net-short positioning, a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. The RSI is near oversold levels, suggesting potential for a rebound. Recent news indicates a potential for increased demand due to global LNG exports.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-27T18:53:24.770375+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 3.01 vs 30-min SMA 3.0117, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Natural Gas is showing extreme net-short positioning, which is a contrarian bullish signal. The technicals show a short-term bullish setup with SMA-20 above SMA-50. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-27T18:32:03.493368+00:00"
   }
 ]
