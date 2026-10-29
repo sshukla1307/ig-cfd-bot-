@@ -3,6 +3,15 @@
     "action": "OPEN_LONG",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 20 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
+    "agent_reason": "Natural Gas is showing extreme net-short positioning, a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. The RSI is oversold, indicating a potential rebound. However, the independent price check shows a significant drop, which could be an anomaly. Given the extreme positioning and oversold RSI, a long position is warranted.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-29T20:02:05.220629+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 2.925 vs 30-min SMA 2.9255, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
     "agent_reason": "Natural Gas is showing extreme net-short positioning, a contrarian bullish signal. The RSI is oversold at 24.2, suggesting a potential rebound. Despite the bearish fundamentals, the crowded short positioning and oversold RSI indicate a potential for a short squeeze.",
     "llm_provider": "openai",
@@ -3100,44 +3109,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-10-28T10:51:09.037054+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "NATURAL_GAS",
-    "deal_id": "DIAAAASDR2Q7TA9",
-    "old_limit_level": 3143.8555,
-    "new_limit_level": 3143.64,
-    "old_stop_level": 3057.2578,
-    "new_stop_level": 3057.2578,
-    "reason": "Agent-discretion pre-arm limit reconciliation (wide 10.0% of margin ceiling, kept out of the way until the profit ratchet arms at 2.5%) -- stop left exactly as the agent set it at open, amending the limit only.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-10-28T10:32:56.031",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": "-",
-      "dealReference": "CSP347KSPBATYNV",
-      "dealId": "DIAAAASDR2Q7TA9",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASDR2Q7TA9",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 3082.0,
-      "size": 2.56,
-      "direction": "BUY",
-      "stopLevel": 3057.2578,
-      "limitLevel": 3143.64,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-28T10:32:56.234854+00:00"
   }
 ]
