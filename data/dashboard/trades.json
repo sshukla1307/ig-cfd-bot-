@@ -3,6 +3,24 @@
     "action": "OPEN_LONG",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "Consecutive-loss circuit breaker: NATURAL_GAS has lost 6 times in a row going BUY (most recently 81 min ago) -- blocked for 120 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
+    "agent_reason": "Natural Gas is showing extreme net-short positioning, a contrarian bullish signal. The RSI is oversold, suggesting a potential rebound. Despite the recent inventory build, the positioning data indicates a potential short squeeze. The independent price check shows a significant drop, which may be an overreaction, providing a buying opportunity.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-29T21:02:34.159716+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
+    "agent_reason": "Brent Oil is currently trading with a neutral term structure, but recent news suggests easing supply concerns due to potential peace negotiations in the Middle East. However, the technicals show a short-term bearish setup with SMA-20 below SMA-50, and RSI is neutral. Despite this, the recent inventory data shows a draw, which supports a bullish outlook. Given the mixed signals, a long position is justified with a tight stop loss.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-29T21:02:34.089928+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 2.898 vs 30-min SMA 2.9107, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
     "agent_reason": "Natural Gas is showing extreme net-short positioning, a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. The RSI is oversold, indicating a potential reversal. Recent commentary suggests rising production, but the extreme short positioning and oversold RSI provide a strong contrarian bullish setup.",
     "llm_provider": "openai",
@@ -3060,24 +3078,5 @@
     "agent_reason": "Gold is currently in a contango structure, indicating ample supply, which is bearish. The technicals show a short-term bullish setup with SMA-20 above SMA-50, but the RSI is neutral. Managed-money positioning is within a normal historical range, providing no extreme crowding signal. The current market outlook is mixed, and the position is slightly negative.",
     "llm_provider": "openai",
     "logged_at": "2026-10-28T10:54:00.502182+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 1 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
-    "agent_reason": "Natural Gas is showing extreme net-short positioning, a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. The technicals show a short-term bullish setup with SMA-20 above SMA-50.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-28T10:54:00.501933+00:00"
-  },
-  {
-    "action": "BROKER_CLOSE",
-    "instrument": "NATURAL_GAS",
-    "deal_id": "DIAAAASDR2Q7TA9",
-    "original_direction": "BUY",
-    "estimated_pnl": -7.68,
-    "status": "detected",
-    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-10-28T10:53:09.479893+00:00"
   }
 ]
