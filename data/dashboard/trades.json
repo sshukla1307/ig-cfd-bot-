@@ -2,6 +2,50 @@
   {
     "action": "OPEN_LONG",
     "instrument": "NATURAL_GAS",
+    "direction": "BUY",
+    "size": 2.64,
+    "margin_allocated": 1574.47,
+    "effective_leverage": 5.0,
+    "notional": 7832.88,
+    "stop_distance": 23.8556,
+    "limit_distance": 59.639,
+    "confluence_detail": "get_positioning_data agrees with bullish",
+    "reason": "Natural Gas is showing extreme net-short positioning, a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. The RSI is oversold, indicating a potential rebound. However, the recent inventory build and moderate weather-driven demand are bearish factors. The decision to go long is based on the extreme positioning and oversold RSI, expecting a short-term rebound.",
+    "llm_provider": "openai",
+    "status": "submitted",
+    "deal_id": "DIAAAASD6RSPEA3",
+    "raw": {
+      "date": "2026-10-29T22:03:29.647",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "S59CY3HFAXATYNV",
+      "dealId": "DIAAAASD6RSPEA3",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASD6RSPEA3",
+          "status": "OPENED"
+        }
+      ],
+      "level": 2968.0,
+      "size": 2.64,
+      "direction": "BUY",
+      "stopLevel": 2944.1443,
+      "limitLevel": 3027.639,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-29T22:03:29.883825+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
     "status": "REJECTED",
     "reason": "Consecutive-loss circuit breaker: NATURAL_GAS has lost 6 times in a row going BUY (most recently 111 min ago) -- blocked for 120 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
     "agent_reason": "Natural Gas is showing extreme net-short positioning, a contrarian bullish signal. The RSI is oversold at 22.3, indicating potential for a rebound. Despite the recent bearish trend, the extreme short positioning suggests a potential short squeeze.",
@@ -3069,14 +3113,5 @@
     "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50. Recent news suggests persistent Middle East supply risks, supporting a bullish outlook.",
     "llm_provider": "openai",
     "logged_at": "2026-10-28T11:03:08.130099+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 10 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
-    "agent_reason": "Natural Gas is showing extreme net-short positioning, a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. The technicals show a short-term bullish setup with SMA-20 above SMA-50.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-28T11:03:08.129827+00:00"
   }
 ]
