@@ -4,6 +4,33 @@
     "instrument": "SILVER",
     "status": "REJECTED",
     "reason": "SILVER's epic is not configured yet -- see config.py instructions",
+    "agent_reason": "Silver is showing extreme net-short positioning, a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. The recent news indicates a downtrend, but the positioning data supports a contrarian long position.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-30T12:03:09.903925+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 2.881 vs 30-min SMA 2.8907, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Natural Gas is showing extreme net-short positioning, a contrarian bullish signal. The RSI is neutral, but the recent price action suggests a potential reversal. The independent price check shows a significant drop, which could be an opportunity for a rebound.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-30T12:03:09.903654+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
+    "agent_reason": "Brent Oil is showing a short-term bullish setup with SMA-20 above SMA-50 and RSI at 65, indicating strong momentum. Despite the flat term structure, recent news suggests geopolitical risks and Chinese demand are supporting prices. The recent history of successful long trades on Brent further supports this position.",
+    "llm_provider": "openai",
+    "logged_at": "2026-10-30T12:03:09.827489+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "SILVER",
+    "status": "REJECTED",
+    "reason": "SILVER's epic is not configured yet -- see config.py instructions",
     "agent_reason": "Silver is oversold with an RSI of 14.5 and has extreme net-short positioning, suggesting a potential rebound.",
     "llm_provider": "openai",
     "logged_at": "2026-10-30T11:32:38.569715+00:00"
@@ -2756,97 +2783,5 @@
     "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show a short-term bullish setup with SMA-20 above SMA-50. Recent news suggests persistent Middle East supply risks, supporting a bullish outlook.",
     "llm_provider": "openai",
     "logged_at": "2026-10-28T23:01:41.077444+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "GOLD",
-    "deal_id": "DIAAAASDWQM5UBE",
-    "old_limit_level": 3973.8422,
-    "new_limit_level": 3974.2724,
-    "old_stop_level": 4087.9951,
-    "new_stop_level": 4087.9951,
-    "reason": "Agent-discretion pre-arm limit reconciliation (wide 10.0% of margin ceiling, kept out of the way until the profit ratchet arms at 2.5%) -- stop left exactly as the agent set it at open, amending the limit only.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-10-28T22:32:50.356",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDGOLD.DBI.IP",
-      "expiry": "-",
-      "dealReference": "9X9UQZVW9YNTYNV",
-      "dealId": "DIAAAASDWQM5UBE",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASDWQM5UBE",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 4055.38,
-      "size": 1.96,
-      "direction": "SELL",
-      "stopLevel": 4087.995,
-      "limitLevel": 3974.2725,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-28T22:32:50.539222+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "GOLD",
-    "direction": "SELL",
-    "size": 1.96,
-    "margin_allocated": 1598.14,
-    "effective_leverage": 5.0,
-    "notional": 7947.86,
-    "stop_distance": 32.6151,
-    "limit_distance": 81.5378,
-    "confluence_detail": "get_term_structure agrees with bearish",
-    "reason": "Gold is currently in a contango structure, indicating ample supply, which is bearish. The technicals show a short-term bullish setup with SMA-20 above SMA-50, but the RSI is neutral. Recent commentary suggests a strong demand season in India and China, but the overall macro environment with declining US Treasury yields suggests potential for a pullback.",
-    "llm_provider": "openai",
-    "status": "submitted",
-    "deal_id": "DIAAAASDWQM5UBE",
-    "raw": {
-      "date": "2026-10-28T22:31:39.357",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDGOLD.DBI.IP",
-      "expiry": "-",
-      "dealReference": "3TTRUC69W8JTYNV",
-      "dealId": "DIAAAASDWQM5UBE",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASDWQM5UBE",
-          "status": "OPENED"
-        }
-      ],
-      "level": 4055.38,
-      "size": 1.96,
-      "direction": "SELL",
-      "stopLevel": 4087.995,
-      "limitLevel": 3973.8423,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-28T22:31:39.562565+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "GOLD",
-    "status": "REJECTED",
-    "reason": "Confluence requirement not met: GOLD's independent signal(s) checked this tick (get_term_structure=bearish) do not support a bullish thesis -- a technical read alone, or signals pointing the other way, aren't enough to open",
-    "agent_reason": "Gold is showing a short-term bullish setup with SMA-20 above SMA-50 and RSI at 66, indicating upward momentum. Despite the contango structure, the current technicals suggest a continuation of the bullish trend. Additionally, the demand for gold is expected to increase due to the holiday and wedding season in India and China, which could offset the bearish pressure from Western markets.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-28T22:03:12.768864+00:00"
   }
 ]
