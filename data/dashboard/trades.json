@@ -1,5 +1,98 @@
 [
   {
+    "action": "OPEN_SHORT",
+    "instrument": "GOLD",
+    "direction": "SELL",
+    "size": 2.0,
+    "margin_allocated": 1587.02,
+    "effective_leverage": 5.0,
+    "notional": 7968.74,
+    "stop_distance": 31.7404,
+    "limit_distance": 79.351,
+    "confluence_detail": "get_term_structure agrees with bearish",
+    "reason": "Gold is currently in a contango structure, indicating ample supply, which is bearish. The technicals show a short-term bearish setup with SMA-20 below SMA-50 and RSI is oversold, suggesting potential for further downside. Recent commentary suggests potential for higher interest rates, which could weigh on gold.",
+    "llm_provider": "openai",
+    "status": "submitted",
+    "deal_id": "DIAAAASD85FBBBR",
+    "raw": {
+      "date": "2026-10-30T06:48:28.966",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDGOLD.DBI.IP",
+      "expiry": "-",
+      "dealReference": "4VCQVNYU4G2TYNV",
+      "dealId": "DIAAAASD85FBBBR",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASD85FBBBR",
+          "status": "OPENED"
+        }
+      ],
+      "level": 3983.55,
+      "size": 2.0,
+      "direction": "SELL",
+      "stopLevel": 4015.2903,
+      "limitLevel": 3904.199,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-30T06:48:29.101075+00:00"
+  },
+  {
+    "action": "BROKER_CLOSE",
+    "instrument": "GOLD",
+    "deal_id": "DIAAAASD5SQHFBD",
+    "original_direction": "SELL",
+    "estimated_pnl": 32.46,
+    "status": "detected",
+    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
+    "logged_at": "2026-10-30T06:47:55.635330+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "GOLD",
+    "deal_id": "DIAAAASD5SQHFBD",
+    "old_limit_level": 3926.1446,
+    "new_limit_level": 3982.2324,
+    "old_stop_level": 4038.0894,
+    "new_stop_level": 3988.6424,
+    "reason": "Agent-discretion profit ratchet ARMED (2026-10-09 refinement): stop locked to guarantee at least 2.2% profit (a 0.3% gap below the milestone just reached), limit extended to the next 3.0% target to keep upside open.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-30T06:45:59.876",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDGOLD.DBI.IP",
+      "expiry": "-",
+      "dealReference": "TA3GR67FYZSTYNV",
+      "dealId": "DIAAAASD5SQHFBD",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASD5SQHFBD",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 4006.27,
+      "size": 2.0,
+      "direction": "SELL",
+      "stopLevel": 3988.6423,
+      "limitLevel": 3982.2324,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-10-30T06:45:59.996410+00:00"
+  },
+  {
     "action": "CLOSE",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
@@ -2797,32 +2890,5 @@
     "agent_reason": "Silver is currently oversold with an RSI of 35.9, and managed-money net-short positioning is at a multi-month extreme, a contrarian bullish signal. Despite the recent price decline, the extreme short positioning suggests potential for a short squeeze.",
     "llm_provider": "openai",
     "logged_at": "2026-10-28T16:01:58.419310+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
-    "agent_reason": "Brent Oil is showing a short-term bullish setup with SMA-20 above SMA-50 and RSI at 65.9, indicating strong momentum. Recent news suggests geopolitical tensions could further support prices. Despite a flat term structure, the technicals and geopolitical risks provide a bullish outlook.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-28T16:01:58.419090+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "SILVER's epic is not configured yet -- see config.py instructions",
-    "agent_reason": "Silver is currently oversold with an RSI of 40.4, and managed-money net-short positioning is at a multi-month extreme, a contrarian bullish signal. Despite recent price declines, the extreme short positioning suggests potential for a short squeeze.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-28T15:55:35.305519+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
-    "agent_reason": "Brent Oil is showing a short-term bullish setup with SMA-20 above SMA-50 and RSI at 61.9, indicating momentum. Recent news suggests geopolitical risks and potential US strikes against Iran, supporting a bullish outlook. Despite the flat term structure, the geopolitical tensions provide a strong catalyst for a price increase.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-28T15:55:35.305239+00:00"
   }
 ]
