@@ -1,5 +1,41 @@
 [
   {
+    "action": "WEEKEND_FLATTEN",
+    "instrument": "GOLD",
+    "deal_id": "DIAAAASEEBAW5BY",
+    "original_direction": "SELL",
+    "reason": "Force-closed ahead of the weekend market closure to avoid holding exposure over a period with no ability to react to news or price gaps.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-10-30T19:01:46.697",
+      "status": "CLOSED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDGOLD.DBI.IP",
+      "expiry": "-",
+      "dealReference": "92E88KUV9SJTYNV",
+      "dealId": "DIAAAASEEBAW5BY",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASEEBAW5BY",
+          "status": "FULLY_CLOSED"
+        }
+      ],
+      "level": 3878.75,
+      "size": 2.08,
+      "direction": "BUY",
+      "stopLevel": null,
+      "limitLevel": null,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": 32.28,
+      "profitCurrency": "USD"
+    },
+    "logged_at": "2026-10-30T19:01:46.959389+00:00"
+  },
+  {
     "action": "OPEN_LONG",
     "instrument": "SILVER",
     "status": "REJECTED",
@@ -2884,14 +2920,5 @@
     "agent_reason": "Brent Oil is in a flat term structure, indicating no significant supply/demand imbalance. However, recent news suggests potential supply disruptions due to geopolitical tensions, and UBS has raised its Brent forecast, expecting prices to stay near $110 a barrel at year-end. The technicals show a short-term bullish setup with SMA-20 above SMA-50.",
     "llm_provider": "openai",
     "logged_at": "2026-10-29T11:32:18.906625+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 3.033 vs 30-min SMA 3.0383, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Natural Gas is showing extreme net-short positioning, a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. Technicals show a neutral RSI, but the positioning data provides a strong bullish catalyst.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-29T11:32:18.906375+00:00"
   }
 ]
