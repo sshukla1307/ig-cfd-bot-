@@ -1,6 +1,63 @@
 [
   {
     "action": "OPEN_LONG",
+    "instrument": "SILVER",
+    "status": "REJECTED",
+    "reason": "SILVER's epic is not configured yet -- see config.py instructions",
+    "agent_reason": "Silver is in backwardation, indicating tight supply, which is bullish. Managed-money net-short positioning is at an extreme, a contrarian bullish signal. Despite the technicals showing a bearish setup, the fundamental signals suggest a potential upside.",
+    "llm_provider": "openai",
+    "logged_at": "2026-11-02T03:03:19.856826+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 110.38 vs 30-min SMA 110.4533, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show an oversold RSI, suggesting a potential rebound. Recent news highlights supply disruptions in the Strait of Hormuz, adding to bullish sentiment.",
+    "llm_provider": "openai",
+    "logged_at": "2026-11-02T03:03:19.856577+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "NATURAL_GAS",
+    "deal_id": "DIAAAASEHM7Q8BP",
+    "old_limit_level": 3085.6542,
+    "new_limit_level": 3085.5,
+    "old_stop_level": 3000.7383,
+    "new_stop_level": 3000.7383,
+    "reason": "Agent-discretion pre-arm limit reconciliation (wide 10.0% of margin ceiling, kept out of the way until the profit ratchet arms at 2.5%) -- stop left exactly as the agent set it at open, amending the limit only.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-11-02T02:33:58.671",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "BAHST4MSPHWTYNV",
+      "dealId": "DIAAAASEHM7Q8BP",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASEHM7Q8BP",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 3025.0,
+      "size": 2.64,
+      "direction": "BUY",
+      "stopLevel": 3000.7383,
+      "limitLevel": 3085.5,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-11-02T02:33:58.895572+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
     "instrument": "NATURAL_GAS",
     "direction": "BUY",
     "size": 2.64,
@@ -2954,68 +3011,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-10-29T18:35:43.331167+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "GOLD",
-    "direction": "SELL",
-    "size": 2.0,
-    "margin_allocated": 1590.97,
-    "effective_leverage": 5.0,
-    "notional": 8014.6,
-    "stop_distance": 31.8194,
-    "limit_distance": 79.5485,
-    "confluence_detail": "get_term_structure agrees with bearish",
-    "reason": "Gold is in a contango structure, indicating ample supply, which is bearish. The technicals show a short-term bearish setup with SMA-20 below SMA-50. Recent news suggests potential for higher interest rates, which could weigh on gold prices.",
-    "llm_provider": "openai",
-    "status": "submitted",
-    "deal_id": "DIAAAASD5SQHFBD",
-    "raw": {
-      "date": "2026-10-29T18:34:22.219",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDGOLD.DBI.IP",
-      "expiry": "-",
-      "dealReference": "JDKU7JUQBNTYNV",
-      "dealId": "DIAAAASD5SQHFBD",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASD5SQHFBD",
-          "status": "OPENED"
-        }
-      ],
-      "level": 4006.27,
-      "size": 2.0,
-      "direction": "SELL",
-      "stopLevel": 4038.0894,
-      "limitLevel": 3926.7214,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-29T18:34:22.498380+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
-    "agent_reason": "Brent Oil is currently in a flat term structure, indicating no significant supply-demand imbalance. The technicals show a short-term bearish setup with SMA-20 below SMA-50. Recent news suggests easing fears of supply disruptions due to potential peace negotiations in the Middle East, which could lead to a bearish outlook.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-29T18:34:22.113769+00:00"
-  },
-  {
-    "action": "BROKER_CLOSE",
-    "instrument": "GOLD",
-    "deal_id": "DIAAAASDYLJLZA3",
-    "original_direction": "SELL",
-    "estimated_pnl": 37.38,
-    "status": "detected",
-    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-10-29T18:33:43.159481+00:00"
   }
 ]
