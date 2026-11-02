@@ -1,6 +1,73 @@
 [
   {
     "action": "CLOSE",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 76 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "agent_reason": "Brent Oil is showing a short-term bullish setup with SMA-20 above SMA-50, but the RSI is neutral. Recent news indicates potential supply risks, but the price has dropped significantly. Closing the position to limit losses and reassess the market direction.",
+    "llm_provider": "openai",
+    "logged_at": "2026-11-02T05:48:19.367902+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "GOLD",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: GOLD has only been open for 225 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "agent_reason": "Gold is currently in a short-term bearish setup with SMA-20 below SMA-50 and RSI at 30, indicating potential for further downside. However, the position is slightly negative, and recent news suggests potential for a rebound as dip buyers emerge. Closing the position to reassess the market direction.",
+    "llm_provider": "openai",
+    "logged_at": "2026-11-02T05:48:19.367694+00:00"
+  },
+  {
+    "action": "BROKER_CLOSE",
+    "instrument": "NATURAL_GAS",
+    "deal_id": "DIAAAASEHM7Q8BP",
+    "original_direction": "BUY",
+    "estimated_pnl": 21.12,
+    "status": "detected",
+    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
+    "logged_at": "2026-11-02T05:47:47.462291+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "NATURAL_GAS",
+    "deal_id": "DIAAAASEHM7Q8BP",
+    "old_limit_level": 3085.5,
+    "new_limit_level": 3043.15,
+    "old_stop_level": 3000.7383,
+    "new_stop_level": 3032.0,
+    "reason": "Agent-discretion profit ratchet ARMED (2026-10-09 refinement): stop locked to guarantee at least 2.2% profit (a 0.3% gap below the milestone just reached), limit extended to the next 3.0% target to keep upside open.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-11-02T05:45:55.554",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "6EMLCTW4VS2TYNV",
+      "dealId": "DIAAAASEHM7Q8BP",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASEHM7Q8BP",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 3025.0,
+      "size": 2.64,
+      "direction": "BUY",
+      "stopLevel": 3032.0,
+      "limitLevel": 3043.15,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-11-02T05:45:55.685906+00:00"
+  },
+  {
+    "action": "CLOSE",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
     "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 181 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
@@ -3037,76 +3104,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-10-29T22:04:37.063230+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "NATURAL_GAS",
-    "direction": "BUY",
-    "size": 2.64,
-    "margin_allocated": 1574.47,
-    "effective_leverage": 5.0,
-    "notional": 7832.88,
-    "stop_distance": 23.8556,
-    "limit_distance": 59.639,
-    "confluence_detail": "get_positioning_data agrees with bullish",
-    "reason": "Natural Gas is showing extreme net-short positioning, a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. The RSI is oversold, indicating a potential rebound. However, the recent inventory build and moderate weather-driven demand are bearish factors. The decision to go long is based on the extreme positioning and oversold RSI, expecting a short-term rebound.",
-    "llm_provider": "openai",
-    "status": "submitted",
-    "deal_id": "DIAAAASD6RSPEA3",
-    "raw": {
-      "date": "2026-10-29T22:03:29.647",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": "-",
-      "dealReference": "S59CY3HFAXATYNV",
-      "dealId": "DIAAAASD6RSPEA3",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASD6RSPEA3",
-          "status": "OPENED"
-        }
-      ],
-      "level": 2968.0,
-      "size": 2.64,
-      "direction": "BUY",
-      "stopLevel": 2944.1443,
-      "limitLevel": 3027.639,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-10-29T22:03:29.883825+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Consecutive-loss circuit breaker: NATURAL_GAS has lost 6 times in a row going BUY (most recently 111 min ago) -- blocked for 120 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
-    "agent_reason": "Natural Gas is showing extreme net-short positioning, a contrarian bullish signal. The RSI is oversold at 22.3, indicating potential for a rebound. Despite the recent bearish trend, the extreme short positioning suggests a potential short squeeze.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-29T21:33:05.660635+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Consecutive-loss circuit breaker: NATURAL_GAS has lost 6 times in a row going BUY (most recently 81 min ago) -- blocked for 120 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
-    "agent_reason": "Natural Gas is showing extreme net-short positioning, a contrarian bullish signal. The RSI is oversold, suggesting a potential rebound. Despite the recent inventory build, the positioning data indicates a potential short squeeze. The independent price check shows a significant drop, which may be an overreaction, providing a buying opportunity.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-29T21:02:34.159716+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
-    "agent_reason": "Brent Oil is currently trading with a neutral term structure, but recent news suggests easing supply concerns due to potential peace negotiations in the Middle East. However, the technicals show a short-term bearish setup with SMA-20 below SMA-50, and RSI is neutral. Despite this, the recent inventory data shows a draw, which supports a bullish outlook. Given the mixed signals, a long position is justified with a tight stop loss.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-29T21:02:34.089928+00:00"
   }
 ]
