@@ -3,6 +3,24 @@
     "action": "OPEN_LONG",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 2.9 vs 30-min SMA 2.9043, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Natural Gas shows extreme net-short positioning, a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. The RSI is neutral, but the positioning data supports a bullish stance.",
+    "llm_provider": "openai",
+    "logged_at": "2026-11-02T17:19:49.479511+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 104.63 vs 30-min SMA 104.6717, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. Despite recent price declines due to US-Iran diplomatic hopes, major banks have raised their forecasts due to ongoing geopolitical risks. The RSI is oversold at 16.6, suggesting a potential rebound.",
+    "llm_provider": "openai",
+    "logged_at": "2026-11-02T17:19:49.414302+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 2.906 vs 30-min SMA 2.9095, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
     "agent_reason": "Natural Gas is experiencing extreme net-short positioning, a contrarian bullish signal. The market is in contango, indicating ample supply, but the crowded short positioning suggests potential for a short squeeze. The RSI is neutral, allowing room for a move higher.",
     "llm_provider": "openai",
@@ -3419,23 +3437,5 @@
     "agent_reason": "Natural Gas is showing extreme net-short positioning, a contrarian bullish signal. The RSI is near oversold levels at 31.1, suggesting potential for a rebound. Despite the bearish technicals, the crowded short positioning suggests potential for a short squeeze.",
     "llm_provider": "openai",
     "logged_at": "2026-10-30T13:33:38.391029+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
-    "agent_reason": "Brent Oil is currently in a bullish trend with SMA-20 above SMA-50 and RSI at 60.8, indicating strong momentum. Recent news suggests geopolitical risks and Chinese demand are supporting prices. Despite a flat term structure, the overall sentiment remains bullish.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-30T13:33:38.294743+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "SILVER's epic is not configured yet -- see config.py instructions",
-    "agent_reason": "Silver is showing extreme net-short positioning, which is a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-30T13:10:41.488957+00:00"
   }
 ]
