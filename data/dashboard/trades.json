@@ -4,6 +4,33 @@
     "instrument": "SILVER",
     "status": "REJECTED",
     "reason": "SILVER's epic is not configured yet -- see config.py instructions",
+    "agent_reason": "Silver is showing extreme net-short positioning, which is a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. The RSI is neutral, and the technicals show a short-term bearish setup, but the positioning data provides a strong contrarian signal.",
+    "llm_provider": "openai",
+    "logged_at": "2026-11-02T19:33:15.715450+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 2.859 vs 30-min SMA 2.8645, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Natural Gas shows extreme net-short positioning, a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. The RSI is neutral, and the technicals show a short-term bullish setup with SMA-20 above SMA-50.",
+    "llm_provider": "openai",
+    "logged_at": "2026-11-02T19:33:15.715312+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Consecutive-loss circuit breaker: BRENT_OIL has lost 2 times in a row going BUY (most recently 102 min ago) -- blocked for 120 min regardless of the shorter same-direction cooldown, to avoid repeating a thesis that keeps failing against what may be a persistent trend",
+    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show an oversold RSI at 20.3, suggesting a potential rebound. Recent news highlights supply concerns due to geopolitical tensions, and Goldman Sachs has raised its price forecast.",
+    "llm_provider": "openai",
+    "logged_at": "2026-11-02T19:33:15.671716+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "SILVER",
+    "status": "REJECTED",
+    "reason": "SILVER's epic is not configured yet -- see config.py instructions",
     "agent_reason": "Silver is showing extreme net-short positioning, which is a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. The RSI is neutral, and the SMA-20 is below SMA-50, but the positioning data provides a strong contrarian signal.",
     "llm_provider": "openai",
     "logged_at": "2026-11-02T19:03:39.096649+00:00"
@@ -3475,32 +3502,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-10-30T16:14:00.535987+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "SILVER's epic is not configured yet -- see config.py instructions",
-    "agent_reason": "Silver is showing extreme net-short positioning, a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. Recent news indicates mixed economic signals, but the extreme positioning provides a strong contrarian bullish case.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-30T16:10:34.174265+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "GOLD",
-    "status": "REJECTED",
-    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for GOLD this tick -- a technical read or a generic news search alone can't open a position",
-    "agent_reason": "Gold is currently oversold with an RSI of 15.3, indicating a potential rebound. The SMA-20 is below the SMA-50, suggesting a bearish trend, but the extreme oversold condition presents a mean-reversion opportunity. Additionally, geopolitical tensions could drive safe-haven demand.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-30T16:03:08.825427+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
-    "agent_reason": "Brent Oil is currently in a bullish setup with SMA-20 above SMA-50, indicating a short-term uptrend. Despite the flat term structure, geopolitical tensions and potential supply disruptions are supporting higher prices. Recent news suggests that Brent is nearing four-year highs due to these factors.",
-    "llm_provider": "openai",
-    "logged_at": "2026-10-30T16:03:08.825174+00:00"
   }
 ]
