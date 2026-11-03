@@ -1,5 +1,44 @@
 [
   {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "GOLD",
+    "deal_id": "DIAAAASEX5693A2",
+    "old_limit_level": 3852.5201,
+    "new_limit_level": 3851.8312,
+    "old_stop_level": 3961.608,
+    "new_stop_level": 3961.608,
+    "reason": "Agent-discretion pre-arm limit reconciliation (wide 10.0% of margin ceiling, kept out of the way until the profit ratchet arms at 2.5%) -- stop left exactly as the agent set it at open, amending the limit only.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-11-03T23:04:44.44",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CS.D.CFDGOLD.DBI.IP",
+      "expiry": "-",
+      "dealReference": "DHFY8PGK766TYNV",
+      "dealId": "DIAAAASEX5693A2",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASEX5693A2",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 3930.44,
+      "size": 1.96,
+      "direction": "SELL",
+      "stopLevel": 3961.608,
+      "limitLevel": 3851.8313,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-11-03T23:04:44.670029+00:00"
+  },
+  {
     "action": "OPEN_SHORT",
     "instrument": "GOLD",
     "direction": "SELL",
@@ -3588,14 +3627,5 @@
     "agent_reason": "The independent price checks for Natural Gas show a significant discrepancy, indicating potential data issues. To avoid unexpected losses due to unreliable pricing, it's prudent to close the position.",
     "llm_provider": "openai",
     "logged_at": "2026-11-03T00:03:48.583001+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
-    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. Despite recent price declines, the backwardation structure supports a bullish outlook. The technicals show an oversold RSI, suggesting a potential rebound. Recent news highlights supply concerns due to geopolitical tensions, supporting a long position.",
-    "llm_provider": "openai",
-    "logged_at": "2026-11-02T23:59:03.684351+00:00"
   }
 ]
