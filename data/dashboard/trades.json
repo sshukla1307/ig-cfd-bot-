@@ -4,6 +4,54 @@
     "instrument": "SILVER",
     "status": "REJECTED",
     "reason": "SILVER's epic is not configured yet -- see config.py instructions",
+    "agent_reason": "Silver is experiencing extreme net-short positioning, a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. The RSI is neutral, but the positioning data provides a strong bullish catalyst.",
+    "llm_provider": "openai",
+    "logged_at": "2026-11-03T17:04:01.032983+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "NATURAL_GAS",
+    "deal_id": "DIAAAASEWP937AK",
+    "old_limit_level": 3081.3899,
+    "new_limit_level": 3081.42,
+    "old_stop_level": 2996.844,
+    "new_stop_level": 2996.844,
+    "reason": "Agent-discretion pre-arm limit reconciliation (wide 10.0% of margin ceiling, kept out of the way until the profit ratchet arms at 2.5%) -- stop left exactly as the agent set it at open, amending the limit only.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-11-03T16:34:59.932",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "FE8MQ5QF8RSTYNV",
+      "dealId": "DIAAAASEWP937AK",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASEWP937AK",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 3021.0,
+      "size": 2.48,
+      "direction": "BUY",
+      "stopLevel": 2996.844,
+      "limitLevel": 3081.42,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-11-03T16:35:00.155334+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "SILVER",
+    "status": "REJECTED",
+    "reason": "SILVER's epic is not configured yet -- see config.py instructions",
     "agent_reason": "Silver is showing extreme net-short positioning, which is a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. Recent price action shows a rebound, and the bearish trend may be reversing.",
     "llm_provider": "openai",
     "logged_at": "2026-11-03T16:34:03.213219+00:00"
@@ -3401,59 +3449,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-11-02T19:54:34.348387+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "direction": "BUY",
-    "size": 0.72,
-    "margin_allocated": 1488.63,
-    "effective_leverage": 5.0,
-    "notional": 7514.93,
-    "stop_distance": 82.7017,
-    "limit_distance": 206.7542,
-    "confluence_detail": "get_term_structure agrees with bullish",
-    "reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The technicals show an oversold RSI at 19.8, suggesting a potential rebound. Despite recent price declines, the backwardation structure supports a bullish outlook.",
-    "llm_provider": "openai",
-    "status": "submitted",
-    "deal_id": "DIAAAASEPV6DGBR",
-    "raw": {
-      "date": "2026-11-02T19:54:33.676",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "W3L4YMENKBWTYNV",
-      "dealId": "DIAAAASEPV6DGBR",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASEPV6DGBR",
-          "status": "OPENED"
-        }
-      ],
-      "level": 10447.4,
-      "size": 0.72,
-      "direction": "BUY",
-      "stopLevel": 10364.698,
-      "limitLevel": 10654.154,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-11-02T19:54:33.994513+00:00"
-  },
-  {
-    "action": "BROKER_CLOSE",
-    "instrument": "GOLD",
-    "deal_id": "DIAAAASEMD8RWBP",
-    "original_direction": "SELL",
-    "estimated_pnl": 29.69,
-    "status": "detected",
-    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-11-02T19:53:56.091438+00:00"
   }
 ]
