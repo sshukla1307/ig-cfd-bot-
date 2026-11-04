@@ -3,6 +3,24 @@
     "action": "CLOSE",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 111 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "agent_reason": "The short position in Natural Gas is underperforming. Despite the contango structure indicating ample supply, the extreme net-short positioning is a contrarian bullish signal. Additionally, recent commentary suggests tightening production and colder weather, which could support prices. Closing the position to avoid further losses is advisable.",
+    "llm_provider": "openai",
+    "logged_at": "2026-11-04T23:33:05.546048+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "GOLD",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: GOLD has only been open for 239 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "agent_reason": "The current short position in Gold is not performing as expected. The technicals show a short-term bullish setup with the SMA-20 above the SMA-50, and the RSI is neutral. Additionally, recent market commentary indicates a bullish sentiment due to a weaker dollar following the US midterm elections. It's prudent to close the position to prevent further losses.",
+    "llm_provider": "openai",
+    "logged_at": "2026-11-04T23:33:05.545884+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 82 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "agent_reason": "Natural Gas is experiencing extreme net-short positioning, a contrarian bullish signal. The technicals show a short-term bullish setup with SMA-20 above SMA-50. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. Closing the short position to avoid further losses.",
     "llm_provider": "openai",
@@ -26,6 +44,60 @@
     "status": "detected",
     "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
     "logged_at": "2026-11-04T23:03:43.933534+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 81 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "agent_reason": "Natural Gas is currently in a contango structure, indicating ample supply, which is bearish. However, there is extreme net-short positioning, a contrarian bullish signal. The technicals show a short-term bullish SMA setup, but the RSI is neutral. The recent news indicates tightening production and colder weather, which could support prices. Given the mixed signals and the current unrealized loss, it is prudent to close the position to prevent further losses.",
+    "llm_provider": "openai",
+    "logged_at": "2026-11-04T23:02:48.915265+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "GOLD",
+    "status": "REJECTED",
+    "reason": "Minimum hold time not met: GOLD has only been open for 209 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "agent_reason": "The current technical indicators for Gold show an overbought RSI of 72.3 and a short-term bullish SMA setup. However, the term structure is in contango, indicating ample supply, which is bearish. The recent news suggests a potential for volatility due to macroeconomic data releases. Given the mixed signals and the current unrealized loss, it is prudent to close the position to prevent further losses.",
+    "llm_provider": "openai",
+    "logged_at": "2026-11-04T23:02:48.915005+00:00"
+  },
+  {
+    "action": "ORPHANED_WTI_CLEANUP",
+    "instrument": "WTI_OIL",
+    "deal_id": "DIAAAASFARY36AZ",
+    "original_direction": "BUY",
+    "reason": "WTI_OIL was open with no corresponding BRENT_OIL position -- WTI is a pure mirror and should never be open on its own (Brent likely closed via its own native stop/limit, WTI's own trailing-stop timeout fired independently, or this predates the mirroring feature). Closing it automatically so Brent can trade again.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-11-04T23:02:02.205",
+      "status": "CLOSED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "3MPD2BJCL6JTYNV",
+      "dealId": "DIAAAASFARY36AZ",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASFARY36AZ",
+          "status": "FULLY_CLOSED"
+        }
+      ],
+      "level": 8772.6,
+      "size": 0.8,
+      "direction": "SELL",
+      "stopLevel": null,
+      "limitLevel": null,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": -26.96,
+      "profitCurrency": "USD"
+    },
+    "logged_at": "2026-11-04T23:02:02.453550+00:00"
   },
   {
     "action": "OPEN_LONG",
@@ -3079,51 +3151,5 @@
     "status": "detected",
     "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
     "logged_at": "2026-11-04T01:40:03.246239+00:00"
-  },
-  {
-    "action": "BROKER_CLOSE",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAASEXPVL2AL",
-    "original_direction": "BUY",
-    "estimated_pnl": -55.08,
-    "status": "detected",
-    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-11-04T01:40:03.245961+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "GOLD",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: GOLD has only been open for 149 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "agent_reason": "Gold is in a contango structure, indicating ample supply, which is bearish. The technicals show a bearish setup with SMA-20 below SMA-50. Despite the recent price holding near $3,930, the market outlook remains uncertain with potential for further downside. Closing the position to manage risk.",
-    "llm_provider": "openai",
-    "logged_at": "2026-11-04T01:32:23.992650+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: BRENT_OIL has only been open for 314 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "agent_reason": "Brent Oil is currently in backwardation, indicating tight supply, which is bullish. However, recent price volatility and discrepancies in independent price checks suggest caution. Closing the position to reassess market conditions.",
-    "llm_provider": "openai",
-    "logged_at": "2026-11-04T01:32:23.992551+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 334 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "agent_reason": "The current price of Natural Gas shows a significant discrepancy between sources, indicating potential data quality issues. Additionally, the market outlook is mixed with bearish contango structure and mild weather forecasts, despite the contrarian bullish signal from extreme net-short positioning. Closing the position to avoid further uncertainty.",
-    "llm_provider": "openai",
-    "logged_at": "2026-11-04T01:32:23.992294+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "SILVER's epic is not configured yet -- see config.py instructions",
-    "agent_reason": "Silver is showing extreme net-short positioning, which is a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze.",
-    "llm_provider": "openai",
-    "logged_at": "2026-11-04T01:02:39.233585+00:00"
   }
 ]
