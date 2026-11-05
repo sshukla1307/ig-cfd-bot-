@@ -3,6 +3,24 @@
     "action": "OPEN_LONG",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 2.938 vs 30-min SMA 2.955, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Natural Gas is experiencing extreme net-short positioning, a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. Recent news indicates tightening production and colder weather outlook, supporting a bullish stance.",
+    "llm_provider": "openai",
+    "logged_at": "2026-11-05T19:03:42.404517+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
+    "agent_reason": "Brent Oil is currently overbought with an RSI of 92.4, indicating potential for a pullback. The term structure is in backwardation, but recent commentary suggests a bearish outlook due to recovering crude exports from the Persian Gulf and a significant price drop earlier this week. The technicals show a short-term bearish SMA setup.",
+    "llm_provider": "openai",
+    "logged_at": "2026-11-05T19:03:42.311305+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 2.964 vs 30-min SMA 2.9703, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
     "agent_reason": "Natural Gas is experiencing extreme net-short positioning, a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. Recent news of tightening production and colder weather outlook supports a bullish stance.",
     "llm_provider": "openai",
@@ -3462,23 +3480,5 @@
     "agent_reason": "Natural Gas is experiencing extreme net-short positioning, a contrarian bullish signal. The RSI is neutral, but the SMA-20 is above the SMA-50, indicating a short-term bullish trend. Recent news suggests tightening production and colder weather outlook, supporting a bullish stance.",
     "llm_provider": "openai",
     "logged_at": "2026-11-04T19:34:01.026392+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 94.49 vs 30-min SMA 94.575, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. Despite recent price declines, the backwardation structure supports a bullish outlook. The RSI is extremely oversold at 8.8, suggesting a potential rebound. The technicals show a short-term bearish SMA setup, but the backwardation and oversold RSI provide a strong bullish case.",
-    "llm_provider": "openai",
-    "logged_at": "2026-11-04T19:34:00.939013+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "SILVER's epic is not configured yet -- see config.py instructions",
-    "agent_reason": "Silver is experiencing extreme net-short positioning, a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. Recent price surge due to weaker US dollar and falling Treasury yields also supports a bullish outlook.",
-    "llm_provider": "openai",
-    "logged_at": "2026-11-04T19:02:48.733193+00:00"
   }
 ]
