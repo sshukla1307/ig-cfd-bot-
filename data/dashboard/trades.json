@@ -1,5 +1,14 @@
 [
   {
+    "action": "OPEN_SHORT",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Confluence requirement not met: BRENT_OIL's independent signal(s) checked this tick (get_term_structure=bullish) do not support a bearish thesis -- a technical read alone, or signals pointing the other way, aren't enough to open",
+    "agent_reason": "Brent Oil is currently overbought with an RSI of 87.1, indicating potential for a pullback. Despite the backwardation structure suggesting tight supply, recent news indicates a significant price drop and geopolitical risks. The technicals show a short-term bearish SMA setup, supporting a short position.",
+    "llm_provider": "openai",
+    "logged_at": "2026-11-05T17:03:41.159728+00:00"
+  },
+  {
     "action": "OPEN_LONG",
     "instrument": "SILVER",
     "status": "REJECTED",
@@ -3436,14 +3445,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-11-04T18:29:48.066123+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "SILVER's epic is not configured yet -- see config.py instructions",
-    "agent_reason": "Silver is experiencing extreme net-short positioning, a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. Recent commentary indicates support from a weaker US dollar and falling Treasury yields.",
-    "llm_provider": "openai",
-    "logged_at": "2026-11-04T18:16:55.866381+00:00"
   }
 ]
