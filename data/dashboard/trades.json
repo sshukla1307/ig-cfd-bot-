@@ -30,6 +30,114 @@
     "logged_at": "2026-11-06T19:03:17.787587+00:00"
   },
   {
+    "action": "WEEKEND_FLATTEN",
+    "instrument": "NATURAL_GAS",
+    "deal_id": "DIAAAASFXZJ7BB7",
+    "original_direction": "BUY",
+    "reason": "Force-closed ahead of the weekend market closure to avoid holding exposure over a period with no ability to react to news or price gaps.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-11-06T19:01:55.648",
+      "status": "CLOSED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "YCQW76BKVLJTYNV",
+      "dealId": "DIAAAASFXZJ7BB7",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASFXZJ7BB7",
+          "status": "FULLY_CLOSED"
+        }
+      ],
+      "level": 3167.0,
+      "size": 2.12,
+      "direction": "SELL",
+      "stopLevel": null,
+      "limitLevel": null,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": -33.92,
+      "profitCurrency": "USD"
+    },
+    "logged_at": "2026-11-06T19:01:55.944796+00:00"
+  },
+  {
+    "action": "WEEKEND_FLATTEN",
+    "instrument": "WTI_OIL",
+    "deal_id": "DIAAAASFXPQ7GA6",
+    "original_direction": "BUY",
+    "reason": "Force-closed ahead of the weekend market closure to avoid holding exposure over a period with no ability to react to news or price gaps.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-11-06T19:01:55.25",
+      "status": "CLOSED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "PPZ4TKHVWNTYNV",
+      "dealId": "DIAAAASFXPQ7GA6",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASFXPQ7GA6",
+          "status": "FULLY_CLOSED"
+        }
+      ],
+      "level": 8966.3,
+      "size": 0.76,
+      "direction": "SELL",
+      "stopLevel": null,
+      "limitLevel": null,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": 13.45,
+      "profitCurrency": "USD"
+    },
+    "logged_at": "2026-11-06T19:01:55.516100+00:00"
+  },
+  {
+    "action": "WEEKEND_FLATTEN",
+    "instrument": "BRENT_OIL",
+    "deal_id": "DIAAAASFXPJU9AK",
+    "original_direction": "BUY",
+    "reason": "Force-closed ahead of the weekend market closure to avoid holding exposure over a period with no ability to react to news or price gaps.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-11-06T19:01:54.783",
+      "status": "CLOSED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "PZBBF5SFETATYNV",
+      "dealId": "DIAAAASFXPJU9AK",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASFXPJU9AK",
+          "status": "FULLY_CLOSED"
+        }
+      ],
+      "level": 9716.4,
+      "size": 0.68,
+      "direction": "SELL",
+      "stopLevel": null,
+      "limitLevel": null,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": 24.14,
+      "profitCurrency": "USD"
+    },
+    "logged_at": "2026-11-06T19:01:55.117734+00:00"
+  },
+  {
     "action": "CLOSE",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
@@ -3721,32 +3829,5 @@
     "agent_reason": "Silver is experiencing extreme net-short positioning, a contrarian bullish signal. Despite the contango structure, the technicals show a short-term bullish trend with the SMA-20 above the SMA-50. The independent price check shows agreement between sources, supporting the current price level. Opening a long position to capitalize on potential short-term gains.",
     "llm_provider": "openai",
     "logged_at": "2026-11-06T01:03:43.757747+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "GOLD",
-    "status": "REJECTED",
-    "reason": "Confluence requirement not met: GOLD's independent signal(s) checked this tick (get_term_structure=bearish) do not support a bullish thesis -- a technical read alone, or signals pointing the other way, aren't enough to open",
-    "agent_reason": "Gold is in a contango structure, indicating ample supply, but the RSI is neutral and the SMA-20 is above the SMA-50, suggesting a short-term bullish trend. The independent price check shows agreement between sources, supporting the current price level. Opening a long position to capitalize on potential short-term gains.",
-    "llm_provider": "openai",
-    "logged_at": "2026-11-06T01:03:43.757579+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 61 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "agent_reason": "The current Natural Gas position is slightly negative, and the market outlook is mixed with a contango structure indicating ample supply. The independent price check shows a significant discrepancy between sources, suggesting potential data issues. Closing the position to reassess the market.",
-    "llm_provider": "openai",
-    "logged_at": "2026-11-06T01:03:43.757227+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "SILVER's epic is not configured yet -- see config.py instructions",
-    "agent_reason": "Silver is experiencing extreme net-short positioning, a contrarian bullish signal. The technicals show a short-term bullish SMA setup, and the recent news suggests a bullish outlook due to the US midterm elections impacting the US dollar. Despite the contango structure, the combination of technicals and positioning supports a long position.",
-    "llm_provider": "openai",
-    "logged_at": "2026-11-06T00:33:24.579840+00:00"
   }
 ]
