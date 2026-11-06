@@ -4,37 +4,27 @@
     "instrument": "SILVER",
     "status": "REJECTED",
     "reason": "SILVER's epic is not configured yet -- see config.py instructions",
-    "agent_reason": "Silver is experiencing extreme net-short positioning, a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. Recent commentary indicates potential for a bullish breakout.",
+    "agent_reason": "Silver is showing extreme net-short positioning, which is a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. Recent price action shows a bullish trend.",
     "llm_provider": "openai",
-    "logged_at": "2026-11-06T09:00:51.835520+00:00"
+    "logged_at": "2026-11-06T09:02:48.547060+00:00"
   },
   {
     "action": "OPEN_LONG",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
-    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 3.01 vs 30-min SMA 3.0107, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Natural Gas is experiencing extreme net-short positioning, a contrarian bullish signal. The SMA-20 is above the SMA-50, indicating a short-term bullish trend. Despite mixed price data, the overall setup suggests potential for a short squeeze.",
+    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 3.008 vs 30-min SMA 3.0103, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Natural Gas is experiencing extreme net-short positioning, a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. Recent price action shows a bullish trend.",
     "llm_provider": "openai",
-    "logged_at": "2026-11-06T09:00:51.835253+00:00"
+    "logged_at": "2026-11-06T09:02:48.546780+00:00"
   },
   {
     "action": "OPEN_LONG",
     "instrument": "BRENT_OIL",
     "status": "REJECTED",
-    "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 97.62 vs 30-min SMA 97.7017, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. Despite recent price declines, the backwardation structure supports a bullish outlook. The RSI is neutral, and the SMA-20 is above the SMA-50, confirming a short-term bullish trend. Recent news suggests geopolitical risks could push prices higher.",
+    "reason": "Same-direction cooldown: BRENT_OIL was closed at a loss 51 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
+    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. Despite recent price declines, the backwardation structure supports a bullish outlook. The RSI is neutral, and recent geopolitical tensions could further support prices.",
     "llm_provider": "openai",
-    "logged_at": "2026-11-06T09:00:51.769110+00:00"
-  },
-  {
-    "action": "BROKER_CLOSE",
-    "instrument": "GOLD",
-    "deal_id": "DIAAAASFRCKH8AX",
-    "original_direction": "SELL",
-    "estimated_pnl": -50.45,
-    "status": "detected",
-    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-11-06T08:59:54.877533+00:00"
+    "logged_at": "2026-11-06T09:02:48.498045+00:00"
   },
   {
     "action": "CLOSE",
@@ -3232,5 +3222,15 @@
       "profitCurrency": null
     },
     "logged_at": "2026-11-05T12:05:37.543300+00:00"
+  },
+  {
+    "action": "BROKER_CLOSE",
+    "instrument": "BRENT_OIL",
+    "deal_id": "DIAAAASFEW5V7BR",
+    "original_direction": "BUY",
+    "estimated_pnl": 39.17,
+    "status": "detected",
+    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
+    "logged_at": "2026-11-05T12:05:36.019384+00:00"
   }
 ]
