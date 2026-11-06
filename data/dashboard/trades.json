@@ -1,5 +1,14 @@
 [
   {
+    "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 2.992 vs 30-min SMA 3.0008, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Natural Gas is experiencing extreme net-short positioning, a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. The technicals show a short-term bullish trend with SMA-20 above SMA-50 and RSI at 61.2, indicating potential for further upside.",
+    "llm_provider": "openai",
+    "logged_at": "2026-11-06T13:03:27.150603+00:00"
+  },
+  {
     "action": "OPEN_SHORT",
     "instrument": "BRENT_OIL",
     "status": "REJECTED",
@@ -3420,14 +3429,5 @@
     "agent_reason": "Brent Oil is currently overbought with an RSI of 87.1, indicating potential for a pullback. Despite the backwardation structure suggesting tight supply, recent news indicates a significant price drop and geopolitical risks. The technicals show a short-term bearish SMA setup, supporting a short position.",
     "llm_provider": "openai",
     "logged_at": "2026-11-05T17:03:41.159728+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "SILVER's epic is not configured yet -- see config.py instructions",
-    "agent_reason": "Silver is experiencing extreme net-short positioning, a contrarian bullish signal. The recent decline in the US dollar and easing Treasury yields post-midterm elections support a bullish outlook for silver.",
-    "llm_provider": "openai",
-    "logged_at": "2026-11-05T16:32:56.172399+00:00"
   }
 ]
