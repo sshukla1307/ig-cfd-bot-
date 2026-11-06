@@ -1,5 +1,43 @@
 [
   {
+    "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 2.993 vs 30-min SMA 2.9943, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Natural Gas is experiencing extreme net-short positioning, a contrarian bullish signal. The technicals show a short-term bullish trend with SMA-20 above SMA-50. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze.",
+    "llm_provider": "openai",
+    "logged_at": "2026-11-06T14:02:49.167185+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 98.4 vs 30-min SMA 98.5633, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The SMA-20 is above the SMA-50, suggesting a short-term bullish trend. Despite recent price declines, the backwardation structure supports a bullish outlook.",
+    "llm_provider": "openai",
+    "logged_at": "2026-11-06T14:02:49.066670+00:00"
+  },
+  {
+    "action": "BROKER_CLOSE",
+    "instrument": "BRENT_OIL",
+    "deal_id": "DIAAAASFUZU2WA8",
+    "original_direction": "BUY",
+    "estimated_pnl": -7.48,
+    "status": "detected",
+    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
+    "logged_at": "2026-11-06T14:02:02.284455+00:00"
+  },
+  {
+    "action": "BROKER_CLOSE",
+    "instrument": "WTI_OIL",
+    "deal_id": "DIAAAASFUY7TDBR",
+    "original_direction": "BUY",
+    "estimated_pnl": -5.02,
+    "status": "detected",
+    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
+    "logged_at": "2026-11-06T14:02:02.284196+00:00"
+  },
+  {
     "action": "OPEN_SHORT",
     "instrument": "SILVER",
     "status": "REJECTED",
@@ -3511,41 +3549,5 @@
     "agent_reason": "Brent Oil is currently overbought with an RSI of 91.3, indicating potential for a pullback. Despite the backwardation structure suggesting tight supply, recent news indicates a recovery in Persian Gulf exports, which could alleviate some supply concerns. The SMA-20 is below the SMA-50, suggesting a short-term bearish trend.",
     "llm_provider": "openai",
     "logged_at": "2026-11-05T19:33:45.951202+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 2.938 vs 30-min SMA 2.955, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Natural Gas is experiencing extreme net-short positioning, a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. Recent news indicates tightening production and colder weather outlook, supporting a bullish stance.",
-    "llm_provider": "openai",
-    "logged_at": "2026-11-05T19:03:42.404517+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
-    "agent_reason": "Brent Oil is currently overbought with an RSI of 92.4, indicating potential for a pullback. The term structure is in backwardation, but recent commentary suggests a bearish outlook due to recovering crude exports from the Persian Gulf and a significant price drop earlier this week. The technicals show a short-term bearish SMA setup.",
-    "llm_provider": "openai",
-    "logged_at": "2026-11-05T19:03:42.311305+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 2.964 vs 30-min SMA 2.9703, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Natural Gas is experiencing extreme net-short positioning, a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. Recent news of tightening production and colder weather outlook supports a bullish stance.",
-    "llm_provider": "openai",
-    "logged_at": "2026-11-05T18:44:32.519391+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Confluence requirement not met: BRENT_OIL's independent signal(s) checked this tick (get_term_structure=bullish) do not support a bearish thesis -- a technical read alone, or signals pointing the other way, aren't enough to open",
-    "agent_reason": "Brent Oil is currently overbought with an RSI of 92.9, indicating potential for a pullback. Despite the backwardation structure suggesting tight supply, recent news indicates a recovery in crude exports from the Persian Gulf, which could alleviate some supply concerns. The technicals show a short-term bearish SMA setup, supporting a short position.",
-    "llm_provider": "openai",
-    "logged_at": "2026-11-05T18:44:32.459984+00:00"
   }
 ]
