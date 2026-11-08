@@ -1,6 +1,128 @@
 [
   {
     "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "direction": "BUY",
+    "size": 2.04,
+    "margin_allocated": 1326.93,
+    "effective_leverage": 5.0,
+    "notional": 6597.36,
+    "stop_distance": 26.0182,
+    "limit_distance": 65.0456,
+    "confluence_detail": "get_positioning_data agrees with bullish",
+    "reason": "Natural Gas is experiencing extreme net-short positioning, a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. The technicals show a short-term bullish trend with SMA-20 above SMA-50.",
+    "llm_provider": "openai",
+    "status": "submitted",
+    "deal_id": "DIAAAASF2CTZ5BR",
+    "raw": {
+      "date": "2026-11-08T23:32:56.434",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "PS6UE9BMW4ETYP5",
+      "dealId": "DIAAAASF2CTZ5BR",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASF2CTZ5BR",
+          "status": "OPENED"
+        }
+      ],
+      "level": 3235.0,
+      "size": 2.04,
+      "direction": "BUY",
+      "stopLevel": 3208.9817,
+      "limitLevel": 3300.0457,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-11-08T23:32:56.624147+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "WTI_OIL",
+    "deal_id": "DIAAAASFZ6B5EAD",
+    "old_limit_level": 9139.6961,
+    "new_limit_level": 9144.402,
+    "old_stop_level": 8895.2616,
+    "new_stop_level": 8895.2616,
+    "reason": "Agent-discretion pre-arm limit reconciliation (wide 10.0% of margin ceiling, kept out of the way until the profit ratchet arms at 2.5%) -- stop left exactly as the agent set it at open, amending the limit only.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-11-08T23:05:56.496",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.CL.DBI.IP",
+      "expiry": "-",
+      "dealReference": "GS4TJZNMWLSTYP5",
+      "dealId": "DIAAAASFZ6B5EAD",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASFZ6B5EAD",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 8965.1,
+      "size": 0.76,
+      "direction": "BUY",
+      "stopLevel": 8895.262,
+      "limitLevel": 9144.402,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-11-08T23:05:56.676067+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "BRENT_OIL",
+    "deal_id": "DIAAAASFZ6PV2A8",
+    "old_limit_level": 9842.2368,
+    "new_limit_level": 9840.042,
+    "old_stop_level": 9569.0453,
+    "new_stop_level": 9569.0453,
+    "reason": "Agent-discretion pre-arm limit reconciliation (wide 10.0% of margin ceiling, kept out of the way until the profit ratchet arms at 2.5%) -- stop left exactly as the agent set it at open, amending the limit only.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-11-08T23:05:56.194",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.LCO.DBI.IP",
+      "expiry": "-",
+      "dealReference": "QBZBTN5PFAETYP5",
+      "dealId": "DIAAAASFZ6PV2A8",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASFZ6PV2A8",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 9647.1,
+      "size": 0.68,
+      "direction": "BUY",
+      "stopLevel": 9569.045,
+      "limitLevel": 9840.042,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-11-08T23:05:56.402376+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
     "instrument": "SILVER",
     "status": "REJECTED",
     "reason": "SILVER's epic is not configured yet -- see config.py instructions",
@@ -3832,68 +3954,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-11-06T02:03:36.762739+00:00"
-  },
-  {
-    "action": "BROKER_CLOSE",
-    "instrument": "NATURAL_GAS",
-    "deal_id": "DIAAAASFPTDX3AC",
-    "original_direction": "SELL",
-    "estimated_pnl": -41.76,
-    "status": "detected",
-    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-11-06T02:03:35.167401+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "SILVER's epic is not configured yet -- see config.py instructions",
-    "agent_reason": "Silver is showing extreme net-short positioning, which is a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. Recent news indicates a weaker US Dollar, which could support silver prices.",
-    "llm_provider": "openai",
-    "logged_at": "2026-11-06T02:02:28.858115+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "NATURAL_GAS",
-    "direction": "BUY",
-    "size": 2.28,
-    "margin_allocated": 1423.25,
-    "effective_leverage": 5.0,
-    "notional": 7175.16,
-    "stop_distance": 24.9693,
-    "limit_distance": 62.4232,
-    "confluence_detail": "get_positioning_data agrees with bullish",
-    "reason": "Natural Gas is experiencing extreme net-short positioning, a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. Recent news indicates tightening production and colder weather, supporting a bullish outlook.",
-    "llm_provider": "openai",
-    "status": "submitted",
-    "deal_id": "DIAAAASFQQGEYA2",
-    "raw": {
-      "date": "2026-11-06T02:02:28.639",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": "-",
-      "dealReference": "P78HY4UWWPJTYNV",
-      "dealId": "DIAAAASFQQGEYA2",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASFQQGEYA2",
-          "status": "OPENED"
-        }
-      ],
-      "level": 3145.0,
-      "size": 2.28,
-      "direction": "BUY",
-      "stopLevel": 3120.0308,
-      "limitLevel": 3207.423,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-11-06T02:02:28.857783+00:00"
   }
 ]
