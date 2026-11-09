@@ -1,5 +1,15 @@
 [
   {
+    "action": "BROKER_CLOSE",
+    "instrument": "GOLD",
+    "deal_id": "DIAAAASF6WUFWAJ",
+    "original_direction": "SELL",
+    "estimated_pnl": 30.35,
+    "status": "detected",
+    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
+    "logged_at": "2026-11-09T18:30:18.786578+00:00"
+  },
+  {
     "action": "OPEN_LONG",
     "instrument": "SILVER",
     "status": "REJECTED",
@@ -3969,14 +3979,5 @@
     "agent_reason": "Natural Gas is experiencing extreme net-short positioning, a contrarian bullish signal. The technicals show a short-term bullish trend with SMA-20 above SMA-50. Despite mild weather, the crowded short positioning suggests potential for a short squeeze.",
     "llm_provider": "openai",
     "logged_at": "2026-11-06T14:05:11.775914+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 98.38 vs 30-min SMA 98.56, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. Despite recent price declines, the backwardation structure supports a bullish outlook. The SMA-20 is above the SMA-50, suggesting a short-term bullish trend. Recent geopolitical tensions and forecasts of higher prices by EIA further support a bullish stance.",
-    "llm_provider": "openai",
-    "logged_at": "2026-11-06T14:05:11.680954+00:00"
   }
 ]
