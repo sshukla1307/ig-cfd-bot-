@@ -1,6 +1,44 @@
 [
   {
     "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
+    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. Despite recent price declines, the backwardation structure supports a bullish outlook. The RSI is oversold at 26.0, suggesting a potential rebound from current levels.",
+    "llm_provider": "openai",
+    "logged_at": "2026-11-09T19:28:51.572416+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 3.195 vs 30-min SMA 3.2, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Natural Gas is experiencing extreme net-short positioning, a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. The technicals show an overbought RSI, but the strong upward momentum and extreme positioning support a continued rally.",
+    "llm_provider": "openai",
+    "logged_at": "2026-11-09T19:28:51.572079+00:00"
+  },
+  {
+    "action": "BROKER_CLOSE",
+    "instrument": "WTI_OIL",
+    "deal_id": "DIAAAASF9F47JB6",
+    "original_direction": "BUY",
+    "estimated_pnl": -14.18,
+    "status": "detected",
+    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
+    "logged_at": "2026-11-09T19:28:01.593815+00:00"
+  },
+  {
+    "action": "BROKER_CLOSE",
+    "instrument": "BRENT_OIL",
+    "deal_id": "DIAAAASF9GDYABB",
+    "original_direction": "BUY",
+    "estimated_pnl": -26.32,
+    "status": "detected",
+    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
+    "logged_at": "2026-11-09T19:28:01.593548+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
     "instrument": "SILVER",
     "status": "REJECTED",
     "reason": "SILVER's epic is not configured yet -- see config.py instructions",
@@ -3939,76 +3977,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-11-06T16:33:46.105376+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "NATURAL_GAS",
-    "direction": "BUY",
-    "size": 2.12,
-    "margin_allocated": 1336.19,
-    "effective_leverage": 5.0,
-    "notional": 6709.8,
-    "stop_distance": 25.2111,
-    "limit_distance": 63.0278,
-    "confluence_detail": "get_positioning_data agrees with bullish",
-    "reason": "Natural Gas is experiencing extreme net-short positioning, a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. The technicals show a short-term bullish trend with SMA-20 above SMA-50.",
-    "llm_provider": "openai",
-    "status": "submitted",
-    "deal_id": "DIAAAASFXCD44AZ",
-    "raw": {
-      "date": "2026-11-06T16:32:26.319",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": "-",
-      "dealReference": "WGJSD7RCNEJTYNV",
-      "dealId": "DIAAAASFXCD44AZ",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASFXCD44AZ",
-          "status": "OPENED"
-        }
-      ],
-      "level": 3163.0,
-      "size": 2.12,
-      "direction": "BUY",
-      "stopLevel": 3137.7888,
-      "limitLevel": 3226.0278,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-11-06T16:32:26.508231+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 2.94 vs 30-min SMA 2.941, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Natural Gas is experiencing extreme net-short positioning, a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. The technicals show a short-term bullish trend with SMA-20 above SMA-50.",
-    "llm_provider": "openai",
-    "logged_at": "2026-11-06T16:04:01.622748+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "Confluence requirement not met: BRENT_OIL's independent signal(s) checked this tick (get_term_structure=bullish) do not support a bearish thesis -- a technical read alone, or signals pointing the other way, aren't enough to open",
-    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. However, recent news suggests a potential resolution to the Middle East conflict, which could ease supply concerns. The RSI is neutral, and the price is below the SMA-20, suggesting a potential short-term bearish move.",
-    "llm_provider": "openai",
-    "logged_at": "2026-11-06T15:34:02.744876+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 2.965 vs 30-min SMA 2.981, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Natural Gas is experiencing extreme net-short positioning, a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. The technicals show a short-term bullish trend with SMA-20 above SMA-50.",
-    "llm_provider": "openai",
-    "logged_at": "2026-11-06T15:34:02.744608+00:00"
   }
 ]
