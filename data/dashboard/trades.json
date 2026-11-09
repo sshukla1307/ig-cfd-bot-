@@ -1,6 +1,89 @@
 [
   {
     "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "direction": "BUY",
+    "size": 2.04,
+    "margin_allocated": 1312.37,
+    "effective_leverage": 5.0,
+    "notional": 6615.72,
+    "stop_distance": 25.7327,
+    "limit_distance": 64.3319,
+    "confluence_detail": "get_positioning_data agrees with bullish",
+    "reason": "Natural Gas is experiencing extreme net-short positioning, a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. The technicals show a short-term bullish trend with SMA-20 above SMA-50.",
+    "llm_provider": "openai",
+    "status": "submitted",
+    "deal_id": "DIAAAASF39JZYAD",
+    "raw": {
+      "date": "2026-11-09T06:32:30.064",
+      "status": "OPEN",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "B4V4VM52NYATYP5",
+      "dealId": "DIAAAASF39JZYAD",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASF39JZYAD",
+          "status": "OPENED"
+        }
+      ],
+      "level": 3244.0,
+      "size": 2.04,
+      "direction": "BUY",
+      "stopLevel": 3218.2673,
+      "limitLevel": 3308.3318,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-11-09T06:32:30.300592+00:00"
+  },
+  {
+    "action": "MARGIN_EXIT_SYNC",
+    "instrument": "NATURAL_GAS",
+    "deal_id": "DIAAAASF2CTZ5BR",
+    "old_limit_level": 3299.7,
+    "new_limit_level": 3254.41,
+    "old_stop_level": 3208.9818,
+    "new_stop_level": 3242.0,
+    "reason": "Agent-discretion profit ratchet ARMED (2026-10-09 refinement): stop locked to guarantee at least 2.2% profit (a 0.3% gap below the milestone just reached), limit extended to the next 3.0% target to keep upside open.",
+    "status": "submitted",
+    "raw": {
+      "date": "2026-11-09T06:06:08.479",
+      "status": "AMENDED",
+      "reason": "SUCCESS",
+      "dealStatus": "ACCEPTED",
+      "epic": "CC.D.NG.DBI.IP",
+      "expiry": "-",
+      "dealReference": "QCLN6AC4Y7WTYP5",
+      "dealId": "DIAAAASF2CTZ5BR",
+      "affectedDeals": [
+        {
+          "dealId": "DIAAAASF2CTZ5BR",
+          "status": "AMENDED"
+        }
+      ],
+      "level": 3235.0,
+      "size": 2.04,
+      "direction": "BUY",
+      "stopLevel": 3242.0,
+      "limitLevel": 3254.41,
+      "stopDistance": null,
+      "limitDistance": null,
+      "guaranteedStop": false,
+      "trailingStop": false,
+      "profit": null,
+      "profitCurrency": null
+    },
+    "logged_at": "2026-11-09T06:06:08.654579+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
     "instrument": "SILVER",
     "status": "REJECTED",
     "reason": "SILVER's epic is not configured yet -- see config.py instructions",
@@ -3835,24 +3918,5 @@
       "profitCurrency": "USD"
     },
     "logged_at": "2026-11-06T04:55:35.477004+00:00"
-  },
-  {
-    "action": "BROKER_CLOSE",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAASFQ9G2JAG",
-    "original_direction": "BUY",
-    "estimated_pnl": -49.9,
-    "status": "detected",
-    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-11-06T04:55:34.524432+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "SILVER's epic is not configured yet -- see config.py instructions",
-    "agent_reason": "Silver is experiencing extreme net-short positioning, a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. Recent news indicates a weaker US Dollar, which could support higher silver prices.",
-    "llm_provider": "openai",
-    "logged_at": "2026-11-06T04:33:42.666058+00:00"
   }
 ]
