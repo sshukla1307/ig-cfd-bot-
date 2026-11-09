@@ -1,5 +1,32 @@
 [
   {
+    "action": "OPEN_LONG",
+    "instrument": "SILVER",
+    "status": "REJECTED",
+    "reason": "SILVER's epic is not configured yet -- see config.py instructions",
+    "agent_reason": "Silver is experiencing extreme net-short positioning, a contrarian bullish signal. The technicals are neutral, but the positioning suggests potential for a short squeeze.",
+    "llm_provider": "openai",
+    "logged_at": "2026-11-09T14:33:54.250755+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 46 min ago in this same direction (BUY) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
+    "agent_reason": "Natural Gas is experiencing extreme net-short positioning, a contrarian bullish signal. The RSI is overbought, but the crowded short positioning suggests potential for a short squeeze. Cooler weather and lower output are supportive of higher prices.",
+    "llm_provider": "openai",
+    "logged_at": "2026-11-09T14:33:54.250484+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 93.15 vs 30-min SMA 93.555, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. Despite recent price declines, the backwardation structure supports a bullish outlook. The RSI is oversold at 21.0, suggesting a potential rebound. Recent geopolitical tensions and supply disruptions add to the bullish case.",
+    "llm_provider": "openai",
+    "logged_at": "2026-11-09T14:33:54.179445+00:00"
+  },
+  {
     "action": "OPEN_SHORT",
     "instrument": "BRENT_OIL",
     "status": "REJECTED",
@@ -3856,28 +3883,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-11-06T11:05:37.710556+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "SILVER's epic is not configured yet -- see config.py instructions",
-    "agent_reason": "Silver is experiencing extreme net-short positioning, a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze.",
-    "llm_provider": "openai",
-    "logged_at": "2026-11-06T11:03:32.904159+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "GOLD",
-    "status": "REJECTED",
-    "reason": "This trade's margin ($1379.64) would leave available at $1379.63, below the 30.0% safety buffer of balance $5518.55 -- rejected to avoid risking a forced closure on this or other open positions",
-    "logged_at": "2026-11-06T11:03:32.903947+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "This trade's margin ($1379.64) would leave available at $1379.63, below the 30.0% safety buffer of balance $5518.55 -- rejected to avoid risking a forced closure on this or other open positions",
-    "logged_at": "2026-11-06T11:03:32.903601+00:00"
   }
 ]
