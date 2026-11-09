@@ -1,6 +1,24 @@
 [
   {
     "action": "OPEN_LONG",
+    "instrument": "GOLD",
+    "status": "REJECTED",
+    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for GOLD this tick -- a technical read or a generic news search alone can't open a position",
+    "agent_reason": "Gold is showing a short-term bullish trend with the SMA-20 above the SMA-50. The RSI is neutral, and recent commentary suggests a positive outlook due to softer oil prices easing inflation concerns.",
+    "llm_provider": "openai",
+    "logged_at": "2026-11-09T09:03:40.078758+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 96.45 vs 30-min SMA 96.46, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The SMA-20 is above the SMA-50, suggesting a short-term bullish trend. Despite recent price declines, the backwardation structure supports a bullish outlook.",
+    "llm_provider": "openai",
+    "logged_at": "2026-11-09T09:03:40.078514+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
     "instrument": "BRENT_OIL",
     "status": "REJECTED",
     "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 96.4 vs 30-min SMA 96.7317, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
@@ -3809,53 +3827,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-11-06T08:05:02.062716+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "SILVER's epic is not configured yet -- see config.py instructions",
-    "agent_reason": "Silver is experiencing extreme net-short positioning, which is a contrarian bullish signal. Recent commentary suggests a bullish outlook due to a weaker US dollar and falling Treasury yields, supporting sentiment for silver prices to rise.",
-    "llm_provider": "openai",
-    "logged_at": "2026-11-06T07:46:03.157689+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "BRENT_OIL",
-    "deal_id": "DIAAAASFSB3BEBP",
-    "old_limit_level": 10048.9431,
-    "new_limit_level": 10046.184,
-    "old_stop_level": 9769.3028,
-    "new_stop_level": 9769.3028,
-    "reason": "Agent-discretion pre-arm limit reconciliation (wide 10.0% of margin ceiling, kept out of the way until the profit ratchet arms at 2.5%) -- stop left exactly as the agent set it at open, amending the limit only.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-11-06T07:45:23.347",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "3L5A7UUFBBJTYNV",
-      "dealId": "DIAAAASFSB3BEBP",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASFSB3BEBP",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 9849.2,
-      "size": 0.72,
-      "direction": "BUY",
-      "stopLevel": 9769.303,
-      "limitLevel": 10046.184,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-11-06T07:45:23.550297+00:00"
   }
 ]
