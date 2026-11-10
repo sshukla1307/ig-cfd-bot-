@@ -1,5 +1,14 @@
 [
   {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 91.45 vs 30-min SMA 91.5533, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. Despite the recent price decline, the backwardation structure supports a bullish outlook. The RSI is near oversold at 34.5, suggesting a potential rebound.",
+    "llm_provider": "openai",
+    "logged_at": "2026-11-10T04:02:45.758539+00:00"
+  },
+  {
     "action": "CLOSE",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
@@ -3350,15 +3359,5 @@
     "agent_reason": "Natural Gas is experiencing extreme net-short positioning, a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. The technicals show a short-term bullish trend with SMA-20 above SMA-50.",
     "llm_provider": "openai",
     "logged_at": "2026-11-09T06:54:36.462153+00:00"
-  },
-  {
-    "action": "BROKER_CLOSE",
-    "instrument": "NATURAL_GAS",
-    "deal_id": "DIAAAASF39JZYAD",
-    "original_direction": "BUY",
-    "estimated_pnl": -12.24,
-    "status": "detected",
-    "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
-    "logged_at": "2026-11-09T06:53:55.988811+00:00"
   }
 ]
