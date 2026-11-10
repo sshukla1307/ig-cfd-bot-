@@ -3,6 +3,15 @@
     "action": "OPEN_SHORT",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "Confluence requirement not met: NATURAL_GAS's independent signal(s) checked this tick (get_positioning_data=bullish) do not support a bearish thesis -- a technical read alone, or signals pointing the other way, aren't enough to open",
+    "agent_reason": "Natural Gas is currently overbought with an RSI of 86.5, indicating a potential pullback. Despite the extreme net-short positioning, the technicals suggest a potential pullback. The SMA-20 is above the SMA-50, suggesting a short-term bullish trend, but the overbought RSI and the lack of strong weather-driven demand signal a potential reversal.",
+    "llm_provider": "openai",
+    "logged_at": "2026-11-10T06:32:12.310392+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "Same-direction cooldown: NATURAL_GAS was closed at a loss 47 min ago in this same direction (SELL) -- blocked for 60 min to avoid immediately re-entering a thesis that just failed",
     "agent_reason": "Natural Gas is currently overbought with an RSI of 84.9, indicating a potential pullback. Despite the extreme net-short positioning, the contango structure suggests ample supply, which is bearish. The recent inventory data shows a build, aligning with the bearish outlook.",
     "llm_provider": "openai",
@@ -3413,49 +3422,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-11-09T08:02:40.629309+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "direction": "BUY",
-    "size": 0.68,
-    "margin_allocated": 1306.35,
-    "effective_leverage": 5.0,
-    "notional": 6529.22,
-    "stop_distance": 76.8441,
-    "limit_distance": 192.1103,
-    "confluence_detail": "get_term_structure agrees with bullish",
-    "reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The SMA-20 is above the SMA-50, suggesting a short-term bullish trend. Despite recent price declines, the backwardation structure supports a bullish outlook.",
-    "llm_provider": "openai",
-    "status": "submitted",
-    "deal_id": "DIAAAASF4SD33AJ",
-    "raw": {
-      "date": "2026-11-09T08:02:40.094",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "RRKR7CLBZS6TYP5",
-      "dealId": "DIAAAASF4SD33AJ",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASF4SD33AJ",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9598.4,
-      "size": 0.68,
-      "direction": "BUY",
-      "stopLevel": 9521.556,
-      "limitLevel": 9790.511,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-11-09T08:02:40.297500+00:00"
   }
 ]
