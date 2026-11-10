@@ -6,6 +6,42 @@
     "reason": "SILVER's epic is not configured yet -- see config.py instructions",
     "agent_reason": "Silver is showing extreme net-short positioning, which is a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze.",
     "llm_provider": "openai",
+    "logged_at": "2026-11-10T13:02:51.114151+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "GOLD",
+    "status": "REJECTED",
+    "reason": "Confluence requirement not met: GOLD's independent signal(s) checked this tick (get_term_structure=bearish) do not support a bullish thesis -- a technical read alone, or signals pointing the other way, aren't enough to open",
+    "agent_reason": "Gold is currently oversold with an RSI of 19.6, suggesting a potential rebound. Despite the contango structure indicating ample supply, the oversold RSI provides a bullish signal for a potential upward correction.",
+    "llm_provider": "openai",
+    "logged_at": "2026-11-10T13:02:51.114019+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 3.241 vs 30-min SMA 3.2598, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Natural Gas is experiencing extreme net-short positioning, a contrarian bullish signal. The SMA-20 is above the SMA-50, indicating a short-term bullish trend. The RSI is neutral, providing room for a potential upward move.",
+    "llm_provider": "openai",
+    "logged_at": "2026-11-10T13:02:51.113730+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 90.32 vs 30-min SMA 90.3217, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The RSI is near oversold at 31.6, suggesting a potential rebound. Despite the SMA-20 being below the SMA-50, the backwardation structure supports a bullish outlook.",
+    "llm_provider": "openai",
+    "logged_at": "2026-11-10T13:02:51.062509+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "SILVER",
+    "status": "REJECTED",
+    "reason": "SILVER's epic is not configured yet -- see config.py instructions",
+    "agent_reason": "Silver is showing extreme net-short positioning, which is a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze.",
+    "llm_provider": "openai",
     "logged_at": "2026-11-10T12:33:18.321035+00:00"
   },
   {
@@ -3153,109 +3189,5 @@
     "agent_reason": "Silver is showing extreme net-short positioning, which is a contrarian bullish signal. The SMA-20 is above the SMA-50, suggesting a short-term bullish trend.",
     "llm_provider": "openai",
     "logged_at": "2026-11-09T15:02:29.492777+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 3.134 vs 30-min SMA 3.1425, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Natural Gas is experiencing extreme net-short positioning, a contrarian bullish signal. The RSI is overbought, but the crowded short positioning suggests potential for a short squeeze.",
-    "llm_provider": "openai",
-    "logged_at": "2026-11-09T15:02:29.492576+00:00"
-  },
-  {
-    "action": "WTI_MIRROR_OPEN",
-    "instrument": "WTI_OIL",
-    "direction": "BUY",
-    "size": 0.72,
-    "margin_allocated": 1278.18,
-    "effective_leverage": 5.0,
-    "notional": 6252.84,
-    "stop_distance": 71.01,
-    "limit_distance": 177.525,
-    "reason": "Auto-mirrored from BRENT_OIL: Brent Oil is in backwardation, indicating tight supply, which is bullish. Despite recent price declines, the backwardation structure supports a bullish outlook. The RSI is oversold at 25.5, suggesting a potential rebound.",
-    "status": "submitted",
-    "deal_id": "DIAAAASF75CD9AG",
-    "raw": {
-      "date": "2026-11-09T15:02:28.975",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.CL.DBI.IP",
-      "expiry": "-",
-      "dealReference": "VD4NM3ZBRBATYP5",
-      "dealId": "DIAAAASF75CD9AG",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASF75CD9AG",
-          "status": "OPENED"
-        }
-      ],
-      "level": 8674.4,
-      "size": 0.72,
-      "direction": "BUY",
-      "stopLevel": 8603.39,
-      "limitLevel": 8851.925,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-11-09T15:02:29.408345+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "direction": "BUY",
-    "size": 0.68,
-    "margin_allocated": 1278.18,
-    "effective_leverage": 5.0,
-    "notional": 6341.82,
-    "stop_distance": 75.1871,
-    "limit_distance": 187.9676,
-    "confluence_detail": "get_term_structure agrees with bullish",
-    "reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. Despite recent price declines, the backwardation structure supports a bullish outlook. The RSI is oversold at 25.5, suggesting a potential rebound.",
-    "llm_provider": "openai",
-    "status": "submitted",
-    "deal_id": "DIAAAASF74SPNAW",
-    "raw": {
-      "date": "2026-11-09T15:02:28.108",
-      "status": "OPEN",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.LCO.DBI.IP",
-      "expiry": "-",
-      "dealReference": "UA7272PY7J6TYP5",
-      "dealId": "DIAAAASF74SPNAW",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASF74SPNAW",
-          "status": "OPENED"
-        }
-      ],
-      "level": 9318.9,
-      "size": 0.68,
-      "direction": "BUY",
-      "stopLevel": 9243.713,
-      "limitLevel": 9506.867,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-11-09T15:02:28.621759+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "SILVER's epic is not configured yet -- see config.py instructions",
-    "agent_reason": "Silver is experiencing extreme net-short positioning, a contrarian bullish signal. The technicals are neutral, but the positioning suggests potential for a short squeeze.",
-    "llm_provider": "openai",
-    "logged_at": "2026-11-09T14:33:54.250755+00:00"
   }
 ]
