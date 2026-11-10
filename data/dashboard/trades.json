@@ -1,6 +1,15 @@
 [
   {
     "action": "OPEN_LONG",
+    "instrument": "SILVER",
+    "status": "REJECTED",
+    "reason": "SILVER's epic is not configured yet -- see config.py instructions",
+    "agent_reason": "Silver is experiencing extreme net-short positioning, a contrarian bullish signal. Despite the lack of recent technical data, the crowded short positioning suggests potential for a short squeeze.",
+    "llm_provider": "openai",
+    "logged_at": "2026-11-10T04:33:53.306694+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
     "instrument": "BRENT_OIL",
     "status": "REJECTED",
     "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 91.45 vs 30-min SMA 91.5533, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
@@ -3350,14 +3359,5 @@
     "agent_reason": "Brent Oil is in a contango structure, indicating ample supply, which is bearish. The SMA-20 is above the SMA-50, suggesting a short-term bullish trend, but the RSI is near oversold levels, indicating potential for a pullback. Recent inventory data shows a draw, but not larger than typical, and market commentary suggests potential for price declines.",
     "llm_provider": "openai",
     "logged_at": "2026-11-09T06:54:36.462419+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 3.015 vs 30-min SMA 3.0238, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Natural Gas is experiencing extreme net-short positioning, a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. The technicals show a short-term bullish trend with SMA-20 above SMA-50.",
-    "llm_provider": "openai",
-    "logged_at": "2026-11-09T06:54:36.462153+00:00"
   }
 ]
