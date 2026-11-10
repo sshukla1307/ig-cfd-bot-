@@ -3,6 +3,24 @@
     "action": "CLOSE",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 270 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
+    "agent_reason": "Natural Gas is currently overbought with an RSI of 86.7, and the short-term bullish trend is confirmed by the SMA-20 above the SMA-50. The extreme net-short positioning suggests a potential for a continued rally, making the current short position less favorable.",
+    "llm_provider": "openai",
+    "logged_at": "2026-11-10T03:32:36.515309+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
+    "agent_reason": "Brent Oil is currently in a short-term bearish trend with the SMA-20 below the SMA-50 and an RSI of 35.3, indicating potential further downside. Despite previous bullish attempts, the technicals suggest a continuation of the bearish trend.",
+    "llm_provider": "openai",
+    "logged_at": "2026-11-10T03:32:36.515060+00:00"
+  },
+  {
+    "action": "CLOSE",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 240 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
     "agent_reason": "Natural Gas is showing extreme net-short positioning, a contrarian bullish signal, but the RSI is extremely overbought at 90.0, suggesting a potential pullback. Independent price checks show significant disagreement, indicating potential data issues. Closing the short position to avoid further losses.",
     "llm_provider": "openai",
@@ -3342,53 +3360,5 @@
     "status": "detected",
     "reason": "Position vanished between watch snapshots -- its own resting stop or take-profit almost certainly fired. estimated_pnl is the last known unrealized_pnl_usd (from the prior watch cycle), not an exact realized fill, but reliable enough to classify win/loss for the cooldown rules.",
     "logged_at": "2026-11-09T06:53:55.988811+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 96.66 vs 30-min SMA 96.97, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. Despite recent price declines, the backwardation structure supports a bullish outlook. The RSI is neutral, and the SMA-20 is above the SMA-50, suggesting a short-term bullish trend. Inventory data shows a draw, which is supportive of higher prices.",
-    "llm_provider": "openai",
-    "logged_at": "2026-11-09T06:34:21.576985+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "NATURAL_GAS",
-    "deal_id": "DIAAAASF39JZYAD",
-    "old_limit_level": 3308.3319,
-    "new_limit_level": 3308.88,
-    "old_stop_level": 3218.2673,
-    "new_stop_level": 3218.2673,
-    "reason": "Agent-discretion pre-arm limit reconciliation (wide 10.0% of margin ceiling, kept out of the way until the profit ratchet arms at 2.5%) -- stop left exactly as the agent set it at open, amending the limit only.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-11-09T06:33:50.018",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CC.D.NG.DBI.IP",
-      "expiry": "-",
-      "dealReference": "6684XDVJXJSTYP5",
-      "dealId": "DIAAAASF39JZYAD",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASF39JZYAD",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 3244.0,
-      "size": 2.04,
-      "direction": "BUY",
-      "stopLevel": 3218.2673,
-      "limitLevel": 3308.88,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-11-09T06:33:50.175024+00:00"
   }
 ]
