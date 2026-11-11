@@ -3,6 +3,23 @@
     "action": "OPEN_SHORT",
     "instrument": "GOLD",
     "status": "REJECTED",
+    "reason": "Computed size rounds to 0 (notional=$0.00, price=4059.17, lot_size=1.0)",
+    "agent_reason": "Gold is currently overbought with an RSI of 80.1, indicating a potential pullback. The term structure is in contango, suggesting ample supply, which is bearish. Managed-money positioning is within a normal range, providing no extreme crowding signal.",
+    "logged_at": "2026-11-11T08:03:37.831987+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 3.294 vs 30-min SMA 3.2952, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Natural Gas is experiencing extreme net-short positioning, a contrarian bullish signal. The term structure is in backwardation, indicating tight supply, which is bullish. Despite a recent inventory build, the positioning and term structure suggest potential for a price increase.",
+    "llm_provider": "openai",
+    "logged_at": "2026-11-11T08:03:37.831689+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "GOLD",
+    "status": "REJECTED",
     "reason": "Computed size rounds to 0 (notional=$0.00, price=4062.57, lot_size=1.0)",
     "agent_reason": "Gold is currently overbought with an RSI of 82.2, indicating a potential pullback. The term structure is in contango, suggesting ample supply, which is bearish. Managed-money positioning is within a normal range, providing no extreme crowding signal.",
     "logged_at": "2026-11-11T07:32:25.651313+00:00"
@@ -2060,53 +2077,5 @@
     "agent_reason": "Natural Gas is experiencing extreme net-short positioning, a contrarian bullish signal. However, the RSI is extremely overbought at 93.4, and the term structure is in contango, indicating ample supply. The current short position is not aligned with the technicals.",
     "llm_provider": "openai",
     "logged_at": "2026-11-10T02:33:50.312265+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 91.97 vs 30-min SMA 92.0433, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The RSI is near oversold at 32.3, suggesting a potential rebound. Despite the SMA-20 being below the SMA-50, the backwardation structure supports a bullish outlook.",
-    "llm_provider": "openai",
-    "logged_at": "2026-11-10T02:33:50.312006+00:00"
-  },
-  {
-    "action": "MARGIN_EXIT_SYNC",
-    "instrument": "GOLD",
-    "deal_id": "DIAAAASGBCN74AE",
-    "old_limit_level": 4057.298,
-    "new_limit_level": 4115.2594,
-    "old_stop_level": 4174.1264,
-    "new_stop_level": 4121.8836,
-    "reason": "Agent-discretion profit ratchet ARMED (2026-10-09 refinement): stop locked to guarantee at least 2.2% profit (a 0.3% gap below the milestone just reached), limit extended to the next 3.0% target to keep upside open.",
-    "status": "submitted",
-    "raw": {
-      "date": "2026-11-10T02:33:05.79",
-      "status": "AMENDED",
-      "reason": "SUCCESS",
-      "dealStatus": "ACCEPTED",
-      "epic": "CS.D.CFDGOLD.DBI.IP",
-      "expiry": "-",
-      "dealReference": "X3LXF7DE9BJTYP5",
-      "dealId": "DIAAAASGBCN74AE",
-      "affectedDeals": [
-        {
-          "dealId": "DIAAAASGBCN74AE",
-          "status": "AMENDED"
-        }
-      ],
-      "level": 4140.1,
-      "size": 0.56,
-      "direction": "SELL",
-      "stopLevel": 4121.884,
-      "limitLevel": 4115.2593,
-      "stopDistance": null,
-      "limitDistance": null,
-      "guaranteedStop": false,
-      "trailingStop": false,
-      "profit": null,
-      "profitCurrency": null
-    },
-    "logged_at": "2026-11-10T02:33:05.938660+00:00"
   }
 ]
