@@ -3,6 +3,24 @@
     "action": "OPEN_LONG",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 3.29 vs 30-min SMA 3.291, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Natural Gas is experiencing extreme net-short positioning, a contrarian bullish signal. The market is in backwardation, indicating tight supply, which is bullish. Seasonality is mildly bullish due to early withdrawal season. Despite the price discrepancy between sources, the overall signals support a long position.",
+    "llm_provider": "openai",
+    "logged_at": "2026-11-11T04:32:13.679283+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Confluence requirement not met: BRENT_OIL's independent signal(s) checked this tick (get_seasonality=bullish) do not support a bearish thesis -- a technical read alone, or signals pointing the other way, aren't enough to open",
+    "agent_reason": "Brent Oil is currently overbought with an RSI of 84.6, indicating a potential pullback. The SMA-20 is below the SMA-50, suggesting a short-term bearish trend. Despite the backwardation structure, the technical indicators suggest a correction is likely. Independent price checks show a significant discrepancy, indicating potential volatility.",
+    "llm_provider": "openai",
+    "logged_at": "2026-11-11T04:32:13.580056+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 3.298 vs 30-min SMA 3.2998, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
     "agent_reason": "Natural Gas is experiencing extreme net-short positioning, a contrarian bullish signal. The term structure is in backwardation, indicating tight supply, which is bullish. Despite the neutral RSI, the positioning and term structure support a long position.",
     "llm_provider": "openai",
@@ -2100,23 +2118,5 @@
     "agent_reason": "Natural Gas is currently experiencing extreme net-short positioning, which is a contrarian bullish signal. However, the RSI is extremely overbought at 92.8, indicating a potential pullback. The term structure is in contango, suggesting ample supply. Given the mixed signals and the current unrealized loss, it's prudent to close the position to avoid further losses.",
     "llm_provider": "openai",
     "logged_at": "2026-11-10T00:33:32.941568+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "GOLD",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: GOLD has only been open for 53 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "agent_reason": "Gold is in a short-term bullish trend with the SMA-20 above the SMA-50 and an overbought RSI of 72.6. The contango structure indicates ample supply, which is bearish. The current position is slightly positive, and the technicals suggest a potential pullback.",
-    "llm_provider": "openai",
-    "logged_at": "2026-11-10T00:03:56.495597+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 62 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "agent_reason": "Natural Gas is in a short-term bullish trend with the SMA-20 above the SMA-50 and an overbought RSI of 87.7. Despite the extreme net-short positioning suggesting a potential short squeeze, the contango structure and recent inventory build indicate ample supply. The current position is slightly negative, and the technicals suggest a potential reversal.",
-    "llm_provider": "openai",
-    "logged_at": "2026-11-10T00:03:56.495444+00:00"
   }
 ]
