@@ -1,5 +1,30 @@
 [
   {
+    "action": "OPEN_LONG",
+    "instrument": "SILVER",
+    "status": "REJECTED",
+    "reason": "SILVER's epic is not configured yet -- see config.py instructions",
+    "agent_reason": "Silver is showing extreme net-short positioning, which is a contrarian bullish signal. The term structure is in backwardation, indicating tight supply, which is bullish. Despite the lack of recent technical data, the positioning and term structure support a bullish outlook.",
+    "llm_provider": "openai",
+    "logged_at": "2026-11-11T09:32:28.528501+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Computed size rounds to 0 (notional=$0.00, price=3515, lot_size=1.0)",
+    "agent_reason": "Natural Gas is experiencing extreme net-short positioning, a contrarian bullish signal. The SMA-20 is above the SMA-50, indicating a short-term bullish trend. The RSI is neutral, providing room for a potential upward move.",
+    "logged_at": "2026-11-11T09:32:28.528183+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Computed size rounds to 0 (notional=$0.00, price=9182.1, lot_size=1.0)",
+    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The RSI is neutral at 65.9, and the price is above the SMA-20, suggesting a potential upward momentum. The backwardation structure supports a bullish outlook.",
+    "logged_at": "2026-11-11T09:32:28.466529+00:00"
+  },
+  {
     "action": "OPEN_SHORT",
     "instrument": "GOLD",
     "status": "REJECTED",
@@ -2046,32 +2071,5 @@
     "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. Despite recent price declines, the backwardation structure supports a bullish outlook. The RSI is near oversold at 30.8, suggesting a potential rebound. Independent price checks show some disagreement, but the backwardation and RSI support a long position.",
     "llm_provider": "openai",
     "logged_at": "2026-11-10T03:02:42.496895+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "SILVER's epic is not configured yet -- see config.py instructions",
-    "agent_reason": "Silver is showing extreme net-short positioning, which is a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze.",
-    "llm_provider": "openai",
-    "logged_at": "2026-11-10T02:38:32.626248+00:00"
-  },
-  {
-    "action": "CLOSE",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Minimum hold time not met: NATURAL_GAS has only been open for 216 min (minimum 720 min before a discretionary close) -- its real stop-loss/take-profit, and the stop-breach backstop, still protect it independently of this rule",
-    "agent_reason": "Natural Gas is experiencing extreme net-short positioning, a contrarian bullish signal. However, the RSI is extremely overbought at 94.3, suggesting a potential pullback. Closing the current short position to avoid further losses.",
-    "llm_provider": "openai",
-    "logged_at": "2026-11-10T02:38:32.626045+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 91.9 vs 30-min SMA 92.0617, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. Despite the SMA-20 being below the SMA-50, the RSI is near oversold at 31.7, suggesting a potential rebound. The backwardation structure supports a bullish outlook.",
-    "llm_provider": "openai",
-    "logged_at": "2026-11-10T02:38:32.625785+00:00"
   }
 ]
