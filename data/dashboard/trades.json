@@ -1,5 +1,21 @@
 [
   {
+    "action": "OPEN_SHORT",
+    "instrument": "GOLD",
+    "status": "REJECTED",
+    "reason": "Computed size rounds to 0 (notional=$0.00, price=4062.57, lot_size=1.0)",
+    "agent_reason": "Gold is currently overbought with an RSI of 82.2, indicating a potential pullback. The term structure is in contango, suggesting ample supply, which is bearish. Managed-money positioning is within a normal range, providing no extreme crowding signal.",
+    "logged_at": "2026-11-11T07:32:25.651313+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Computed size rounds to 0 (notional=$0.00, price=3497, lot_size=1.0)",
+    "agent_reason": "Natural Gas is in backwardation, indicating tight supply, which is bullish. Managed-money net-short positioning is at a multi-month extreme, a contrarian bullish signal. The RSI is neutral, providing room for a potential upward move.",
+    "logged_at": "2026-11-11T07:32:25.651074+00:00"
+  },
+  {
     "action": "OPEN_LONG",
     "instrument": "SILVER",
     "status": "REJECTED",
@@ -2092,23 +2108,5 @@
       "profitCurrency": null
     },
     "logged_at": "2026-11-10T02:33:05.938660+00:00"
-  },
-  {
-    "action": "HOLD",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "Invalid action: HOLD",
-    "agent_reason": "Silver is in a contango structure, indicating ample supply, which is bearish. However, managed-money net-short positioning is near a multi-month extreme, a contrarian bullish signal. The RSI is neutral, and there is no strong catalyst to act on at this moment.",
-    "llm_provider": "openai",
-    "logged_at": "2026-11-10T02:03:54.294123+00:00"
-  },
-  {
-    "action": "HOLD",
-    "instrument": "GOLD",
-    "status": "REJECTED",
-    "reason": "Invalid action: HOLD",
-    "agent_reason": "Gold is currently in a contango structure, indicating ample supply, which is bearish. The SMA-20 is below the SMA-50, suggesting a short-term bearish trend. Managed-money positioning is within a normal range, providing no extreme signal. Current position is slightly profitable, but no strong catalyst to close or reverse.",
-    "llm_provider": "openai",
-    "logged_at": "2026-11-10T02:03:54.293987+00:00"
   }
 ]
