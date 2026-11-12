@@ -3,6 +3,23 @@
     "action": "OPEN_LONG",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
+    "reason": "Computed size rounds to 0 (notional=$0.00, price=3539, lot_size=1.0)",
+    "agent_reason": "Natural Gas is experiencing extreme net-short positioning, a contrarian bullish signal. The market is in backwardation, indicating tight supply, which is bullish. Despite a recent inventory build, the positioning and term structure suggest potential for a short squeeze.",
+    "logged_at": "2026-11-12T16:32:52.197204+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for BRENT_OIL this tick -- a technical read or a generic news search alone can't open a position",
+    "agent_reason": "Brent Oil is currently in a short-term bullish trend with the SMA-20 above the SMA-50. The RSI is neutral at 67.5, indicating room for further upside. The market is in backwardation, suggesting tight supply, which is bullish. Although the recent inventory draw was smaller than typical, the overall market structure supports a bullish outlook.",
+    "llm_provider": "openai",
+    "logged_at": "2026-11-12T16:32:52.120440+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
     "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 3.292 vs 30-min SMA 3.298, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
     "agent_reason": "Natural Gas is experiencing extreme net-short positioning, a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. The RSI is neutral, allowing for further upside potential.",
     "llm_provider": "openai",
@@ -1719,22 +1736,5 @@
     "agent_reason": "Brent Oil is currently overbought with an RSI of 71.6, indicating a potential pullback. The SMA-20 is below the SMA-50, suggesting a short-term bearish trend. Despite the backwardation structure, the recent price increase may be overextended, providing an opportunity for a short position.",
     "llm_provider": "openai",
     "logged_at": "2026-11-11T10:33:29.410188+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "GOLD",
-    "status": "REJECTED",
-    "reason": "Computed size rounds to 0 (notional=$0.00, price=4053.47, lot_size=1.0)",
-    "agent_reason": "Gold is currently overbought with an RSI of 71.9, and the term structure is in contango, indicating ample supply. Managed-money positioning is within a normal range, providing no extreme crowding signal. The technicals suggest a potential pullback.",
-    "logged_at": "2026-11-11T10:03:13.441807+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 3.313 vs 30-min SMA 3.3138, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Natural Gas is experiencing extreme net-short positioning, a contrarian bullish signal. The term structure is in backwardation, indicating tight supply, which is bullish. Despite a recent inventory build, the positioning and term structure suggest potential for a short squeeze.",
-    "llm_provider": "openai",
-    "logged_at": "2026-11-11T10:03:13.441513+00:00"
   }
 ]
