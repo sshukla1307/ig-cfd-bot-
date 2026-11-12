@@ -6,6 +6,42 @@
     "reason": "SILVER's epic is not configured yet -- see config.py instructions",
     "agent_reason": "Silver is showing extreme net-short positioning, which is a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze.",
     "llm_provider": "openai",
+    "logged_at": "2026-11-12T18:33:16.257579+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "GOLD",
+    "status": "REJECTED",
+    "reason": "Confluence requirement not met: GOLD's independent signal(s) checked this tick (get_term_structure=bearish) do not support a bullish thesis -- a technical read alone, or signals pointing the other way, aren't enough to open",
+    "agent_reason": "Gold is currently oversold with an RSI of 24.3, indicating a potential rebound. Despite the contango structure suggesting ample supply, the extreme oversold condition presents an opportunity for a short-term bounce. The SMA-20 is below the SMA-50, but the RSI suggests a potential reversal.",
+    "llm_provider": "openai",
+    "logged_at": "2026-11-12T18:33:16.257445+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 3.309 vs 30-min SMA 3.3128, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
+    "agent_reason": "Natural Gas is experiencing extreme net-short positioning, a contrarian bullish signal. The RSI is neutral, but the extreme short positioning suggests potential for a short squeeze. The SMA-20 is below the SMA-50, indicating a short-term bearish trend, but the positioning data supports a bullish outlook.",
+    "llm_provider": "openai",
+    "logged_at": "2026-11-12T18:33:16.257226+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Confluence requirement not met: BRENT_OIL's independent signal(s) checked this tick (get_term_structure=bullish) do not support a bearish thesis -- a technical read alone, or signals pointing the other way, aren't enough to open",
+    "agent_reason": "Brent Oil is currently overbought with an RSI of 79.4, indicating a potential pullback. Despite the backwardation structure suggesting tight supply, the extreme overbought condition presents an opportunity for a short-term correction. The SMA-20 is above the SMA-50, but the RSI suggests a potential reversal.",
+    "llm_provider": "openai",
+    "logged_at": "2026-11-12T18:33:16.205811+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "SILVER",
+    "status": "REJECTED",
+    "reason": "SILVER's epic is not configured yet -- see config.py instructions",
+    "agent_reason": "Silver is showing extreme net-short positioning, which is a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze.",
+    "llm_provider": "openai",
     "logged_at": "2026-11-12T18:02:56.787989+00:00"
   },
   {
@@ -1702,39 +1738,5 @@
     "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The SMA-20 is above the SMA-50, confirming a short-term bullish trend. RSI is neutral, providing room for further upside. The backwardation structure supports a bullish outlook.",
     "llm_provider": "openai",
     "logged_at": "2026-11-11T13:32:43.928080+00:00"
-  },
-  {
-    "action": "OPEN_SHORT",
-    "instrument": "GOLD",
-    "status": "REJECTED",
-    "reason": "Computed size rounds to 0 (notional=$0.00, price=4042.6, lot_size=1.0)",
-    "agent_reason": "Gold is in a contango structure, indicating ample supply, which is bearish. The SMA-20 is below the SMA-50, suggesting a short-term bearish trend. Managed-money positioning is within a normal range, providing no extreme crowding signal. The RSI is neutral at 57.9, supporting a bearish outlook.",
-    "logged_at": "2026-11-11T13:02:44.542933+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "Computed size rounds to 0 (notional=$0.00, price=3546, lot_size=1.0)",
-    "agent_reason": "Natural Gas is in backwardation, indicating tight supply, which is bullish. The RSI is neutral at 69.9, and managed-money net-short positioning is at a multi-month extreme, suggesting potential for a short squeeze. Despite a recent inventory build, the backwardation and extreme short positioning provide a strong bullish case.",
-    "logged_at": "2026-11-11T13:02:44.542645+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "SILVER's epic is not configured yet -- see config.py instructions",
-    "agent_reason": "Silver is showing extreme net-short positioning, which is a contrarian bullish signal. The term structure is in backwardation, indicating tight supply, which is bullish.",
-    "llm_provider": "openai",
-    "logged_at": "2026-11-11T12:32:59.326214+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 3.317 vs 30-min SMA 3.3297, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Natural Gas is experiencing extreme net-short positioning, a contrarian bullish signal. The RSI is neutral at 59.1, and the price is above both the SMA-20 and SMA-50, suggesting a bullish trend continuation.",
-    "llm_provider": "openai",
-    "logged_at": "2026-11-11T12:32:59.325979+00:00"
   }
 ]
