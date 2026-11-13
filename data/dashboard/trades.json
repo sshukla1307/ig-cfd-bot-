@@ -1,6 +1,41 @@
 [
   {
     "action": "OPEN_LONG",
+    "instrument": "SILVER",
+    "status": "REJECTED",
+    "reason": "SILVER's epic is not configured yet -- see config.py instructions",
+    "agent_reason": "Silver is showing extreme net-short positioning, which is a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze.",
+    "llm_provider": "openai",
+    "logged_at": "2026-11-13T02:34:13.701363+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "GOLD",
+    "status": "REJECTED",
+    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for GOLD this tick -- a technical read or a generic news search alone can't open a position",
+    "agent_reason": "Gold is currently in a short-term bearish trend with the SMA-20 below the SMA-50. The RSI is neutral at 36.6, but the overall trend suggests a bearish outlook. Managed-money positioning is within a normal range, providing no extreme crowding signal.",
+    "llm_provider": "openai",
+    "logged_at": "2026-11-13T02:34:13.701159+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
+    "instrument": "NATURAL_GAS",
+    "status": "REJECTED",
+    "reason": "Computed size rounds to 0 (notional=$0.00, price=3603, lot_size=1.0)",
+    "agent_reason": "Natural Gas is experiencing extreme net-short positioning, a contrarian bullish signal. The RSI is neutral, and the SMA-20 is above the SMA-50, indicating a short-term bullish trend. The extreme short positioning suggests potential for a short squeeze.",
+    "logged_at": "2026-11-13T02:34:13.700852+00:00"
+  },
+  {
+    "action": "OPEN_SHORT",
+    "instrument": "BRENT_OIL",
+    "status": "REJECTED",
+    "reason": "Confluence requirement not met: BRENT_OIL's independent signal(s) checked this tick (get_term_structure=bullish) do not support a bearish thesis -- a technical read alone, or signals pointing the other way, aren't enough to open",
+    "agent_reason": "Brent Oil is currently overbought with an RSI of 79.9, indicating a potential pullback. Despite the backwardation structure, which is typically bullish, the extreme overbought condition suggests a short-term correction is likely. The SMA-20 is above the SMA-50, confirming a bullish trend, but the RSI suggests the market is overheated.",
+    "llm_provider": "openai",
+    "logged_at": "2026-11-13T02:34:13.603399+00:00"
+  },
+  {
+    "action": "OPEN_LONG",
     "instrument": "NATURAL_GAS",
     "status": "REJECTED",
     "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 3.348 vs 30-min SMA 3.3532, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
@@ -1700,41 +1735,5 @@
     "agent_reason": "Gold is currently oversold with an RSI of 3.1, indicating a potential rebound. Despite the contango structure indicating ample supply, the extreme oversold condition suggests a potential for a bounce.",
     "llm_provider": "openai",
     "logged_at": "2026-11-11T19:34:01.597284+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "NATURAL_GAS",
-    "status": "REJECTED",
-    "reason": "NATURAL_GAS momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 3.223 vs 30-min SMA 3.2285, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Natural Gas is experiencing extreme net-short positioning, a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze. The RSI is neutral, providing room for a potential upward move.",
-    "llm_provider": "openai",
-    "logged_at": "2026-11-11T19:34:01.597004+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "BRENT_OIL",
-    "status": "REJECTED",
-    "reason": "BRENT_OIL momentum filter: proposed OPEN_LONG conflicts with price action over the last 30 minutes (current 93.16 vs 30-min SMA 93.3317, trending down) -- real-trade replay found entries that fight this short-term direction lose more per trade on average than ones that agree with it, regardless of the thesis behind the trade. Wait for price action to actually turn before entering.",
-    "agent_reason": "Brent Oil is in backwardation, indicating tight supply, which is bullish. The SMA-20 is above the SMA-50, confirming a short-term bullish trend. The RSI is neutral, providing room for a potential upward move.",
-    "llm_provider": "openai",
-    "logged_at": "2026-11-11T19:34:01.517658+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "SILVER",
-    "status": "REJECTED",
-    "reason": "SILVER's epic is not configured yet -- see config.py instructions",
-    "agent_reason": "Silver is showing extreme net-short positioning, which is a contrarian bullish signal. Despite the contango structure indicating ample supply, the crowded short positioning suggests potential for a short squeeze.",
-    "llm_provider": "openai",
-    "logged_at": "2026-11-11T19:03:44.334320+00:00"
-  },
-  {
-    "action": "OPEN_LONG",
-    "instrument": "GOLD",
-    "status": "REJECTED",
-    "reason": "Confluence requirement not met: no independent, direction-bearing signal (seasonality/term-structure/positioning/weather/inventory) was checked for GOLD this tick -- a technical read or a generic news search alone can't open a position",
-    "agent_reason": "Gold is currently oversold with an RSI of 16.8, suggesting a potential rebound. Despite the SMA-20 being below the SMA-50, the oversold condition provides an opportunity for a bounce.",
-    "llm_provider": "openai",
-    "logged_at": "2026-11-11T19:03:44.334190+00:00"
   }
 ]
